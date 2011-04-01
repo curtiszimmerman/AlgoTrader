@@ -1,0 +1,138 @@
+module com.ceptrader.esper.epl.scripts.IBInit;
+
+import com.ceptrader.tradeapp.util.*;
+import com.ceptrader.tradeapp.ib.esper.events.*;
+import com.ceptrader.tradeapp.events.*;
+
+import com.ib.client.TickType;
+
+org.joda.time.format.DateTimeFormat;
+
+
+create schema IBMetaData(ReqId int, ConId int, currency String, type String, exp String, strike double, right String, mult String, exch String)
+
+@Name('QuotesSplit')
+on pattern [every req=ReqMktData -> every tp=TickPrice -> every ts=TickSize where req.tickerId = tp.tickerId and req.tickerId = ts.tickerId];
+	insert into Bid(ref, ticker, timeStamp, price, size)
+		select 
+			tp.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tp.price, ts.size 
+		where tp.field = 1 and ts.filed = 0
+	insert into Ask(ref, ticker, timeStamp, price, size)
+		select 
+			tp.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tp.price, ts.size 
+		where tp.field = 2 and ts.filed = 3
+	insert into LastPrice(ref, ticker, timeStamp, price, size)
+		select 
+			tp.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tp.price, ts.size
+		where tp.field = 4 and ts.filed = 5
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+		select 
+			tp.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange
+output all
+
+
+create schema L1Bid as Bid;
+create schema L1Ask as Ask;
+
+@Name('MarketDepthSplit')
+on pattern [every req=ReqMktDepth -> every u=UpdateMktDepth where req.tickerId = u.tickerId];
+	insert into L1Bid(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth)
+		select 
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size,
+			u.position as row, 1 as level, true as isMarketDepth
+		where u.side = 1
+	insert into L1Ask(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth)
+		select 
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
+			u.position as row, 1 as level, true as isMarketDepth
+		where u.side= = 0
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+		select 
+			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange
+output all
+
+
+
+create schema L2Bid as Bid;
+create schema L2Ask as Ask;
+
+@Name('MarketDepthL2Split')
+on pattern [every req=ReqMktDepth -> every u=updateMktDepthL2 where req.tickerId = u.tickerId];
+	insert into L2Bid(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth, marketMaker)
+		select 
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size, 
+			u.position as row, 1 as level, true as isMarketDepth, u.marketMaker
+		where u.side = 1
+	insert into L2Ask(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth, marketMaker)
+		select 
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
+			u.position as row, 1 as level, true as isMarketDepth. u.marketMaker
+		where u.side= = 0
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+		select 
+			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange		
+output all;
+
+
+
+create schema HBar as OHLC;
+
+@Name('HistBars')
+on pattern [every req=ReqHistoricalData -> every dat=HistoricalData where req.tickeId = dat.reqId]
+	insert into HBar(ref, ticker, timeStamp, duration, open, high, low, close, WAP, numberOfTrades, isClean)
+		select 
+			dat.reqId as ref, req.contract.m_symbol as ticker, dat.date as timeStamp, 
+			IBUtils.duration(req.barSizeSetting) as duration, dat.open, dat.high, dat.low, dat.close, dat.WAP, 
+			dat.count as numberOfTrades, dat.hasGaps as isClean 
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+		select 
+			dat.reqId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange			
+output all;
+
+
+
+create schema RTBar as OHLC;
+
+@Name('RealTimeBars')
+on pattern [every req=ReqRealTimeBars -> every dat=RealtimeBar where req.tickeId = dat.reqId]
+	insert into RTBar(ref, ticker, timeStamp, duration, open, high, low, close, WAP, numberOfTrades, isClean)
+		select 
+			dat.reqId as ref, req.contract.m_symbol as ticker, dat.time as timeStamp, 
+			IBUtils.duration(req.barSize) as duration, dat.open, dat.high, dat.low, dat.close, dat.WAP, 
+			dat.count as numberOfTrades, true as isClean 
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+		select 
+			dat.reqId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange			
+output all;
+
+
+
+
+@Name('ContractDetailRequests')
+on pattern [every req=ReqContractDetails -> cd=ContractDetailsCommon(reqId=req.reqId) -> cde=ContractDetailsEnd(reqId=req.reqId)]
+	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch)
+		select 
+			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange
+
+
+
+@Name('BondContractDetailRequests')
+on pattern [every req=ReqContractDetails -> cd=BondContractDetails(reqId=req.reqId) -> cde=ContractDetailsEnd(reqId=req.reqId)]
+	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch)
+		select 
+			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
+			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
+			req.contract.m_multiplier, req.contract.m_exchange
+
