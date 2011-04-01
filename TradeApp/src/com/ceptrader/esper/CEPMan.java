@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 
 import com.ceptrader.tradeapp.util.Loggable;
 import com.ceptrader.tradeapp.util.Logger;
@@ -31,20 +31,29 @@ import com.espertech.esperio.csv.CSVInputAdapter;
 import com.espertech.esperio.csv.CSVInputAdapterSpec;
 
 public class CEPMan implements Loggable {
-	private static CEPMan	v	= null;
+	private static HashMap<String, CEPMan>	instances	    = null;
+	
+	public static final String	           DEFAULT_INSTANCE	= "DEFAULT_INSTANCE";
 	
 	synchronized public static CEPMan getCEPMan() {
-		if (CEPMan.v == null) {
-			CEPMan.v = new CEPMan();
+		return CEPMan.getCEPMan(CEPMan.DEFAULT_INSTANCE);
+	}
+	
+	synchronized public static CEPMan getCEPMan(final String name) {
+		if (!CEPMan.instances.containsKey(name)) {
+			CEPMan.instances.put(name, new CEPMan(name));
 		}
 		
-		return CEPMan.v;
+		return CEPMan.instances.get(name);
 	}
 	
 	private AdapterCoordinator	dataCord;
 	private EPServiceProvider	epService;
 	
-	private CEPMan() {
+	private final String	   name;
+	
+	private CEPMan(final String name) {
+		this.name = name;
 	}
 	
 	public synchronized void addCSVDataSource(
@@ -279,10 +288,6 @@ public class CEPMan implements Loggable {
 	}
 	
 	public CEPMan start(final Configuration config) {
-		if (CEPMan.v == null) {
-			CEPMan.v = new CEPMan();
-		}
-		
 		if (epService == null) {
 			epService = EPServiceProviderManager
 			        .getDefaultProvider(config);
@@ -293,7 +298,7 @@ public class CEPMan implements Loggable {
 		
 		resetCoordinater();
 		
-		return CEPMan.v;
+		return this;
 	}
 	
 	public static Configuration addAutoNames(final Package[] eventAutoNames,
@@ -401,5 +406,9 @@ public class CEPMan implements Loggable {
 	
 	public EPServiceProvider getEpService() {
 		return epService;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
