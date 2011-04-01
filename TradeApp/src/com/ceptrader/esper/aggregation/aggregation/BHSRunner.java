@@ -63,13 +63,13 @@ public class BHSRunner extends AggregationSupport {
 				        o[1].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
 				
-				value = (Boolean) o[2] ? obj : value;
+				value = !(Boolean) o[2] ? obj : value;
 			} else {
 				final Object obj = ScriptUtils.evaluateRowRemoveVar(
 				        o[1].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
 				
-				value = (Boolean) o[2] ? obj : value;
+				value = !(Boolean) o[2] ? obj : value;
 			}
 		} catch (final EvalError e) {
 			throw new RuntimeException("Error in evaluating BeanShell script",
