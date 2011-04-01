@@ -22,13 +22,19 @@ public class BHSRunner extends AggregationSupport {
 		final Object[] o = (Object[]) arg0;
 		
 		try {
-			if (paramStart == 3) {
-				value = ScriptUtils.evaluateRowRemoveVar((Interpreter) o[2],
+			if (paramStart == 4) {
+				final Object obj = ScriptUtils.evaluateRowRemoveVar(
+				        (Interpreter) o[3],
 				        o[0].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
+				
+				value = (Boolean) o[2] ? obj : value;
 			} else {
-				value = ScriptUtils.evaluateRowRemoveVar(o[0].toString(),
+				final Object obj = ScriptUtils.evaluateRowRemoveVar(
+				        o[0].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
+				
+				value = (Boolean) o[2] ? obj : value;
 			}
 		} catch (final EvalError e) {
 			throw new RuntimeException("Error in evaluating BeanShell script",
@@ -51,13 +57,19 @@ public class BHSRunner extends AggregationSupport {
 		final Object[] o = (Object[]) arg0;
 		
 		try {
-			if (paramStart == 3) {
-				ScriptUtils.evaluateRowRemoveVar((Interpreter) o[2],
+			if (paramStart == 4) {
+				final Object obj = ScriptUtils.evaluateRowRemoveVar(
+				        (Interpreter) o[3],
 				        o[1].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
+				
+				value = (Boolean) o[2] ? obj : value;
 			} else {
-				ScriptUtils.evaluateRowRemoveVar(o[1].toString(),
+				final Object obj = ScriptUtils.evaluateRowRemoveVar(
+				        o[1].toString(),
 				        Arrays.copyOfRange(o, paramStart, o.length));
+				
+				value = (Boolean) o[2] ? obj : value;
 			}
 		} catch (final EvalError e) {
 			throw new RuntimeException("Error in evaluating BeanShell script",
@@ -65,8 +77,8 @@ public class BHSRunner extends AggregationSupport {
 		}
 	}
 	
-	private int	paramLen	= 0;
-	private int	paramStart	= 2;
+	private int	paramLen;
+	private int	paramStart;
 	
 	@Override
 	public void validate(final AggregationValidationContext arg0) {
@@ -76,7 +88,7 @@ public class BHSRunner extends AggregationSupport {
 		
 		paramLen = paramTypes.length;
 		
-		if (paramLen <= 2) { throw new IllegalArgumentException(
+		if (paramLen <= 4) { throw new IllegalArgumentException(
 		        "Requir at least 2 BeanShell scripts"); }
 		
 		if (paramTypes[1] != String.class) {
@@ -89,8 +101,15 @@ public class BHSRunner extends AggregationSupport {
 			                "Expecting BeanShell Script"); }
 		}
 		
-		if (paramTypes[2] == Interpreter.class) {
+		if (paramTypes[2] != boolean.class) {
+			if (!isConst[2] || isConst[2] && constVals[2] != null) { throw new IllegalArgumentException(
+			        "is 1st boolean expression expected"); }
+		}
+		
+		if (paramTypes[3] != Interpreter.class) {
 			paramStart = 3;
+		} else {
+			paramStart = 4;
 		}
 	}
 	
