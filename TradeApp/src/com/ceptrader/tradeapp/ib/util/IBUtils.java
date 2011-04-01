@@ -7,7 +7,6 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-
 import com.ceptrader.tradeapp.esper.events.BuyLmt;
 import com.ceptrader.tradeapp.esper.events.BuyMkt;
 import com.ceptrader.tradeapp.esper.events.BuyStop;

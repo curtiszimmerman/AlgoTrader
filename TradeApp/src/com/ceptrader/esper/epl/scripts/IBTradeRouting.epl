@@ -2,5 +2,46 @@ module com.ceptrader.esper.scripts.IBTradeRouting;
 
 
 import com.ceptrader.tradeapp.ib.util.*;
+import com.ceptrader.tradeapp.ib.esper.events.*;
+import com.ceptrader.tradeapp.events.*;
 
-ReqMktData as
+
+import com.ib.client.ComboLeg;
+import com.ib.client.Contract;
+import com.ib.client.ContractDetails;
+import com.ib.client.Order;
+
+
+create variable ordID = 0;
+
+on NextValidId as e set ordID = e.orderId;
+
+
+@Name('ExecBuyLmt')
+select IBUtils.placeOrder(ordID, md.contract, IBUtils.getLongLmt(l)) from 
+	IBMetaData as md, BuyLmt as l 
+where 
+	md.ReqId = l.ref and
+	md.contract.m_symbol = l.ticker;
+	
+@Name('ExecSellLmt')
+select IBUtils.placeOrder(ordID, md.contract, IBUtils.getShortLmt(l)) from 
+	IBMetaData as md, SellLmt as l 
+where 
+	md.ReqId = l.ref and
+	md.contract.m_symbol = l.ticker;
+	
+@Name('ExecBuyStop')
+select IBUtils.placeOrder(ordID, md.contract, IBUtils.getLongStop(l)) from 
+	IBMetaData as md, BuyLmt as l 
+where 
+	md.ReqId = l.ref and
+	md.contract.m_symbol = l.ticker;
+	
+@Name('ExecSellStop')
+select IBUtils.placeOrder(ordID, md.contract, IBUtils.getShortLmt(l)) from 
+	IBMetaData as md, SellLmt as l
+where 
+	md.ReqId = l.ref and
+	md.contract.m_symbol = l.ticker;
+	

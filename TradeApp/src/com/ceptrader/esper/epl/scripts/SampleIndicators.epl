@@ -2,6 +2,9 @@ module com.ceptrader.esper.epl.scripts.SampleIndicators;
 
 uses com.ceptrader.esper.epl.scripts.IBInit;
 
+import com.ceptrader.tradeapp.ib.esper.events.*;
+import com.ceptrader.tradeapp.events.*;
+
 
 create schema Bar as OHLC;
 
@@ -90,15 +93,21 @@ create schema ExpMASellStop as SellStop;
 create schema ExpMASellLmt as SellLmt;
 create schema ExpMABuyStop as BuyStop;
 
-@Name('ExpMASigTrades')
-on pattern [select * from 
-		(ExpMASig.std:groupwin(duration, ticker).win:length(1) as e
+create variant ExpMAStpLmtEtc schema as *;
+
+@Name('ExpMAStpLmtEtc')
+insert into ExpMAStpLmtEtc as
+select * from 
+	(ExpMASig.std:groupwin(duration, ticker).win:length(1) as e
+		left outer join
+		StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
+		on m.ticker = e.ticker and m.duration = e.duration)
 			left outer join
-			StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
-			on m.ticker = e.ticker and m.duration = e.duration)
-				left outer join
-				TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
-				on p.ticker = e.ticker and p.duration = e.duration)] as q
+			TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
+			on p.ticker = e.ticker and p.duration = e.duration)
+
+@Name('ExpMASigTrades')
+on pattern [every ExpMAStpLmtEtc] as q
 	insert into BuyLmt(ref int, ticker String, timeStamp long, level double, size double)
 		select 
 			q.ref, q.ticker, q.timeStamp, coalesce(q.limitMultiplier, lmtMult) * q.value as level, coalesce(q.size, defaultSize) as size
@@ -126,16 +135,23 @@ create schema InertiaSigBuyLmt as BuyLmt;
 create schema InertiaSigSellStop as SellStop;
 create schema InertiaSigSellLmt as SellLmt;
 create schema InertiaSigBuyStop as BuyStop;	
-			
-@Name('InertiaSigTrades')
-on pattern [select * from 
-		(InertiaSig.std:groupwin(duration, ticker).win:length(1) as e
+		
+
+create variant ExpMAStpLmtEtc schema as *;
+
+@Name('InertiaStpLmtEtc')
+insert into InertiaStpLmtEtc as
+select * from 
+	(InertiaSig.std:groupwin(duration, ticker).win:length(1) as e
+		left outer join
+		StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
+		on m.ticker = e.ticker and m.duration = e.duration)
 			left outer join
-			StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
-			on m.ticker = e.ticker and m.duration = e.duration)
-				left outer join
-				TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
-				on p.ticker = e.ticker and p.duration = e.duration)] as q
+			TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
+			on p.ticker = e.ticker and p.duration = e.duration)
+
+@Name('InertiaSigTrades')
+on pattern [every InertiaStpLmtEtc] as q
 	insert into BuyLmt(ref int, ticker String, timeStamp long, level double, size double)
 		select 
 			q.ref, q.ticker, q.timeStamp, coalesce(q.limitMultiplier, lmtMult) * q.value as level, coalesce(q.size, defaultSize) as size

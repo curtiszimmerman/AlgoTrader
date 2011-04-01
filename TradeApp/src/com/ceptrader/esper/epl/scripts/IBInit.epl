@@ -6,10 +6,14 @@ import com.ceptrader.tradeapp.events.*;
 
 import com.ib.client.TickType;
 
-org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormat;
 
+import com.ib.client.ComboLeg;
+import com.ib.client.Contract;
+import com.ib.client.ContractDetails;
+import com.ib.client.Order;
 
-create schema IBMetaData(ReqId int, ConId int, currency String, type String, exp String, strike double, right String, mult String, exch String)
+create schema IBMetaData(ReqId int, ConId int, currency String, type String, exp String, strike double, right String, mult String, exch String, Contract contract)
 
 @Name('QuotesSplit')
 on pattern [every req=ReqMktData -> every tp=TickPrice -> every ts=TickSize where req.tickerId = tp.tickerId and req.tickerId = ts.tickerId];
@@ -25,11 +29,11 @@ on pattern [every req=ReqMktData -> every tp=TickPrice -> every ts=TickSize wher
 		select 
 			tp.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tp.price, ts.size
 		where tp.field = 4 and ts.filed = 5
-	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			tp.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange
+			req.contract.m_multiplier, req.contract.m_exchange, req.contract
 output all
 
 
@@ -48,11 +52,11 @@ on pattern [every req=ReqMktDepth -> every u=UpdateMktDepth where req.tickerId =
 			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
 			u.position as row, 1 as level, true as isMarketDepth
 		where u.side= = 0
-	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange
+			req.contract.m_multiplier, req.contract.m_exchange, req.contract
 output all
 
 
@@ -72,11 +76,11 @@ on pattern [every req=ReqMktDepth -> every u=updateMktDepthL2 where req.tickerId
 			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
 			u.position as row, 1 as level, true as isMarketDepth. u.marketMaker
 		where u.side= = 0
-	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange		
+			req.contract.m_multiplier, req.contract.m_exchange, req.contract		
 output all;
 
 
@@ -90,11 +94,11 @@ on pattern [every req=ReqHistoricalData -> every dat=HistoricalData where req.ti
 			dat.reqId as ref, req.contract.m_symbol as ticker, dat.date as timeStamp, 
 			IBUtils.duration(req.barSizeSetting) as duration, dat.open, dat.high, dat.low, dat.close, dat.WAP, 
 			dat.count as numberOfTrades, dat.hasGaps as isClean 
-	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			dat.reqId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange			
+			req.contract.m_multiplier, req.contract.m_exchange, req.contract			
 output all;
 
 
@@ -108,11 +112,11 @@ on pattern [every req=ReqRealTimeBars -> every dat=RealtimeBar where req.tickeId
 			dat.reqId as ref, req.contract.m_symbol as ticker, dat.time as timeStamp, 
 			IBUtils.duration(req.barSize) as duration, dat.open, dat.high, dat.low, dat.close, dat.WAP, 
 			dat.count as numberOfTrades, true as isClean 
-	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			dat.reqId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange			
+			req.contract.m_multiplier, req.contract.m_exchange, req.contract
 output all;
 
 
@@ -120,19 +124,19 @@ output all;
 
 @Name('ContractDetailRequests')
 on pattern [every req=ReqContractDetails -> cd=ContractDetailsCommon(reqId=req.reqId) -> cde=ContractDetailsEnd(reqId=req.reqId)]
-	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange
+			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary
 
 
 
 @Name('BondContractDetailRequests')
 on pattern [every req=ReqContractDetails -> cd=BondContractDetails(reqId=req.reqId) -> cde=ContractDetailsEnd(reqId=req.reqId)]
-	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch)
+	insert into IBMetaData(ReqId, ConId, currency, type, exp, strike, right, mult, exch, contract)
 		select 
 			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange
+			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary
 
