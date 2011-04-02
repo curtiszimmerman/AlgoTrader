@@ -1,6 +1,5 @@
 package com.ceptrader.esper.epl;
 
-
 import com.ceptrader.esper.CEPMan;
 import com.espertech.esper.client.EPRuntime;
 import com.espertech.esper.client.EPServiceProvider;
@@ -46,10 +45,8 @@ public abstract class EsperEventListner implements UpdateListener,
 		}
 	}
 	
-	@Override
 	abstract public void update(final EventBean[] e1, final EventBean[] e2);
 	
-	@Override
 	abstract public void update(final EventBean[] e1, final EventBean[] e2,
 	        final EPStatement stm,
 	        final EPServiceProvider provider);

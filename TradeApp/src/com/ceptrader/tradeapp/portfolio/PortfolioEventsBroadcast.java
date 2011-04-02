@@ -9,7 +9,6 @@ import com.ceptrader.tradeapp.esper.pojoevents.LastPrice;
 import com.ceptrader.tradeapp.portfolio.Portfolio.Possition;
 import com.ceptrader.tradeapp.util.BasicUtils;
 
-
 public class PortfolioEventsBroadcast {
 	private static HashMap<Long, Portfolio>	  portfolio	   = new HashMap<Long, Portfolio>();
 	private static HashMap<String, Portfolio>	portfolio2	= new HashMap<String, Portfolio>();
@@ -35,7 +34,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					p.onAsk(ask);
 				}
@@ -47,7 +45,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					p.onBid(bid);
 				}
@@ -59,7 +56,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					p.onLast(lp);
 				}
@@ -71,7 +67,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio.get(ID).onFill(fill);
 				}
@@ -83,7 +78,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio2.get(name).onFill(fill);
 				}
@@ -95,7 +89,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio.get(ID).addCash(cash);
 				}
@@ -107,7 +100,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio2.get(name).addCash(cash);
 				}
@@ -120,7 +112,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio.get(ID).replace(ticker,
 					        poss);
@@ -134,7 +125,6 @@ public class PortfolioEventsBroadcast {
 		for (final Portfolio p : PortfolioEventsBroadcast.portfolio.values()) {
 			BasicUtils.getThreadPool().execute(new Runnable() {
 				
-				@Override
 				public void run() {
 					PortfolioEventsBroadcast.portfolio2.get(name).replace(
 					        ticker,

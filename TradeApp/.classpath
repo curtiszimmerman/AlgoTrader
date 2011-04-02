@@ -1,42 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2-sources.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/antlr-3.3-complete.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/antlrworks-1.4.2.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10-src.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/bsh-2.0b4.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/cglib-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-analysis-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-commons-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-tree-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-util-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-xml-3.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/antlr-3.3/antlr-3.3/lib/antlr-3.3-complete.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3-sources.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-bean-collections-1.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-core-1.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1-sources.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-testframework-3.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1-sources.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-adapters-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-api-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-tests.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2/joda-time-1.6.2-sources.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esper-4.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-csv-4.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-db-4.1.0.jar"/>
@@ -44,44 +20,29 @@
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-socket-4.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms-4.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax-4.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10/lib/aspectjrt.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10/lib/aspectjtools.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10/lib/aspectjweaver.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/aspectj-1.6.10/lib/org.aspectj.matcher.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esper/lib/antlr-runtime-3.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esper/lib/cglib-nodep-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esper/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esper/lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-csv/lib/commons-beanutils-1.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-http/lib/httpclient-4.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-http/lib/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-http/lib/httpcore-nio-4.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/activation-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/activemq-core-5.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/commons-pool-1.5.4.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/geronimo-jms_1.1_spec-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/junit-4.8.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/org.springframework.beans-3.0.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/org.springframework.context-3.0.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/org.springframework.core-3.0.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-springjms/lib/org.springframework.jms-3.0.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/axiom-api-1.2.9.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/axiom-c14n-1.2.9.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/axiom-dom-1.2.9.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/axiom-impl-1.2.9.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/geronimo-activation_1.1_spec-1.0.2.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/geronimo-javamail_1.4_spec-1.6.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/geronimo-stax-api_1.0_spec-1.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/jaxen-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esper-4.1.0/esper-4.1.0/esperio-stax/lib/wstx-asl-3.2.9.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/slf4j-1.6.1/slf4j-1.6.1/log4j-over-slf4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1-bin.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3-bin.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1-bin.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/esperee-4.1.0.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/gUnitEditor.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/joda-time-1.6.2-bin.zip"/>
-	<classpathentry kind="lib" path="C:/WorkSpace/Lib/wso2cep-1.0.0-alpha-docs.zip"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-math-2.1/commons-math-2.1/commons-math-2.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-1.1.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-adapters-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-logging-1.1.1-bin/commons-logging-1.1.1/commons-logging-tests.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-3.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-collections-3.2.1/commons-collections-testframework-3.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-1.8.3-sources.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-bean-collections-1.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/commons-beanutils-1.8.3/commons-beanutils-core-1.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-analysis-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-commons-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-tree-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-util-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/WorkSpace/Lib/asm-3.3.1/lib/asm-xml-3.3.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
