@@ -15,7 +15,6 @@ import com.ceptrader.tradeapp.esper.pojoevents.Fill;
 import com.ceptrader.tradeapp.esper.pojoevents.LastPrice;
 import com.ceptrader.tradeapp.util.Logger;
 
-
 public class Portfolio implements Serializable, Cloneable {
 	private static final long	serialVersionUID	= 1L;
 	

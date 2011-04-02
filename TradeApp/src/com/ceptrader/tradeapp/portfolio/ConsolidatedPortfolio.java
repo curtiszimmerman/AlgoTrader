@@ -7,7 +7,6 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-
 public class ConsolidatedPortfolio implements Serializable, Cloneable {
 	private static final long	             serialVersionUID	= 1L;
 	

@@ -13,7 +13,7 @@ import com.ib.client.*;
 create schema IBMetaData(ReqId int, ConId int, currency String, type String, exp String, strike double, contractRight String, mult String, exch String, Contract contract);
 
 @Name('QuotesSplit')
-on pattern [every req=ReqMktData -> every tp=TickPrice -> every ts=TickSize where req.tickerId = tp.tickerId and req.tickerId = ts.tickerId];
+on pattern [every req=ReqMktData -> every tp=TickPrice(tickerId=req.tickerId) -> every ts=TickSize(tickerId=req.tickerId)]
 	insert into Bid(ref, ticker, timeStamp, price, size)
 		select 
 			tp.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tp.price, ts.size 
@@ -31,14 +31,14 @@ on pattern [every req=ReqMktData -> every tp=TickPrice -> every ts=TickSize wher
 			tp.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
 			req.contract.m_multiplier, req.contract.m_exchange, req.contract
-output all
+output all;
 
 
 create schema L1Bid as Bid;
 create schema L1Ask as Ask;
 
 @Name('MarketDepthSplit')
-on pattern [every req=ReqMktDepth -> every u=UpdateMktDepth where req.tickerId = u.tickerId];
+on pattern [every req=ReqMktDepth -> every u=UpdateMktDepth(tickerId = req.tickerId)]
 	insert into L1Bid(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth)
 		select 
 			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size,
@@ -46,15 +46,15 @@ on pattern [every req=ReqMktDepth -> every u=UpdateMktDepth where req.tickerId =
 		where u.side = 1
 	insert into L1Ask(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth)
 		select 
-			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size, 
 			u.position as row, 1 as level, true as isMarketDepth
-		where u.side= = 0
+		where u.side = 0
 	insert into IBMetaData(ReqId, currency, type, exp, strike, contractRight, mult, exch, contract)
 		select 
 			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
 			req.contract.m_multiplier, req.contract.m_exchange, req.contract
-output all
+output all;
 
 
 
@@ -62,7 +62,7 @@ create schema L2Bid as Bid;
 create schema L2Ask as Ask;
 
 @Name('MarketDepthL2Split')
-on pattern [every req=ReqMktDepth -> every u=updateMktDepthL2 where req.tickerId = u.tickerId];
+on pattern [every req=ReqMktDepth -> every u=updateMktDepthL2(tickerId = req.tickerId)]
 	insert into L2Bid(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth, marketMaker)
 		select 
 			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size, 
@@ -70,9 +70,9 @@ on pattern [every req=ReqMktDepth -> every u=updateMktDepthL2 where req.tickerId
 		where u.side = 1
 	insert into L2Ask(ref, ticker, timeStamp, price, size, operation, row, level, isMarketDepth, marketMaker)
 		select 
-			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, tu.price, u.size, 
-			u.position as row, 1 as level, true as isMarketDepth. u.marketMaker
-		where u.side= = 0
+			u.tickerId as ref, req.contract.m_symbol as ticker, current_timestamp() as timeStamp, u.price, u.size, 
+			u.position as row, 1 as level, true as isMarketDepth, u.marketMaker
+		where u.side = 0
 	insert into IBMetaData(ReqId, currency, type, exp, strike, contractRight, mult, exch, contract)
 		select 
 			u.tickerId as ReqId, req.contract.m_currency as currency, req.contract.m_secType as type, 
@@ -85,7 +85,7 @@ output all;
 create schema HBar as OHLC;
 
 @Name('HistBars')
-on pattern [every req=ReqHistoricalData -> every dat=HistoricalData where req.tickeId = dat.reqId]
+on pattern [every req=ReqHistoricalData -> every dat=HistoricalData(reqId = req.tickeId)]
 	insert into HBar(ref, ticker, timeStamp, duration, open, high, low, close, WAP, numberOfTrades, isClean)
 		select 
 			dat.reqId as ref, req.contract.m_symbol as ticker, dat.date as timeStamp, 
@@ -103,7 +103,7 @@ output all;
 create schema RTBar as OHLC;
 
 @Name('RealTimeBars')
-on pattern [every req=ReqRealTimeBars -> every dat=RealtimeBar where req.tickeId = dat.reqId]
+on pattern [every req=ReqRealTimeBars -> every dat=RealtimeBar(reqId = req.tickeId)]
 	insert into RTBar(ref, ticker, timeStamp, duration, open, high, low, close, WAP, numberOfTrades, isClean)
 		select 
 			dat.reqId as ref, req.contract.m_symbol as ticker, dat.time as timeStamp, 
@@ -125,7 +125,7 @@ on pattern [every req=ReqContractDetails -> cd=ContractDetailsCommon(reqId=req.r
 		select 
 			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary
+			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary;
 
 
 
@@ -135,5 +135,5 @@ on pattern [every req=ReqContractDetails -> cd=BondContractDetails(reqId=req.req
 		select 
 			dat.reqId as ReqId, cd.m_summary.m_conId as ConId, req.contract.m_currency as currency, req.contract.m_secType as type, 
 			req.contract.m_expiry as exp, req.contract.m_strike, req.contract.m_right,
-			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary
+			req.contract.m_multiplier, req.contract.m_exchange, cd.m_summary;
 

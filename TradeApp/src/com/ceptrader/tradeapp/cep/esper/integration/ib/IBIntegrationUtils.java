@@ -6,7 +6,6 @@ import com.ceptrader.esper.CEPMan;
 import com.ceptrader.esper.epl.scripts.EsperEPLUtils;
 import com.ceptrader.tradeapp.util.Logger;
 
-
 public class IBIntegrationUtils {
 	public static void deployIBEventTranslations() {
 		IBIntegrationUtils

@@ -8,12 +8,14 @@ import com.espertech.esper.epl.agg.AggregationValidationContext;
 public class TrackingLF extends AggregationSupport {
 	private double	value;
 	
+	@Override
 	public void clear() {
 		value = 0;
 	}
 	
 	private int	winLen	= 0;
 	
+	@Override
 	public synchronized void enter(final Object arg0) {
 		final Object[] p;
 		final double curr;
@@ -71,14 +73,17 @@ public class TrackingLF extends AggregationSupport {
 		winLen++;
 	}
 	
+	@Override
 	public Object getValue() {
 		return value;
 	}
 	
-	public Class getValueType() {
+	@Override
+	public Class<Double> getValueType() {
 		return double.class;
 	}
 	
+	@Override
 	public void leave(final Object arg0) {
 		final Object[] p = (Object[]) arg0;
 		

@@ -45,8 +45,10 @@ public abstract class EsperEventListner implements UpdateListener,
 		}
 	}
 	
+	@Override
 	abstract public void update(final EventBean[] e1, final EventBean[] e2);
 	
+	@Override
 	abstract public void update(final EventBean[] e1, final EventBean[] e2,
 	        final EPStatement stm,
 	        final EPServiceProvider provider);

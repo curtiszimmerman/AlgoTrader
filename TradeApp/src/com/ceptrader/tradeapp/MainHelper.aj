@@ -17,27 +17,27 @@ public aspect MainHelper {
 		!cflowbelow(within(com.ceptrader.tradeapp..*));
 	
 	before() : log() {
-		SourceLocation loc = thisJoinPoint.getSourceLocation();
-		Object[] args = thisJoinPoint.getArgs();		
-		Object target = thisJoinPoint.getTarget();
-		Signature sig = thisJoinPoint.getSignature();
-		String kind   = thisJoinPoint.getKind();
+		final SourceLocation loc = thisJoinPoint.getSourceLocation();
+		final Object[] args = thisJoinPoint.getArgs();		
+		final Object target = thisJoinPoint.getTarget();
+		final Signature sig = thisJoinPoint.getSignature();
+		final String kind   = thisJoinPoint.getKind();
 		
-		System.out.println(locationInfo(kind, loc, args, target, sig));
+		System.out.println(MainHelper.locationInfo(kind, loc, args, target, sig));
 	}
 	
 	before() : err() {
-		SourceLocation loc = thisJoinPoint.getSourceLocation();
-		Object[] args = thisJoinPoint.getArgs();		
-		Object target = thisJoinPoint.getTarget();
-		Signature sig = thisJoinPoint.getSignature();
-		String kind   = thisJoinPoint.getKind();
+		final SourceLocation loc = thisJoinPoint.getSourceLocation();
+		final Object[] args = thisJoinPoint.getArgs();		
+		final Object target = thisJoinPoint.getTarget();
+		final Signature sig = thisJoinPoint.getSignature();
+		final String kind   = thisJoinPoint.getKind();
 		
-		System.err.println(locationInfo(kind, loc, args, target, sig));
+		System.err.println(MainHelper.locationInfo(kind, loc, args, target, sig));
 	}
 	
-	public static StringBuilder locationInfo(String kind, SourceLocation loc, Object[] args, Object target, Signature sig) {
-		StringBuilder sb = new StringBuilder(kind);
+	public static StringBuilder locationInfo(final String kind, final SourceLocation loc, final Object[] args, final Object target, final Signature sig) {
+		final StringBuilder sb = new StringBuilder(kind);
 		sb.append(" @ :- ");
 		sb.append(loc);
 		
@@ -66,7 +66,7 @@ public aspect MainHelper {
 			sb.append("<No Arguments>");
 		} else {
 			sb.append("(");
-			sb.append(argListToString(args));
+			sb.append(MainHelper.argListToString(args));
 			sb.append(")");
 		}
 		
@@ -80,11 +80,11 @@ public aspect MainHelper {
 	}
 	
 	
-	public static StringBuilder argListToString(Object[] args) {
-		StringBuilder sb = new StringBuilder();
+	public static StringBuilder argListToString(final Object[] args) {
+		final StringBuilder sb = new StringBuilder();
 		
 		if (args.length > 0) {
-			for (Object i : args) {
+			for (final Object i : args) {
 				sb.append(i);
 				sb.append(", ");
 			}
@@ -95,7 +95,7 @@ public aspect MainHelper {
 		return sb;
 	}	
 	
-	after() throwing(Throwable e) : withincode(* com.ceptrader.tradeapp..*(..)) && call(* com.ceptrader.tradeapp..*(..)) && !within(*Helper*) {
+	after() throwing(final Throwable e) : withincode(* com.ceptrader.tradeapp..*(..)) && call(* com.ceptrader.tradeapp..*(..)) && !within(*Helper*) {
 		System.err.println(e);
 	}
 }

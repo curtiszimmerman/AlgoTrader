@@ -12,10 +12,12 @@ import com.espertech.esper.epl.agg.AggregationValidationContext;
 public class BHSRunner extends AggregationSupport {
 	private Object	value;
 	
+	@Override
 	public void clear() {
 		value = 0;
 	}
 	
+	@Override
 	public void enter(final Object arg0) {
 		final Object[] o = (Object[]) arg0;
 		
@@ -40,14 +42,17 @@ public class BHSRunner extends AggregationSupport {
 		}
 	}
 	
+	@Override
 	public Object getValue() {
 		return value;
 	}
 	
+	@Override
 	public Class<Object> getValueType() {
 		return Object.class;
 	}
 	
+	@Override
 	public void leave(final Object arg0) {
 		final Object[] o = (Object[]) arg0;
 		

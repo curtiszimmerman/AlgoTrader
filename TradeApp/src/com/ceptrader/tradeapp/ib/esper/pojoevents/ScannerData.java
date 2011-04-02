@@ -1,6 +1,5 @@
 package com.ceptrader.tradeapp.ib.esper.pojoevents;
 
-
 import com.ceptrader.tradeapp.datastream.DataItem;
 import com.ceptrader.tradeapp.util.BasicUtils;
 import com.ib.client.ContractDetails;

@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
 
-
 import com.ceptrader.esper.CEPMan;
 import com.ceptrader.tradeapp.util.Logger;
 import com.ib.client.Contract;

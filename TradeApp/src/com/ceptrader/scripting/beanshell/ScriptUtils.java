@@ -2,10 +2,10 @@ package com.ceptrader.scripting.beanshell;
 
 import java.util.Map;
 
-import com.ceptrader.tradeapp.util.Logger;
-
 import bsh.EvalError;
 import bsh.Interpreter;
+
+import com.ceptrader.tradeapp.util.Logger;
 
 public class ScriptUtils {
 	private static Interpreter	bshIntpr	= new Interpreter();

@@ -2,7 +2,6 @@ package com.ceptrader.esper.epl.scripts;
 
 import java.net.URL;
 
-
 import com.ceptrader.esper.CEPMan;
 import com.ceptrader.esper.epl.EPLDebug;
 import com.espertech.esper.client.deploy.DeploymentOptions;

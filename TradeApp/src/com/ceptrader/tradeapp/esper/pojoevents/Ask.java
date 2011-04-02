@@ -189,8 +189,8 @@ public class Ask implements DataItem {
 	public boolean isMarketDepth() {
 		return isMarketDepth;
 	}
-
+	
 	public int getRow() {
-	    return row;
-    }
+		return row;
+	}
 }
