@@ -31,7 +31,7 @@ import com.espertech.esperio.csv.CSVInputAdapter;
 import com.espertech.esperio.csv.CSVInputAdapterSpec;
 
 public class CEPMan implements Loggable {
-	private static HashMap<String, CEPMan>	instances	    = null;
+	private static HashMap<String, CEPMan>	instances	    = new HashMap<String, CEPMan>();
 	
 	public static final String	           DEFAULT_INSTANCE	= "DEFAULT_INSTANCE";
 	

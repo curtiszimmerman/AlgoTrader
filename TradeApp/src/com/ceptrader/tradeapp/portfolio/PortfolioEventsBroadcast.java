@@ -2,10 +2,10 @@ package com.ceptrader.tradeapp.portfolio;
 
 import java.util.HashMap;
 
-import com.ceptrader.tradeapp.esper.events.Ask;
-import com.ceptrader.tradeapp.esper.events.Bid;
-import com.ceptrader.tradeapp.esper.events.Fill;
-import com.ceptrader.tradeapp.esper.events.LastPrice;
+import com.ceptrader.tradeapp.esper.pojoevents.Ask;
+import com.ceptrader.tradeapp.esper.pojoevents.Bid;
+import com.ceptrader.tradeapp.esper.pojoevents.Fill;
+import com.ceptrader.tradeapp.esper.pojoevents.LastPrice;
 import com.ceptrader.tradeapp.portfolio.Portfolio.Possition;
 import com.ceptrader.tradeapp.util.BasicUtils;
 

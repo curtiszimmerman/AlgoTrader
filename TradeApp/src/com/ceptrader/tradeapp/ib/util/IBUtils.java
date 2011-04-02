@@ -7,12 +7,12 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import com.ceptrader.tradeapp.esper.events.BuyLmt;
-import com.ceptrader.tradeapp.esper.events.BuyMkt;
-import com.ceptrader.tradeapp.esper.events.BuyStop;
-import com.ceptrader.tradeapp.esper.events.SellLmt;
-import com.ceptrader.tradeapp.esper.events.SellMkt;
-import com.ceptrader.tradeapp.esper.events.SellStop;
+import com.ceptrader.tradeapp.esper.pojoevents.BuyLmt;
+import com.ceptrader.tradeapp.esper.pojoevents.BuyMkt;
+import com.ceptrader.tradeapp.esper.pojoevents.BuyStop;
+import com.ceptrader.tradeapp.esper.pojoevents.SellLmt;
+import com.ceptrader.tradeapp.esper.pojoevents.SellMkt;
+import com.ceptrader.tradeapp.esper.pojoevents.SellStop;
 import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
@@ -129,7 +129,7 @@ public class IBUtils {
 			c.reqMktData(
 			        IBUtils.reqID,
 			        contract,
-			        "100, 101, 104, 106, 162, 165, 221, 225, 233, 236, 256, 258",
+			        "",
 			        false);
 		} else {
 			c.reqMktDepth(IBUtils.reqID, contract, rows);
