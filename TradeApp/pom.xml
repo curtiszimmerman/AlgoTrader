@@ -120,6 +120,7 @@
 						</goals>
 						<configuration>
 							<sources>
+							    <!--  This is the location of IB API source. -->
 								<source>C:\IB_API_9_64\Java\</source>
 							</sources>
 						</configuration>
