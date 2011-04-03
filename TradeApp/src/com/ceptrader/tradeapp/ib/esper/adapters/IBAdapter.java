@@ -1,5 +1,7 @@
 package com.ceptrader.tradeapp.ib.esper.adapters;
 
+import java.util.Collections;
+
 import com.ceptrader.esper.CEPMan;
 import com.ceptrader.tradeapp.ib.esper.pojoevents.AccountDownloadEnd;
 import com.ceptrader.tradeapp.ib.esper.pojoevents.BondContractDetails;
@@ -47,7 +49,6 @@ import com.ib.client.OrderState;
 import com.ib.client.UnderComp;
 
 public class IBAdapter implements EWrapper, Loggable {
-	private static IBClient	 eSoc;
 	private static IBAdapter	ibAdp;
 	
 	public static IBAdapter getAdapter() {
@@ -58,21 +59,16 @@ public class IBAdapter implements EWrapper, Loggable {
 		return IBAdapter.ibAdp;
 	}
 	
-	public static IBClient getClient() {
-		return IBAdapter.eSoc;
-	}
-	
 	private IBAdapter() {
 		IBAdapter.ibAdp = this;
-		IBAdapter.eSoc = IBClient.getIBClient();
-		
 	}
 	
 	@Override
 	public void accountDownloadEnd(final String accountName) {
 		final AccountDownloadEnd o = new AccountDownloadEnd(accountName);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -81,14 +77,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		final BondContractDetails o = new BondContractDetails(reqId,
 		        contractDetails);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void connectionClosed() {
 		final ConnectionClosed o = new ConnectionClosed();
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -97,21 +93,21 @@ public class IBAdapter implements EWrapper, Loggable {
 		final ContractDetailsCommon o = new ContractDetailsCommon(reqId,
 		        contractDetails);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void contractDetailsEnd(final int reqId) {
 		final ContractDetailsEnd o = new ContractDetailsEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void currentTime(final long time) {
 		final CurrentTime o = new CurrentTime(time);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -121,7 +117,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        underComp);
 		CEPMan.getCEPMan()
 		        .pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -151,21 +147,21 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final Execution execution) {
 		final ExecDetails o = new ExecDetails(reqId, contract, execution);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void execDetailsEnd(final int reqId) {
 		final ExecDetailsEnd o = new ExecDetailsEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void fundamentalData(final int reqId, final String data) {
 		final FundamentalData o = new FundamentalData(reqId, data);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -177,14 +173,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		        low, close, volume,
 		        count, WAP, hasGaps);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void managedAccounts(final String accountsList) {
 		final ManagedAccounts o = new ManagedAccounts(accountsList);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	private static int	orderId	= 0;
@@ -198,7 +194,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		IBAdapter.orderId = orderId;
 		final NextValidId o = new NextValidId(orderId);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -206,14 +202,14 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final Order order, final OrderState orderState) {
 		final OpenOrder o = new OpenOrder(orderId, contract, order, orderState);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void openOrderEnd() {
 		final OpenOrderEnd o = new OpenOrderEnd();
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -226,7 +222,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        avgFillPrice,
 		        permId, parentId, lastFillPrice, clientId, whyHeld);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -239,14 +235,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		        wap,
 		        count);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void receiveFA(final int faDataType, final String xml) {
 		final ReceiveFA o = new ReceiveFA(faDataType, xml);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -259,21 +255,21 @@ public class IBAdapter implements EWrapper, Loggable {
 		        benchmark,
 		        projection, legsStr);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void scannerDataEnd(final int reqId) {
 		final ScannerDataEnd o = new ScannerDataEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void scannerParameters(final String xml) {
 		final ScannerParameters o = new ScannerParameters(xml);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -287,7 +283,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        impliedFuture, holdDays, futureExpiry, dividendImpact,
 		        dividendsToExpiry);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -295,7 +291,7 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final double value) {
 		final TickGeneric o = new TickGeneric(tickerId, tickType, value);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -307,7 +303,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        field, impliedVol, delta,
 		        optPrice, pvDividend, gamma, vega, theta, undPrice);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -316,21 +312,21 @@ public class IBAdapter implements EWrapper, Loggable {
 		final TickPrice o = new TickPrice(tickerId, field, price,
 		        canAutoExecute);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void tickSize(final int tickerId, final int field, final int size) {
 		final TickSize o = new TickSize(tickerId, field, size);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void tickSnapshotEnd(final int reqId) {
 		final TickSnapshotEnd o = new TickSnapshotEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -338,14 +334,14 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final String value) {
 		final TickString o = new TickString(tickerId, tickType, value);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
 	public void updateAccountTime(final String timeStamp) {
 		final UpdateAccountTime o = new UpdateAccountTime(timeStamp);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -354,7 +350,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		final UpdateAccountValue o = new UpdateAccountValue(key, value,
 		        currency, accountName);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -365,7 +361,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        operation, side,
 		        price, size);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -377,7 +373,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        operation,
 		        side, price, size);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -386,7 +382,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		final UpdateNewsBulletin o = new UpdateNewsBulletin(msgId, msgType,
 		        message, origExchange);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 	
 	@Override
@@ -399,6 +395,6 @@ public class IBAdapter implements EWrapper, Loggable {
 		        marketValue,
 		        averageCost, unrealizedPNL, realizedPNL, accountName);
 		CEPMan.getCEPMan().pumpEvent(o);
-		Logger.log(o);
+		Logger.log(Collections.singletonMap(o.getClass().getName(), o));
 	}
 }

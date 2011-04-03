@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.ceptrader.esper.CEPMan;
 import com.ceptrader.tradeapp.util.BasicUtils;
@@ -78,7 +79,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CalculateImpliedVolatility");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CalculateImpliedVolatility",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -95,7 +97,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CalculateOptionPrice");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CalculateOptionPrice",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -107,7 +110,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelCalculateImpliedVolatility");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelCalculateImpliedVolatility",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -119,7 +123,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelCalculateOptionPrice");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelCalculateOptionPrice",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -131,7 +136,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelFundamentalData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelFundamentalData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -143,7 +149,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelHistoricalData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelHistoricalData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -155,7 +162,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelMktData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelMktData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -167,17 +175,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelMktDepth");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelMktDepth",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void cancelNewsBulletins() {
 		super.cancelNewsBulletins();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "CancelNewsBulletins");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("CancelNewsBulletins",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -189,7 +201,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelOrder");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelOrder",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -201,7 +214,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelRealTimeBars");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelRealTimeBars",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -213,7 +227,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "CancelScannerSubscription");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("CancelScannerSubscription",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -228,12 +243,13 @@ public class IBClient extends EClientSocket {
 		super.eConnect(socket, clientId);
 		
 		final HashMap<String, Object> event = new HashMap<String, Object>();
-		event.put("socket", socket.getLocalSocketAddress().toString());
+		event.put("host", socket.getLocalSocketAddress().toString());
 		event.put("clientId", clientId);
 		
 		CEPMan.getCEPMan().pumpEvent(event, "EConnect");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("EConnect",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -247,7 +263,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "EConnect");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("EConnect",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -275,7 +292,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ExerciseOptions");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ExerciseOptions",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -290,7 +308,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "PlaceOrder");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("PlaceOrder",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -308,7 +327,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReplaceFA");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReplaceFA",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -322,17 +342,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqAccountUpdates");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqAccountUpdates",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void reqAllOpenOrders() {
 		super.reqAllOpenOrders();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "ReqAllOpenOrders");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("ReqAllOpenOrders",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -349,7 +373,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqAutoOpenOrders");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqAutoOpenOrders",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -363,17 +388,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqContractDetails");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqContractDetails",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void reqCurrentTime() {
 		super.reqCurrentTime();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "ReqCurrentTime");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("ReqCurrentTime",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -387,7 +416,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqExecutions");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqExecutions",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -403,7 +433,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqFundamentalData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqFundamentalData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -427,7 +458,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqHistoricalData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqHistoricalData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -439,17 +471,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqIds");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqIds",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void reqManagedAccts() {
 		super.reqManagedAccts();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "ReqManagedAccts");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("ReqManagedAccts",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -466,7 +502,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqMktData");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqMktData",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -482,7 +519,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqMktDepth");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqMktDepth",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -494,17 +532,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqNewsBulletins");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqNewsBulletins",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void reqOpenOrders() {
 		super.reqOpenOrders();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "ReqOpenOrders");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("ReqOpenOrders",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -522,17 +564,21 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqRealTimeBars");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqRealTimeBars",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
 	public synchronized void reqScannerParameters() {
 		super.reqScannerParameters();
 		
-		CEPMan.getCEPMan().pumpEvent(Collections.<String, Object> emptyMap(),
+		final Map<String, Object> event = Collections
+		        .<String, Object> emptyMap();
+		CEPMan.getCEPMan().pumpEvent(event,
 		        "ReqScannerParameters");
 		
-		Logger.log("(void)");
+		Logger.log(Collections.singletonMap("ReqScannerParameters",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -546,7 +592,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "ReqScannerSubscription");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("ReqScannerSubscription",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
@@ -558,7 +605,8 @@ public class IBClient extends EClientSocket {
 		
 		CEPMan.getCEPMan().pumpEvent(event, "RequestFA");
 		
-		Logger.log(BasicUtils.toString(event));
+		Logger.log(Collections.singletonMap("RequestFA",
+		        BasicUtils.toString(event)));
 	}
 	
 	@Override
