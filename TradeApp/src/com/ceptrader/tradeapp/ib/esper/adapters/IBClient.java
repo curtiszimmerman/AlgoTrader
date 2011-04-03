@@ -40,15 +40,17 @@ public class IBClient extends EClientSocket {
 	
 	public synchronized static void connect() {
 		if (IBClient.ibc == null) {
-			if (!IBClient.ibc.isConnected()) {
-				IBClient.ibc.eConnect(IBClient.host, IBClient.port,
-				        IBClient.clientId);
-				Logger.log("Connected", IBClient.class);
-				
-				IBClient.clientId++;
-			} else {
-				throw new IllegalStateException("Already connected.");
-			}
+			IBClient.getIBClient();
+		}
+		
+		if (!IBClient.ibc.isConnected()) {
+			IBClient.ibc.eConnect(IBClient.host, IBClient.port,
+			            IBClient.clientId);
+			Logger.log("Connected", IBClient.class);
+			
+			IBClient.clientId++;
+		} else {
+			throw new IllegalStateException("Already connected.");
 		}
 	}
 	

@@ -37,6 +37,7 @@ import com.ceptrader.tradeapp.ib.esper.pojoevents.UpdateMktDepthL2;
 import com.ceptrader.tradeapp.ib.esper.pojoevents.UpdateNewsBulletin;
 import com.ceptrader.tradeapp.ib.esper.pojoevents.UpdatePortfolio;
 import com.ceptrader.tradeapp.util.Loggable;
+import com.ceptrader.tradeapp.util.Logger;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
 import com.ib.client.EWrapper;
@@ -71,6 +72,7 @@ public class IBAdapter implements EWrapper, Loggable {
 	public void accountDownloadEnd(final String accountName) {
 		final AccountDownloadEnd o = new AccountDownloadEnd(accountName);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -79,12 +81,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		final BondContractDetails o = new BondContractDetails(reqId,
 		        contractDetails);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void connectionClosed() {
 		final ConnectionClosed o = new ConnectionClosed();
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -93,18 +97,21 @@ public class IBAdapter implements EWrapper, Loggable {
 		final ContractDetailsCommon o = new ContractDetailsCommon(reqId,
 		        contractDetails);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void contractDetailsEnd(final int reqId) {
 		final ContractDetailsEnd o = new ContractDetailsEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void currentTime(final long time) {
 		final CurrentTime o = new CurrentTime(time);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -114,12 +121,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		        underComp);
 		CEPMan.getCEPMan()
 		        .pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void error(final Exception e) {
 		final IBErrors ex = new IBErrors(new IBErrors.EExp(e));
 		CEPMan.getCEPMan().pumpEvent(ex);
+		Logger.log(ex);
 	}
 	
 	@Override
@@ -127,12 +136,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		final IBErrors ex = new IBErrors(new IBErrors.ECode(id, errorCode,
 		        errorMsg));
 		CEPMan.getCEPMan().pumpEvent(ex);
+		Logger.log(ex);
 	}
 	
 	@Override
 	public void error(final String str) {
 		final IBErrors ex = new IBErrors(new IBErrors.EStr(str));
 		CEPMan.getCEPMan().pumpEvent(ex);
+		Logger.log(ex);
 	}
 	
 	@Override
@@ -140,18 +151,21 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final Execution execution) {
 		final ExecDetails o = new ExecDetails(reqId, contract, execution);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void execDetailsEnd(final int reqId) {
 		final ExecDetailsEnd o = new ExecDetailsEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void fundamentalData(final int reqId, final String data) {
 		final FundamentalData o = new FundamentalData(reqId, data);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -163,12 +177,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		        low, close, volume,
 		        count, WAP, hasGaps);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void managedAccounts(final String accountsList) {
 		final ManagedAccounts o = new ManagedAccounts(accountsList);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	private static int	orderId	= 0;
@@ -182,6 +198,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		IBAdapter.orderId = orderId;
 		final NextValidId o = new NextValidId(orderId);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -189,12 +206,14 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final Order order, final OrderState orderState) {
 		final OpenOrder o = new OpenOrder(orderId, contract, order, orderState);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void openOrderEnd() {
 		final OpenOrderEnd o = new OpenOrderEnd();
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -207,6 +226,7 @@ public class IBAdapter implements EWrapper, Loggable {
 		        avgFillPrice,
 		        permId, parentId, lastFillPrice, clientId, whyHeld);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -219,12 +239,14 @@ public class IBAdapter implements EWrapper, Loggable {
 		        wap,
 		        count);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void receiveFA(final int faDataType, final String xml) {
 		final ReceiveFA o = new ReceiveFA(faDataType, xml);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -237,18 +259,21 @@ public class IBAdapter implements EWrapper, Loggable {
 		        benchmark,
 		        projection, legsStr);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void scannerDataEnd(final int reqId) {
 		final ScannerDataEnd o = new ScannerDataEnd(reqId);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void scannerParameters(final String xml) {
 		final ScannerParameters o = new ScannerParameters(xml);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -262,13 +287,15 @@ public class IBAdapter implements EWrapper, Loggable {
 		        impliedFuture, holdDays, futureExpiry, dividendImpact,
 		        dividendsToExpiry);
 		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void tickGeneric(final int tickerId, final int tickType,
 	        final double value) {
-		CEPMan.getCEPMan()
-		        .pumpEvent(new TickGeneric(tickerId, tickType, value));
+		final TickGeneric o = new TickGeneric(tickerId, tickType, value);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -276,71 +303,90 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final double impliedVol, final double delta, final double optPrice,
 	        final double pvDividend, final double gamma, final double vega,
 	        final double theta, final double undPrice) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new TickOptionComputation(tickerId, field, impliedVol, delta,
-		                optPrice, pvDividend, gamma, vega, theta, undPrice));
+		final TickOptionComputation o = new TickOptionComputation(tickerId,
+		        field, impliedVol, delta,
+		        optPrice, pvDividend, gamma, vega, theta, undPrice);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void tickPrice(final int tickerId, final int field,
 	        final double price, final int canAutoExecute) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new TickPrice(tickerId, field, price, canAutoExecute));
+		final TickPrice o = new TickPrice(tickerId, field, price,
+		        canAutoExecute);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void tickSize(final int tickerId, final int field, final int size) {
-		CEPMan.getCEPMan().pumpEvent(new TickSize(tickerId, field, size));
+		final TickSize o = new TickSize(tickerId, field, size);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void tickSnapshotEnd(final int reqId) {
-		CEPMan.getCEPMan().pumpEvent(new TickSnapshotEnd(reqId));
+		final TickSnapshotEnd o = new TickSnapshotEnd(reqId);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void tickString(final int tickerId, final int tickType,
 	        final String value) {
-		CEPMan.getCEPMan().pumpEvent(new TickString(tickerId, tickType, value));
+		final TickString o = new TickString(tickerId, tickType, value);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void updateAccountTime(final String timeStamp) {
-		CEPMan.getCEPMan().pumpEvent(new UpdateAccountTime(timeStamp));
+		final UpdateAccountTime o = new UpdateAccountTime(timeStamp);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void updateAccountValue(final String key, final String value,
 	        final String currency, final String accountName) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new UpdateAccountValue(key, value, currency, accountName));
+		final UpdateAccountValue o = new UpdateAccountValue(key, value,
+		        currency, accountName);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void updateMktDepth(final int tickerId, final int position,
 	        final int operation, final int side, final double price,
 	        final int size) {
-		CEPMan.getCEPMan()
-		        .pumpEvent(
-		                new UpdateMktDepth(tickerId, position, operation, side,
-		                        price, size));
+		final UpdateMktDepth o = new UpdateMktDepth(tickerId, position,
+		        operation, side,
+		        price, size);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void updateMktDepthL2(final int tickerId, final int position,
 	        final String marketMaker, final int operation, final int side,
 	        final double price, final int size) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new UpdateMktDepthL2(tickerId, position, marketMaker,
-		                operation,
-		                side, price, size));
+		final UpdateMktDepthL2 o = new UpdateMktDepthL2(tickerId, position,
+		        marketMaker,
+		        operation,
+		        side, price, size);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
 	public void updateNewsBulletin(final int msgId, final int msgType,
 	        final String message, final String origExchange) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new UpdateNewsBulletin(msgId, msgType, message, origExchange));
+		final UpdateNewsBulletin o = new UpdateNewsBulletin(msgId, msgType,
+		        message, origExchange);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 	
 	@Override
@@ -348,9 +394,11 @@ public class IBAdapter implements EWrapper, Loggable {
 	        final double marketPrice, final double marketValue,
 	        final double averageCost, final double unrealizedPNL,
 	        final double realizedPNL, final String accountName) {
-		CEPMan.getCEPMan().pumpEvent(
-		        new UpdatePortfolio(contract, position, marketPrice,
-		                marketValue,
-		                averageCost, unrealizedPNL, realizedPNL, accountName));
+		final UpdatePortfolio o = new UpdatePortfolio(contract, position,
+		        marketPrice,
+		        marketValue,
+		        averageCost, unrealizedPNL, realizedPNL, accountName);
+		CEPMan.getCEPMan().pumpEvent(o);
+		Logger.log(o);
 	}
 }
