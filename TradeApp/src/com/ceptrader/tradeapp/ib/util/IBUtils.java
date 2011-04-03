@@ -13,6 +13,7 @@ import com.ceptrader.tradeapp.esper.pojoevents.BuyStop;
 import com.ceptrader.tradeapp.esper.pojoevents.SellLmt;
 import com.ceptrader.tradeapp.esper.pojoevents.SellMkt;
 import com.ceptrader.tradeapp.esper.pojoevents.SellStop;
+import com.ceptrader.tradeapp.ib.esper.adapters.IBAdapter;
 import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
@@ -20,10 +21,7 @@ import com.ib.client.ContractDetails;
 import com.ib.client.Order;
 
 public class IBUtils {
-	private static int	reqID	= 0;
-	
 	static {
-		final IBClient c = IBClient.getIBClient();
 		IBClient.connect();
 	}
 	
@@ -125,16 +123,13 @@ public class IBUtils {
 	        final int rows) {
 		final IBClient c = IBClient.getIBClient();
 		
+		final int reqID = IBAdapter.getNextValidId();
 		if (rows <= 0) {
-			c.reqMktData(
-			        IBUtils.reqID,
-			        contract,
-			        "",
-			        false);
+			c.reqMktData(reqID, contract, null, false);
 		} else {
-			c.reqMktDepth(IBUtils.reqID, contract, rows);
+			c.reqMktDepth(reqID, contract, rows);
 		}
-		return IBUtils.reqID++;
+		return reqID;
 	}
 	
 	public static Contract getContract(final String type,
