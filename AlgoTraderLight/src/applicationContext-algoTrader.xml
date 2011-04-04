@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- ========================= DATASOURCE DEFINITION ========================= -->
+
+    <!-- Local DataSource that works in any environment -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName"><value>${dataSource.driver}</value></property>
+        <property name="username"><value>${dataSource.user}</value></property>
+        <property name="password"><value>${dataSource.password}</value></property>
+        <property name="url"><value>${dataSource.url}</value></property>
+    </bean>
+
+    <!-- ====================== End of DATASOURCE DEFINITION ====================== -->
+
+    <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
+
+    <!-- (local) Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+    </bean>
+
+    <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
+    
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"><value>/conf-base.properties</value></property>
+		<property name="systemPropertiesModeName"><value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value></property>
+	</bean>  
+
+    <!-- ===================== CUSTOM BEANS ========================= -->
+	
+
+</beans>

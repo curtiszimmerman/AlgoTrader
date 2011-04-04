@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+    <!-- Message source for this context, loaded from localized "messages_xx" files -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename"><value>messages</value></property>
+    </bean>
+
+    <!-- applicationContext merge-point -->
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+        <property name="mappingResources">
+            <list>
+                <value>com/algoTrader/entity/Security.hbm.xml</value>
+                <value>com/algoTrader/entity/Position.hbm.xml</value>
+                <value>com/algoTrader/entity/Strategy.hbm.xml</value>
+                <value>com/algoTrader/entity/Transaction.hbm.xml</value>
+                <value>com/algoTrader/entity/Tick.hbm.xml</value>
+                <value>com/algoTrader/entity/SecurityFamily.hbm.xml</value>
+                <value>com/algoTrader/entity/WatchListItem.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.SingletonEhCacheProvider</prop>
+                <prop key="hibernate.cache.query_cache_factory">org.hibernate.cache.StandardQueryCacheFactory</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- The Hibernate interceptor -->
+    <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+        <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+    </bean>
+
+    <!-- Security Entity Proxy with inner Security Entity implementation -->
+    <bean id="securityDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.SecurityDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.SecurityDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Position Entity Proxy with inner Position Entity implementation -->
+    <bean id="positionDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.PositionDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.PositionDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Strategy Entity Proxy with inner Strategy Entity implementation -->
+    <bean id="strategyDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.StrategyDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+                <property name="transactionDao"><ref bean="transactionDao"/></property>
+                <property name="positionDao"><ref bean="positionDao"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.StrategyDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Transaction Entity Proxy with inner Transaction Entity implementation -->
+    <bean id="transactionDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.TransactionDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.TransactionDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Tick Entity Proxy with inner Tick Entity implementation -->
+    <bean id="tickDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.TickDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+                <property name="securityDao"><ref bean="securityDao"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.TickDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- SecurityFamily Entity Proxy with inner SecurityFamily Entity implementation -->
+    <bean id="securityFamilyDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.SecurityFamilyDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.SecurityFamilyDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- WatchListItem Entity Proxy with inner WatchListItem Entity implementation -->
+    <bean id="watchListItemDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.entity.WatchListItemDaoImpl">
+                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.entity.WatchListItemDao</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ========================= Start of SERVICE DEFINITIONS ========================= -->
+
+    <!-- Service Transactional Interceptor -->
+    <bean id="serviceTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager"><ref bean="transactionManager"/></property>
+        <property name="transactionAttributeSource">
+            <value>
+                com.algoTrader.service.TickService.putOnWatchlist=PROPAGATION_REQUIRED
+                com.algoTrader.service.TickService.removeFromWatchlist=PROPAGATION_REQUIRED
+                com.algoTrader.service.TransactionService.executeTransaction=PROPAGATION_REQUIRED
+                com.algoTrader.service.SimulationService.resetDB=PROPAGATION_REQUIRED
+                com.algoTrader.service.PositionService.setExitValue=PROPAGATION_REQUIRED
+                com.algoTrader.service.PositionService.setMargin=PROPAGATION_REQUIRED
+            </value>
+        </property>
+    </bean>
+
+    <!-- RuleService Service Proxy with inner RuleService Service Implementation -->
+    <bean id="ruleService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.RuleServiceImpl">
+                <property name="lookupService"><ref bean="lookupService"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.RuleService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- TickService Service Proxy with inner TickService Service Implementation -->
+    <bean id="tickService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.TickServiceImpl">
+                <property name="securityDao"><ref bean="securityDao"/></property>
+                <property name="tickDao"><ref bean="tickDao"/></property>
+                <property name="strategyDao"><ref bean="strategyDao"/></property>
+                <property name="watchListItemDao"><ref bean="watchListItemDao"/></property>
+                <property name="ruleService"><ref bean="ruleService"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.TickService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- TransactionService Service Proxy with inner TransactionService Service Implementation -->
+    <bean id="transactionService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.TransactionServiceImpl">
+                <property name="securityDao"><ref bean="securityDao"/></property>
+                <property name="strategyDao"><ref bean="strategyDao"/></property>
+                <property name="positionDao"><ref bean="positionDao"/></property>
+                <property name="transactionDao"><ref bean="transactionDao"/></property>
+                <property name="ruleService"><ref bean="ruleService"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.TransactionService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- LookupService Service Proxy with inner LookupService Service Implementation -->
+    <bean id="lookupService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.LookupServiceImpl">
+                <property name="securityDao"><ref bean="securityDao"/></property>
+                <property name="strategyDao"><ref bean="strategyDao"/></property>
+                <property name="positionDao"><ref bean="positionDao"/></property>
+                <property name="transactionDao"><ref bean="transactionDao"/></property>
+                <property name="tickDao"><ref bean="tickDao"/></property>
+                <property name="securityFamilyDao"><ref bean="securityFamilyDao"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.LookupService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- SimulationService Service Proxy with inner SimulationService Service Implementation -->
+    <bean id="simulationService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.SimulationServiceImpl">
+                <property name="securityDao"><ref bean="securityDao"/></property>
+                <property name="transactionDao"><ref bean="transactionDao"/></property>
+                <property name="positionDao"><ref bean="positionDao"/></property>
+                <property name="strategyDao"><ref bean="strategyDao"/></property>
+                <property name="watchListItemDao"><ref bean="watchListItemDao"/></property>
+                <property name="ruleService"><ref bean="ruleService"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.SimulationService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- PositionService Service Proxy with inner PositionService Service Implementation -->
+    <bean id="positionService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="com.algoTrader.service.PositionServiceImpl">
+                <property name="positionDao"><ref bean="positionDao"/></property>
+                <property name="ruleService"><ref bean="ruleService"/></property>
+                <property name="tickService"><ref bean="tickService"/></property>
+                <property name="transactionService"><ref bean="transactionService"/></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces">
+            <value>com.algoTrader.service.PositionService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>serviceTransactionInterceptor</value>
+                <value>hibernateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
+
+
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="beans">
+			<map>
+			</map>
+		</property>
+		<property name="assembler">
+			<bean class="org.springframework.jmx.export.assembler.MethodNameBasedMBeanInfoAssembler">
+				<property name="methodMappings">
+					<props>
+					</props>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

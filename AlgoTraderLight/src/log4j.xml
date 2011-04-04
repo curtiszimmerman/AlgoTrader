@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
+<log4j:configuration>
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{1} %m %n" />
+<!--			<param name="ConversionPattern" value="%m" />-->
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+		</filter>
+	</appender>
+
+	<appender name="STDERR" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.err" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{1} %m %n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="ERROR" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+
+	<appender name="PORTFOLIO" class="org.apache.log4j.FileAppender">
+		<param name="file" value="log/portfolio.csv" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss},%m %n" />
+		</layout>
+	</appender>
+
+	<logger name="org.springframework">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.apache.commons">
+		<level value="warn" />
+	</logger>
+
+	<logger name="net.sf.ehcache">
+		<level value="warn" />
+	</logger>
+
+	<logger name="com.espertech">
+		<level value="warn" />
+	</logger>
+
+	<logger name="httpclient">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.apache.activemq">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.mortbay">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="com.mchange.v2">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog">
+		<level value="error" />
+	</logger>
+
+	<logger name="com.algoTrader.subscriber.PrintPortfolioValueSubscriber">
+		<appender-ref ref="PORTFOLIO" />
+	</logger>
+
+	<root>
+		<level value="debug" />
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDERR"/>
+	</root>
+
+	<categoryFactory class="com.algoTrader.util.MyLoggerFactory" />
+
+</log4j:configuration>

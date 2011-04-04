@@ -1,0 +1,22 @@
+1. Import from Subversion
+-------------------------
+Import the following two projects into Eclipse: 
+	AlgoTrader
+	AlgoTraderMov
+
+2. Install MySql
+----------------
+Install latest MySql from http://www.mysql.com/downloads/mysql/
+create a schema named AlgoTrader
+run the create-script: sql/algotrader.sql
+configure the following two values inside src/conf-base.properties:
+	dataSource.user=...
+	dataSource.password=..
+
+3. Start the Demo Strategy
+--------------------------
+Run the class com.algoTrader.starter.SimulationStarter inside the project AlgoTraderMov 
+VM-Arguments: 
+	-Dsimulation=true
+	-DdataSource.dataSet=1year
+	
