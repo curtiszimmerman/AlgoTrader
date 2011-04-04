@@ -1,0 +1,176 @@
+module com.ceptrader.esper.epl.scripts.SampleIndicators;
+
+uses com.ceptrader.esper.epl.scripts.IBInit;
+
+import com.ceptrader.tradeapp.ib.esper.pojoevents.*;
+import com.ceptrader.tradeapp.esper.pojoevents.*;
+
+import com.ib.client.*;
+
+create schema Bar as OHLC;
+
+@Name('SelectBarData')
+insert into Bar select * from RTBar;
+
+
+
+create variable double alphaExpMA = 0.3;
+
+create schema ExpMA(ref int, ticker String, timeStamp long, duration long, value double);
+
+@Name('ExpMANewAlpha')
+on ExpMANewAlpha as e
+	set alphaExpMA = e.value;
+
+@Name('ExpMA')
+insert into ExpMA(ref, ticker, timeStamp, duration, value)
+	select 
+		b.ref, b.ticker, b.timeStamp, b.duration, coalesce(alphaExpMA * b.WAP + (1 - alphaExpMA) * last(ma.value), 0) as value 
+	from 
+		RTBar.std:groupwin(duration, ticker).win:length(1) as b
+			left outer join 
+			ExpMA.std:groupwin(duration, ticker).win:length(2) as ma
+				on b.ticker = ma.ticker and b.duration = ma.duration;
+
+
+
+create schema ExpMASig(ref int, ticker String, timeStamp long, duration long, value double);
+
+@Name('ExpMASig')
+insert into ExpMASig(ref, ticker, timeStamp, duration, value)
+	select
+		e.ref, e.ticker, e.timeStamp, e.duration, coalesce(Math.signum(e.value - p.WAP), 0) as value
+	from
+		ExpMA.std:groupwin(duration, ticker).win:length(2) as e
+			left outer join
+			RTBar.std:groupwin(duration, ticker).win:length(1) as p
+				on b.ticker = p.ticker and b.duration = p.duration;
+					
+
+
+
+create variable int inertiaLength = 14;
+
+create schema Inertia(ref int, ticker String, timeStamp long, duration long, value double);
+
+@Name('InertiaNewLength')
+on InertiaNewLength as e
+	set inertiaLength = e.value;
+	
+@Name('Inertia')
+insert into Inertia(ref, ticker, timeStamp, duration, value)
+	select
+		ref, ticker, timeStamp, duration, coalesce(YIntercept + slope * WAP, 0) as value
+	from
+		RTBar.std:groupwin(duration, ticker).win:length(inertiaLength).stat:linest(WAP, timeStamp);
+
+
+
+
+
+create schema InertiaSig(ref int, ticker String, timeStamp long, duration long, value double);
+
+@Name('InertiaSig')
+insert into InertiaSig(ref, ticker, timeStamp, duration, value)
+	select
+		e.ref, e.ticker, e.timeStamp, e.duration, coalesce(Math.signum(e.value - p.WAP), 0) as value
+	from
+		InertiaSig.std:groupwin(duration, ticker).win:length(2) as e
+			left outer join
+			RTBar.std:groupwin(duration, ticker).win:length(1) as p
+				on b.ticker = p.ticker and b.duration = p.duration;
+				
+				
+				
+				
+				
+				
+create variable int defaultSize = 25000;
+create variable double lmtMult = 1.03;
+create variable double stopMult = 1.05;
+
+create schema ExpMABuyLmt as BuyLmt;
+create schema ExpMASellStop as SellStop;
+create schema ExpMASellLmt as SellLmt;
+create schema ExpMABuyStop as BuyStop;
+
+create variant schema ExpMAStpLmtEtc as *;
+
+@Name('ExpMAStpLmtEtc')
+insert into ExpMAStpLmtEtc
+select * from 
+	ExpMASig.std:groupwin(duration, ticker).win:length(1) as e
+		left outer join
+		StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
+		on m.ticker = e.ticker and m.duration = e.duration
+			left outer join
+			TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
+			on p.ticker = e.ticker and p.duration = e.duration;
+
+
+@Name('ExpMASigTrades')
+on pattern [every ExpMAStpLmtEtc] as q
+	insert into BuyLmt(ref, ticker, timeStamp, level, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, coalesce(q.limitMultiplier, lmtMult) * q.value as level, coalesce(q.size, defaultSize) as size
+		where 
+			q.value > 0
+	insert into SellStop(ref, ticker, timeStamp, trail, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, (coalesce(q.stopMultiplier, stopMult) - 1) * q.value as trail, coalesce(q.size, defaultSize) as size
+		where 
+			q.value > 0			
+	insert into SellLmt(ref, ticker, timeStamp, level, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, q.value / coalesce(q.limitMultiplier, lmtMult) as level, coalesce(q.size, defaultSize) as size
+		where 
+			q.value < 0
+	insert into BuyStop(ref, ticker, timeStamp, trail, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, (coalesce(q.stopMultiplier, stopMult) - 1) * q.value as trail, coalesce(q.size, defaultSize) as size
+		where 
+			q.value < 0;
+
+
+	
+create schema InertiaSigBuyLmt as BuyLmt;
+create schema InertiaSigSellStop as SellStop;
+create schema InertiaSigSellLmt as SellLmt;
+create schema InertiaSigBuyStop as BuyStop;	
+		
+
+create variant schema InertiaStpLmtEtc as *;
+
+@Name('InertiaStpLmtEtc')
+insert into InertiaStpLmtEtc
+select * from 
+	InertiaSig.std:groupwin(duration, ticker).win:length(1) as e
+		left outer join
+		StopLimitMultiplier.std:groupwin(duration, ticker).win:length(1) as m
+		on m.ticker = e.ticker and m.duration = e.duration
+			left outer join
+			TradePossitionSize.std:groupwin(duration, ticker).win:length(1) as p
+			on p.ticker = e.ticker and p.duration = e.duration;
+
+@Name('InertiaSigTrades')
+on pattern [every InertiaStpLmtEtc] as q
+	insert into BuyLmt(ref, ticker, timeStamp, level, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, coalesce(q.limitMultiplier, lmtMult) * q.value as level, coalesce(q.size, defaultSize) as size
+		where 
+			q.value > 0
+	insert into SellStop(ref, ticker, timeStamp, trail, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, (coalesce(q.stopMultiplier, stopMult) - 1) * q.value as trail, coalesce(q.size, defaultSize) as size
+		where 
+			q.value > 0			
+	insert into SellLmt(ref, ticker, timeStamp, level, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, q.value / coalesce(q.mult, lmtMult) as level, coalesce(q.size, defaultSize) as size
+		where 
+			q.value < 0
+	insert into BuyStop(ref, ticker, timeStamp, trail, size)
+		select 
+			q.ref, q.ticker, q.timeStamp, (coalesce(q.stopMultiplier, stopMult) - 1) * q.value as trail, coalesce(q.size, defaultSize) as size
+		where 
+			q.value < 0;
