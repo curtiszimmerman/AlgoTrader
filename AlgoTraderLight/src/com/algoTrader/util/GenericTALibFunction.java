@@ -29,26 +29,25 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterType;
  * Generic AggregateFunction to support all TA-Lib operations
  * <p/>
  * To use the AggregateFunction add the following to the esper configuration
- * 
  * <pre>
  * &lt;plugin-aggregation-function name="talib" function-class="com.algoTrader.util.GenericTALibFunction"/&gt;
  * </pre>
- * 
  * The AggregationFunction can be used in an esper statement like this:
- * 
  * <pre>
  * select talib("stochF", high, low, close, 3, 2, "Sma")
  * from OHLCBar;
  * </pre>
- * 
- * If the TA-Lib Function returns just one value, the value is directly exposed by the AggregationFunction. If the TA-Lib Function returns
- * multiple-values, they will be exposed by a Map
+ * If the TA-Lib Function returns just one value, the value is directly exposed by the AggregationFunction.
+ * If the TA-Lib Function returns multiple-values, they will be exposed by a Map
  * </p>
- * The AggregationFunction needs the following libraries: </p> <li><a href="http://commons.apache.org/collections/">Apache Commons Collection</a></li>
- * <li><a href="http://larvalabs.com/collections/">Commons Generics</a></li> <li><a href="http://ta-lib.org/">TA-Lib</a></li> </p>
- * 
+ * The AggregationFunction needs the following libraries:
+ * </p>
+ * <li><a href="http://commons.apache.org/collections/">Apache Commons Collection</a></li>
+ * <li><a href="http://larvalabs.com/collections/">Commons Generics</a></li>
+ * <li><a href="http://ta-lib.org/">TA-Lib</a></li>
+ * </p>
  * @author Andy Flury
- * 
+ *
  */
 public class GenericTALibFunction extends AggregationSupport {
 
@@ -217,8 +216,14 @@ public class GenericTALibFunction extends AggregationSupport {
 		}
 	}
 
-	public void leave(Object value) {
-		throw new IllegalArgumentException("leave not allowed");
+	public void leave(Object obj) {
+
+		// Remove the last element of each buffer
+		int paramCount = 1;
+		for (CircularFifoBuffer<Number> buffer : this.inputParams) {
+			buffer.remove();
+			paramCount++;
+		}
 	}
 
 	public Class<?> getValueType() {
