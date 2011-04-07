@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
 
 import com.ceptrader.esper.generic.pojoevents.BuyLmt;
 import com.ceptrader.esper.generic.pojoevents.BuyMkt;
@@ -13,6 +11,7 @@ import com.ceptrader.esper.generic.pojoevents.BuyStop;
 import com.ceptrader.esper.generic.pojoevents.SellLmt;
 import com.ceptrader.esper.generic.pojoevents.SellMkt;
 import com.ceptrader.esper.generic.pojoevents.SellStop;
+import com.ceptrader.util.BasicUtils;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
@@ -263,21 +262,8 @@ public class IBUtils {
 		IBClient.getIBClient().placeOrder(id, contract, order);
 	}
 	
-	private static final DateTimeFormatter	format;
-	
-	static {
-		format = new DateTimeFormatterBuilder().appendYear(2, 4)
-		        .appendMonthOfYear(2)
-		        .appendDayOfMonth(2)
-		        .appendLiteral(' ').appendHourOfDay(2).appendLiteral(':')
-		        .appendMinuteOfHour(2).appendLiteral(':')
-		        .appendSecondOfMinute(2).appendLiteral(' ')
-		        .appendTimeZoneShortName().toFormatter();
-		
-	}
-	
 	public static long dateToMilli(final String date) {
-		return IBUtils.format.parseDateTime(date).getMillis();
+		return BasicUtils.checkDateTime(date).getMillis();
 	}
 	
 	public static final long	milliInASecond	= 1000;
