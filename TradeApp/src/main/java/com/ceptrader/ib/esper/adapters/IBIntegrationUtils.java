@@ -3,18 +3,16 @@ package com.ceptrader.ib.esper.adapters;
 import java.net.URL;
 
 import com.ceptrader.esper.CEPMan;
-import com.ceptrader.esper.epl.scripts.EsperEPLUtils;
 import com.ceptrader.util.Logger;
 
 public class IBIntegrationUtils {
 	public static void deployIBEventTranslations() {
 		IBIntegrationUtils
-		        .deployIBEventTranslations("/Esper/EPL/Scripts/IBInit.epl");
+		        .deployIBEventTranslations("IBInit.epl");
 	}
 	
 	public static void deployIBEventTranslations(final String res) {
-		final URL IBInit = EsperEPLUtils.class
-		        .getResource(res);
+		final URL IBInit = IBIntegrationUtils.class.getResource(res);
 		
 		if (!CEPMan.getCEPMan().isStarted()) {
 			CEPMan.getCEPMan().start();
@@ -25,11 +23,11 @@ public class IBIntegrationUtils {
 	
 	public static void deployIBTradeTranslations() {
 		IBIntegrationUtils
-		        .deployIBEventTranslations("/Esper/EPL/Scripts/IBTradeRouting.epl");
+		        .deployIBEventTranslations("IBTradeRouting.epl");
 	}
 	
 	public static void deployIBTradeTranslations(final String res) {
-		final URL IBInit = EsperEPLUtils.class
+		final URL IBInit = IBIntegrationUtils.class
 		        .getResource(res);
 		
 		if (!CEPMan.getCEPMan().isStarted()) {
