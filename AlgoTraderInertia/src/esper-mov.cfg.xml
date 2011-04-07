@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.espertech.com/schema/esper"
+    xsi:schemaLocation="http://www.espertech.com/schema/esper http://www.espertech.com/schema/esper/esper-configuration-3-0.xsd">
+
+	<event-type name="Tick" class="com.algoTrader.entity.TickImpl"/>
+
+	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
+	<auto-import import-name="com.algoTrader.util.DateUtil"/>
+	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
+	<auto-import import-name="com.algoTrader.service.inertia.MovUtil"/>
+
+	<auto-import import-name="java.lang.*"/>
+	<auto-import import-name="java.math.*"/>
+	<auto-import import-name="java.text.*"/>
+	<auto-import import-name="java.util.*"/>
+
+	<variable name="simulation" type="boolean"/>
+	<variable name="simulation_eventsPerDay" type="long"/>	
+	
+	<variable name="engineStrategy" type="com.algoTrader.entity.Strategy"/>
+	<variable name="underlayingIsin" type="String"/>
+
+	<variable name="movLengthFast" type="int"/>
+	<variable name="movLengthSlow" type="int"/>
+	
+	<engine-settings>
+		<defaults>
+			<threading>
+				<internal-timer enabled="false" msec-resolution="100"/>
+			</threading>
+			<logging>
+				<execution-path enabled="true" />
+				<timer-debug enabled="true" />
+			</logging>				
+			<expression udf-cache="false"/>
+			<execution prioritized="true"/>			
+		</defaults>
+	</engine-settings>
+
+</esper-configuration>

@@ -1,0 +1,34 @@
+module movMain;
+
+@Name('GET_LAST_TICK')
+@Priority(6)
+select tick.security.id as securityId, tick.* as tick 
+from Tick.std:groupwin(security.id).win:time(7 days).win:length(1) as tick;
+
+@Name('CREATE_EXIT_VALUE')
+@Priority(4)
+@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$SetExitValueSubscriber')
+select position.id as positionId,
+exitValue.value as value
+from Tick as tick,
+method:LookupUtil.getPositions(tick.security) as position,
+method:MovUtil.getExitValue(position.strategy.name, tick.security, tick.currentValueDouble) as exitValue
+where exitValue.value > position.exitValue
+and position.quantity != 0;
+
+@Name('MOVING_AVERAGE')
+insert into Indicator
+select (stat1.YIntercept + stat1.slope) - (stat2.YIntercept + stat2.slope) as value
+from Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:linest(currentValueDouble, current_timestamp()) as stat1, 
+Tick(security.isin = underlayingIsin).win:length(movLengthSlow).linest(currentValueDouble, current_timestamp()) as stat2
+where stat2.datapoints = movLengthSlow;
+
+@Name('OPEN_POSITION')
+@Tag(name='subscriber', value='com.algoTrader.service.inertia.MovServiceImpl$OpenPositionSubscriber')
+select
+engineStrategy.name as strategyName, 
+indexTick.security.id as underlayingid,
+indexTick.currentValue as underlayingSpot
+from pattern [every (indexTick=Tick(security.isin=underlayingIsin) -> indicator=Indicator)]
+where indicator.value > 0
+and prior(1, indicator.value) <= 0;
