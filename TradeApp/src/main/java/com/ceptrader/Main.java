@@ -11,11 +11,11 @@ import javax.swing.JPanel;
 import com.ceptrader.esper.CEPMan;
 import com.ceptrader.esper.epl.EPLDebug;
 import com.ceptrader.esper.epl.scripts.EsperEPLUtils;
-import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
-import com.ceptrader.tradeapp.ib.esper.adapters.IBUtils;
-import com.ceptrader.tradeapp.util.BasicUtils;
-import com.ceptrader.tradeapp.util.Loggable;
-import com.ceptrader.tradeapp.util.Logger;
+import com.ceptrader.ib.esper.adapters.IBClient;
+import com.ceptrader.ib.esper.adapters.IBUtils;
+import com.ceptrader.util.BasicUtils;
+import com.ceptrader.util.Loggable;
+import com.ceptrader.util.Logger;
 
 public class Main extends JFrame implements
         Loggable, Runnable {

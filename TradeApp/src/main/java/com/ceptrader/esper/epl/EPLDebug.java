@@ -1,8 +1,8 @@
 package com.ceptrader.esper.epl;
 
 import com.ceptrader.esper.CEPMan;
-import com.ceptrader.tradeapp.util.BasicUtils;
-import com.ceptrader.tradeapp.util.Logger;
+import com.ceptrader.util.BasicUtils;
+import com.ceptrader.util.Logger;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.EventBean;

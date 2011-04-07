@@ -5,7 +5,7 @@ import java.util.Map;
 import bsh.EvalError;
 import bsh.Interpreter;
 
-import com.ceptrader.tradeapp.util.Logger;
+import com.ceptrader.util.Logger;
 
 public class ScriptUtils {
 	private static Interpreter	bshIntpr	= new Interpreter();

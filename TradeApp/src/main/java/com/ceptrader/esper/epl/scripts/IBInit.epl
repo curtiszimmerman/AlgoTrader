@@ -1,8 +1,8 @@
 module com.ceptrader.esper.epl.scripts.IBInit;
 
-import com.ceptrader.tradeapp.util.*;
-import com.ceptrader.tradeapp.ib.esper.pojoevents.*;
-import com.ceptrader.tradeapp.esper.generic.pojoevents.*;
+import com.ceptrader.util.*;
+import com.ceptrader.ib.esper.pojoevents.*;
+import com.ceptrader.esper.generic.pojoevents.*;
 
 import com.ib.client.TickType;
 

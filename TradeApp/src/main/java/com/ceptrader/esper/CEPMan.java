@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import com.ceptrader.tradeapp.util.Loggable;
-import com.ceptrader.tradeapp.util.Logger;
+import com.ceptrader.util.Loggable;
+import com.ceptrader.util.Logger;
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.ConfigurationEventTypeXMLDOM;
 import com.espertech.esper.client.EPServiceProvider;

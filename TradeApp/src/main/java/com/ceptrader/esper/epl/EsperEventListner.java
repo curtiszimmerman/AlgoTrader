@@ -14,25 +14,25 @@ public abstract class EsperEventListner implements UpdateListener,
 	
 	public EsperEventListner(final String[] stms) {
 		for (final String s : stms) {
-			Init(s, false);
+			init(s, false);
 		}
 	}
 	
 	public EsperEventListner(final String stm) {
-		Init(stm, false);
+		init(stm, false);
 	}
 	
 	public EsperEventListner(final String[] stms, final boolean listenunMatched) {
 		for (final String s : stms) {
-			Init(s, listenunMatched);
+			init(s, listenunMatched);
 		}
 	}
 	
 	public EsperEventListner(final String stm, final boolean listenunMatched) {
-		Init(stm, listenunMatched);
+		init(stm, listenunMatched);
 	}
 	
-	private void Init(final String stm, final boolean linstenUnMatched) {
+	private void init(final String stm, final boolean linstenUnMatched) {
 		final EPServiceProvider epService = CEPMan.getCEPMan().getEpService();
 		final EPRuntime epRT = epService.getEPRuntime();
 		final EPStatement statement = epService.getEPAdministrator()
