@@ -15,7 +15,7 @@ import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
 import com.ceptrader.tradeapp.ib.util.IBUtils;
 import com.ceptrader.tradeapp.util.BasicUtils;
 import com.ceptrader.tradeapp.util.Loggable;
-import com.espertech.esper.client.deploy.DeploymentResult;
+import com.ceptrader.tradeapp.util.Logger;
 
 public class Main extends JFrame implements
         Loggable, Runnable {
@@ -69,11 +69,11 @@ public class Main extends JFrame implements
 		final URL ibTradeRouting = EsperEPLUtils.class
 		        .getResource("IBTradeRouting.epl");
 		
-		Logger.log((DeploymentResult) CEPMan.getCEPMan().deploy(esperMain));
-		Logger.log((DeploymentResult) CEPMan.getCEPMan().deploy(ibInit));
-		Logger.log((DeploymentResult) CEPMan.getCEPMan().deploy(
+		Logger.log(CEPMan.getCEPMan().deploy(esperMain));
+		Logger.log(CEPMan.getCEPMan().deploy(ibInit));
+		Logger.log(CEPMan.getCEPMan().deploy(
 		        sampleIndicators));
-		Logger.log((DeploymentResult) CEPMan.getCEPMan().deploy(ibTradeRouting));
+		Logger.log(CEPMan.getCEPMan().deploy(ibTradeRouting));
 		
 		final EPLDebug db = new EPLDebug();
 	}
