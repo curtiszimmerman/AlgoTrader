@@ -12,34 +12,43 @@ import com.espertech.esperio.AbstractSendableEvent;
 import com.espertech.esperio.AbstractSender;
 
 public class CustomSender extends AbstractSender {
-
-	public void sendEvent(AbstractSendableEvent event, Object beanToSend) {
-
+	
+	@Override
+	public void sendEvent(final AbstractSendableEvent event,
+	        final Object beanToSend) {
+		
 		// raw Ticks are always sent using TickService
 		if (beanToSend instanceof RawTickVO) {
-
-			TickService tickService = ServiceLocator.commonInstance().getTickService();
-
-			Tick tick = tickService.completeRawTick((RawTickVO) beanToSend);
+			
+			final TickService tickService = ServiceLocator.commonInstance()
+			        .getTickService();
+			
+			final Tick tick = tickService
+			        .completeRawTick((RawTickVO) beanToSend);
 			tickService.propagateTick(tick);
-
+			
 			// currentTimeEvents are sent to all started strategies
 		} else if (beanToSend instanceof CurrentTimeEvent) {
-
-			RuleService ruleService = ServiceLocator.commonInstance().getRuleService();
+			
+			final RuleService ruleService = ServiceLocator.commonInstance()
+			        .getRuleService();
 			ruleService.setCurrentTime((CurrentTimeEvent) beanToSend);
-
-			// everything else (especially Ticks) are sent to the specified runtime
+			
+			// everything else (especially Ticks) are sent to the specified
+			// runtime
 		} else {
-			this.runtime.sendEvent(beanToSend);
+			runtime.sendEvent(beanToSend);
 		}
 	}
-
+	
+	@Override
 	@SuppressWarnings("rawtypes")
-	public void sendEvent(AbstractSendableEvent event, Map mapToSend, String eventTypeName) {
-		this.runtime.sendEvent(mapToSend, eventTypeName);
+	public void sendEvent(final AbstractSendableEvent event,
+	        final Map mapToSend, final String eventTypeName) {
+		runtime.sendEvent(mapToSend, eventTypeName);
 	}
-
+	
+	@Override
 	public void onFinish() {
 		// do nothing
 	}

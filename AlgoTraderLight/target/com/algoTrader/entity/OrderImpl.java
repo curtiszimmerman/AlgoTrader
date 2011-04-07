@@ -9,11 +9,10 @@ package com.algoTrader.entity;
  * @see com.algoTrader.entity.Order
  */
 public class OrderImpl
-    extends com.algoTrader.entity.Order
-{
-    /**
-     * The serial version UID of this class. Needed for serialization.
-     */
-    private static final long serialVersionUID = 8897089975060464052L;
-
+        extends com.algoTrader.entity.Order {
+	/**
+	 * The serial version UID of this class. Needed for serialization.
+	 */
+	private static final long	serialVersionUID	= 8897089975060464052L;
+	
 }

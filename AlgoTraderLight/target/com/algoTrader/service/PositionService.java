@@ -8,37 +8,36 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface PositionService
-{
-
-    /**
+public interface PositionService {
+	
+	/**
      * 
      */
-    public void closePosition(int positionId);
-
-    /**
+	public void closePosition(int positionId);
+	
+	/**
      * 
      */
-    public void reducePosition(int positionId, long quantity);
-
-    /**
+	public void reducePosition(int positionId, long quantity);
+	
+	/**
      * 
      */
-    public void setExitValue(int positionId, double exitValue, boolean force);
-
-    /**
+	public void setExitValue(int positionId, double exitValue, boolean force);
+	
+	/**
      * 
      */
-    public void setMargins();
-
-    /**
+	public void setMargins();
+	
+	/**
      * 
      */
-    public void setMargin(int positionId);
-
-    /**
+	public void setMargin(int positionId);
+	
+	/**
      * 
      */
-    public void setMargin(com.algoTrader.entity.Position position);
-
+	public void setMargin(com.algoTrader.entity.Position position);
+	
 }

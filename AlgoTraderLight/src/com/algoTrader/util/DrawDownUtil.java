@@ -1,19 +1,18 @@
 package com.algoTrader.util;
 
-
 public class DrawDownUtil {
-
-	private static long drawDownPeriod;
+	
+	private static long	drawDownPeriod;
 	
 	public static long resetDrawDownPeriod() {
 		
-		return drawDownPeriod = 0;
+		return DrawDownUtil.drawDownPeriod = 0;
 	}
-
-	public static long increaseDrawDownPeriod(long milliseconds) {
-				
-		drawDownPeriod += milliseconds;
-
-		return drawDownPeriod;
+	
+	public static long increaseDrawDownPeriod(final long milliseconds) {
+		
+		DrawDownUtil.drawDownPeriod += milliseconds;
+		
+		return DrawDownUtil.drawDownPeriod;
 	}
 }

@@ -7,93 +7,86 @@ package com.algoTrader.service;
 
 /**
  * <p>
- * Spring Service base class for <code>com.algoTrader.service.StrategyService</code>,
- * provides access to all services and entities referenced by this service.
+ * Spring Service base class for
+ * <code>com.algoTrader.service.StrategyService</code>, provides access to all
+ * services and entities referenced by this service.
  * </p>
- *
+ * 
  * @see com.algoTrader.service.StrategyService
  */
 public abstract class StrategyServiceBase
-    implements com.algoTrader.service.StrategyService
-{
-
-    private com.algoTrader.service.LookupService lookupService;
-
-    /**
-     * Sets the reference to <code>lookupService</code>.
-     */
-    public void setLookupService(com.algoTrader.service.LookupService lookupService)
-    {
-        this.lookupService = lookupService;
-    }
-
-    /**
-     * Gets the reference to <code>lookupService</code>.
-     */
-    protected com.algoTrader.service.LookupService getLookupService()
-    {
-        return this.lookupService;
-    }
-
-    private com.algoTrader.entity.StrategyDao strategyDao;
-
-    /**
-     * Sets the reference to <code>strategy</code>'s DAO.
-     */
-    public void setStrategyDao(com.algoTrader.entity.StrategyDao strategyDao)
-    {
-        this.strategyDao = strategyDao;
-    }
-
-    /**
-     * Gets the reference to <code>strategy</code>'s DAO.
-     */
-    protected com.algoTrader.entity.StrategyDao getStrategyDao()
-    {
-        return this.strategyDao;
-    }
-
-    /**
-     * @see com.algoTrader.service.StrategyService#sendEvent(java.lang.String, java.lang.Object)
-     */
-    public void sendEvent(java.lang.String strategyName, java.lang.Object obj)
-    {
-        if (strategyName == null || strategyName.trim().length() == 0)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj) - 'strategyName' can not be null or empty");
-        }
-        if (obj == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj) - 'obj' can not be null");
-        }
-        try
-        {
-            this.handleSendEvent(strategyName, obj);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.StrategyServiceException(
-                "Error performing 'com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #sendEvent(java.lang.String, java.lang.Object)}
-      */
-    protected abstract void handleSendEvent(java.lang.String strategyName, java.lang.Object obj)
-        throws java.lang.Exception;
-
-    /**
-     * Gets the current <code>principal</code> if one has been set,
-     * otherwise returns <code>null</code>.
-     *
-     * @return the current principal
-     */
-    protected java.security.Principal getPrincipal()
-    {
-        return com.algoTrader.PrincipalStore.get();
-    }
+        implements com.algoTrader.service.StrategyService {
+	
+	private com.algoTrader.service.LookupService	lookupService;
+	
+	/**
+	 * Sets the reference to <code>lookupService</code>.
+	 */
+	public void setLookupService(
+	        final com.algoTrader.service.LookupService lookupService) {
+		this.lookupService = lookupService;
+	}
+	
+	/**
+	 * Gets the reference to <code>lookupService</code>.
+	 */
+	protected com.algoTrader.service.LookupService getLookupService() {
+		return lookupService;
+	}
+	
+	private com.algoTrader.entity.StrategyDao	strategyDao;
+	
+	/**
+	 * Sets the reference to <code>strategy</code>'s DAO.
+	 */
+	public void setStrategyDao(
+	        final com.algoTrader.entity.StrategyDao strategyDao) {
+		this.strategyDao = strategyDao;
+	}
+	
+	/**
+	 * Gets the reference to <code>strategy</code>'s DAO.
+	 */
+	protected com.algoTrader.entity.StrategyDao getStrategyDao() {
+		return strategyDao;
+	}
+	
+	/**
+	 * @see com.algoTrader.service.StrategyService#sendEvent(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	@Override
+	public void sendEvent(final java.lang.String strategyName,
+	        final java.lang.Object obj) {
+		if (strategyName == null || strategyName.trim().length() == 0) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj) - 'strategyName' can not be null or empty"); }
+		if (obj == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj) - 'obj' can not be null"); }
+		try {
+			handleSendEvent(strategyName, obj);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.StrategyServiceException(
+			        "Error performing 'com.algoTrader.service.StrategyService.sendEvent(java.lang.String strategyName, java.lang.Object obj)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #sendEvent(java.lang.String, java.lang.Object)}
+	 */
+	protected abstract void handleSendEvent(java.lang.String strategyName,
+	        java.lang.Object obj)
+	        throws java.lang.Exception;
+	
+	/**
+	 * Gets the current <code>principal</code> if one has been set,
+	 * otherwise returns <code>null</code>.
+	 * 
+	 * @return the current principal
+	 */
+	protected java.security.Principal getPrincipal() {
+		return com.algoTrader.PrincipalStore.get();
+	}
 }

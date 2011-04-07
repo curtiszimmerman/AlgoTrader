@@ -9,11 +9,10 @@ package com.algoTrader.entity;
  * @see com.algoTrader.entity.SecurityFamily
  */
 public class SecurityFamilyImpl
-    extends com.algoTrader.entity.SecurityFamily
-{
-    /**
-     * The serial version UID of this class. Needed for serialization.
-     */
-    private static final long serialVersionUID = -4354084820769876375L;
-
+        extends com.algoTrader.entity.SecurityFamily {
+	/**
+	 * The serial version UID of this class. Needed for serialization.
+	 */
+	private static final long	serialVersionUID	= -4354084820769876375L;
+	
 }

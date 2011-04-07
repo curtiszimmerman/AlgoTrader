@@ -9,246 +9,227 @@ package com.algoTrader.entity;
  * 
  */
 public abstract class Strategy
-    extends com.algoTrader.BaseObject
-    implements java.io.Serializable
-{
-    /**
-     * The serial version UID of this class. Needed for serialization.
-     */
-    private static final long serialVersionUID = 6753552806755339264L;
-
-    private java.lang.String name;
-
-    /**
+        extends com.algoTrader.BaseObject
+        implements java.io.Serializable {
+	/**
+	 * The serial version UID of this class. Needed for serialization.
+	 */
+	private static final long	serialVersionUID	= 6753552806755339264L;
+	
+	private java.lang.String	name;
+	
+	/**
      * 
      */
-    public java.lang.String getName()
-    {
-        return this.name;
-    }
-
-    public void setName(java.lang.String name)
-    {
-        this.name = name;
-    }
-
-    private boolean autoActivate;
-
-    /**
+	public java.lang.String getName() {
+		return name;
+	}
+	
+	public void setName(final java.lang.String name) {
+		this.name = name;
+	}
+	
+	private boolean	autoActivate;
+	
+	/**
      * 
      */
-    public boolean isAutoActivate()
-    {
-        return this.autoActivate;
-    }
-
-    public void setAutoActivate(boolean autoActivate)
-    {
-        this.autoActivate = autoActivate;
-    }
-
-    private double allocation;
-
-    /**
+	public boolean isAutoActivate() {
+		return autoActivate;
+	}
+	
+	public void setAutoActivate(final boolean autoActivate) {
+		this.autoActivate = autoActivate;
+	}
+	
+	private double	allocation;
+	
+	/**
      * 
      */
-    public double getAllocation()
-    {
-        return this.allocation;
-    }
-
-    public void setAllocation(double allocation)
-    {
-        this.allocation = allocation;
-    }
-
-    private java.lang.String modules;
-
-    /**
+	public double getAllocation() {
+		return allocation;
+	}
+	
+	public void setAllocation(final double allocation) {
+		this.allocation = allocation;
+	}
+	
+	private java.lang.String	modules;
+	
+	/**
      * 
      */
-    public java.lang.String getModules()
-    {
-        return this.modules;
-    }
-
-    public void setModules(java.lang.String modules)
-    {
-        this.modules = modules;
-    }
-
-    private int id;
-
-    /**
+	public java.lang.String getModules() {
+		return modules;
+	}
+	
+	public void setModules(final java.lang.String modules) {
+		this.modules = modules;
+	}
+	
+	private int	id;
+	
+	/**
      * 
      */
-    public int getId()
-    {
-        return this.id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    private java.util.Collection positions = new java.util.HashSet();
-
-    /**
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(final int id) {
+		this.id = id;
+	}
+	
+	private java.util.Collection	positions	= new java.util.HashSet();
+	
+	/**
      * 
      */
-    public java.util.Collection getPositions()
-    {
-        return this.positions;
-    }
-
-    public void setPositions(java.util.Collection positions)
-    {
-        this.positions = positions;
-    }
-
-    private java.util.Collection transactions = new java.util.HashSet();
-
-    /**
+	public java.util.Collection getPositions() {
+		return positions;
+	}
+	
+	public void setPositions(final java.util.Collection positions) {
+		this.positions = positions;
+	}
+	
+	private java.util.Collection	transactions	= new java.util.HashSet();
+	
+	/**
      * 
      */
-    public java.util.Collection getTransactions()
-    {
-        return this.transactions;
-    }
-
-    public void setTransactions(java.util.Collection transactions)
-    {
-        this.transactions = transactions;
-    }
-
-    private java.util.Collection watchListItems = new java.util.HashSet();
-
-    /**
+	public java.util.Collection getTransactions() {
+		return transactions;
+	}
+	
+	public void setTransactions(final java.util.Collection transactions) {
+		this.transactions = transactions;
+	}
+	
+	private java.util.Collection	watchListItems	= new java.util.HashSet();
+	
+	/**
      * 
      */
-    public java.util.Collection getWatchListItems()
-    {
-        return this.watchListItems;
-    }
-
-    public void setWatchListItems(java.util.Collection watchListItems)
-    {
-        this.watchListItems = watchListItems;
-    }
-
-    /**
+	public java.util.Collection getWatchListItems() {
+		return watchListItems;
+	}
+	
+	public void setWatchListItems(final java.util.Collection watchListItems) {
+		this.watchListItems = watchListItems;
+	}
+	
+	/**
      * 
      */
-    public abstract boolean isBase();
-
-    /**
+	public abstract boolean isBase();
+	
+	/**
      * 
      */
-    public abstract double getCashBalanceDouble();
-
-    /**
+	public abstract double getCashBalanceDouble();
+	
+	/**
      * 
      */
-    public abstract double getSecuritiesCurrentValueDouble();
-
-    /**
+	public abstract double getSecuritiesCurrentValueDouble();
+	
+	/**
      * 
      */
-    public abstract double getMaintenanceMarginDouble();
-
-    /**
+	public abstract double getMaintenanceMarginDouble();
+	
+	/**
      * 
      */
-    public abstract double getInitialMarginDouble();
-
-    /**
+	public abstract double getInitialMarginDouble();
+	
+	/**
      * 
      */
-    public abstract double getNetLiqValueDouble();
-
-    /**
+	public abstract double getNetLiqValueDouble();
+	
+	/**
      * 
      */
-    public abstract double getAvailableFundsDouble();
-
-    /**
-     * Returns <code>true</code> if the argument is an Strategy instance and all identifiers for this entity
-     * equal the identifiers of the argument entity. Returns <code>false</code> otherwise.
-     */
-    public boolean equals(Object object)
-    {
-        if (this == object)
-        {
-            return true;
-        }
-        if (!(object instanceof Strategy))
-        {
-            return false;
-        }
-        final Strategy that = (Strategy)object;
-        if (this.id != that.getId())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Returns a hash code based on this entity's identifiers.
-     */
-    public int hashCode()
-    {
-        int hashCode = 0;
-        hashCode = 29 * hashCode + (int)id;
-
-        return hashCode;
-    }
-
-    /**
-     * Constructs new instances of {@link com.algoTrader.entity.Strategy}.
-     */
-    public static final class Factory
-    {
-        /**
-         * Constructs a new instance of {@link com.algoTrader.entity.Strategy}.
-         */
-        public static com.algoTrader.entity.Strategy newInstance()
-        {
-            return new com.algoTrader.entity.StrategyImpl();
-        }
-
-        /**
-         * Constructs a new instance of {@link com.algoTrader.entity.Strategy}, taking all required and/or
-         * read-only properties as arguments.
-         */
-        public static com.algoTrader.entity.Strategy newInstance(java.lang.String name, boolean autoActivate, double allocation, java.lang.String modules)
-        {
-            final com.algoTrader.entity.Strategy entity = new com.algoTrader.entity.StrategyImpl();
-            entity.setName(name);
-            entity.setAutoActivate(autoActivate);
-            entity.setAllocation(allocation);
-            entity.setModules(modules);
-            return entity;
-        }
-
-        /**
-         * Constructs a new instance of {@link com.algoTrader.entity.Strategy}, taking all possible properties
-         * (except the identifier(s))as arguments.
-         */
-        public static com.algoTrader.entity.Strategy newInstance(java.lang.String name, boolean autoActivate, double allocation, java.lang.String modules, java.util.Collection positions, java.util.Collection transactions, java.util.Collection watchListItems)
-        {
-            final com.algoTrader.entity.Strategy entity = new com.algoTrader.entity.StrategyImpl();
-            entity.setName(name);
-            entity.setAutoActivate(autoActivate);
-            entity.setAllocation(allocation);
-            entity.setModules(modules);
-            entity.setPositions(positions);
-            entity.setTransactions(transactions);
-            entity.setWatchListItems(watchListItems);
-            return entity;
-        }
-    }
-
-// HibernateEntity.vsl merge-point
+	public abstract double getAvailableFundsDouble();
+	
+	/**
+	 * Returns <code>true</code> if the argument is an Strategy instance and all
+	 * identifiers for this entity
+	 * equal the identifiers of the argument entity. Returns <code>false</code>
+	 * otherwise.
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if (this == object) { return true; }
+		if (!(object instanceof Strategy)) { return false; }
+		final Strategy that = (Strategy) object;
+		if (id != that.getId()) { return false; }
+		return true;
+	}
+	
+	/**
+	 * Returns a hash code based on this entity's identifiers.
+	 */
+	@Override
+	public int hashCode() {
+		int hashCode = 0;
+		hashCode = 29 * hashCode + id;
+		
+		return hashCode;
+	}
+	
+	/**
+	 * Constructs new instances of {@link com.algoTrader.entity.Strategy}.
+	 */
+	public static final class Factory {
+		/**
+		 * Constructs a new instance of {@link com.algoTrader.entity.Strategy}.
+		 */
+		public static com.algoTrader.entity.Strategy newInstance() {
+			return new com.algoTrader.entity.StrategyImpl();
+		}
+		
+		/**
+		 * Constructs a new instance of {@link com.algoTrader.entity.Strategy},
+		 * taking all required and/or
+		 * read-only properties as arguments.
+		 */
+		public static com.algoTrader.entity.Strategy newInstance(
+		        final java.lang.String name, final boolean autoActivate,
+		        final double allocation, final java.lang.String modules) {
+			final com.algoTrader.entity.Strategy entity = new com.algoTrader.entity.StrategyImpl();
+			entity.setName(name);
+			entity.setAutoActivate(autoActivate);
+			entity.setAllocation(allocation);
+			entity.setModules(modules);
+			return entity;
+		}
+		
+		/**
+		 * Constructs a new instance of {@link com.algoTrader.entity.Strategy},
+		 * taking all possible properties
+		 * (except the identifier(s))as arguments.
+		 */
+		public static com.algoTrader.entity.Strategy newInstance(
+		        final java.lang.String name, final boolean autoActivate,
+		        final double allocation, final java.lang.String modules,
+		        final java.util.Collection positions,
+		        final java.util.Collection transactions,
+		        final java.util.Collection watchListItems) {
+			final com.algoTrader.entity.Strategy entity = new com.algoTrader.entity.StrategyImpl();
+			entity.setName(name);
+			entity.setAutoActivate(autoActivate);
+			entity.setAllocation(allocation);
+			entity.setModules(modules);
+			entity.setPositions(positions);
+			entity.setTransactions(transactions);
+			entity.setWatchListItems(watchListItems);
+			return entity;
+		}
+	}
+	
+	// HibernateEntity.vsl merge-point
 }

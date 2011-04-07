@@ -7,302 +7,276 @@ package com.algoTrader.service;
 
 /**
  * <p>
- * Spring Service base class for <code>com.algoTrader.service.TickService</code>,
- * provides access to all services and entities referenced by this service.
+ * Spring Service base class for <code>com.algoTrader.service.TickService</code>
+ * , provides access to all services and entities referenced by this service.
  * </p>
- *
+ * 
  * @see com.algoTrader.service.TickService
  */
 public abstract class TickServiceBase
-    implements com.algoTrader.service.TickService
-{
-
-    private com.algoTrader.service.RuleService ruleService;
-
-    /**
-     * Sets the reference to <code>ruleService</code>.
-     */
-    public void setRuleService(com.algoTrader.service.RuleService ruleService)
-    {
-        this.ruleService = ruleService;
-    }
-
-    /**
-     * Gets the reference to <code>ruleService</code>.
-     */
-    protected com.algoTrader.service.RuleService getRuleService()
-    {
-        return this.ruleService;
-    }
-
-    private com.algoTrader.entity.SecurityDao securityDao;
-
-    /**
-     * Sets the reference to <code>security</code>'s DAO.
-     */
-    public void setSecurityDao(com.algoTrader.entity.SecurityDao securityDao)
-    {
-        this.securityDao = securityDao;
-    }
-
-    /**
-     * Gets the reference to <code>security</code>'s DAO.
-     */
-    protected com.algoTrader.entity.SecurityDao getSecurityDao()
-    {
-        return this.securityDao;
-    }
-
-    private com.algoTrader.entity.TickDao tickDao;
-
-    /**
-     * Sets the reference to <code>tick</code>'s DAO.
-     */
-    public void setTickDao(com.algoTrader.entity.TickDao tickDao)
-    {
-        this.tickDao = tickDao;
-    }
-
-    /**
-     * Gets the reference to <code>tick</code>'s DAO.
-     */
-    protected com.algoTrader.entity.TickDao getTickDao()
-    {
-        return this.tickDao;
-    }
-
-    private com.algoTrader.entity.StrategyDao strategyDao;
-
-    /**
-     * Sets the reference to <code>strategy</code>'s DAO.
-     */
-    public void setStrategyDao(com.algoTrader.entity.StrategyDao strategyDao)
-    {
-        this.strategyDao = strategyDao;
-    }
-
-    /**
-     * Gets the reference to <code>strategy</code>'s DAO.
-     */
-    protected com.algoTrader.entity.StrategyDao getStrategyDao()
-    {
-        return this.strategyDao;
-    }
-
-    private com.algoTrader.entity.WatchListItemDao watchListItemDao;
-
-    /**
-     * Sets the reference to <code>watchListItem</code>'s DAO.
-     */
-    public void setWatchListItemDao(com.algoTrader.entity.WatchListItemDao watchListItemDao)
-    {
-        this.watchListItemDao = watchListItemDao;
-    }
-
-    /**
-     * Gets the reference to <code>watchListItem</code>'s DAO.
-     */
-    protected com.algoTrader.entity.WatchListItemDao getWatchListItemDao()
-    {
-        return this.watchListItemDao;
-    }
-
-    /**
-     * @see com.algoTrader.service.TickService#completeRawTick(com.algoTrader.vo.RawTickVO)
-     */
-    public com.algoTrader.entity.Tick completeRawTick(com.algoTrader.vo.RawTickVO tick)
-    {
-        if (tick == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick' can not be null");
-        }
-        if (tick.getIsin() == null || tick.getIsin().trim().length() == 0)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick.isin' can not be null or empty");
-        }
-        if (tick.getDateTime() == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick.dateTime' can not be null");
-        }
-        try
-        {
-            return this.handleCompleteRawTick(tick);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #completeRawTick(com.algoTrader.vo.RawTickVO)}
-      */
-    protected abstract com.algoTrader.entity.Tick handleCompleteRawTick(com.algoTrader.vo.RawTickVO tick)
-        throws java.lang.Exception;
-
-    /**
-     * @see com.algoTrader.service.TickService#propagateTick(com.algoTrader.entity.Tick)
-     */
-    public void propagateTick(com.algoTrader.entity.Tick tick)
-    {
-        if (tick == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.propagateTick(com.algoTrader.entity.Tick tick) - 'tick' can not be null");
-        }
-        try
-        {
-            this.handlePropagateTick(tick);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.propagateTick(com.algoTrader.entity.Tick tick)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #propagateTick(com.algoTrader.entity.Tick)}
-      */
-    protected abstract void handlePropagateTick(com.algoTrader.entity.Tick tick)
-        throws java.lang.Exception;
-
-    /**
-     * @see com.algoTrader.service.TickService#putOnWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
-     */
-    public void putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)
-    {
-        if (strategy == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'strategy' can not be null");
-        }
-        if (security == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'security' can not be null");
-        }
-        try
-        {
-            this.handlePutOnWatchlist(strategy, security);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #putOnWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)}
-      */
-    protected abstract void handlePutOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)
-        throws java.lang.Exception;
-
-    /**
-     * @see com.algoTrader.service.TickService#putOnWatchlist(java.lang.String, int)
-     */
-    public void putOnWatchlist(java.lang.String strategyName, int securityId)
-    {
-        if (strategyName == null || strategyName.trim().length() == 0)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.putOnWatchlist(java.lang.String strategyName, int securityId) - 'strategyName' can not be null or empty");
-        }
-        try
-        {
-            this.handlePutOnWatchlist(strategyName, securityId);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.putOnWatchlist(java.lang.String strategyName, int securityId)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #putOnWatchlist(java.lang.String, int)}
-      */
-    protected abstract void handlePutOnWatchlist(java.lang.String strategyName, int securityId)
-        throws java.lang.Exception;
-
-    /**
-     * @see com.algoTrader.service.TickService#removeFromWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
-     */
-    public void removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)
-    {
-        if (strategy == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'strategy' can not be null");
-        }
-        if (security == null)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'security' can not be null");
-        }
-        try
-        {
-            this.handleRemoveFromWatchlist(strategy, security);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #removeFromWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)}
-      */
-    protected abstract void handleRemoveFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)
-        throws java.lang.Exception;
-
-    /**
-     * @see com.algoTrader.service.TickService#removeFromWatchlist(java.lang.String, int)
-     */
-    public void removeFromWatchlist(java.lang.String strategyName, int securityId)
-    {
-        if (strategyName == null || strategyName.trim().length() == 0)
-        {
-            throw new IllegalArgumentException(
-                "com.algoTrader.service.TickService.removeFromWatchlist(java.lang.String strategyName, int securityId) - 'strategyName' can not be null or empty");
-        }
-        try
-        {
-            this.handleRemoveFromWatchlist(strategyName, securityId);
-        }
-        catch (Throwable th)
-        {
-            throw new com.algoTrader.service.TickServiceException(
-                "Error performing 'com.algoTrader.service.TickService.removeFromWatchlist(java.lang.String strategyName, int securityId)' --> " + th,
-                th);
-        }
-    }
-
-     /**
-      * Performs the core logic for {@link #removeFromWatchlist(java.lang.String, int)}
-      */
-    protected abstract void handleRemoveFromWatchlist(java.lang.String strategyName, int securityId)
-        throws java.lang.Exception;
-
-    /**
-     * Gets the current <code>principal</code> if one has been set,
-     * otherwise returns <code>null</code>.
-     *
-     * @return the current principal
-     */
-    protected java.security.Principal getPrincipal()
-    {
-        return com.algoTrader.PrincipalStore.get();
-    }
+        implements com.algoTrader.service.TickService {
+	
+	private com.algoTrader.service.RuleService	ruleService;
+	
+	/**
+	 * Sets the reference to <code>ruleService</code>.
+	 */
+	public void setRuleService(
+	        final com.algoTrader.service.RuleService ruleService) {
+		this.ruleService = ruleService;
+	}
+	
+	/**
+	 * Gets the reference to <code>ruleService</code>.
+	 */
+	protected com.algoTrader.service.RuleService getRuleService() {
+		return ruleService;
+	}
+	
+	private com.algoTrader.entity.SecurityDao	securityDao;
+	
+	/**
+	 * Sets the reference to <code>security</code>'s DAO.
+	 */
+	public void setSecurityDao(
+	        final com.algoTrader.entity.SecurityDao securityDao) {
+		this.securityDao = securityDao;
+	}
+	
+	/**
+	 * Gets the reference to <code>security</code>'s DAO.
+	 */
+	protected com.algoTrader.entity.SecurityDao getSecurityDao() {
+		return securityDao;
+	}
+	
+	private com.algoTrader.entity.TickDao	tickDao;
+	
+	/**
+	 * Sets the reference to <code>tick</code>'s DAO.
+	 */
+	public void setTickDao(final com.algoTrader.entity.TickDao tickDao) {
+		this.tickDao = tickDao;
+	}
+	
+	/**
+	 * Gets the reference to <code>tick</code>'s DAO.
+	 */
+	protected com.algoTrader.entity.TickDao getTickDao() {
+		return tickDao;
+	}
+	
+	private com.algoTrader.entity.StrategyDao	strategyDao;
+	
+	/**
+	 * Sets the reference to <code>strategy</code>'s DAO.
+	 */
+	public void setStrategyDao(
+	        final com.algoTrader.entity.StrategyDao strategyDao) {
+		this.strategyDao = strategyDao;
+	}
+	
+	/**
+	 * Gets the reference to <code>strategy</code>'s DAO.
+	 */
+	protected com.algoTrader.entity.StrategyDao getStrategyDao() {
+		return strategyDao;
+	}
+	
+	private com.algoTrader.entity.WatchListItemDao	watchListItemDao;
+	
+	/**
+	 * Sets the reference to <code>watchListItem</code>'s DAO.
+	 */
+	public void setWatchListItemDao(
+	        final com.algoTrader.entity.WatchListItemDao watchListItemDao) {
+		this.watchListItemDao = watchListItemDao;
+	}
+	
+	/**
+	 * Gets the reference to <code>watchListItem</code>'s DAO.
+	 */
+	protected com.algoTrader.entity.WatchListItemDao getWatchListItemDao() {
+		return watchListItemDao;
+	}
+	
+	/**
+	 * @see com.algoTrader.service.TickService#completeRawTick(com.algoTrader.vo.RawTickVO)
+	 */
+	@Override
+	public com.algoTrader.entity.Tick completeRawTick(
+	        final com.algoTrader.vo.RawTickVO tick) {
+		if (tick == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick' can not be null"); }
+		if (tick.getIsin() == null || tick.getIsin().trim().length() == 0) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick.isin' can not be null or empty"); }
+		if (tick.getDateTime() == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick) - 'tick.dateTime' can not be null"); }
+		try {
+			return handleCompleteRawTick(tick);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.completeRawTick(com.algoTrader.vo.RawTickVO tick)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #completeRawTick(com.algoTrader.vo.RawTickVO)}
+	 */
+	protected abstract com.algoTrader.entity.Tick handleCompleteRawTick(
+	        com.algoTrader.vo.RawTickVO tick)
+	        throws java.lang.Exception;
+	
+	/**
+	 * @see com.algoTrader.service.TickService#propagateTick(com.algoTrader.entity.Tick)
+	 */
+	@Override
+	public void propagateTick(final com.algoTrader.entity.Tick tick) {
+		if (tick == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.propagateTick(com.algoTrader.entity.Tick tick) - 'tick' can not be null"); }
+		try {
+			handlePropagateTick(tick);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.propagateTick(com.algoTrader.entity.Tick tick)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #propagateTick(com.algoTrader.entity.Tick)}
+	 */
+	protected abstract void
+	        handlePropagateTick(com.algoTrader.entity.Tick tick)
+	                throws java.lang.Exception;
+	
+	/**
+	 * @see com.algoTrader.service.TickService#putOnWatchlist(com.algoTrader.entity.Strategy,
+	 *      com.algoTrader.entity.Security)
+	 */
+	@Override
+	public void putOnWatchlist(final com.algoTrader.entity.Strategy strategy,
+	        final com.algoTrader.entity.Security security) {
+		if (strategy == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'strategy' can not be null"); }
+		if (security == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'security' can not be null"); }
+		try {
+			this.handlePutOnWatchlist(strategy, security);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #putOnWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)}
+	 */
+	protected abstract void handlePutOnWatchlist(
+	        com.algoTrader.entity.Strategy strategy,
+	        com.algoTrader.entity.Security security)
+	        throws java.lang.Exception;
+	
+	/**
+	 * @see com.algoTrader.service.TickService#putOnWatchlist(java.lang.String,
+	 *      int)
+	 */
+	@Override
+	public void putOnWatchlist(final java.lang.String strategyName,
+	        final int securityId) {
+		if (strategyName == null || strategyName.trim().length() == 0) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.putOnWatchlist(java.lang.String strategyName, int securityId) - 'strategyName' can not be null or empty"); }
+		try {
+			this.handlePutOnWatchlist(strategyName, securityId);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.putOnWatchlist(java.lang.String strategyName, int securityId)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #putOnWatchlist(java.lang.String, int)}
+	 */
+	protected abstract void handlePutOnWatchlist(java.lang.String strategyName,
+	        int securityId)
+	        throws java.lang.Exception;
+	
+	/**
+	 * @see com.algoTrader.service.TickService#removeFromWatchlist(com.algoTrader.entity.Strategy,
+	 *      com.algoTrader.entity.Security)
+	 */
+	@Override
+	public void removeFromWatchlist(
+	        final com.algoTrader.entity.Strategy strategy,
+	        final com.algoTrader.entity.Security security) {
+		if (strategy == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'strategy' can not be null"); }
+		if (security == null) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security) - 'security' can not be null"); }
+		try {
+			this.handleRemoveFromWatchlist(strategy, security);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #removeFromWatchlist(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)}
+	 */
+	protected abstract void handleRemoveFromWatchlist(
+	        com.algoTrader.entity.Strategy strategy,
+	        com.algoTrader.entity.Security security)
+	        throws java.lang.Exception;
+	
+	/**
+	 * @see com.algoTrader.service.TickService#removeFromWatchlist(java.lang.String,
+	 *      int)
+	 */
+	@Override
+	public void removeFromWatchlist(final java.lang.String strategyName,
+	        final int securityId) {
+		if (strategyName == null || strategyName.trim().length() == 0) { throw new IllegalArgumentException(
+		        "com.algoTrader.service.TickService.removeFromWatchlist(java.lang.String strategyName, int securityId) - 'strategyName' can not be null or empty"); }
+		try {
+			this.handleRemoveFromWatchlist(strategyName, securityId);
+		} catch (final Throwable th) {
+			throw new com.algoTrader.service.TickServiceException(
+			        "Error performing 'com.algoTrader.service.TickService.removeFromWatchlist(java.lang.String strategyName, int securityId)' --> " +
+			                th,
+			        th);
+		}
+	}
+	
+	/**
+	 * Performs the core logic for
+	 * {@link #removeFromWatchlist(java.lang.String, int)}
+	 */
+	protected abstract void handleRemoveFromWatchlist(
+	        java.lang.String strategyName, int securityId)
+	        throws java.lang.Exception;
+	
+	/**
+	 * Gets the current <code>principal</code> if one has been set,
+	 * otherwise returns <code>null</code>.
+	 * 
+	 * @return the current principal
+	 */
+	protected java.security.Principal getPrincipal() {
+		return com.algoTrader.PrincipalStore.get();
+	}
 }

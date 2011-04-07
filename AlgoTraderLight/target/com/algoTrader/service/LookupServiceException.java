@@ -12,95 +12,87 @@ import org.apache.commons.beanutils.PropertyUtils;
  * within {@link com.algoTrader.service.LookupService}.
  */
 public class LookupServiceException
-    extends java.lang.RuntimeException
-{
-    /** 
-     * The serial version UID of this class. Needed for serialization. 
-     */
-    private static final long serialVersionUID = 3516168265667581147L;
-
-    /**
-     * The default constructor for <code>LookupServiceException</code>.
-     */
-    public LookupServiceException()
-    {}
-
-    /**
-     * Constructs a new instance of <code>LookupServiceException</code>.
-     *
-     * @param throwable the parent Throwable
-     */
-    public LookupServiceException(Throwable throwable)
-    {
-        super(findRootCause(throwable));
-    }
-
-    /**
-     * Constructs a new instance of <code>LookupServiceException</code>.
-     *
-     * @param message the throwable message.
-     */
-    public LookupServiceException(String message)
-    {
-        super(message);
-    }
-
-    /**
-     * Constructs a new instance of <code>LookupServiceException</code>.
-     *
-     * @param message the throwable message.
-     * @param throwable the parent of this Throwable.
-     */
-    public LookupServiceException(String message, Throwable throwable)
-    {
-        super(message, findRootCause(throwable));
-    }
-
-    /**
-     * Finds the root cause of the parent exception
-     * by traveling up the exception tree
-     */
-    private static Throwable findRootCause(Throwable th)
-    {
-        if (th != null)
-        {
-            // Reflectively get any exception causes.
-            try
-            {
-                Throwable targetException = null;
-
-                // java.lang.reflect.InvocationTargetException
-                String exceptionProperty = "targetException";
-                if (PropertyUtils.isReadable(th, exceptionProperty))
-                {
-                    targetException = (Throwable)PropertyUtils.getProperty(th, exceptionProperty);
-                }
-                else
-                {
-                    exceptionProperty = "causedByException";
-                    //javax.ejb.EJBException
-                    if (PropertyUtils.isReadable(th, exceptionProperty))
-                    {
-                        targetException = (Throwable)PropertyUtils.getProperty(th, exceptionProperty);
-                    }
-                }
-                if (targetException != null)
-                {
-                    th = targetException;
-                }
-            }
-            catch (Exception ex)
-            {
-                // just print the exception and continue
-                ex.printStackTrace();
-            }
-
-            if (th.getCause() != null)
-            {
-                th = th.getCause();
-                th = findRootCause(th);
-            }
-        }
-        return th;
-    }
+        extends java.lang.RuntimeException {
+	/**
+	 * The serial version UID of this class. Needed for serialization.
+	 */
+	private static final long	serialVersionUID	= 3516168265667581147L;
+	
+	/**
+	 * The default constructor for <code>LookupServiceException</code>.
+	 */
+	public LookupServiceException() {
+	}
+	
+	/**
+	 * Constructs a new instance of <code>LookupServiceException</code>.
+	 * 
+	 * @param throwable
+	 *            the parent Throwable
+	 */
+	public LookupServiceException(final Throwable throwable) {
+		super(LookupServiceException.findRootCause(throwable));
+	}
+	
+	/**
+	 * Constructs a new instance of <code>LookupServiceException</code>.
+	 * 
+	 * @param message
+	 *            the throwable message.
+	 */
+	public LookupServiceException(final String message) {
+		super(message);
+	}
+	
+	/**
+	 * Constructs a new instance of <code>LookupServiceException</code>.
+	 * 
+	 * @param message
+	 *            the throwable message.
+	 * @param throwable
+	 *            the parent of this Throwable.
+	 */
+	public LookupServiceException(final String message,
+	        final Throwable throwable) {
+		super(message, LookupServiceException.findRootCause(throwable));
+	}
+	
+	/**
+	 * Finds the root cause of the parent exception
+	 * by traveling up the exception tree
+	 */
+	private static Throwable findRootCause(Throwable th) {
+		if (th != null) {
+			// Reflectively get any exception causes.
+			try {
+				Throwable targetException = null;
+				
+				// java.lang.reflect.InvocationTargetException
+				String exceptionProperty = "targetException";
+				if (PropertyUtils.isReadable(th, exceptionProperty)) {
+					targetException = (Throwable) PropertyUtils.getProperty(th,
+					        exceptionProperty);
+				} else {
+					exceptionProperty = "causedByException";
+					// javax.ejb.EJBException
+					if (PropertyUtils.isReadable(th, exceptionProperty)) {
+						targetException = (Throwable) PropertyUtils
+						        .getProperty(th, exceptionProperty);
+					}
+				}
+				if (targetException != null) {
+					th = targetException;
+				}
+			} catch (final Exception ex) {
+				// just print the exception and continue
+				ex.printStackTrace();
+			}
+			
+			if (th.getCause() != null) {
+				th = th.getCause();
+				th = LookupServiceException.findRootCause(th);
+			}
+		}
+		return th;
+	}
 }

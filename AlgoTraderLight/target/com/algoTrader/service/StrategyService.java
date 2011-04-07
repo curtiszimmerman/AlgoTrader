@@ -8,12 +8,11 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface StrategyService
-{
-
-    /**
+public interface StrategyService {
+	
+	/**
      * 
      */
-    public void sendEvent(java.lang.String strategyName, java.lang.Object obj);
-
+	public void sendEvent(java.lang.String strategyName, java.lang.Object obj);
+	
 }

@@ -14,80 +14,97 @@ import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.RawTickVO;
 
 public class TickServiceImpl extends TickServiceBase {
-
-	private static Logger logger = MyLogger.getLogger(TickServiceImpl.class.getName());
-
-	protected Tick handleCompleteRawTick(RawTickVO rawTick) {
-
+	
+	private static Logger	logger	= MyLogger.getLogger(TickServiceImpl.class
+	                                       .getName());
+	
+	@Override
+	protected Tick handleCompleteRawTick(final RawTickVO rawTick) {
+		
 		return getTickDao().rawTickVOToEntity(rawTick);
 	}
-
+	
+	@Override
 	@SuppressWarnings("unchecked")
-	protected void handlePropagateTick(Tick tick) {
-	
-		logger.debug(tick.getSecurity().getSymbol() + " " + tick);
-
+	protected void handlePropagateTick(final Tick tick) {
+		
+		TickServiceImpl.logger.debug(tick.getSecurity().getSymbol() + " " +
+		        tick);
+		
 		getRuleService().sendEvent(StrategyImpl.BASE, tick);
-	
-		Collection<WatchListItem> watchListItems = tick.getSecurity().getWatchListItems();
-		for (WatchListItem watchListItem : watchListItems) {
-			getRuleService().sendEvent(watchListItem.getStrategy().getName(), tick);
+		
+		final Collection<WatchListItem> watchListItems = tick.getSecurity()
+		        .getWatchListItems();
+		for (final WatchListItem watchListItem : watchListItems) {
+			getRuleService().sendEvent(watchListItem.getStrategy().getName(),
+			        tick);
 		}
 	}
-
-	protected void handlePutOnWatchlist(String strategyName, int securityId) throws Exception {
 	
-		Strategy strategy = getStrategyDao().findByName(strategyName);
-		Security security = getSecurityDao().load(securityId);
+	@Override
+	protected void handlePutOnWatchlist(final String strategyName,
+	        final int securityId) throws Exception {
+		
+		final Strategy strategy = getStrategyDao().findByName(strategyName);
+		final Security security = getSecurityDao().load(securityId);
 		putOnWatchlist(strategy, security);
 	}
-
-	@SuppressWarnings("unchecked")
-	protected void handlePutOnWatchlist(Strategy strategy, Security security) throws Exception {
 	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected void handlePutOnWatchlist(final Strategy strategy,
+	        final Security security) throws Exception {
+		
 		if (getWatchListItemDao().findByStrategyAndSecurity(strategy, security) == null) {
-
+			
 			// update links
-			WatchListItem watchListItem = new WatchListItemImpl();
+			final WatchListItem watchListItem = new WatchListItemImpl();
 			watchListItem.setSecurity(security);
 			watchListItem.setStrategy(strategy);
 			watchListItem.setPersistent(false);
 			getWatchListItemDao().create(watchListItem);
-
-			 security.getWatchListItems().add(watchListItem);
+			
+			security.getWatchListItems().add(watchListItem);
 			getSecurityDao().update(security);
-
+			
 			strategy.getWatchListItems().add(watchListItem);
 			getStrategyDao().update(strategy);
-	
-			logger.info("put security on watchlist " + security.getSymbol());
+			
+			TickServiceImpl.logger.info("put security on watchlist " +
+			        security.getSymbol());
 		}
 	}
-
-	protected void handleRemoveFromWatchlist(String strategyName, int securityId) throws Exception {
 	
-		Strategy strategy = getStrategyDao().findByName(strategyName);
-		Security security = getSecurityDao().load(securityId);
-
+	@Override
+	protected void handleRemoveFromWatchlist(final String strategyName,
+	        final int securityId) throws Exception {
+		
+		final Strategy strategy = getStrategyDao().findByName(strategyName);
+		final Security security = getSecurityDao().load(securityId);
+		
 		removeFromWatchlist(strategy, security);
 	}
-
-	protected void handleRemoveFromWatchlist(Strategy strategy, Security security) throws Exception {
 	
-		WatchListItem watchListItem = getWatchListItemDao().findByStrategyAndSecurity(strategy, security);
-
+	@Override
+	protected void handleRemoveFromWatchlist(final Strategy strategy,
+	        final Security security) throws Exception {
+		
+		final WatchListItem watchListItem = getWatchListItemDao()
+		        .findByStrategyAndSecurity(strategy, security);
+		
 		if (watchListItem != null && !watchListItem.isPersistent()) {
-
+			
 			// update links
 			security.getWatchListItems().remove(watchListItem);
 			getSecurityDao().update(security);
-
+			
 			strategy.getWatchListItems().remove(watchListItem);
 			getStrategyDao().update(strategy);
-
+			
 			getWatchListItemDao().remove(watchListItem);
-	
-			logger.info("removed security from watchlist " + security.getSymbol());
+			
+			TickServiceImpl.logger.info("removed security from watchlist " +
+			        security.getSymbol());
 		}
 	}
 }

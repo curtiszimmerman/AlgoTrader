@@ -9,39 +9,35 @@ package com.algoTrader.enumeration;
  * 
  */
 public enum Market
-    implements java.io.Serializable
-{
-    SOFFEX, //
-    DTB, //
-    IDEALPRO; //
-
-
-    /**
-     * The default constructor allowing
-     * super classes to access it.
-     */
-    private Market()
-    {
-    }
-
-
+        implements java.io.Serializable {
+	SOFFEX, //
+	DTB, //
+	IDEALPRO; //
+	
 	/**
-     * Retrieves an instance of Market from <code>its name</code>.
-     *
-     * @param name the name to create the Market from.
-     * @return The enumeration literal named after the 'name' argument
-     */
-    public static Market fromString(String name)
-    {
+	 * The default constructor allowing
+	 * super classes to access it.
+	 */
+	private Market() {
+	}
+	
+	/**
+	 * Retrieves an instance of Market from <code>its name</code>.
+	 * 
+	 * @param name
+	 *            the name to create the Market from.
+	 * @return The enumeration literal named after the 'name' argument
+	 */
+	public static Market fromString(final String name) {
 		return Market.valueOf(name);
 	}
 	
 	/**
 	 * This method is necessary to comply with DaoBase implementation.
+	 * 
 	 * @return The name of this literal.
 	 */
-	public Object getValue()
-	{
-		return this.name();
+	public Object getValue() {
+		return name();
 	}
 }

@@ -10,580 +10,632 @@ package com.algoTrader.entity;
  * Base Spring DAO Class: is able to create, update, remove, load, and find
  * objects of type <code>com.algoTrader.entity.Security</code>.
  * </p>
- *
+ * 
  * @see com.algoTrader.entity.Security
  */
 public abstract class SecurityDaoBase
-    extends org.springframework.orm.hibernate3.support.HibernateDaoSupport
-    implements com.algoTrader.entity.SecurityDao
-{
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#load(int, int)
-     */
-    public java.lang.Object load(final int transform, final int id)
-    {
-        final java.lang.Object entity = this.getHibernateTemplate().get(com.algoTrader.entity.SecurityImpl.class, new java.lang.Integer(id));
-        return transformEntity(transform, (com.algoTrader.entity.Security)entity);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#load(int)
-     */
-    public com.algoTrader.entity.Security load(int id)
-    {
-        return (com.algoTrader.entity.Security)this.load(TRANSFORM_NONE, id);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#loadAll()
-     */
-    public java.util.Collection loadAll()
-    {
-        return this.loadAll(TRANSFORM_NONE);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#loadAll(int)
-     */
-    public java.util.Collection loadAll(final int transform)
-    {
-        final java.util.Collection results = this.getHibernateTemplate().loadAll(com.algoTrader.entity.SecurityImpl.class);
-        this.transformEntities(transform, results);
-        return results;
-    }
-
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(com.algoTrader.entity.Security)
-     */
-    public com.algoTrader.entity.Security create(com.algoTrader.entity.Security security)
-    {
-        return (com.algoTrader.entity.Security)this.create(TRANSFORM_NONE, security);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(int transform, com.algoTrader.entity.Security)
-     */
-    public java.lang.Object create(final int transform, final com.algoTrader.entity.Security security)
-    {
-        if (security == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.create - 'security' can not be null");
-        }
-        this.getHibernateTemplate().save(security);
-        return this.transformEntity(transform, security);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(java.util.Collection)
-     */
-    public java.util.Collection create(final java.util.Collection entities)
-    {
-        return create(TRANSFORM_NONE, entities);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(int, java.util.Collection)
-     */
-    public java.util.Collection create(final int transform, final java.util.Collection entities)
-    {
-        if (entities == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.create - 'entities' can not be null");
-        }
-        this.getHibernateTemplate().execute(
-            new org.springframework.orm.hibernate3.HibernateCallback()
-            {
-                public java.lang.Object doInHibernate(org.hibernate.Session session)
-                    throws org.hibernate.HibernateException
-                {
-                    for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
-                    {
-                        create(transform, (com.algoTrader.entity.Security)entityIterator.next());
-                    }
-                    return null;
-                }
-            });
-        return entities;
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(java.lang.String, java.lang.String)
-     */
-    public com.algoTrader.entity.Security create(
-        java.lang.String isin,
-        java.lang.String symbol)
-    {
-        return (com.algoTrader.entity.Security)this.create(TRANSFORM_NONE, isin, symbol);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(int, java.lang.String, java.lang.String)
-     */
-    public java.lang.Object create(
-        final int transform,
-        java.lang.String isin,
-        java.lang.String symbol)
-    {
-        com.algoTrader.entity.Security entity = new com.algoTrader.entity.SecurityImpl();
-        entity.setIsin(isin);
-        entity.setSymbol(symbol);
-        return this.create(transform, entity);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(java.lang.String, com.algoTrader.entity.SecurityFamily)
-     */
-    public com.algoTrader.entity.Security create(
-        java.lang.String isin,
-        com.algoTrader.entity.SecurityFamily securityFamily)
-    {
-        return (com.algoTrader.entity.Security)this.create(TRANSFORM_NONE, isin, securityFamily);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#create(int, java.lang.String, com.algoTrader.entity.SecurityFamily)
-     */
-    public java.lang.Object create(
-        final int transform,
-        java.lang.String isin,
-        com.algoTrader.entity.SecurityFamily securityFamily)
-    {
-        com.algoTrader.entity.Security entity = new com.algoTrader.entity.SecurityImpl();
-        entity.setIsin(isin);
-        entity.setSecurityFamily(securityFamily);
-        return this.create(transform, entity);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#update(com.algoTrader.entity.Security)
-     */
-    public void update(com.algoTrader.entity.Security security)
-    {
-        if (security == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.update - 'security' can not be null");
-        }
-        this.getHibernateTemplate().update(security);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#update(java.util.Collection)
-     */
-    public void update(final java.util.Collection entities)
-    {
-        if (entities == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.update - 'entities' can not be null");
-        }
-        this.getHibernateTemplate().execute(
-            new org.springframework.orm.hibernate3.HibernateCallback()
-            {
-                public java.lang.Object doInHibernate(org.hibernate.Session session)
-                    throws org.hibernate.HibernateException
-                {
-                    for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
-                    {
-                        update((com.algoTrader.entity.Security)entityIterator.next());
-                    }
-                    return null;
-                }
-            });
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#remove(com.algoTrader.entity.Security)
-     */
-    public void remove(com.algoTrader.entity.Security security)
-    {
-        if (security == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.remove - 'security' can not be null");
-        }
-        this.getHibernateTemplate().delete(security);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#remove(int)
-     */
-    public void remove(int id)
-    {
-        com.algoTrader.entity.Security entity = this.load(id);
-        if (entity != null)
-        {
-            this.remove(entity);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#remove(java.util.Collection)
-     */
-    public void remove(java.util.Collection entities)
-    {
-        if (entities == null)
-        {
-            throw new IllegalArgumentException(
-                "Security.remove - 'entities' can not be null");
-        }
-        this.getHibernateTemplate().deleteAll(entities);
-    }
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int)
-     */
-    public com.algoTrader.entity.Security findByIdFetched(int id)
-    {
-        return (com.algoTrader.entity.Security)this.findByIdFetched(TRANSFORM_NONE, id);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIdFetched(java.lang.String, int)
-     */
-    public com.algoTrader.entity.Security findByIdFetched(final java.lang.String queryString, final int id)
-    {
-        return (com.algoTrader.entity.Security)this.findByIdFetched(TRANSFORM_NONE, queryString, id);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int, int)
-     */
-    public java.lang.Object findByIdFetched(final int transform, final int id)
-    {
-        return this.findByIdFetched(transform, "from SecurityImpl as s left join fetch s.positions as p left join fetch s.underlaying as ul left join fetch ul.volatility as v join fetch s.securityFamily as f where s.id = :id ", id);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int, java.lang.String, int)
-     */
-    public java.lang.Object findByIdFetched(final int transform, final java.lang.String queryString, final int id)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            queryObject.setParameter("id", new java.lang.Integer(id));
-            java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
-            java.lang.Object result = null;
-            if (results != null)
-            {
-                if (results.size() > 1)
-                {
-                    throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
-                        "More than one instance of 'com.algoTrader.entity.Security"
-                            + "' was found when executing query --> '" + queryString + "'");
-                }
-                else if (results.size() == 1)
-                {
-                    result = results.iterator().next();
-                }
-            }
-            result = transformEntity(transform, (com.algoTrader.entity.Security)result);
-            return result;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsin(java.lang.String)
-     */
-    public com.algoTrader.entity.Security findByIsin(java.lang.String isin)
-    {
-        return (com.algoTrader.entity.Security)this.findByIsin(TRANSFORM_NONE, isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsin(java.lang.String, java.lang.String)
-     */
-    public com.algoTrader.entity.Security findByIsin(final java.lang.String queryString, final java.lang.String isin)
-    {
-        return (com.algoTrader.entity.Security)this.findByIsin(TRANSFORM_NONE, queryString, isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsin(int, java.lang.String)
-     */
-    public java.lang.Object findByIsin(final int transform, final java.lang.String isin)
-    {
-        return this.findByIsin(transform, "from SecurityImpl as s where s.isin = :isin", isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsin(int, java.lang.String, java.lang.String)
-     */
-    public java.lang.Object findByIsin(final int transform, final java.lang.String queryString, final java.lang.String isin)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            queryObject.setParameter("isin", isin);
-            java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
-            java.lang.Object result = null;
-            if (results != null)
-            {
-                if (results.size() > 1)
-                {
-                    throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
-                        "More than one instance of 'com.algoTrader.entity.Security"
-                            + "' was found when executing query --> '" + queryString + "'");
-                }
-                else if (results.size() == 1)
-                {
-                    result = results.iterator().next();
-                }
-            }
-            result = transformEntity(transform, (com.algoTrader.entity.Security)result);
-            return result;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(java.lang.String)
-     */
-    public com.algoTrader.entity.Security findByIsinFetched(java.lang.String isin)
-    {
-        return (com.algoTrader.entity.Security)this.findByIsinFetched(TRANSFORM_NONE, isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(java.lang.String, java.lang.String)
-     */
-    public com.algoTrader.entity.Security findByIsinFetched(final java.lang.String queryString, final java.lang.String isin)
-    {
-        return (com.algoTrader.entity.Security)this.findByIsinFetched(TRANSFORM_NONE, queryString, isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(int, java.lang.String)
-     */
-    public java.lang.Object findByIsinFetched(final int transform, final java.lang.String isin)
-    {
-        return this.findByIsinFetched(transform, "from SecurityImpl as s left join fetch s.underlaying as ul join fetch s.securityFamily as f where s.isin = :isin", isin);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(int, java.lang.String, java.lang.String)
-     */
-    public java.lang.Object findByIsinFetched(final int transform, final java.lang.String queryString, final java.lang.String isin)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            queryObject.setParameter("isin", isin);
-            java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
-            java.lang.Object result = null;
-            if (results != null)
-            {
-                if (results.size() > 1)
-                {
-                    throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
-                        "More than one instance of 'com.algoTrader.entity.Security"
-                            + "' was found when executing query --> '" + queryString + "'");
-                }
-                else if (results.size() == 1)
-                {
-                    result = results.iterator().next();
-                }
-            }
-            result = transformEntity(transform, (com.algoTrader.entity.Security)result);
-            return result;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio()
-     */
-    public java.util.List findSecuritiesInPortfolio()
-    {
-        return this.findSecuritiesInPortfolio(TRANSFORM_NONE);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(java.lang.String)
-     */
-    public java.util.List findSecuritiesInPortfolio(final java.lang.String queryString)
-    {
-        return this.findSecuritiesInPortfolio(TRANSFORM_NONE, queryString);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(int)
-     */
-    public java.util.List findSecuritiesInPortfolio(final int transform)
-    {
-        return this.findSecuritiesInPortfolio(transform, "select s from SecurityImpl as s join fetch s.positions as p where p.quantity != 0 order by s.id");
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(int, java.lang.String)
-     */
-    public java.util.List findSecuritiesInPortfolio(final int transform, final java.lang.String queryString)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            java.util.List results = queryObject.list();
-            transformEntities(transform, results);
-            return results;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist()
-     */
-    public java.util.List findSecuritiesOnWatchlist()
-    {
-        return this.findSecuritiesOnWatchlist(TRANSFORM_NONE);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(java.lang.String)
-     */
-    public java.util.List findSecuritiesOnWatchlist(final java.lang.String queryString)
-    {
-        return this.findSecuritiesOnWatchlist(TRANSFORM_NONE, queryString);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(int)
-     */
-    public java.util.List findSecuritiesOnWatchlist(final int transform)
-    {
-        return this.findSecuritiesOnWatchlist(transform, "select s from SecurityImpl as s left join fetch s.securityFamily as f join s.watchListItems as w where w != null order by s.id");
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(int, java.lang.String)
-     */
-    public java.util.List findSecuritiesOnWatchlist(final int transform, final java.lang.String queryString)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            java.util.List results = queryObject.list();
-            transformEntities(transform, results);
-            return results;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist()
-     */
-    public java.util.List findSecuritiesOnActiveWatchlist()
-    {
-        return this.findSecuritiesOnActiveWatchlist(TRANSFORM_NONE);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(java.lang.String)
-     */
-    public java.util.List findSecuritiesOnActiveWatchlist(final java.lang.String queryString)
-    {
-        return this.findSecuritiesOnActiveWatchlist(TRANSFORM_NONE, queryString);
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(int)
-     */
-    public java.util.List findSecuritiesOnActiveWatchlist(final int transform)
-    {
-        return this.findSecuritiesOnActiveWatchlist(transform, "select s from SecurityImpl as s left join fetch s.securityFamily as f join s.watchListItems as w where w.strategy.autoActivate = true order by s.id");
-    }
-
-    /**
-     * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(int, java.lang.String)
-     */
-    public java.util.List findSecuritiesOnActiveWatchlist(final int transform, final java.lang.String queryString)
-    {
-        try
-        {
-            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
-            queryObject.setCacheable(true);
-            java.util.List results = queryObject.list();
-            transformEntities(transform, results);
-            return results;
-        }
-        catch (org.hibernate.HibernateException ex)
-        {
-            throw super.convertHibernateAccessException(ex);
-        }
-    }
-
-    /**
-     * Allows transformation of entities into value objects
-     * (or something else for that matter), when the <code>transform</code>
-     * flag is set to one of the constants defined in <code>com.algoTrader.entity.SecurityDao</code>, please note
-     * that the {@link #TRANSFORM_NONE} constant denotes no transformation, so the entity itself
-     * will be returned.
-     *
-     * If the integer argument value is unknown {@link #TRANSFORM_NONE} is assumed.
-     *
-     * @param transform one of the constants declared in {@link com.algoTrader.entity.SecurityDao}
-     * @param entity an entity that was found
-     * @return the transformed entity (i.e. new value object, etc)
-     * @see #transformEntities(int,java.util.Collection)
-     */
-    protected java.lang.Object transformEntity(final int transform, final com.algoTrader.entity.Security entity)
-    {
-        java.lang.Object target = null;
-        if (entity != null)
-        {
-            switch (transform)
-            {
-                case TRANSFORM_NONE : // fall-through
-                default:
-                    target = entity;
-            }
-        }
-        return target;
-    }
-
-    /**
-     * Transforms a collection of entities using the
-     * {@link #transformEntity(int,com.algoTrader.entity.Security)}
-     * method. This method does not instantiate a new collection.
-     * <p/>
-     * This method is to be used internally only.
-     *
-     * @param transform one of the constants declared in <code>com.algoTrader.entity.SecurityDao</code>
-     * @param entities the collection of entities to transform
-     * @see #transformEntity(int,com.algoTrader.entity.Security)
-     */
-    protected void transformEntities(final int transform, final java.util.Collection entities)
-    {
-        switch (transform)
-        {
-            case TRANSFORM_NONE : // fall-through
-                default:
-                // do nothing;
-        }
-    }
-
+        extends org.springframework.orm.hibernate3.support.HibernateDaoSupport
+        implements com.algoTrader.entity.SecurityDao {
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#load(int, int)
+	 */
+	@Override
+	public java.lang.Object load(final int transform, final int id) {
+		final java.lang.Object entity = getHibernateTemplate().get(
+		        com.algoTrader.entity.SecurityImpl.class,
+		        new java.lang.Integer(id));
+		return transformEntity(transform,
+		        (com.algoTrader.entity.Security) entity);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#load(int)
+	 */
+	@Override
+	public com.algoTrader.entity.Security load(final int id) {
+		return (com.algoTrader.entity.Security) this.load(
+		        SecurityDao.TRANSFORM_NONE, id);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#loadAll()
+	 */
+	@Override
+	public java.util.Collection loadAll() {
+		return this.loadAll(SecurityDao.TRANSFORM_NONE);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#loadAll(int)
+	 */
+	@Override
+	public java.util.Collection loadAll(final int transform) {
+		final java.util.Collection results = getHibernateTemplate().loadAll(
+		        com.algoTrader.entity.SecurityImpl.class);
+		transformEntities(transform, results);
+		return results;
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(com.algoTrader.entity.Security)
+	 */
+	@Override
+	public com.algoTrader.entity.Security create(
+	        final com.algoTrader.entity.Security security) {
+		return (com.algoTrader.entity.Security) this.create(
+		        SecurityDao.TRANSFORM_NONE, security);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(int transform,
+	 *      com.algoTrader.entity.Security)
+	 */
+	@Override
+	public java.lang.Object create(final int transform,
+	        final com.algoTrader.entity.Security security) {
+		if (security == null) { throw new IllegalArgumentException(
+		        "Security.create - 'security' can not be null"); }
+		getHibernateTemplate().save(security);
+		return transformEntity(transform, security);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(java.util.Collection)
+	 */
+	@Override
+	public java.util.Collection create(final java.util.Collection entities) {
+		return create(SecurityDao.TRANSFORM_NONE, entities);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(int, java.util.Collection)
+	 */
+	@Override
+	public java.util.Collection create(final int transform,
+	        final java.util.Collection entities) {
+		if (entities == null) { throw new IllegalArgumentException(
+		        "Security.create - 'entities' can not be null"); }
+		getHibernateTemplate().execute(
+		        new org.springframework.orm.hibernate3.HibernateCallback()
+		    {
+			    @Override
+			    public java.lang.Object doInHibernate(
+			            final org.hibernate.Session session)
+			            throws org.hibernate.HibernateException
+			    {
+				    for (final java.util.Iterator entityIterator = entities
+				            .iterator(); entityIterator.hasNext();)
+				    {
+					    create(transform,
+					            (com.algoTrader.entity.Security) entityIterator
+					                    .next());
+				    }
+				    return null;
+			    }
+		    });
+		return entities;
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
+	public com.algoTrader.entity.Security create(
+	        final java.lang.String isin,
+	        final java.lang.String symbol) {
+		return (com.algoTrader.entity.Security) this.create(
+		        SecurityDao.TRANSFORM_NONE, isin, symbol);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(int, java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.lang.Object create(
+	        final int transform,
+	        final java.lang.String isin,
+	        final java.lang.String symbol) {
+		final com.algoTrader.entity.Security entity = new com.algoTrader.entity.SecurityImpl();
+		entity.setIsin(isin);
+		entity.setSymbol(symbol);
+		return this.create(transform, entity);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(java.lang.String,
+	 *      com.algoTrader.entity.SecurityFamily)
+	 */
+	@Override
+	public com.algoTrader.entity.Security create(
+	        final java.lang.String isin,
+	        final com.algoTrader.entity.SecurityFamily securityFamily) {
+		return (com.algoTrader.entity.Security) this.create(
+		        SecurityDao.TRANSFORM_NONE, isin, securityFamily);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#create(int, java.lang.String,
+	 *      com.algoTrader.entity.SecurityFamily)
+	 */
+	@Override
+	public java.lang.Object create(
+	        final int transform,
+	        final java.lang.String isin,
+	        final com.algoTrader.entity.SecurityFamily securityFamily) {
+		final com.algoTrader.entity.Security entity = new com.algoTrader.entity.SecurityImpl();
+		entity.setIsin(isin);
+		entity.setSecurityFamily(securityFamily);
+		return this.create(transform, entity);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#update(com.algoTrader.entity.Security)
+	 */
+	@Override
+	public void update(final com.algoTrader.entity.Security security) {
+		if (security == null) { throw new IllegalArgumentException(
+		        "Security.update - 'security' can not be null"); }
+		getHibernateTemplate().update(security);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#update(java.util.Collection)
+	 */
+	@Override
+	public void update(final java.util.Collection entities) {
+		if (entities == null) { throw new IllegalArgumentException(
+		        "Security.update - 'entities' can not be null"); }
+		getHibernateTemplate().execute(
+		        new org.springframework.orm.hibernate3.HibernateCallback()
+		    {
+			    @Override
+			    public java.lang.Object doInHibernate(
+			            final org.hibernate.Session session)
+			            throws org.hibernate.HibernateException
+			    {
+				    for (final java.util.Iterator entityIterator = entities
+				            .iterator(); entityIterator.hasNext();)
+				    {
+					    update((com.algoTrader.entity.Security) entityIterator
+					            .next());
+				    }
+				    return null;
+			    }
+		    });
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#remove(com.algoTrader.entity.Security)
+	 */
+	@Override
+	public void remove(final com.algoTrader.entity.Security security) {
+		if (security == null) { throw new IllegalArgumentException(
+		        "Security.remove - 'security' can not be null"); }
+		getHibernateTemplate().delete(security);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#remove(int)
+	 */
+	@Override
+	public void remove(final int id) {
+		final com.algoTrader.entity.Security entity = this.load(id);
+		if (entity != null) {
+			this.remove(entity);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#remove(java.util.Collection)
+	 */
+	@Override
+	public void remove(final java.util.Collection entities) {
+		if (entities == null) { throw new IllegalArgumentException(
+		        "Security.remove - 'entities' can not be null"); }
+		getHibernateTemplate().deleteAll(entities);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int)
+	 */
+	@Override
+	public com.algoTrader.entity.Security findByIdFetched(final int id) {
+		return (com.algoTrader.entity.Security) this.findByIdFetched(
+		        SecurityDao.TRANSFORM_NONE, id);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIdFetched(java.lang.String,
+	 *      int)
+	 */
+	@Override
+	public com.algoTrader.entity.Security findByIdFetched(
+	        final java.lang.String queryString, final int id) {
+		return (com.algoTrader.entity.Security) this.findByIdFetched(
+		        SecurityDao.TRANSFORM_NONE, queryString, id);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int, int)
+	 */
+	@Override
+	public java.lang.Object findByIdFetched(final int transform, final int id) {
+		return this
+		        .findByIdFetched(
+		                transform,
+		                "from SecurityImpl as s left join fetch s.positions as p left join fetch s.underlaying as ul left join fetch ul.volatility as v join fetch s.securityFamily as f where s.id = :id ",
+		                id);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIdFetched(int,
+	 *      java.lang.String, int)
+	 */
+	@Override
+	public java.lang.Object findByIdFetched(final int transform,
+	        final java.lang.String queryString, final int id) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			queryObject.setParameter("id", new java.lang.Integer(id));
+			final java.util.Set results = new java.util.LinkedHashSet(
+			        queryObject.list());
+			java.lang.Object result = null;
+			if (results != null) {
+				if (results.size() > 1) {
+					throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
+					        "More than one instance of 'com.algoTrader.entity.Security"
+					                +
+					                "' was found when executing query --> '" +
+					                queryString + "'");
+				} else if (results.size() == 1) {
+					result = results.iterator().next();
+				}
+			}
+			result = transformEntity(transform,
+			        (com.algoTrader.entity.Security) result);
+			return result;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsin(java.lang.String)
+	 */
+	@Override
+	public com.algoTrader.entity.Security
+	        findByIsin(final java.lang.String isin) {
+		return (com.algoTrader.entity.Security) this.findByIsin(
+		        SecurityDao.TRANSFORM_NONE, isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsin(java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
+	public com.algoTrader.entity.Security findByIsin(
+	        final java.lang.String queryString, final java.lang.String isin) {
+		return (com.algoTrader.entity.Security) this.findByIsin(
+		        SecurityDao.TRANSFORM_NONE, queryString, isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsin(int, java.lang.String)
+	 */
+	@Override
+	public java.lang.Object findByIsin(final int transform,
+	        final java.lang.String isin) {
+		return this.findByIsin(transform,
+		        "from SecurityImpl as s where s.isin = :isin", isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsin(int, java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.lang.Object findByIsin(final int transform,
+	        final java.lang.String queryString, final java.lang.String isin) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			queryObject.setParameter("isin", isin);
+			final java.util.Set results = new java.util.LinkedHashSet(
+			        queryObject.list());
+			java.lang.Object result = null;
+			if (results != null) {
+				if (results.size() > 1) {
+					throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
+					        "More than one instance of 'com.algoTrader.entity.Security"
+					                +
+					                "' was found when executing query --> '" +
+					                queryString + "'");
+				} else if (results.size() == 1) {
+					result = results.iterator().next();
+				}
+			}
+			result = transformEntity(transform,
+			        (com.algoTrader.entity.Security) result);
+			return result;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(java.lang.String)
+	 */
+	@Override
+	public com.algoTrader.entity.Security findByIsinFetched(
+	        final java.lang.String isin) {
+		return (com.algoTrader.entity.Security) this.findByIsinFetched(
+		        SecurityDao.TRANSFORM_NONE, isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
+	public com.algoTrader.entity.Security findByIsinFetched(
+	        final java.lang.String queryString, final java.lang.String isin) {
+		return (com.algoTrader.entity.Security) this.findByIsinFetched(
+		        SecurityDao.TRANSFORM_NONE, queryString, isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(int,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.lang.Object findByIsinFetched(final int transform,
+	        final java.lang.String isin) {
+		return this
+		        .findByIsinFetched(
+		                transform,
+		                "from SecurityImpl as s left join fetch s.underlaying as ul join fetch s.securityFamily as f where s.isin = :isin",
+		                isin);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findByIsinFetched(int,
+	 *      java.lang.String, java.lang.String)
+	 */
+	@Override
+	public java.lang.Object findByIsinFetched(final int transform,
+	        final java.lang.String queryString, final java.lang.String isin) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			queryObject.setParameter("isin", isin);
+			final java.util.Set results = new java.util.LinkedHashSet(
+			        queryObject.list());
+			java.lang.Object result = null;
+			if (results != null) {
+				if (results.size() > 1) {
+					throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
+					        "More than one instance of 'com.algoTrader.entity.Security"
+					                +
+					                "' was found when executing query --> '" +
+					                queryString + "'");
+				} else if (results.size() == 1) {
+					result = results.iterator().next();
+				}
+			}
+			result = transformEntity(transform,
+			        (com.algoTrader.entity.Security) result);
+			return result;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio()
+	 */
+	@Override
+	public java.util.List findSecuritiesInPortfolio() {
+		return this.findSecuritiesInPortfolio(SecurityDao.TRANSFORM_NONE);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesInPortfolio(
+	        final java.lang.String queryString) {
+		return this.findSecuritiesInPortfolio(SecurityDao.TRANSFORM_NONE,
+		        queryString);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(int)
+	 */
+	@Override
+	public java.util.List findSecuritiesInPortfolio(final int transform) {
+		return this
+		        .findSecuritiesInPortfolio(
+		                transform,
+		                "select s from SecurityImpl as s join fetch s.positions as p where p.quantity != 0 order by s.id");
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesInPortfolio(int,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesInPortfolio(final int transform,
+	        final java.lang.String queryString) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			final java.util.List results = queryObject.list();
+			transformEntities(transform, results);
+			return results;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist()
+	 */
+	@Override
+	public java.util.List findSecuritiesOnWatchlist() {
+		return this.findSecuritiesOnWatchlist(SecurityDao.TRANSFORM_NONE);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnWatchlist(
+	        final java.lang.String queryString) {
+		return this.findSecuritiesOnWatchlist(SecurityDao.TRANSFORM_NONE,
+		        queryString);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(int)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnWatchlist(final int transform) {
+		return this
+		        .findSecuritiesOnWatchlist(
+		                transform,
+		                "select s from SecurityImpl as s left join fetch s.securityFamily as f join s.watchListItems as w where w != null order by s.id");
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnWatchlist(int,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnWatchlist(final int transform,
+	        final java.lang.String queryString) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			final java.util.List results = queryObject.list();
+			transformEntities(transform, results);
+			return results;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist()
+	 */
+	@Override
+	public java.util.List findSecuritiesOnActiveWatchlist() {
+		return this.findSecuritiesOnActiveWatchlist(SecurityDao.TRANSFORM_NONE);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnActiveWatchlist(
+	        final java.lang.String queryString) {
+		return this.findSecuritiesOnActiveWatchlist(SecurityDao.TRANSFORM_NONE,
+		        queryString);
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(int)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnActiveWatchlist(final int transform) {
+		return this
+		        .findSecuritiesOnActiveWatchlist(
+		                transform,
+		                "select s from SecurityImpl as s left join fetch s.securityFamily as f join s.watchListItems as w where w.strategy.autoActivate = true order by s.id");
+	}
+	
+	/**
+	 * @see com.algoTrader.entity.SecurityDao#findSecuritiesOnActiveWatchlist(int,
+	 *      java.lang.String)
+	 */
+	@Override
+	public java.util.List findSecuritiesOnActiveWatchlist(final int transform,
+	        final java.lang.String queryString) {
+		try {
+			final org.hibernate.Query queryObject = super.getSession(false)
+			        .createQuery(queryString);
+			queryObject.setCacheable(true);
+			final java.util.List results = queryObject.list();
+			transformEntities(transform, results);
+			return results;
+		} catch (final org.hibernate.HibernateException ex) {
+			throw super.convertHibernateAccessException(ex);
+		}
+	}
+	
+	/**
+	 * Allows transformation of entities into value objects
+	 * (or something else for that matter), when the <code>transform</code> flag
+	 * is set to one of the constants defined in
+	 * <code>com.algoTrader.entity.SecurityDao</code>, please note
+	 * that the {@link #TRANSFORM_NONE} constant denotes no transformation, so
+	 * the entity itself
+	 * will be returned.
+	 * 
+	 * If the integer argument value is unknown {@link #TRANSFORM_NONE} is
+	 * assumed.
+	 * 
+	 * @param transform
+	 *            one of the constants declared in
+	 *            {@link com.algoTrader.entity.SecurityDao}
+	 * @param entity
+	 *            an entity that was found
+	 * @return the transformed entity (i.e. new value object, etc)
+	 * @see #transformEntities(int,java.util.Collection)
+	 */
+	protected java.lang.Object transformEntity(final int transform,
+	        final com.algoTrader.entity.Security entity) {
+		java.lang.Object target = null;
+		if (entity != null) {
+			switch (transform) {
+				case TRANSFORM_NONE: // fall-through
+				default:
+					target = entity;
+			}
+		}
+		return target;
+	}
+	
+	/**
+	 * Transforms a collection of entities using the
+	 * {@link #transformEntity(int,com.algoTrader.entity.Security)} method. This
+	 * method does not instantiate a new collection.
+	 * <p/>
+	 * This method is to be used internally only.
+	 * 
+	 * @param transform
+	 *            one of the constants declared in
+	 *            <code>com.algoTrader.entity.SecurityDao</code>
+	 * @param entities
+	 *            the collection of entities to transform
+	 * @see #transformEntity(int,com.algoTrader.entity.Security)
+	 */
+	protected void transformEntities(final int transform,
+	        final java.util.Collection entities) {
+		switch (transform) {
+			case TRANSFORM_NONE: // fall-through
+			default:
+				// do nothing;
+		}
+	}
+	
 }

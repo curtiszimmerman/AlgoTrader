@@ -9,39 +9,35 @@ package com.algoTrader.enumeration;
  * 
  */
 public enum Currency
-    implements java.io.Serializable
-{
-    CHF, //
-    EUR, //
-    USD; //
-
-
-    /**
-     * The default constructor allowing
-     * super classes to access it.
-     */
-    private Currency()
-    {
-    }
-
-
+        implements java.io.Serializable {
+	CHF, //
+	EUR, //
+	USD; //
+	
 	/**
-     * Retrieves an instance of Currency from <code>its name</code>.
-     *
-     * @param name the name to create the Currency from.
-     * @return The enumeration literal named after the 'name' argument
-     */
-    public static Currency fromString(String name)
-    {
+	 * The default constructor allowing
+	 * super classes to access it.
+	 */
+	private Currency() {
+	}
+	
+	/**
+	 * Retrieves an instance of Currency from <code>its name</code>.
+	 * 
+	 * @param name
+	 *            the name to create the Currency from.
+	 * @return The enumeration literal named after the 'name' argument
+	 */
+	public static Currency fromString(final String name) {
 		return Currency.valueOf(name);
 	}
 	
 	/**
 	 * This method is necessary to comply with DaoBase implementation.
+	 * 
 	 * @return The name of this literal.
 	 */
-	public Object getValue()
-	{
-		return this.name();
+	public Object getValue() {
+		return name();
 	}
 }

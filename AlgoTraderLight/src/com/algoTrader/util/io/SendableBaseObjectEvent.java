@@ -6,24 +6,27 @@ import com.espertech.esperio.AbstractSendableEvent;
 import com.espertech.esperio.AbstractSender;
 
 public class SendableBaseObjectEvent extends AbstractSendableEvent {
-
-	private final BaseObject eventToSend;
-
-	public SendableBaseObjectEvent(BaseObject object, long timestamp, ScheduleSlot scheduleSlot) {
+	
+	private final BaseObject	eventToSend;
+	
+	public SendableBaseObjectEvent(final BaseObject object,
+	        final long timestamp, final ScheduleSlot scheduleSlot) {
 		super(timestamp, scheduleSlot);
-
-		this.eventToSend = object;
+		
+		eventToSend = object;
 	}
-
-	public void send(AbstractSender sender) {
-		sender.sendEvent(this, this.eventToSend);
+	
+	@Override
+	public void send(final AbstractSender sender) {
+		sender.sendEvent(this, eventToSend);
 	}
-
+	
+	@Override
 	public String toString() {
-		return this.eventToSend.toString();
+		return eventToSend.toString();
 	}
-
+	
 	public Object getBeanToSend() {
-		return this.eventToSend;
+		return eventToSend;
 	}
 }

@@ -9,149 +9,143 @@ package com.algoTrader.vo;
  * 
  */
 public class SimulationResultVO
-    extends com.algoTrader.BaseObject
-    implements java.io.Serializable
-{
-    /**
-     * The serial version UID of this class. Needed for serialization.
-     */
-    private static final long serialVersionUID = -3468426016047343004L;
-
-    public SimulationResultVO()
-    {
-        this.mins = 0;
-        this.dataSet = null;
-        this.netLiqValue = 0;
-        this.monthlyPerformanceVOs = null;
-        this.performanceKeysVO = null;
-        this.maxDrawDownVO = null;
-    }
-
-    public SimulationResultVO(double mins, java.lang.String dataSet, double netLiqValue, java.util.List monthlyPerformanceVOs, com.algoTrader.vo.PerformanceKeysVO performanceKeysVO, com.algoTrader.vo.MaxDrawDownVO maxDrawDownVO)
-    {
-        this.mins = mins;
-        this.dataSet = dataSet;
-        this.netLiqValue = netLiqValue;
-        this.monthlyPerformanceVOs = monthlyPerformanceVOs;
-        this.performanceKeysVO = performanceKeysVO;
-        this.maxDrawDownVO = maxDrawDownVO;
-    }
-
-    /**
-     * Copies constructor from other SimulationResultVO
-     *
-     * @param otherBean, cannot be <code>null</code>
-     * @throws java.lang.NullPointerException if the argument is <code>null</code>
-     */
-    public SimulationResultVO(SimulationResultVO otherBean)
-    {
-        this(otherBean.getMins(), otherBean.getDataSet(), otherBean.getNetLiqValue(), otherBean.getMonthlyPerformanceVOs(), otherBean.getPerformanceKeysVO(), otherBean.getMaxDrawDownVO());
-    }
-
-    /**
-     * Copies all properties from the argument value object into this value object.
-     */
-    public void copy(SimulationResultVO otherBean)
-    {
-        if (otherBean != null)
-        {
-            this.setMins(otherBean.getMins());
-            this.setDataSet(otherBean.getDataSet());
-            this.setNetLiqValue(otherBean.getNetLiqValue());
-            this.setMonthlyPerformanceVOs(otherBean.getMonthlyPerformanceVOs());
-            this.setPerformanceKeysVO(otherBean.getPerformanceKeysVO());
-            this.setMaxDrawDownVO(otherBean.getMaxDrawDownVO());
-        }
-    }
-
-    private double mins;
-
-    /**
+        extends com.algoTrader.BaseObject
+        implements java.io.Serializable {
+	/**
+	 * The serial version UID of this class. Needed for serialization.
+	 */
+	private static final long	serialVersionUID	= -3468426016047343004L;
+	
+	public SimulationResultVO() {
+		mins = 0;
+		dataSet = null;
+		netLiqValue = 0;
+		monthlyPerformanceVOs = null;
+		performanceKeysVO = null;
+		maxDrawDownVO = null;
+	}
+	
+	public SimulationResultVO(final double mins,
+	        final java.lang.String dataSet, final double netLiqValue,
+	        final java.util.List monthlyPerformanceVOs,
+	        final com.algoTrader.vo.PerformanceKeysVO performanceKeysVO,
+	        final com.algoTrader.vo.MaxDrawDownVO maxDrawDownVO) {
+		this.mins = mins;
+		this.dataSet = dataSet;
+		this.netLiqValue = netLiqValue;
+		this.monthlyPerformanceVOs = monthlyPerformanceVOs;
+		this.performanceKeysVO = performanceKeysVO;
+		this.maxDrawDownVO = maxDrawDownVO;
+	}
+	
+	/**
+	 * Copies constructor from other SimulationResultVO
+	 * 
+	 * @param otherBean
+	 *            , cannot be <code>null</code>
+	 * @throws java.lang.NullPointerException
+	 *             if the argument is <code>null</code>
+	 */
+	public SimulationResultVO(final SimulationResultVO otherBean) {
+		this(otherBean.getMins(), otherBean.getDataSet(), otherBean
+		        .getNetLiqValue(), otherBean.getMonthlyPerformanceVOs(),
+		        otherBean.getPerformanceKeysVO(), otherBean.getMaxDrawDownVO());
+	}
+	
+	/**
+	 * Copies all properties from the argument value object into this value
+	 * object.
+	 */
+	public void copy(final SimulationResultVO otherBean) {
+		if (otherBean != null) {
+			setMins(otherBean.getMins());
+			setDataSet(otherBean.getDataSet());
+			setNetLiqValue(otherBean.getNetLiqValue());
+			setMonthlyPerformanceVOs(otherBean.getMonthlyPerformanceVOs());
+			setPerformanceKeysVO(otherBean.getPerformanceKeysVO());
+			setMaxDrawDownVO(otherBean.getMaxDrawDownVO());
+		}
+	}
+	
+	private double	mins;
+	
+	/**
      * 
      */
-    public double getMins()
-    {
-        return this.mins;
-    }
-
-    public void setMins(double mins)
-    {
-        this.mins = mins;
-    }
-
-    private java.lang.String dataSet;
-
-    /**
+	public double getMins() {
+		return mins;
+	}
+	
+	public void setMins(final double mins) {
+		this.mins = mins;
+	}
+	
+	private java.lang.String	dataSet;
+	
+	/**
      * 
      */
-    public java.lang.String getDataSet()
-    {
-        return this.dataSet;
-    }
-
-    public void setDataSet(java.lang.String dataSet)
-    {
-        this.dataSet = dataSet;
-    }
-
-    private double netLiqValue;
-
-    /**
+	public java.lang.String getDataSet() {
+		return dataSet;
+	}
+	
+	public void setDataSet(final java.lang.String dataSet) {
+		this.dataSet = dataSet;
+	}
+	
+	private double	netLiqValue;
+	
+	/**
      * 
      */
-    public double getNetLiqValue()
-    {
-        return this.netLiqValue;
-    }
-
-    public void setNetLiqValue(double netLiqValue)
-    {
-        this.netLiqValue = netLiqValue;
-    }
-
-    private java.util.List monthlyPerformanceVOs;
-
-    /**
+	public double getNetLiqValue() {
+		return netLiqValue;
+	}
+	
+	public void setNetLiqValue(final double netLiqValue) {
+		this.netLiqValue = netLiqValue;
+	}
+	
+	private java.util.List	monthlyPerformanceVOs;
+	
+	/**
      * 
      */
-    public java.util.List getMonthlyPerformanceVOs()
-    {
-        return this.monthlyPerformanceVOs;
-    }
-
-    public void setMonthlyPerformanceVOs(java.util.List monthlyPerformanceVOs)
-    {
-        this.monthlyPerformanceVOs = monthlyPerformanceVOs;
-    }
-
-    private com.algoTrader.vo.PerformanceKeysVO performanceKeysVO;
-
-    /**
+	public java.util.List getMonthlyPerformanceVOs() {
+		return monthlyPerformanceVOs;
+	}
+	
+	public void setMonthlyPerformanceVOs(
+	        final java.util.List monthlyPerformanceVOs) {
+		this.monthlyPerformanceVOs = monthlyPerformanceVOs;
+	}
+	
+	private com.algoTrader.vo.PerformanceKeysVO	performanceKeysVO;
+	
+	/**
      * 
      */
-    public com.algoTrader.vo.PerformanceKeysVO getPerformanceKeysVO()
-    {
-        return this.performanceKeysVO;
-    }
-
-    public void setPerformanceKeysVO(com.algoTrader.vo.PerformanceKeysVO performanceKeysVO)
-    {
-        this.performanceKeysVO = performanceKeysVO;
-    }
-
-    private com.algoTrader.vo.MaxDrawDownVO maxDrawDownVO;
-
-    /**
+	public com.algoTrader.vo.PerformanceKeysVO getPerformanceKeysVO() {
+		return performanceKeysVO;
+	}
+	
+	public void setPerformanceKeysVO(
+	        final com.algoTrader.vo.PerformanceKeysVO performanceKeysVO) {
+		this.performanceKeysVO = performanceKeysVO;
+	}
+	
+	private com.algoTrader.vo.MaxDrawDownVO	maxDrawDownVO;
+	
+	/**
      * 
      */
-    public com.algoTrader.vo.MaxDrawDownVO getMaxDrawDownVO()
-    {
-        return this.maxDrawDownVO;
-    }
-
-    public void setMaxDrawDownVO(com.algoTrader.vo.MaxDrawDownVO maxDrawDownVO)
-    {
-        this.maxDrawDownVO = maxDrawDownVO;
-    }
-
+	public com.algoTrader.vo.MaxDrawDownVO getMaxDrawDownVO() {
+		return maxDrawDownVO;
+	}
+	
+	public void setMaxDrawDownVO(
+	        final com.algoTrader.vo.MaxDrawDownVO maxDrawDownVO) {
+		this.maxDrawDownVO = maxDrawDownVO;
+	}
+	
 }

@@ -9,43 +9,39 @@ package com.algoTrader.enumeration;
  * 
  */
 public enum OrderStatus
-    implements java.io.Serializable
-{
-    OPEN, //
-    SUBMITTED, //
-    PARTIALLY_EXECUTED, //
-    EXECUTED, //
-    CANCELED, //
-    AUTOMATIC, //
-    PREARRANGED; //
-
-
-    /**
-     * The default constructor allowing
-     * super classes to access it.
-     */
-    private OrderStatus()
-    {
-    }
-
-
+        implements java.io.Serializable {
+	OPEN, //
+	SUBMITTED, //
+	PARTIALLY_EXECUTED, //
+	EXECUTED, //
+	CANCELED, //
+	AUTOMATIC, //
+	PREARRANGED; //
+	
 	/**
-     * Retrieves an instance of OrderStatus from <code>its name</code>.
-     *
-     * @param name the name to create the OrderStatus from.
-     * @return The enumeration literal named after the 'name' argument
-     */
-    public static OrderStatus fromString(String name)
-    {
+	 * The default constructor allowing
+	 * super classes to access it.
+	 */
+	private OrderStatus() {
+	}
+	
+	/**
+	 * Retrieves an instance of OrderStatus from <code>its name</code>.
+	 * 
+	 * @param name
+	 *            the name to create the OrderStatus from.
+	 * @return The enumeration literal named after the 'name' argument
+	 */
+	public static OrderStatus fromString(final String name) {
 		return OrderStatus.valueOf(name);
 	}
 	
 	/**
 	 * This method is necessary to comply with DaoBase implementation.
+	 * 
 	 * @return The name of this literal.
 	 */
-	public Object getValue()
-	{
-		return this.name();
+	public Object getValue() {
+		return name();
 	}
 }

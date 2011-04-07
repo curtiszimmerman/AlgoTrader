@@ -8,122 +8,126 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface LookupService
-{
-
-    /**
+public interface LookupService {
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Security getSecurity(int id);
-
-    /**
+	public com.algoTrader.entity.Security getSecurity(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Security getSecurityByIsin(java.lang.String isin);
-
-    /**
+	public com.algoTrader.entity.Security getSecurityByIsin(
+	        java.lang.String isin);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Security getSecurityFetched(int id);
-
-    /**
+	public com.algoTrader.entity.Security getSecurityFetched(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Security[] getAllSecurities();
-
-    /**
+	public com.algoTrader.entity.Security[] getAllSecurities();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Security[] getAllSecuritiesInPortfolio();
-
-    /**
+	public com.algoTrader.entity.Security[] getAllSecuritiesInPortfolio();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Strategy getStrategy(int id);
-
-    /**
+	public com.algoTrader.entity.Strategy getStrategy(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Strategy getStrategyByName(java.lang.String name);
-
-    /**
+	public com.algoTrader.entity.Strategy getStrategyByName(
+	        java.lang.String name);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Strategy getStrategyByNameFetched(java.lang.String name);
-
-    /**
+	public com.algoTrader.entity.Strategy getStrategyByNameFetched(
+	        java.lang.String name);
+	
+	/**
      * 
      */
-    public java.util.List getAutoActivateStrategies();
-
-    /**
+	public java.util.List getAutoActivateStrategies();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Strategy[] getAllStrategies();
-
-    /**
+	public com.algoTrader.entity.Strategy[] getAllStrategies();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.SecurityFamily getSecurityFamily(int id);
-
-    /**
+	public com.algoTrader.entity.SecurityFamily getSecurityFamily(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position getPosition(int id);
-
-    /**
+	public com.algoTrader.entity.Position getPosition(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position getPositionFetched(int id);
-
-    /**
+	public com.algoTrader.entity.Position getPositionFetched(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position[] getAllPositions();
-
-    /**
+	public com.algoTrader.entity.Position[] getAllPositions();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position[] getOpenPositions();
-
-    /**
+	public com.algoTrader.entity.Position[] getOpenPositions();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position[] getOpenPositionsByStrategy(java.lang.String strategyName);
-
-    /**
+	public com.algoTrader.entity.Position[] getOpenPositionsByStrategy(
+	        java.lang.String strategyName);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Transaction getTransaction(int id);
-
-    /**
+	public com.algoTrader.entity.Transaction getTransaction(int id);
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Transaction[] getAllTransactions();
-
-    /**
+	public com.algoTrader.entity.Transaction[] getAllTransactions();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Transaction[] getAllTrades();
-
-    /**
+	public com.algoTrader.entity.Transaction[] getAllTrades();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Transaction[] getAllCashFlows();
-
-    /**
+	public com.algoTrader.entity.Transaction[] getAllCashFlows();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Tick getLastTick(int securityId);
-
-    /**
+	public com.algoTrader.entity.Tick getLastTick(int securityId);
+	
+	/**
      * 
      */
-    public com.algoTrader.vo.PortfolioValueVO getPortfolioValue();
-
-    /**
+	public com.algoTrader.vo.PortfolioValueVO getPortfolioValue();
+	
+	/**
      * 
      */
-    public com.algoTrader.entity.Position getPositionBySecurityAndStrategy(int securityId, java.lang.String strategyName);
-
+	public com.algoTrader.entity.Position getPositionBySecurityAndStrategy(
+	        int securityId, java.lang.String strategyName);
+	
 }

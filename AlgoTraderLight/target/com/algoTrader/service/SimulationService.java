@@ -8,32 +8,32 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface SimulationService
-{
-
-    /**
+public interface SimulationService {
+	
+	/**
      * 
      */
-    public void resetDB();
-
-    /**
+	public void resetDB();
+	
+	/**
      * 
      */
-    public void inputCSV();
-
-    /**
+	public void inputCSV();
+	
+	/**
      * 
      */
-    public com.algoTrader.vo.SimulationResultVO runByUnderlayings();
-
-    /**
+	public com.algoTrader.vo.SimulationResultVO runByUnderlayings();
+	
+	/**
      * 
      */
-    public void simulateWithCurrentParams();
-
-    /**
+	public void simulateWithCurrentParams();
+	
+	/**
      * 
      */
-    public com.algoTrader.vo.SimulationResultVO getSimulationResultVO(long startTime);
-
+	public com.algoTrader.vo.SimulationResultVO getSimulationResultVO(
+	        long startTime);
+	
 }

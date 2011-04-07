@@ -9,44 +9,40 @@ package com.algoTrader.enumeration;
  * 
  */
 public enum TransactionType
-    implements java.io.Serializable
-{
-    BUY, //
-    SELL, //
-    EXPIRATION, //
-    CREDIT, //
-    DEBIT, //
-    INTREST, //
-    FEES, //
-    REBALANCE; //
-
-
-    /**
-     * The default constructor allowing
-     * super classes to access it.
-     */
-    private TransactionType()
-    {
-    }
-
-
+        implements java.io.Serializable {
+	BUY, //
+	SELL, //
+	EXPIRATION, //
+	CREDIT, //
+	DEBIT, //
+	INTREST, //
+	FEES, //
+	REBALANCE; //
+	
 	/**
-     * Retrieves an instance of TransactionType from <code>its name</code>.
-     *
-     * @param name the name to create the TransactionType from.
-     * @return The enumeration literal named after the 'name' argument
-     */
-    public static TransactionType fromString(String name)
-    {
+	 * The default constructor allowing
+	 * super classes to access it.
+	 */
+	private TransactionType() {
+	}
+	
+	/**
+	 * Retrieves an instance of TransactionType from <code>its name</code>.
+	 * 
+	 * @param name
+	 *            the name to create the TransactionType from.
+	 * @return The enumeration literal named after the 'name' argument
+	 */
+	public static TransactionType fromString(final String name) {
 		return TransactionType.valueOf(name);
 	}
 	
 	/**
 	 * This method is necessary to comply with DaoBase implementation.
+	 * 
 	 * @return The name of this literal.
 	 */
-	public Object getValue()
-	{
-		return this.name();
+	public Object getValue() {
+		return name();
 	}
 }
