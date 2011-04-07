@@ -1,7 +1,7 @@
 1. Import from Subversion
 -------------------------
 Import the following two projects into Eclipse: 
-	AlgoTrader
+	AlgoTraderLight
 	AlgoTraderMov
 
 2. Install MySql
@@ -15,8 +15,16 @@ configure the following two values inside src/conf-base.properties:
 
 3. Start the Demo Strategy
 --------------------------
-Run the class com.algoTrader.starter.SimulationStarter inside the project AlgoTraderMov 
-VM-Arguments: 
-	-Dsimulation=true
-	-DdataSource.dataSet=1year
-	
+Run the class com.algoTrader.starter.SimulationStarter inside the project AlgoTraderMov. 
+This class is part of AlgoTraderLight, but it has to be executed from AlgoTraderMov.
+(the projet AlgoTraderMov has a dependency to AlgoTraderLight for this purpose)
+
+If using Eclipse specify the following in the Launch Configuration:
+
+Main-Tab:
+Project: AlgoTraderMov
+Main Class: com.algoTrader.starter.SimulationStarter
+ 
+Arguments-Tab / VM-Arguments: 
+-Dsimulation=true
+ -DdataSource.dataSet=1year 
