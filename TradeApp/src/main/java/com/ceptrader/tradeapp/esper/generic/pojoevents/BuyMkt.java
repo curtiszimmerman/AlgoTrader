@@ -1,8 +1,8 @@
-package com.ceptrader.tradeapp.esper.pojoevents;
+package com.ceptrader.tradeapp.esper.generic.pojoevents;
 
 import com.ceptrader.tradeapp.datastream.DataItem;
 
-public class SellMkt implements DataItem {
+public class BuyMkt implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
@@ -16,7 +16,7 @@ public class SellMkt implements DataItem {
 	private int	              parent	         = 0;
 	private double	          touch	             = 0;
 	
-	public SellMkt(
+	public BuyMkt(
 	        final int ref,
 	        final String ticker,
 	        final int size,
@@ -27,7 +27,7 @@ public class SellMkt implements DataItem {
 		this.goodUntil = goodUntil;
 	}
 	
-	public SellMkt(
+	public BuyMkt(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,

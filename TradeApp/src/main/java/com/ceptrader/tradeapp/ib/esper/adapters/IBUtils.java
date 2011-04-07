@@ -1,4 +1,4 @@
-package com.ceptrader.tradeapp.ib.util;
+package com.ceptrader.tradeapp.ib.esper.adapters;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
@@ -7,14 +7,12 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import com.ceptrader.tradeapp.esper.pojoevents.BuyLmt;
-import com.ceptrader.tradeapp.esper.pojoevents.BuyMkt;
-import com.ceptrader.tradeapp.esper.pojoevents.BuyStop;
-import com.ceptrader.tradeapp.esper.pojoevents.SellLmt;
-import com.ceptrader.tradeapp.esper.pojoevents.SellMkt;
-import com.ceptrader.tradeapp.esper.pojoevents.SellStop;
-import com.ceptrader.tradeapp.ib.esper.adapters.IBAdapter;
-import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.BuyLmt;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.BuyMkt;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.BuyStop;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.SellLmt;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.SellMkt;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.SellStop;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;

@@ -3,7 +3,7 @@ module com.ceptrader.esper.scripts.IBTradeRouting;
 
 import com.ceptrader.tradeapp.ib.util.*;
 import com.ceptrader.tradeapp.ib.esper.pojoevents.*;
-import com.ceptrader.tradeapp.esper.pojoevents.*;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.*;
 
 import com.ib.client.*;
 

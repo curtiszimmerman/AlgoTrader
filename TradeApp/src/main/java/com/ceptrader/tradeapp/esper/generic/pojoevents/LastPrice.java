@@ -1,4 +1,4 @@
-package com.ceptrader.tradeapp.esper.pojoevents;
+package com.ceptrader.tradeapp.esper.generic.pojoevents;
 
 import com.ceptrader.tradeapp.datastream.DataItem;
 

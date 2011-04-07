@@ -1,11 +1,10 @@
-package com.ceptrader.esper.aggregation.aggregation;
+package com.ceptrader.scripting.beanshell;
 
 import java.util.Arrays;
 
 import bsh.EvalError;
 import bsh.Interpreter;
 
-import com.ceptrader.scripting.beanshell.ScriptUtils;
 import com.espertech.esper.epl.agg.AggregationSupport;
 import com.espertech.esper.epl.agg.AggregationValidationContext;
 

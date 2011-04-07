@@ -1,41 +1,52 @@
-package com.ceptrader.tradeapp.esper.pojoevents;
+package com.ceptrader.tradeapp.esper.generic.pojoevents;
 
 import com.ceptrader.tradeapp.datastream.DataItem;
 
-public class BuyMkt implements DataItem {
+public class BuyStop implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
 	private long	          timeStamp;
-	private int	              size;
+	private double	          level;
+	private double	          size;
 	private String	          goodUntil;
 	
 	private String	          goodAfter;
 	private String	          orderType;
 	private String	          group;
 	private int	              parent	         = 0;
-	private double	          touch	             = 0;
+	private double	          trail	             = 0;
+	private boolean	          trailPct	         = false;
+	private double	          limit	             = 0;
 	
-	public BuyMkt(
+	@Deprecated
+	public BuyStop() {
+	}
+	
+	public BuyStop(
 	        final int ref,
 	        final String ticker,
-	        final int size,
+	        final double level,
+	        final double size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
+		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
 	
-	public BuyMkt(
+	public BuyStop(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
-	        final int size,
+	        final double level,
+	        final double size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
 		this.timeStamp = timeStamp;
+		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
@@ -48,11 +59,19 @@ public class BuyMkt implements DataItem {
 		return ticker;
 	}
 	
-	public void setSize(final int size) {
+	public void setLevel(final double level) {
+		this.level = level;
+	}
+	
+	public double getLevel() {
+		return level;
+	}
+	
+	public void setSize(final double size) {
 		this.size = size;
 	}
 	
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
 	
@@ -112,11 +131,27 @@ public class BuyMkt implements DataItem {
 		return parent;
 	}
 	
-	public void setTouch(final double touch) {
-		this.touch = touch;
+	public void setTrail(final double trail) {
+		this.trail = trail;
 	}
 	
-	public double getTouch() {
-		return touch;
+	public double getTtrail() {
+		return trail;
+	}
+	
+	public void setLimit(final double limit) {
+		this.limit = limit;
+	}
+	
+	public double getLimit() {
+		return limit;
+	}
+	
+	public void setTrailPct(final boolean trailPct) {
+		this.trailPct = trailPct;
+	}
+	
+	public boolean isTrailPct() {
+		return trailPct;
 	}
 }

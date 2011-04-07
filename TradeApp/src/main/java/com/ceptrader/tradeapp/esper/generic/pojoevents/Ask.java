@@ -1,8 +1,8 @@
-package com.ceptrader.tradeapp.esper.pojoevents;
+package com.ceptrader.tradeapp.esper.generic.pojoevents;
 
 import com.ceptrader.tradeapp.datastream.DataItem;
 
-public class Bid implements DataItem {
+public class Ask implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
@@ -14,8 +14,9 @@ public class Bid implements DataItem {
 	
 	private boolean	          isMarketDepth	     = false;
 	private int	              level	             = -1;
-	private int	              row	             = -1;
+	private final int	      row	             = -1;
 	private String	          marketMaker	     = null;
+	
 	private Operator	      operator	         = Operator.NA;
 	
 	public static enum Operator {
@@ -23,10 +24,10 @@ public class Bid implements DataItem {
 	};
 	
 	@Deprecated
-	public Bid() {
+	public Ask() {
 	}
 	
-	public Bid(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final int size,
@@ -37,7 +38,7 @@ public class Bid implements DataItem {
 		this.price = price;
 	}
 	
-	public Bid(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -50,7 +51,7 @@ public class Bid implements DataItem {
 		this.price = price;
 	}
 	
-	public Bid(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -65,7 +66,7 @@ public class Bid implements DataItem {
 		this.price = price;
 	}
 	
-	public Bid(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -82,7 +83,7 @@ public class Bid implements DataItem {
 		this.isBest = isBest;
 	}
 	
-	public Bid(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -187,10 +188,6 @@ public class Bid implements DataItem {
 	
 	public boolean isMarketDepth() {
 		return isMarketDepth;
-	}
-	
-	public void setRow(final int row) {
-		this.row = row;
 	}
 	
 	public int getRow() {

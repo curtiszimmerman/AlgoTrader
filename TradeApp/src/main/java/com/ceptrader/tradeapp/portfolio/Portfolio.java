@@ -9,10 +9,10 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import com.ceptrader.tradeapp.esper.pojoevents.Ask;
-import com.ceptrader.tradeapp.esper.pojoevents.Bid;
-import com.ceptrader.tradeapp.esper.pojoevents.Fill;
-import com.ceptrader.tradeapp.esper.pojoevents.LastPrice;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.Ask;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.Bid;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.Fill;
+import com.ceptrader.tradeapp.esper.generic.pojoevents.LastPrice;
 import com.ceptrader.tradeapp.util.Logger;
 
 public class Portfolio implements Serializable, Cloneable {

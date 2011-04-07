@@ -12,7 +12,7 @@ import com.ceptrader.esper.CEPMan;
 import com.ceptrader.esper.epl.EPLDebug;
 import com.ceptrader.esper.epl.scripts.EsperEPLUtils;
 import com.ceptrader.tradeapp.ib.esper.adapters.IBClient;
-import com.ceptrader.tradeapp.ib.util.IBUtils;
+import com.ceptrader.tradeapp.ib.esper.adapters.IBUtils;
 import com.ceptrader.tradeapp.util.BasicUtils;
 import com.ceptrader.tradeapp.util.Loggable;
 import com.ceptrader.tradeapp.util.Logger;
