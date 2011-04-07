@@ -16,19 +16,12 @@ method:MovUtil.getExitValue(position.strategy.name, tick.security, tick.currentV
 where exitValue.value > position.exitValue
 and position.quantity != 0;
 
-//@Name('MOVING_AVERAGE')
-//insert into Indicator
-//select ((stat1.YIntercept + stat1.slope * current_timestamp()) - (stat2.YIntercept + stat2.slope * current_timestamp())) as value
-//from Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:linest(currentValueDouble, current_timestamp()) as stat1, 
-//Tick(security.isin = underlayingIsin).win:length(movLengthSlow).stat:linest(currentValueDouble, current_timestamp()) as stat2
-//where stat2.dataPoints = movLengthSlow;
-
 @Name('MOVING_AVERAGE')
 insert into Indicator
-select (stat1.slope - stat2.slope) as value
-from Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:linest(currentValueDouble, current_timestamp()) as stat1, 
-Tick(security.isin = underlayingIsin).win:length(movLengthSlow).stat:linest(currentValueDouble, current_timestamp()) as stat2
-where stat2.dataPoints = movLengthSlow;
+select ((stat2.YIntercept + stat2.slope * current_timestamp()) - stat1.currentValueDouble) as value
+from Tick(security.isin = underlayingIsin).win:length(1) as stat1, 
+Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:linest(currentValueDouble, current_timestamp()) as stat2
+where stat2.dataPoints = movLengthFast;
 
 @Name('OPEN_POSITION')
 @Tag(name='subscriber', value='com.algoTrader.service.inertia.MovServiceImpl$OpenPositionSubscriber')
