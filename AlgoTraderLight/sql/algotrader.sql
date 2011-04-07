@@ -5,14 +5,14 @@
 # Database : algotrader
 
 
+
 SET FOREIGN_KEY_CHECKS=0;
 
 CREATE DATABASE `algotrader`
     CHARACTER SET 'latin1'
     COLLATE 'latin1_swedish_ci';
 
-USE `algotraderlight`;
-
+USE `algotrader`;
 #
 # Structure for the `security_family` table : 
 #
