@@ -1,4 +1,4 @@
-package com.algoTrader.service.mov;
+package com.algoTrader.service.inertia;
 
 import com.algoTrader.entity.Security;
 import com.algoTrader.util.ConfigurationUtil;

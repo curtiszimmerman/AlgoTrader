@@ -1,4 +1,4 @@
-package com.algoTrader.service.mov;
+package com.algoTrader.service.inertia;
 
 import java.math.BigDecimal;
 
