@@ -27,11 +27,9 @@ public class Main extends JFrame implements
 	public Main() {
 		start.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(final ActionEvent arg0) {
 				BasicUtils.getThreadPool().execute(new Runnable() {
 					
-					@Override
 					public void run() {
 						IBUtils.reqQuotes("CASH", "USD", "EUR", "IDEALPRO", 0);
 					}
@@ -41,7 +39,6 @@ public class Main extends JFrame implements
 		
 		exit.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(final ActionEvent arg0) {
 				System.exit(0);
 			}
@@ -87,7 +84,6 @@ public class Main extends JFrame implements
 		Runtime.getRuntime().addShutdownHook(new Thread(m));
 	}
 	
-	@Override
 	public void run() {
 		IBClient.disconnect();
 	}
