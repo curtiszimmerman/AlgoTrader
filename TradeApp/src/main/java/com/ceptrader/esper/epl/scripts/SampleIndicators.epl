@@ -3,7 +3,7 @@ module com.ceptrader.esper.epl.scripts.SampleIndicators;
 uses com.ceptrader.esper.epl.scripts.IBInit;
 
 import com.ceptrader.ib.esper.pojoevents.*;
-import com.ceptrader.esper.generic.pojoevents.*;
+import com.ceptrader.generic.esper.pojoevents.*;
 
 import com.ib.client.*;
 

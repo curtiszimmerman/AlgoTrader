@@ -1,51 +1,40 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
-public class BuyStop implements DataItem {
+public class BuyMkt implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
 	private long	          timeStamp;
-	private double	          level;
-	private double	          size;
+	private int	              size;
 	private String	          goodUntil;
 	
 	private String	          goodAfter;
 	private String	          orderType;
 	private String	          group;
 	private int	              parent	         = 0;
-	private double	          trail	             = 0;
-	private boolean	          trailPct	         = false;
-	private double	          limit	             = 0;
+	private double	          touch	             = 0;
 	
-	@Deprecated
-	public BuyStop() {
-	}
-	
-	public BuyStop(
+	public BuyMkt(
 	        final int ref,
 	        final String ticker,
-	        final double level,
-	        final double size,
+	        final int size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
-		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
 	
-	public BuyStop(
+	public BuyMkt(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
-	        final double level,
-	        final double size,
+	        final int size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
 		this.timeStamp = timeStamp;
-		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
@@ -58,19 +47,11 @@ public class BuyStop implements DataItem {
 		return ticker;
 	}
 	
-	public void setLevel(final double level) {
-		this.level = level;
-	}
-	
-	public double getLevel() {
-		return level;
-	}
-	
-	public void setSize(final double size) {
+	public void setSize(final int size) {
 		this.size = size;
 	}
 	
-	public double getSize() {
+	public int getSize() {
 		return size;
 	}
 	
@@ -130,27 +111,11 @@ public class BuyStop implements DataItem {
 		return parent;
 	}
 	
-	public void setTrail(final double trail) {
-		this.trail = trail;
+	public void setTouch(final double touch) {
+		this.touch = touch;
 	}
 	
-	public double getTtrail() {
-		return trail;
-	}
-	
-	public void setLimit(final double limit) {
-		this.limit = limit;
-	}
-	
-	public double getLimit() {
-		return limit;
-	}
-	
-	public void setTrailPct(final boolean trailPct) {
-		this.trailPct = trailPct;
-	}
-	
-	public boolean isTrailPct() {
-		return trailPct;
+	public double getTouch() {
+		return touch;
 	}
 }

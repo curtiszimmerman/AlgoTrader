@@ -1,7 +1,7 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
-public class Price implements DataItem {
+public class Ask implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
@@ -9,13 +9,24 @@ public class Price implements DataItem {
 	private long	          duration;
 	private int	              size;
 	private double	          price;
+	private boolean	          isBest	         = false;
+	
+	private boolean	          isMarketDepth	     = false;
 	private int	              level	             = -1;
+	private final int	      row	             = -1;
+	private String	          marketMaker	     = null;
+	
+	private Operator	      operator	         = Operator.NA;
+	
+	public static enum Operator {
+		INSERT, UPDATE, DELETE, NA
+	};
 	
 	@Deprecated
-	public Price() {
+	public Ask() {
 	}
 	
-	public Price(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final int size,
@@ -26,7 +37,7 @@ public class Price implements DataItem {
 		this.price = price;
 	}
 	
-	public Price(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -39,7 +50,7 @@ public class Price implements DataItem {
 		this.price = price;
 	}
 	
-	public Price(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
@@ -54,13 +65,31 @@ public class Price implements DataItem {
 		this.price = price;
 	}
 	
-	public Price(
+	public Ask(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
 	        final long duration,
 	        final int size,
 	        final double price,
+	        final boolean isBest) {
+		this.ref = ref;
+		this.ticker = ticker;
+		this.timeStamp = timeStamp;
+		this.duration = duration;
+		this.size = size;
+		this.price = price;
+		this.isBest = isBest;
+	}
+	
+	public Ask(
+	        final int ref,
+	        final String ticker,
+	        final long timeStamp,
+	        final long duration,
+	        final int size,
+	        final double price,
+	        final boolean isBest,
 	        final int level) {
 		this.ref = ref;
 		this.ticker = ticker;
@@ -68,6 +97,7 @@ public class Price implements DataItem {
 		this.duration = duration;
 		this.size = size;
 		this.price = price;
+		this.isBest = isBest;
 		this.level = level;
 	}
 	
@@ -103,6 +133,14 @@ public class Price implements DataItem {
 		return price;
 	}
 	
+	public void setBest(final boolean isBest) {
+		this.isBest = isBest;
+	}
+	
+	public boolean isBest() {
+		return isBest;
+	}
+	
 	public void setLevel(final int level) {
 		this.level = level;
 	}
@@ -125,5 +163,33 @@ public class Price implements DataItem {
 	
 	public int getRef() {
 		return ref;
+	}
+	
+	public void setMarketMaker(final String marketMaker) {
+		this.marketMaker = marketMaker;
+	}
+	
+	public String getMarketMaker() {
+		return marketMaker;
+	}
+	
+	public void setOperator(final Operator operator) {
+		this.operator = operator;
+	}
+	
+	public Operator getOperator() {
+		return operator;
+	}
+	
+	public void setMarketDepth(final boolean isMarketDepth) {
+		this.isMarketDepth = isMarketDepth;
+	}
+	
+	public boolean isMarketDepth() {
+		return isMarketDepth;
+	}
+	
+	public int getRow() {
+		return row;
 	}
 }

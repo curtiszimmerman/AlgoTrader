@@ -1,11 +1,12 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
-public class SellMkt implements DataItem {
+public class SellLmt implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
 	private long	          timeStamp;
+	private double	          level;
 	private int	              size;
 	private String	          goodUntil;
 	
@@ -14,27 +15,37 @@ public class SellMkt implements DataItem {
 	private String	          group;
 	private int	              parent	         = 0;
 	private double	          touch	             = 0;
+	private double	          trail	             = 0;
+	private boolean	          trailPct	         = false;
 	
-	public SellMkt(
+	@Deprecated
+	public SellLmt() {
+	}
+	
+	public SellLmt(
 	        final int ref,
 	        final String ticker,
+	        final double level,
 	        final int size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
+		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
 	
-	public SellMkt(
+	public SellLmt(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
+	        final double level,
 	        final int size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
 		this.timeStamp = timeStamp;
+		this.level = level;
 		this.size = size;
 		this.goodUntil = goodUntil;
 	}
@@ -45,6 +56,14 @@ public class SellMkt implements DataItem {
 	
 	public String getTicker() {
 		return ticker;
+	}
+	
+	public void setLevel(final double level) {
+		this.level = level;
+	}
+	
+	public double getLevel() {
+		return level;
 	}
 	
 	public void setSize(final int size) {
@@ -79,14 +98,6 @@ public class SellMkt implements DataItem {
 		return timeStamp;
 	}
 	
-	public void setGoodAfter(final String goodAfter) {
-		this.goodAfter = goodAfter;
-	}
-	
-	public String getGoodAfter() {
-		return goodAfter;
-	}
-	
 	public void setOrderType(final String orderType) {
 		this.orderType = orderType;
 	}
@@ -117,5 +128,29 @@ public class SellMkt implements DataItem {
 	
 	public double getTouch() {
 		return touch;
+	}
+	
+	public void setGoodAfter(final String goodAfter) {
+		this.goodAfter = goodAfter;
+	}
+	
+	public String getGoodAfter() {
+		return goodAfter;
+	}
+	
+	public void setTrail(final double trail) {
+		this.trail = trail;
+	}
+	
+	public double getTrail() {
+		return trail;
+	}
+	
+	public void setTrailPct(final boolean trailPct) {
+		this.trailPct = trailPct;
+	}
+	
+	public boolean isTrailPct() {
+		return trailPct;
 	}
 }

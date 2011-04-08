@@ -1,6 +1,6 @@
 package com.ceptrader.ib.esper.pojoevents;
 
-import com.ceptrader.esper.generic.pojoevents.DataItem;
+import com.ceptrader.generic.esper.pojoevents.DataItem;
 import com.ceptrader.util.BasicUtils;
 
 public class OrderStatus implements DataItem {

@@ -1,4 +1,4 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
 public class LastPrice implements DataItem {

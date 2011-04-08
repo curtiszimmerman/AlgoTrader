@@ -1,32 +1,32 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
-public class BuyLmt implements DataItem {
+public class BuyStop implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
 	private long	          timeStamp;
 	private double	          level;
-	private int	              size;
+	private double	          size;
 	private String	          goodUntil;
 	
 	private String	          goodAfter;
 	private String	          orderType;
 	private String	          group;
 	private int	              parent	         = 0;
-	private double	          touch	             = 0;
 	private double	          trail	             = 0;
 	private boolean	          trailPct	         = false;
+	private double	          limit	             = 0;
 	
 	@Deprecated
-	public BuyLmt() {
+	public BuyStop() {
 	}
 	
-	public BuyLmt(
+	public BuyStop(
 	        final int ref,
 	        final String ticker,
 	        final double level,
-	        final int size,
+	        final double size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
@@ -35,12 +35,12 @@ public class BuyLmt implements DataItem {
 		this.goodUntil = goodUntil;
 	}
 	
-	public BuyLmt(
+	public BuyStop(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,
 	        final double level,
-	        final int size,
+	        final double size,
 	        final String goodUntil) {
 		this.ref = ref;
 		this.ticker = ticker;
@@ -66,11 +66,11 @@ public class BuyLmt implements DataItem {
 		return level;
 	}
 	
-	public void setSize(final int size) {
+	public void setSize(final double size) {
 		this.size = size;
 	}
 	
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
 	
@@ -98,6 +98,14 @@ public class BuyLmt implements DataItem {
 		return timeStamp;
 	}
 	
+	public void setGoodAfter(final String goodAfter) {
+		this.goodAfter = goodAfter;
+	}
+	
+	public String getGoodAfter() {
+		return goodAfter;
+	}
+	
 	public void setOrderType(final String orderType) {
 		this.orderType = orderType;
 	}
@@ -122,28 +130,20 @@ public class BuyLmt implements DataItem {
 		return parent;
 	}
 	
-	public void setTouch(final double touch) {
-		this.touch = touch;
-	}
-	
-	public double getTouch() {
-		return touch;
-	}
-	
-	public void setGoodAfter(final String goodAfter) {
-		this.goodAfter = goodAfter;
-	}
-	
-	public String getGoodAfter() {
-		return goodAfter;
-	}
-	
 	public void setTrail(final double trail) {
 		this.trail = trail;
 	}
 	
-	public double getTrail() {
+	public double getTtrail() {
 		return trail;
+	}
+	
+	public void setLimit(final double limit) {
+		this.limit = limit;
+	}
+	
+	public double getLimit() {
+		return limit;
 	}
 	
 	public void setTrailPct(final boolean trailPct) {

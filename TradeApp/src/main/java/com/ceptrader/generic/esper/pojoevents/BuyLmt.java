@@ -1,7 +1,7 @@
-package com.ceptrader.esper.generic.pojoevents;
+package com.ceptrader.generic.esper.pojoevents;
 
 
-public class SellLmt implements DataItem {
+public class BuyLmt implements DataItem {
 	private static final long	serialVersionUID	= 1L;
 	private int	              ref;
 	private String	          ticker;
@@ -19,10 +19,10 @@ public class SellLmt implements DataItem {
 	private boolean	          trailPct	         = false;
 	
 	@Deprecated
-	public SellLmt() {
+	public BuyLmt() {
 	}
 	
-	public SellLmt(
+	public BuyLmt(
 	        final int ref,
 	        final String ticker,
 	        final double level,
@@ -35,7 +35,7 @@ public class SellLmt implements DataItem {
 		this.goodUntil = goodUntil;
 	}
 	
-	public SellLmt(
+	public BuyLmt(
 	        final int ref,
 	        final String ticker,
 	        final long timeStamp,

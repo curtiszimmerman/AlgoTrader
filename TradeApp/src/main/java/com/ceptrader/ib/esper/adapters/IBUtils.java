@@ -5,12 +5,12 @@ import java.util.Vector;
 
 import org.apache.commons.beanutils.MethodUtils;
 
-import com.ceptrader.esper.generic.pojoevents.BuyLmt;
-import com.ceptrader.esper.generic.pojoevents.BuyMkt;
-import com.ceptrader.esper.generic.pojoevents.BuyStop;
-import com.ceptrader.esper.generic.pojoevents.SellLmt;
-import com.ceptrader.esper.generic.pojoevents.SellMkt;
-import com.ceptrader.esper.generic.pojoevents.SellStop;
+import com.ceptrader.generic.esper.pojoevents.BuyLmt;
+import com.ceptrader.generic.esper.pojoevents.BuyMkt;
+import com.ceptrader.generic.esper.pojoevents.BuyStop;
+import com.ceptrader.generic.esper.pojoevents.SellLmt;
+import com.ceptrader.generic.esper.pojoevents.SellMkt;
+import com.ceptrader.generic.esper.pojoevents.SellStop;
 import com.ceptrader.util.BasicUtils;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
