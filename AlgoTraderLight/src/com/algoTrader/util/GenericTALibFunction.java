@@ -364,7 +364,8 @@ public class GenericTALibFunction extends AggregationSupport {
 	
 	@Override
 	public void clear() {
-		throw new IllegalArgumentException("clear not allowed");
+		inputParams.clear();
+		outputParams.clear();
 	}
 	
 	private Number getNumberFromNumberArray(final Object value) {
