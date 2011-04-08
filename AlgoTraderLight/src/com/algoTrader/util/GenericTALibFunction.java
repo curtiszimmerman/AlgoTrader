@@ -1,15 +1,26 @@
 package com.algoTrader.util;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.CtNewMethod;
+import javassist.Modifier;
+import javassist.NotFoundException;
+
 import org.apache.commons.collections15.buffer.CircularFifoBuffer;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.espertech.esper.epl.agg.AggregationSupport;
 import com.espertech.esper.epl.agg.AggregationValidationContext;
@@ -29,25 +40,37 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterType;
  * Generic AggregateFunction to support all TA-Lib operations
  * <p/>
  * To use the AggregateFunction add the following to the esper configuration
+ * 
  * <pre>
  * &lt;plugin-aggregation-function name="talib" function-class="com.algoTrader.util.GenericTALibFunction"/&gt;
  * </pre>
+ * 
  * The AggregationFunction can be used in an esper statement like this:
+ * 
  * <pre>
- * select talib("stochF", high, low, close, 3, 2, "Sma")
+ * insert into StochF
+ * select talib("stochF", high, low, close, 3, 2, "Sma") as values
  * from OHLCBar;
+ * 
+ * select values.fastk, values.fastd
+ * from StochF(values != null);
  * </pre>
  * If the TA-Lib Function returns just one value, the value is directly exposed by the AggregationFunction.
- * If the TA-Lib Function returns multiple-values, they will be exposed by a Map
  * </p>
- * The AggregationFunction needs the following libraries:
+ * If the TA-Lib Function returns multiple-values, a dynamic class will be generated on the fly, which gives
+ * access to properly typed return-values.
  * </p>
- * <li><a href="http://commons.apache.org/collections/">Apache Commons Collection</a></li>
+ * Example: the TA-Lib function stochF has return values: outFastK and outFastD. The returned dynamic class
+ * will have double typed properties by the name of: fastk and fastd (all lowercase)
+ * </p>
+ * The AggregationFunction needs the following libraries: </p>
+ * <li><a href="http://commons.apache.org/lang/">Apache Commons Lang</a></li>
  * <li><a href="http://larvalabs.com/collections/">Commons Generics</a></li>
- * <li><a href="http://ta-lib.org/">TA-Lib</a></li>
- * </p>
+ * <li><a href="http://ta-lib.org/">TA-Lib</a></li> </p>
+ * <li><a href="http://www.javassist.org/">Javaassist</a></li> </p>
+ * 
  * @author Andy Flury
- *
+ * 
  */
 public class GenericTALibFunction extends AggregationSupport {
 
@@ -57,6 +80,7 @@ public class GenericTALibFunction extends AggregationSupport {
 	private List<CircularFifoBuffer<Number>> inputParams;
 	private List<Object> optInputParams;
 	private Map<String, Object> outputParams;
+	private Class<?> outputClass;
 
 	public GenericTALibFunction() {
 		super();
@@ -96,6 +120,7 @@ public class GenericTALibFunction extends AggregationSupport {
 		// get the parameters
 		int paramCounter = 1;
 		int inputParamCount = 0;
+		Map<String, Class<?>> outputParamTypes = new HashMap<String, Class<?>>();
 		for (Annotation[] annotations : this.function.getParameterAnnotations()) {
 			for (Annotation annotation : annotations) {
 
@@ -161,17 +186,27 @@ public class GenericTALibFunction extends AggregationSupport {
 					// to through all outputParameters and store them
 				} else if (annotation instanceof OutputParameterInfo) {
 					OutputParameterInfo outputParameterInfo = (OutputParameterInfo) annotation;
+					String paramName = outputParameterInfo.paramName();
 					if (outputParameterInfo.type().equals(OutputParameterType.TA_Output_Real)) {
-						this.outputParams.put(outputParameterInfo.paramName(), new double[1]);
+						this.outputParams.put(paramName, new double[1]);
+						outputParamTypes.put(paramName.toLowerCase().substring(3), double.class);
 					} else if (outputParameterInfo.type().equals(OutputParameterType.TA_Output_Integer)) {
 						this.outputParams.put(outputParameterInfo.paramName(), new int[1]);
+						outputParamTypes.put(paramName.toLowerCase().substring(3), int.class);
 					}
 				}
 			}
 		}
 
-		// get the lookback size
 		try {
+
+			// get the dynamically created output class
+			if (this.outputParams.size() > 1) {
+				String className = StringUtils.capitalize(this.functionName);
+				this.outputClass = getReturnClass(className, outputParamTypes);
+			}
+
+			// get the lookback size
 			Object[] args = new Object[this.optInputParams.size()];
 			Class<?>[] argTypes = new Class[this.optInputParams.size()];
 
@@ -219,21 +254,19 @@ public class GenericTALibFunction extends AggregationSupport {
 	public void leave(Object obj) {
 
 		// Remove the last element of each buffer
-		int paramCount = 1;
 		for (CircularFifoBuffer<Number> buffer : this.inputParams) {
 			buffer.remove();
-			paramCount++;
 		}
 	}
 
 	public Class<?> getValueType() {
 
 		// if we only have one outPutParam return that value
-		// otherwise return a Map
+		// otherwise return the dynamically generated class
 		if (this.outputParams.size() == 1) {
 			return this.outputParams.values().iterator().next().getClass();
 		} else {
-			return Map.class;
+			return this.outputClass;
 		}
 	}
 
@@ -300,13 +333,15 @@ public class GenericTALibFunction extends AggregationSupport {
 					Object value = this.outputParams.values().iterator().next();
 					return getNumberFromNumberArray(value);
 				} else {
-					Map<String, Object> returnMap = new HashMap<String, Object>();
+					Object returnObject = this.outputClass.newInstance();
 					for (Map.Entry<String, Object> entry : this.outputParams.entrySet()) {
-						Number number = getNumberFromNumberArray(entry.getValue());
-						String name = entry.getKey().substring(3);
-						returnMap.put(name, number);
+						Number value = getNumberFromNumberArray(entry.getValue());
+						String name = entry.getKey().toLowerCase().substring(3);
+
+						Field field = this.outputClass.getField(name);
+						field.set(returnObject, value);
 					}
-					return returnMap;
+					return returnObject;
 				}
 			} else {
 				throw new RuntimeException(retCode.toString());
@@ -317,8 +352,11 @@ public class GenericTALibFunction extends AggregationSupport {
 	}
 
 	public void clear() {
-		inputParams.clear();
-		outputParams.clear();
+
+		// clear all elements from the buffers
+		for (CircularFifoBuffer<Number> buffer : this.inputParams) {
+			buffer.clear();
+		}
 	}
 
 	private Number getNumberFromNumberArray(Object value) {
@@ -336,5 +374,28 @@ public class GenericTALibFunction extends AggregationSupport {
 		i = i - ((i >> 1) & 0x55555555);
 		i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
 		return ((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
+	}
+	
+	private Class<?> getReturnClass(String className, Map<String, Class<?>> fields) throws CannotCompileException, NotFoundException {
+
+		ClassPool pool = ClassPool.getDefault();
+		CtClass ctClass = pool.makeClass(this.getClass().getPackage().getName() + "." + className);
+
+		for (Map.Entry<String, Class<?>> entry : fields.entrySet()) {
+
+			// generate a public field (we don't need a setter)
+			String fieldName = entry.getKey();
+			CtClass valueClass = pool.get(entry.getValue().getName());
+			CtField ctField = new CtField(valueClass, fieldName, ctClass);
+			ctField.setModifiers(Modifier.PUBLIC);
+			ctClass.addField(ctField);
+
+			// generate the getter method
+			String methodName = "get" + StringUtils.capitalize(fieldName);
+			CtMethod ctMethod = CtNewMethod.make(valueClass, methodName, new CtClass[] {}, new CtClass[] {}, "{ return this." + fieldName + ";}", ctClass);
+			ctClass.addMethod(ctMethod);
+		}
+
+		return ctClass.toClass();
 	}
 }
