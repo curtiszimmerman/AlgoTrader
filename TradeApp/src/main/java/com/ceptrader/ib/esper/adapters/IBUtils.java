@@ -12,24 +12,22 @@ import com.ceptrader.generic.esper.pojoevents.SellLmt;
 import com.ceptrader.generic.esper.pojoevents.SellMkt;
 import com.ceptrader.generic.esper.pojoevents.SellStop;
 import com.ceptrader.util.BasicUtils;
-import com.ib.client.ComboLeg;
-import com.ib.client.Contract;
-import com.ib.client.ContractDetails;
-import com.ib.client.Order;
 
 public class IBUtils {
 	static {
 		IBClient.connect();
 	}
 	
-	public static void pumpTradeEvent(final String mName, final Object[] obj)
+	public static synchronized void pumpTradeEvent(final String mName,
+	        final Object[] obj)
 	        throws NoSuchMethodException, IllegalAccessException,
 	        InvocationTargetException {
 		final IBClient ibClient = IBClient.getIBClient();
 		MethodUtils.invokeMethod(ibClient, mName, obj);
 	}
 	
-	public static void pumpTradeEventWithParams(final String mName,
+	public static synchronized void pumpTradeEventWithParams(
+	        final String mName,
 	        final Object[] obj,
 	        final Class[] param)
 	        throws NoSuchMethodException, IllegalAccessException,
@@ -257,7 +255,8 @@ public class IBUtils {
 		return o;
 	}
 	
-	public static void placeOrder(final int id, final Contract contract,
+	public static synchronized void placeOrder(final int id,
+	        final Contract contract,
 	        final Order order) {
 		IBClient.getIBClient().placeOrder(id, contract, order);
 	}
