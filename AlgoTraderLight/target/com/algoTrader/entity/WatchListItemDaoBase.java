@@ -10,368 +10,336 @@ package com.algoTrader.entity;
  * Base Spring DAO Class: is able to create, update, remove, load, and find
  * objects of type <code>com.algoTrader.entity.WatchListItem</code>.
  * </p>
- * 
+ *
  * @see com.algoTrader.entity.WatchListItem
  */
 public abstract class WatchListItemDaoBase
-        extends org.springframework.orm.hibernate3.support.HibernateDaoSupport
-        implements com.algoTrader.entity.WatchListItemDao {
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#load(int, int)
-	 */
-	@Override
-	public java.lang.Object load(final int transform, final int id) {
-		final java.lang.Object entity = getHibernateTemplate().get(
-		        com.algoTrader.entity.WatchListItemImpl.class,
-		        new java.lang.Integer(id));
-		return transformEntity(transform,
-		        (com.algoTrader.entity.WatchListItem) entity);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#load(int)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem load(final int id) {
-		return (com.algoTrader.entity.WatchListItem) this.load(
-		        WatchListItemDao.TRANSFORM_NONE, id);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#loadAll()
-	 */
-	@Override
-	public java.util.Collection loadAll() {
-		return this.loadAll(WatchListItemDao.TRANSFORM_NONE);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#loadAll(int)
-	 */
-	@Override
-	public java.util.Collection loadAll(final int transform) {
-		final java.util.Collection results = getHibernateTemplate().loadAll(
-		        com.algoTrader.entity.WatchListItemImpl.class);
-		transformEntities(transform, results);
-		return results;
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(com.algoTrader.entity.WatchListItem)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem create(
-	        final com.algoTrader.entity.WatchListItem watchListItem) {
-		return (com.algoTrader.entity.WatchListItem) this.create(
-		        WatchListItemDao.TRANSFORM_NONE, watchListItem);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(int transform,
-	 *      com.algoTrader.entity.WatchListItem)
-	 */
-	@Override
-	public java.lang.Object create(final int transform,
-	        final com.algoTrader.entity.WatchListItem watchListItem) {
-		if (watchListItem == null) { throw new IllegalArgumentException(
-		        "WatchListItem.create - 'watchListItem' can not be null"); }
-		getHibernateTemplate().save(watchListItem);
-		return transformEntity(transform, watchListItem);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(java.util.Collection)
-	 */
-	@Override
-	public java.util.Collection create(final java.util.Collection entities) {
-		return create(WatchListItemDao.TRANSFORM_NONE, entities);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(int,
-	 *      java.util.Collection)
-	 */
-	@Override
-	public java.util.Collection create(final int transform,
-	        final java.util.Collection entities) {
-		if (entities == null) { throw new IllegalArgumentException(
-		        "WatchListItem.create - 'entities' can not be null"); }
-		getHibernateTemplate().execute(
-		        new org.springframework.orm.hibernate3.HibernateCallback()
-		    {
-			    @Override
-			    public java.lang.Object doInHibernate(
-			            final org.hibernate.Session session)
-			            throws org.hibernate.HibernateException
-			    {
-				    for (final java.util.Iterator entityIterator = entities
-				            .iterator(); entityIterator.hasNext();)
-				    {
-					    create(transform,
-					            (com.algoTrader.entity.WatchListItem) entityIterator
-					                    .next());
-				    }
-				    return null;
-			    }
-		    });
-		return entities;
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(boolean)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem create(
-	        final boolean persistent) {
-		return (com.algoTrader.entity.WatchListItem) this.create(
-		        WatchListItemDao.TRANSFORM_NONE, persistent);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(int, boolean)
-	 */
-	@Override
-	public java.lang.Object create(
-	        final int transform,
-	        final boolean persistent) {
-		final com.algoTrader.entity.WatchListItem entity = new com.algoTrader.entity.WatchListItemImpl();
-		entity.setPersistent(persistent);
-		return this.create(transform, entity);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(boolean,
-	 *      com.algoTrader.entity.Security, com.algoTrader.entity.Strategy)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem create(
-	        final boolean persistent,
-	        final com.algoTrader.entity.Security security,
-	        final com.algoTrader.entity.Strategy strategy) {
-		return (com.algoTrader.entity.WatchListItem) this
-		        .create(WatchListItemDao.TRANSFORM_NONE, persistent, security,
-		                strategy);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#create(int, boolean,
-	 *      com.algoTrader.entity.Security, com.algoTrader.entity.Strategy)
-	 */
-	@Override
-	public java.lang.Object create(
-	        final int transform,
-	        final boolean persistent,
-	        final com.algoTrader.entity.Security security,
-	        final com.algoTrader.entity.Strategy strategy) {
-		final com.algoTrader.entity.WatchListItem entity = new com.algoTrader.entity.WatchListItemImpl();
-		entity.setPersistent(persistent);
-		entity.setSecurity(security);
-		entity.setStrategy(strategy);
-		return this.create(transform, entity);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#update(com.algoTrader.entity.WatchListItem)
-	 */
-	@Override
-	public void update(final com.algoTrader.entity.WatchListItem watchListItem) {
-		if (watchListItem == null) { throw new IllegalArgumentException(
-		        "WatchListItem.update - 'watchListItem' can not be null"); }
-		getHibernateTemplate().update(watchListItem);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#update(java.util.Collection)
-	 */
-	@Override
-	public void update(final java.util.Collection entities) {
-		if (entities == null) { throw new IllegalArgumentException(
-		        "WatchListItem.update - 'entities' can not be null"); }
-		getHibernateTemplate().execute(
-		        new org.springframework.orm.hibernate3.HibernateCallback()
-		    {
-			    @Override
-			    public java.lang.Object doInHibernate(
-			            final org.hibernate.Session session)
-			            throws org.hibernate.HibernateException
-			    {
-				    for (final java.util.Iterator entityIterator = entities
-				            .iterator(); entityIterator.hasNext();)
-				    {
-					    update((com.algoTrader.entity.WatchListItem) entityIterator
-					            .next());
-				    }
-				    return null;
-			    }
-		    });
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#remove(com.algoTrader.entity.WatchListItem)
-	 */
-	@Override
-	public void remove(final com.algoTrader.entity.WatchListItem watchListItem) {
-		if (watchListItem == null) { throw new IllegalArgumentException(
-		        "WatchListItem.remove - 'watchListItem' can not be null"); }
-		getHibernateTemplate().delete(watchListItem);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#remove(int)
-	 */
-	@Override
-	public void remove(final int id) {
-		final com.algoTrader.entity.WatchListItem entity = this.load(id);
-		if (entity != null) {
-			this.remove(entity);
-		}
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#remove(java.util.Collection)
-	 */
-	@Override
-	public void remove(final java.util.Collection entities) {
-		if (entities == null) { throw new IllegalArgumentException(
-		        "WatchListItem.remove - 'entities' can not be null"); }
-		getHibernateTemplate().deleteAll(entities);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(com.algoTrader.entity.Strategy,
-	 *      com.algoTrader.entity.Security)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem findByStrategyAndSecurity(
-	        final com.algoTrader.entity.Strategy strategy,
-	        final com.algoTrader.entity.Security security) {
-		return (com.algoTrader.entity.WatchListItem) this
-		        .findByStrategyAndSecurity(WatchListItemDao.TRANSFORM_NONE,
-		                strategy, security);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(java.lang.String,
-	 *      com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
-	 */
-	@Override
-	public com.algoTrader.entity.WatchListItem findByStrategyAndSecurity(
-	        final java.lang.String queryString,
-	        final com.algoTrader.entity.Strategy strategy,
-	        final com.algoTrader.entity.Security security) {
-		return (com.algoTrader.entity.WatchListItem) this
-		        .findByStrategyAndSecurity(WatchListItemDao.TRANSFORM_NONE,
-		                queryString, strategy, security);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(int,
-	 *      com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
-	 */
-	@Override
-	public java.lang.Object findByStrategyAndSecurity(final int transform,
-	        final com.algoTrader.entity.Strategy strategy,
-	        final com.algoTrader.entity.Security security) {
-		return this
-		        .findByStrategyAndSecurity(
-		                transform,
-		                "from WatchListItemImpl where security = :security and strategy = :strategy",
-		                strategy, security);
-	}
-	
-	/**
-	 * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(int,
-	 *      java.lang.String, com.algoTrader.entity.Strategy,
-	 *      com.algoTrader.entity.Security)
-	 */
-	@Override
-	public java.lang.Object findByStrategyAndSecurity(final int transform,
-	        final java.lang.String queryString,
-	        final com.algoTrader.entity.Strategy strategy,
-	        final com.algoTrader.entity.Security security) {
-		try {
-			final org.hibernate.Query queryObject = super.getSession(false)
-			        .createQuery(queryString);
-			queryObject.setCacheable(true);
-			queryObject.setParameter("strategy", strategy);
-			queryObject.setParameter("security", security);
-			final java.util.Set results = new java.util.LinkedHashSet(
-			        queryObject.list());
-			java.lang.Object result = null;
-			if (results != null) {
-				if (results.size() > 1) {
-					throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
-					        "More than one instance of 'com.algoTrader.entity.WatchListItem"
-					                +
-					                "' was found when executing query --> '" +
-					                queryString + "'");
-				} else if (results.size() == 1) {
-					result = results.iterator().next();
-				}
-			}
-			result = transformEntity(transform,
-			        (com.algoTrader.entity.WatchListItem) result);
-			return result;
-		} catch (final org.hibernate.HibernateException ex) {
-			throw super.convertHibernateAccessException(ex);
-		}
-	}
-	
-	/**
-	 * Allows transformation of entities into value objects
-	 * (or something else for that matter), when the <code>transform</code> flag
-	 * is set to one of the constants defined in
-	 * <code>com.algoTrader.entity.WatchListItemDao</code>, please note
-	 * that the {@link #TRANSFORM_NONE} constant denotes no transformation, so
-	 * the entity itself
-	 * will be returned.
-	 * 
-	 * If the integer argument value is unknown {@link #TRANSFORM_NONE} is
-	 * assumed.
-	 * 
-	 * @param transform
-	 *            one of the constants declared in
-	 *            {@link com.algoTrader.entity.WatchListItemDao}
-	 * @param entity
-	 *            an entity that was found
-	 * @return the transformed entity (i.e. new value object, etc)
-	 * @see #transformEntities(int,java.util.Collection)
-	 */
-	protected java.lang.Object transformEntity(final int transform,
-	        final com.algoTrader.entity.WatchListItem entity) {
-		java.lang.Object target = null;
-		if (entity != null) {
-			switch (transform) {
-				case TRANSFORM_NONE: // fall-through
-				default:
-					target = entity;
-			}
-		}
-		return target;
-	}
-	
-	/**
-	 * Transforms a collection of entities using the
-	 * {@link #transformEntity(int,com.algoTrader.entity.WatchListItem)} method.
-	 * This method does not instantiate a new collection.
-	 * <p/>
-	 * This method is to be used internally only.
-	 * 
-	 * @param transform
-	 *            one of the constants declared in
-	 *            <code>com.algoTrader.entity.WatchListItemDao</code>
-	 * @param entities
-	 *            the collection of entities to transform
-	 * @see #transformEntity(int,com.algoTrader.entity.WatchListItem)
-	 */
-	protected void transformEntities(final int transform,
-	        final java.util.Collection entities) {
-		switch (transform) {
-			case TRANSFORM_NONE: // fall-through
-			default:
-				// do nothing;
-		}
-	}
-	
+    extends org.springframework.orm.hibernate3.support.HibernateDaoSupport
+    implements com.algoTrader.entity.WatchListItemDao
+{
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#load(int, int)
+     */
+    public java.lang.Object load(final int transform, final int id)
+    {
+        final java.lang.Object entity = this.getHibernateTemplate().get(com.algoTrader.entity.WatchListItemImpl.class, new java.lang.Integer(id));
+        return transformEntity(transform, (com.algoTrader.entity.WatchListItem)entity);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#load(int)
+     */
+    public com.algoTrader.entity.WatchListItem load(int id)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.load(TRANSFORM_NONE, id);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#loadAll()
+     */
+    public java.util.Collection loadAll()
+    {
+        return this.loadAll(TRANSFORM_NONE);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#loadAll(int)
+     */
+    public java.util.Collection loadAll(final int transform)
+    {
+        final java.util.Collection results = this.getHibernateTemplate().loadAll(com.algoTrader.entity.WatchListItemImpl.class);
+        this.transformEntities(transform, results);
+        return results;
+    }
+
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(com.algoTrader.entity.WatchListItem)
+     */
+    public com.algoTrader.entity.WatchListItem create(com.algoTrader.entity.WatchListItem watchListItem)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.create(TRANSFORM_NONE, watchListItem);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(int transform, com.algoTrader.entity.WatchListItem)
+     */
+    public java.lang.Object create(final int transform, final com.algoTrader.entity.WatchListItem watchListItem)
+    {
+        if (watchListItem == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.create - 'watchListItem' can not be null");
+        }
+        this.getHibernateTemplate().save(watchListItem);
+        return this.transformEntity(transform, watchListItem);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(java.util.Collection)
+     */
+    public java.util.Collection create(final java.util.Collection entities)
+    {
+        return create(TRANSFORM_NONE, entities);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(int, java.util.Collection)
+     */
+    public java.util.Collection create(final int transform, final java.util.Collection entities)
+    {
+        if (entities == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.create - 'entities' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+            new org.springframework.orm.hibernate3.HibernateCallback()
+            {
+                public java.lang.Object doInHibernate(org.hibernate.Session session)
+                    throws org.hibernate.HibernateException
+                {
+                    for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
+                    {
+                        create(transform, (com.algoTrader.entity.WatchListItem)entityIterator.next());
+                    }
+                    return null;
+                }
+            });
+        return entities;
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(boolean)
+     */
+    public com.algoTrader.entity.WatchListItem create(
+        boolean persistent)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.create(TRANSFORM_NONE, persistent);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(int, boolean)
+     */
+    public java.lang.Object create(
+        final int transform,
+        boolean persistent)
+    {
+        com.algoTrader.entity.WatchListItem entity = new com.algoTrader.entity.WatchListItemImpl();
+        entity.setPersistent(persistent);
+        return this.create(transform, entity);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(boolean, com.algoTrader.entity.Security, com.algoTrader.entity.Strategy)
+     */
+    public com.algoTrader.entity.WatchListItem create(
+        boolean persistent,
+        com.algoTrader.entity.Security security,
+        com.algoTrader.entity.Strategy strategy)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.create(TRANSFORM_NONE, persistent, security, strategy);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#create(int, boolean, com.algoTrader.entity.Security, com.algoTrader.entity.Strategy)
+     */
+    public java.lang.Object create(
+        final int transform,
+        boolean persistent,
+        com.algoTrader.entity.Security security,
+        com.algoTrader.entity.Strategy strategy)
+    {
+        com.algoTrader.entity.WatchListItem entity = new com.algoTrader.entity.WatchListItemImpl();
+        entity.setPersistent(persistent);
+        entity.setSecurity(security);
+        entity.setStrategy(strategy);
+        return this.create(transform, entity);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#update(com.algoTrader.entity.WatchListItem)
+     */
+    public void update(com.algoTrader.entity.WatchListItem watchListItem)
+    {
+        if (watchListItem == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.update - 'watchListItem' can not be null");
+        }
+        this.getHibernateTemplate().update(watchListItem);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#update(java.util.Collection)
+     */
+    public void update(final java.util.Collection entities)
+    {
+        if (entities == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.update - 'entities' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+            new org.springframework.orm.hibernate3.HibernateCallback()
+            {
+                public java.lang.Object doInHibernate(org.hibernate.Session session)
+                    throws org.hibernate.HibernateException
+                {
+                    for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
+                    {
+                        update((com.algoTrader.entity.WatchListItem)entityIterator.next());
+                    }
+                    return null;
+                }
+            });
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#remove(com.algoTrader.entity.WatchListItem)
+     */
+    public void remove(com.algoTrader.entity.WatchListItem watchListItem)
+    {
+        if (watchListItem == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.remove - 'watchListItem' can not be null");
+        }
+        this.getHibernateTemplate().delete(watchListItem);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#remove(int)
+     */
+    public void remove(int id)
+    {
+        com.algoTrader.entity.WatchListItem entity = this.load(id);
+        if (entity != null)
+        {
+            this.remove(entity);
+        }
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#remove(java.util.Collection)
+     */
+    public void remove(java.util.Collection entities)
+    {
+        if (entities == null)
+        {
+            throw new IllegalArgumentException(
+                "WatchListItem.remove - 'entities' can not be null");
+        }
+        this.getHibernateTemplate().deleteAll(entities);
+    }
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
+     */
+    public com.algoTrader.entity.WatchListItem findByStrategyAndSecurity(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.findByStrategyAndSecurity(TRANSFORM_NONE, strategy, security);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(java.lang.String, com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
+     */
+    public com.algoTrader.entity.WatchListItem findByStrategyAndSecurity(final java.lang.String queryString, final com.algoTrader.entity.Strategy strategy, final com.algoTrader.entity.Security security)
+    {
+        return (com.algoTrader.entity.WatchListItem)this.findByStrategyAndSecurity(TRANSFORM_NONE, queryString, strategy, security);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(int, com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
+     */
+    public java.lang.Object findByStrategyAndSecurity(final int transform, final com.algoTrader.entity.Strategy strategy, final com.algoTrader.entity.Security security)
+    {
+        return this.findByStrategyAndSecurity(transform, "from WatchListItemImpl where security = :security and strategy = :strategy", strategy, security);
+    }
+
+    /**
+     * @see com.algoTrader.entity.WatchListItemDao#findByStrategyAndSecurity(int, java.lang.String, com.algoTrader.entity.Strategy, com.algoTrader.entity.Security)
+     */
+    public java.lang.Object findByStrategyAndSecurity(final int transform, final java.lang.String queryString, final com.algoTrader.entity.Strategy strategy, final com.algoTrader.entity.Security security)
+    {
+        try
+        {
+            org.hibernate.Query queryObject = super.getSession(false).createQuery(queryString);	
+            queryObject.setCacheable(true);
+            queryObject.setParameter("strategy", strategy);
+            queryObject.setParameter("security", security);
+            java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
+            java.lang.Object result = null;
+            if (results != null)
+            {
+                if (results.size() > 1)
+                {
+                    throw new org.springframework.dao.InvalidDataAccessResourceUsageException(
+                        "More than one instance of 'com.algoTrader.entity.WatchListItem"
+                            + "' was found when executing query --> '" + queryString + "'");
+                }
+                else if (results.size() == 1)
+                {
+                    result = results.iterator().next();
+                }
+            }
+            result = transformEntity(transform, (com.algoTrader.entity.WatchListItem)result);
+            return result;
+        }
+        catch (org.hibernate.HibernateException ex)
+        {
+            throw super.convertHibernateAccessException(ex);
+        }
+    }
+
+    /**
+     * Allows transformation of entities into value objects
+     * (or something else for that matter), when the <code>transform</code>
+     * flag is set to one of the constants defined in <code>com.algoTrader.entity.WatchListItemDao</code>, please note
+     * that the {@link #TRANSFORM_NONE} constant denotes no transformation, so the entity itself
+     * will be returned.
+     *
+     * If the integer argument value is unknown {@link #TRANSFORM_NONE} is assumed.
+     *
+     * @param transform one of the constants declared in {@link com.algoTrader.entity.WatchListItemDao}
+     * @param entity an entity that was found
+     * @return the transformed entity (i.e. new value object, etc)
+     * @see #transformEntities(int,java.util.Collection)
+     */
+    protected java.lang.Object transformEntity(final int transform, final com.algoTrader.entity.WatchListItem entity)
+    {
+        java.lang.Object target = null;
+        if (entity != null)
+        {
+            switch (transform)
+            {
+                case TRANSFORM_NONE : // fall-through
+                default:
+                    target = entity;
+            }
+        }
+        return target;
+    }
+
+    /**
+     * Transforms a collection of entities using the
+     * {@link #transformEntity(int,com.algoTrader.entity.WatchListItem)}
+     * method. This method does not instantiate a new collection.
+     * <p/>
+     * This method is to be used internally only.
+     *
+     * @param transform one of the constants declared in <code>com.algoTrader.entity.WatchListItemDao</code>
+     * @param entities the collection of entities to transform
+     * @see #transformEntity(int,com.algoTrader.entity.WatchListItem)
+     */
+    protected void transformEntities(final int transform, final java.util.Collection entities)
+    {
+        switch (transform)
+        {
+            case TRANSFORM_NONE : // fall-through
+                default:
+                // do nothing;
+        }
+    }
+
 }

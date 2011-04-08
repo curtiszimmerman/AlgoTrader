@@ -9,138 +9,149 @@ package com.algoTrader.vo;
  * 
  */
 public class PerformanceKeysVO
-        extends com.algoTrader.BaseObject
-        implements java.io.Serializable {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= -170154156953289350L;
-	
-	public PerformanceKeysVO() {
-		n = 0;
-		avgM = 0;
-		stdM = 0;
-		avgY = 0;
-		stdY = 0;
-		sharpRatio = 0;
-	}
-	
-	public PerformanceKeysVO(final long n, final double avgM,
-	        final double stdM, final double avgY, final double stdY,
-	        final double sharpRatio) {
-		this.n = n;
-		this.avgM = avgM;
-		this.stdM = stdM;
-		this.avgY = avgY;
-		this.stdY = stdY;
-		this.sharpRatio = sharpRatio;
-	}
-	
-	/**
-	 * Copies constructor from other PerformanceKeysVO
-	 * 
-	 * @param otherBean
-	 *            , cannot be <code>null</code>
-	 * @throws java.lang.NullPointerException
-	 *             if the argument is <code>null</code>
-	 */
-	public PerformanceKeysVO(final PerformanceKeysVO otherBean) {
-		this(otherBean.getN(), otherBean.getAvgM(), otherBean.getStdM(),
-		        otherBean.getAvgY(), otherBean.getStdY(), otherBean
-		                .getSharpRatio());
-	}
-	
-	/**
-	 * Copies all properties from the argument value object into this value
-	 * object.
-	 */
-	public void copy(final PerformanceKeysVO otherBean) {
-		if (otherBean != null) {
-			setN(otherBean.getN());
-			setAvgM(otherBean.getAvgM());
-			setStdM(otherBean.getStdM());
-			setAvgY(otherBean.getAvgY());
-			setStdY(otherBean.getStdY());
-			setSharpRatio(otherBean.getSharpRatio());
-		}
-	}
-	
-	private long	n;
-	
-	/**
+    extends com.algoTrader.BaseObject
+    implements java.io.Serializable
+{
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = -170154156953289350L;
+
+    public PerformanceKeysVO()
+    {
+        this.n = 0;
+        this.avgM = 0;
+        this.stdM = 0;
+        this.avgY = 0;
+        this.stdY = 0;
+        this.sharpRatio = 0;
+    }
+
+    public PerformanceKeysVO(long n, double avgM, double stdM, double avgY, double stdY, double sharpRatio)
+    {
+        this.n = n;
+        this.avgM = avgM;
+        this.stdM = stdM;
+        this.avgY = avgY;
+        this.stdY = stdY;
+        this.sharpRatio = sharpRatio;
+    }
+
+    /**
+     * Copies constructor from other PerformanceKeysVO
+     *
+     * @param otherBean, cannot be <code>null</code>
+     * @throws java.lang.NullPointerException if the argument is <code>null</code>
+     */
+    public PerformanceKeysVO(PerformanceKeysVO otherBean)
+    {
+        this(otherBean.getN(), otherBean.getAvgM(), otherBean.getStdM(), otherBean.getAvgY(), otherBean.getStdY(), otherBean.getSharpRatio());
+    }
+
+    /**
+     * Copies all properties from the argument value object into this value object.
+     */
+    public void copy(PerformanceKeysVO otherBean)
+    {
+        if (otherBean != null)
+        {
+            this.setN(otherBean.getN());
+            this.setAvgM(otherBean.getAvgM());
+            this.setStdM(otherBean.getStdM());
+            this.setAvgY(otherBean.getAvgY());
+            this.setStdY(otherBean.getStdY());
+            this.setSharpRatio(otherBean.getSharpRatio());
+        }
+    }
+
+    private long n;
+
+    /**
      * 
      */
-	public long getN() {
-		return n;
-	}
-	
-	public void setN(final long n) {
-		this.n = n;
-	}
-	
-	private double	avgM;
-	
-	/**
+    public long getN()
+    {
+        return this.n;
+    }
+
+    public void setN(long n)
+    {
+        this.n = n;
+    }
+
+    private double avgM;
+
+    /**
      * 
      */
-	public double getAvgM() {
-		return avgM;
-	}
-	
-	public void setAvgM(final double avgM) {
-		this.avgM = avgM;
-	}
-	
-	private double	stdM;
-	
-	/**
+    public double getAvgM()
+    {
+        return this.avgM;
+    }
+
+    public void setAvgM(double avgM)
+    {
+        this.avgM = avgM;
+    }
+
+    private double stdM;
+
+    /**
      * 
      */
-	public double getStdM() {
-		return stdM;
-	}
-	
-	public void setStdM(final double stdM) {
-		this.stdM = stdM;
-	}
-	
-	private double	avgY;
-	
-	/**
+    public double getStdM()
+    {
+        return this.stdM;
+    }
+
+    public void setStdM(double stdM)
+    {
+        this.stdM = stdM;
+    }
+
+    private double avgY;
+
+    /**
      * 
      */
-	public double getAvgY() {
-		return avgY;
-	}
-	
-	public void setAvgY(final double avgY) {
-		this.avgY = avgY;
-	}
-	
-	private double	stdY;
-	
-	/**
+    public double getAvgY()
+    {
+        return this.avgY;
+    }
+
+    public void setAvgY(double avgY)
+    {
+        this.avgY = avgY;
+    }
+
+    private double stdY;
+
+    /**
      * 
      */
-	public double getStdY() {
-		return stdY;
-	}
-	
-	public void setStdY(final double stdY) {
-		this.stdY = stdY;
-	}
-	
-	private double	sharpRatio;
-	
-	/**
+    public double getStdY()
+    {
+        return this.stdY;
+    }
+
+    public void setStdY(double stdY)
+    {
+        this.stdY = stdY;
+    }
+
+    private double sharpRatio;
+
+    /**
      * 
      */
-	public double getSharpRatio() {
-		return sharpRatio;
-	}
-	
-	public void setSharpRatio(final double sharpRatio) {
-		this.sharpRatio = sharpRatio;
-	}
-	
+    public double getSharpRatio()
+    {
+        return this.sharpRatio;
+    }
+
+    public void setSharpRatio(double sharpRatio)
+    {
+        this.sharpRatio = sharpRatio;
+    }
+
 }

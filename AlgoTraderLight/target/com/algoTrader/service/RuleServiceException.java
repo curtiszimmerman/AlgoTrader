@@ -12,86 +12,95 @@ import org.apache.commons.beanutils.PropertyUtils;
  * within {@link com.algoTrader.service.RuleService}.
  */
 public class RuleServiceException
-        extends java.lang.RuntimeException {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= 2587479862589474201L;
-	
-	/**
-	 * The default constructor for <code>RuleServiceException</code>.
-	 */
-	public RuleServiceException() {
-	}
-	
-	/**
-	 * Constructs a new instance of <code>RuleServiceException</code>.
-	 * 
-	 * @param throwable
-	 *            the parent Throwable
-	 */
-	public RuleServiceException(final Throwable throwable) {
-		super(RuleServiceException.findRootCause(throwable));
-	}
-	
-	/**
-	 * Constructs a new instance of <code>RuleServiceException</code>.
-	 * 
-	 * @param message
-	 *            the throwable message.
-	 */
-	public RuleServiceException(final String message) {
-		super(message);
-	}
-	
-	/**
-	 * Constructs a new instance of <code>RuleServiceException</code>.
-	 * 
-	 * @param message
-	 *            the throwable message.
-	 * @param throwable
-	 *            the parent of this Throwable.
-	 */
-	public RuleServiceException(final String message, final Throwable throwable) {
-		super(message, RuleServiceException.findRootCause(throwable));
-	}
-	
-	/**
-	 * Finds the root cause of the parent exception
-	 * by traveling up the exception tree
-	 */
-	private static Throwable findRootCause(Throwable th) {
-		if (th != null) {
-			// Reflectively get any exception causes.
-			try {
-				Throwable targetException = null;
-				
-				// java.lang.reflect.InvocationTargetException
-				String exceptionProperty = "targetException";
-				if (PropertyUtils.isReadable(th, exceptionProperty)) {
-					targetException = (Throwable) PropertyUtils.getProperty(th,
-					        exceptionProperty);
-				} else {
-					exceptionProperty = "causedByException";
-					// javax.ejb.EJBException
-					if (PropertyUtils.isReadable(th, exceptionProperty)) {
-						targetException = (Throwable) PropertyUtils
-						        .getProperty(th, exceptionProperty);
-					}
-				}
-				if (targetException != null) {
-					th = targetException;
-				}
-			} catch (final Exception ex) {
-				// just print the exception and continue
-				ex.printStackTrace();
-			}
-			
-			if (th.getCause() != null) {
-				th = th.getCause();
-				th = RuleServiceException.findRootCause(th);
-			}
-		}
-		return th;
-	}
+    extends java.lang.RuntimeException
+{
+    /** 
+     * The serial version UID of this class. Needed for serialization. 
+     */
+    private static final long serialVersionUID = 2587479862589474201L;
+
+    /**
+     * The default constructor for <code>RuleServiceException</code>.
+     */
+    public RuleServiceException()
+    {}
+
+    /**
+     * Constructs a new instance of <code>RuleServiceException</code>.
+     *
+     * @param throwable the parent Throwable
+     */
+    public RuleServiceException(Throwable throwable)
+    {
+        super(findRootCause(throwable));
+    }
+
+    /**
+     * Constructs a new instance of <code>RuleServiceException</code>.
+     *
+     * @param message the throwable message.
+     */
+    public RuleServiceException(String message)
+    {
+        super(message);
+    }
+
+    /**
+     * Constructs a new instance of <code>RuleServiceException</code>.
+     *
+     * @param message the throwable message.
+     * @param throwable the parent of this Throwable.
+     */
+    public RuleServiceException(String message, Throwable throwable)
+    {
+        super(message, findRootCause(throwable));
+    }
+
+    /**
+     * Finds the root cause of the parent exception
+     * by traveling up the exception tree
+     */
+    private static Throwable findRootCause(Throwable th)
+    {
+        if (th != null)
+        {
+            // Reflectively get any exception causes.
+            try
+            {
+                Throwable targetException = null;
+
+                // java.lang.reflect.InvocationTargetException
+                String exceptionProperty = "targetException";
+                if (PropertyUtils.isReadable(th, exceptionProperty))
+                {
+                    targetException = (Throwable)PropertyUtils.getProperty(th, exceptionProperty);
+                }
+                else
+                {
+                    exceptionProperty = "causedByException";
+                    //javax.ejb.EJBException
+                    if (PropertyUtils.isReadable(th, exceptionProperty))
+                    {
+                        targetException = (Throwable)PropertyUtils.getProperty(th, exceptionProperty);
+                    }
+                }
+                if (targetException != null)
+                {
+                    th = targetException;
+                }
+            }
+            catch (Exception ex)
+            {
+                // just print the exception and continue
+                ex.printStackTrace();
+            }
+
+            if (th.getCause() != null)
+            {
+                th = th.getCause();
+                th = findRootCause(th);
+            }
+        }
+        return th;
+    }
 }

@@ -22,37 +22,34 @@ import com.algoTrader.util.RoundUtil;
 import com.algoTrader.vo.OrderVO;
 
 public class TransactionServiceImpl extends TransactionServiceBase {
-	
-	private static Logger	logger	= MyLogger
-	                                       .getLogger(TransactionServiceImpl.class
-	                                               .getName());
-	
-	@Override
+
+	private static Logger logger = MyLogger.getLogger(TransactionServiceImpl.class.getName());
+
 	@SuppressWarnings("unchecked")
-	protected Order handleExecuteTransaction(final String strategyName,
-	        final OrderVO orderVO) throws Exception {
-		
-		final Strategy strategy = getStrategyDao().findByName(strategyName);
-		
+	protected Order handleExecuteTransaction(String strategyName, OrderVO orderVO) throws Exception {
+
+		Strategy strategy = getStrategyDao().findByName(strategyName);
+
 		// construct a order-entity from the orderVO
-		final Order order = orderVOToEntity(orderVO);
-		
-		final Security security = order.getSecurity();
-		final TransactionType transactionType = order.getTransactionType();
-		final long requestedQuantity = order.getRequestedQuantity();
-		
-		if (requestedQuantity <= 0) { throw new IllegalArgumentException(
-		        "quantity must be greater than 0"); }
-		
+		Order order = orderVOToEntity(orderVO);
+
+		Security security = order.getSecurity();
+		TransactionType transactionType = order.getTransactionType();
+		long requestedQuantity = order.getRequestedQuantity();
+
+		if (requestedQuantity <= 0) {
+			throw new IllegalArgumentException("quantity must be greater than 0");
+		}
+
 		executeInternalTransaction(order);
-		
-		final Collection<Transaction> transactions = order.getTransactions();
+
+		Collection<Transaction> transactions = order.getTransactions();
 		long totalQuantity = 0;
 		double totalPrice = 0.0;
 		double totalCommission = 0.0;
 		
-		for (final Transaction transaction : transactions) {
-			
+		for (Transaction transaction : transactions) {
+
 			transaction.setType(transactionType);
 			transaction.setSecurity(security);
 			transaction.setCurrency(security.getSecurityFamily().getCurrency());
@@ -60,121 +57,112 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 			// Strategy
 			transaction.setStrategy(strategy);
 			strategy.getTransactions().add(transaction);
-			
+
 			// Position
-			Position position = getPositionDao().findBySecurityAndStrategy(
-			        security.getId(), strategyName);
+			Position position = getPositionDao().findBySecurityAndStrategy(security.getId(), strategyName);
 			if (position == null) {
-				
+
 				position = new PositionImpl();
 				position.setQuantity(transaction.getQuantity());
-				
+
 				position.setExitValue(null);
 				position.setMaintenanceMargin(null);
-				
+
 				position.setSecurity(security);
 				security.getPositions().add(position);
-				
+
 				position.getTransactions().add(transaction);
 				transaction.setPosition(position);
-				
+
 				position.setStrategy(strategy);
 				strategy.getPositions().add(position);
-				
+
 				getPositionDao().create(position);
-				
+
 			} else {
 				
-				position.setQuantity(position.getQuantity() +
-				        transaction.getQuantity());
-				
+				position.setQuantity(position.getQuantity() + transaction.getQuantity());
+
 				if (!position.isOpen()) {
 					position.setExitValue(null);
 					position.setMaintenanceMargin(null);
 				}
-				
+
 				position.getTransactions().add(transaction);
 				transaction.setPosition(position);
-				
+
 				getPositionDao().update(position);
 			}
-			
+
 			getTransactionDao().create(transaction);
 			getStrategyDao().update(strategy);
 			getSecurityDao().update(security);
 			
 			totalQuantity += transaction.getQuantity();
-			totalPrice += transaction.getPrice().doubleValue() *
-			        transaction.getQuantity();
+			totalPrice += transaction.getPrice().doubleValue() * transaction.getQuantity();
 			totalCommission += transaction.getCommission().doubleValue();
 			
-			final String logMessage = "executed transaction type: " +
-			        transactionType + " quantity: " +
-			        transaction.getQuantity() +
-			        " of " + security.getSymbol() + " price: " +
-			        transaction.getPrice() + " commission: " +
-			        transaction.getCommission();
+			String logMessage = "executed transaction type: " + transactionType + " quantity: " + transaction.getQuantity() +
+					" of " + security.getSymbol() + " price: " + transaction.getPrice() + " commission: " + transaction.getCommission();
 			
-			TransactionServiceImpl.logger.info(logMessage);
+			logger.info(logMessage);
 		}
-		
+
 		return order;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private void executeInternalTransaction(final Order order) {
-		
-		final Transaction transaction = new TransactionImpl();
+	private void executeInternalTransaction(Order order) {
+
+		Transaction transaction = new TransactionImpl();
 		transaction.setDateTime(DateUtil.getCurrentEPTime());
-		
-		final Security security = order.getSecurity();
-		final Tick tick = security.getLastTick();
-		
+
+		Security security = order.getSecurity();
+		Tick tick = security.getLastTick();
+
 		if (TransactionType.SELL.equals(order.getTransactionType())) {
-			
-			final double bid = tick.getBid().doubleValue();
-			
+
+			double bid = tick.getBid().doubleValue();
+
 			transaction.setPrice(RoundUtil.getBigDecimal(bid));
 			transaction.setQuantity(-Math.abs(order.getRequestedQuantity()));
-			
+
 		} else if (TransactionType.BUY.equals(order.getTransactionType())) {
-			
-			final double ask = tick.getAsk().doubleValue();
-			
+
+			double ask = tick.getAsk().doubleValue();
+
 			transaction.setPrice(RoundUtil.getBigDecimal(ask));
 			transaction.setQuantity(Math.abs(order.getRequestedQuantity()));
-			
+
 		}
-		
-		if (TransactionType.SELL.equals(order.getTransactionType()) ||
-		        TransactionType.BUY.equals(order.getTransactionType())) {
+
+		if (TransactionType.SELL.equals(order.getTransactionType()) || TransactionType.BUY.equals(order.getTransactionType())) {
 			
-			if (security.getSecurityFamily().getCommission() == null) { throw new RuntimeException(
-			        "commission is undefined for " + security.getSymbol()); }
+			if(security.getSecurityFamily().getCommission() == null) {
+				throw new RuntimeException("commission is undefined for " + security.getSymbol());
+			}
 			
-			final double commission = Math.abs(order.getRequestedQuantity() *
-			        security.getSecurityFamily().getCommission().doubleValue());
+			double commission = Math.abs(order.getRequestedQuantity() * security.getSecurityFamily().getCommission().doubleValue());
 			transaction.setCommission(RoundUtil.getBigDecimal(commission));
 		} else {
 			transaction.setCommission(new BigDecimal(0));
 		}
-		
+
 		order.setStatus(OrderStatus.AUTOMATIC);
 		order.getTransactions().add(transaction);
 	}
-	
+
 	/**
 	 * implemented here because Order is nonPersistent
 	 */
-	private Order orderVOToEntity(final OrderVO orderVO) {
-		
-		final Order order = new OrderImpl();
-		order.setStrategy(getStrategyDao()
-		        .findByName(orderVO.getStrategyName()));
+	private Order orderVOToEntity(OrderVO orderVO) {
+	
+		Order order = new OrderImpl();
+		order.setStrategy(getStrategyDao().findByName(orderVO.getStrategyName()));
 		order.setSecurity(getSecurityDao().load(orderVO.getSecurityId()));
 		order.setRequestedQuantity(orderVO.getRequestedQuantity());
 		order.setTransactionType(orderVO.getTransactionType());
-		
+	
 		return order;
 	}
 }

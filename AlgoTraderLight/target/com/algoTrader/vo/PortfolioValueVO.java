@@ -9,105 +9,113 @@ package com.algoTrader.vo;
  * 
  */
 public class PortfolioValueVO
-        extends com.algoTrader.BaseObject
-        implements java.io.Serializable {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= -1239053325328896278L;
-	
-	public PortfolioValueVO() {
-		securitiesCurrentValue = 0;
-		cashBalance = 0;
-		maintenanceMargin = 0;
-		netLiqValue = 0;
-	}
-	
-	public PortfolioValueVO(final double securitiesCurrentValue,
-	        final double cashBalance, final double maintenanceMargin,
-	        final double netLiqValue) {
-		this.securitiesCurrentValue = securitiesCurrentValue;
-		this.cashBalance = cashBalance;
-		this.maintenanceMargin = maintenanceMargin;
-		this.netLiqValue = netLiqValue;
-	}
-	
-	/**
-	 * Copies constructor from other PortfolioValueVO
-	 * 
-	 * @param otherBean
-	 *            , cannot be <code>null</code>
-	 * @throws java.lang.NullPointerException
-	 *             if the argument is <code>null</code>
-	 */
-	public PortfolioValueVO(final PortfolioValueVO otherBean) {
-		this(otherBean.getSecuritiesCurrentValue(), otherBean.getCashBalance(),
-		        otherBean.getMaintenanceMargin(), otherBean.getNetLiqValue());
-	}
-	
-	/**
-	 * Copies all properties from the argument value object into this value
-	 * object.
-	 */
-	public void copy(final PortfolioValueVO otherBean) {
-		if (otherBean != null) {
-			setSecuritiesCurrentValue(otherBean.getSecuritiesCurrentValue());
-			setCashBalance(otherBean.getCashBalance());
-			setMaintenanceMargin(otherBean.getMaintenanceMargin());
-			setNetLiqValue(otherBean.getNetLiqValue());
-		}
-	}
-	
-	private double	securitiesCurrentValue;
-	
-	/**
+    extends com.algoTrader.BaseObject
+    implements java.io.Serializable
+{
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = -1239053325328896278L;
+
+    public PortfolioValueVO()
+    {
+        this.securitiesCurrentValue = 0;
+        this.cashBalance = 0;
+        this.maintenanceMargin = 0;
+        this.netLiqValue = 0;
+    }
+
+    public PortfolioValueVO(double securitiesCurrentValue, double cashBalance, double maintenanceMargin, double netLiqValue)
+    {
+        this.securitiesCurrentValue = securitiesCurrentValue;
+        this.cashBalance = cashBalance;
+        this.maintenanceMargin = maintenanceMargin;
+        this.netLiqValue = netLiqValue;
+    }
+
+    /**
+     * Copies constructor from other PortfolioValueVO
+     *
+     * @param otherBean, cannot be <code>null</code>
+     * @throws java.lang.NullPointerException if the argument is <code>null</code>
+     */
+    public PortfolioValueVO(PortfolioValueVO otherBean)
+    {
+        this(otherBean.getSecuritiesCurrentValue(), otherBean.getCashBalance(), otherBean.getMaintenanceMargin(), otherBean.getNetLiqValue());
+    }
+
+    /**
+     * Copies all properties from the argument value object into this value object.
+     */
+    public void copy(PortfolioValueVO otherBean)
+    {
+        if (otherBean != null)
+        {
+            this.setSecuritiesCurrentValue(otherBean.getSecuritiesCurrentValue());
+            this.setCashBalance(otherBean.getCashBalance());
+            this.setMaintenanceMargin(otherBean.getMaintenanceMargin());
+            this.setNetLiqValue(otherBean.getNetLiqValue());
+        }
+    }
+
+    private double securitiesCurrentValue;
+
+    /**
      * 
      */
-	public double getSecuritiesCurrentValue() {
-		return securitiesCurrentValue;
-	}
-	
-	public void setSecuritiesCurrentValue(final double securitiesCurrentValue) {
-		this.securitiesCurrentValue = securitiesCurrentValue;
-	}
-	
-	private double	cashBalance;
-	
-	/**
+    public double getSecuritiesCurrentValue()
+    {
+        return this.securitiesCurrentValue;
+    }
+
+    public void setSecuritiesCurrentValue(double securitiesCurrentValue)
+    {
+        this.securitiesCurrentValue = securitiesCurrentValue;
+    }
+
+    private double cashBalance;
+
+    /**
      * 
      */
-	public double getCashBalance() {
-		return cashBalance;
-	}
-	
-	public void setCashBalance(final double cashBalance) {
-		this.cashBalance = cashBalance;
-	}
-	
-	private double	maintenanceMargin;
-	
-	/**
+    public double getCashBalance()
+    {
+        return this.cashBalance;
+    }
+
+    public void setCashBalance(double cashBalance)
+    {
+        this.cashBalance = cashBalance;
+    }
+
+    private double maintenanceMargin;
+
+    /**
      * 
      */
-	public double getMaintenanceMargin() {
-		return maintenanceMargin;
-	}
-	
-	public void setMaintenanceMargin(final double maintenanceMargin) {
-		this.maintenanceMargin = maintenanceMargin;
-	}
-	
-	private double	netLiqValue;
-	
-	/**
+    public double getMaintenanceMargin()
+    {
+        return this.maintenanceMargin;
+    }
+
+    public void setMaintenanceMargin(double maintenanceMargin)
+    {
+        this.maintenanceMargin = maintenanceMargin;
+    }
+
+    private double netLiqValue;
+
+    /**
      * 
      */
-	public double getNetLiqValue() {
-		return netLiqValue;
-	}
-	
-	public void setNetLiqValue(final double netLiqValue) {
-		this.netLiqValue = netLiqValue;
-	}
-	
+    public double getNetLiqValue()
+    {
+        return this.netLiqValue;
+    }
+
+    public void setNetLiqValue(double netLiqValue)
+    {
+        this.netLiqValue = netLiqValue;
+    }
+
 }

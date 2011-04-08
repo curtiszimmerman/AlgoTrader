@@ -9,70 +9,77 @@ package com.algoTrader.vo;
  * 
  */
 public class MonthlyPerformanceVO
-        extends com.algoTrader.BaseObject
-        implements java.io.Serializable {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= 8872922982997778806L;
-	
-	public MonthlyPerformanceVO() {
-		date = null;
-		value = 0;
-	}
-	
-	public MonthlyPerformanceVO(final java.util.Date date, final double value) {
-		this.date = date;
-		this.value = value;
-	}
-	
-	/**
-	 * Copies constructor from other MonthlyPerformanceVO
-	 * 
-	 * @param otherBean
-	 *            , cannot be <code>null</code>
-	 * @throws java.lang.NullPointerException
-	 *             if the argument is <code>null</code>
-	 */
-	public MonthlyPerformanceVO(final MonthlyPerformanceVO otherBean) {
-		this(otherBean.getDate(), otherBean.getValue());
-	}
-	
-	/**
-	 * Copies all properties from the argument value object into this value
-	 * object.
-	 */
-	public void copy(final MonthlyPerformanceVO otherBean) {
-		if (otherBean != null) {
-			setDate(otherBean.getDate());
-			setValue(otherBean.getValue());
-		}
-	}
-	
-	private java.util.Date	date;
-	
-	/**
+    extends com.algoTrader.BaseObject
+    implements java.io.Serializable
+{
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = 8872922982997778806L;
+
+    public MonthlyPerformanceVO()
+    {
+        this.date = null;
+        this.value = 0;
+    }
+
+    public MonthlyPerformanceVO(java.util.Date date, double value)
+    {
+        this.date = date;
+        this.value = value;
+    }
+
+    /**
+     * Copies constructor from other MonthlyPerformanceVO
+     *
+     * @param otherBean, cannot be <code>null</code>
+     * @throws java.lang.NullPointerException if the argument is <code>null</code>
+     */
+    public MonthlyPerformanceVO(MonthlyPerformanceVO otherBean)
+    {
+        this(otherBean.getDate(), otherBean.getValue());
+    }
+
+    /**
+     * Copies all properties from the argument value object into this value object.
+     */
+    public void copy(MonthlyPerformanceVO otherBean)
+    {
+        if (otherBean != null)
+        {
+            this.setDate(otherBean.getDate());
+            this.setValue(otherBean.getValue());
+        }
+    }
+
+    private java.util.Date date;
+
+    /**
      * 
      */
-	public java.util.Date getDate() {
-		return date;
-	}
-	
-	public void setDate(final java.util.Date date) {
-		this.date = date;
-	}
-	
-	private double	value;
-	
-	/**
+    public java.util.Date getDate()
+    {
+        return this.date;
+    }
+
+    public void setDate(java.util.Date date)
+    {
+        this.date = date;
+    }
+
+    private double value;
+
+    /**
      * 
      */
-	public double getValue() {
-		return value;
-	}
-	
-	public void setValue(final double value) {
-		this.value = value;
-	}
-	
+    public double getValue()
+    {
+        return this.value;
+    }
+
+    public void setValue(double value)
+    {
+        this.value = value;
+    }
+
 }

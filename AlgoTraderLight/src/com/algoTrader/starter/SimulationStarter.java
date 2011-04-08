@@ -9,19 +9,15 @@ import com.algoTrader.service.SimulationServiceImpl;
 import com.algoTrader.util.MyLogger;
 
 public class SimulationStarter {
-	
-	public static Logger	logger	= MyLogger
-	                                       .getLogger(SimulationServiceImpl.class
-	                                               .getName());
-	
-	public static void main(final String[] args) throws ConvergenceException,
-	        FunctionEvaluationException {
-		
+
+	public static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
+
+	public static void main(String[] args) throws ConvergenceException, FunctionEvaluationException {
+
 		ServiceLocator.serverInstance().init("beanRefFactorySimulation.xml");
-		
-		ServiceLocator.serverInstance().getSimulationService()
-		        .simulateWithCurrentParams();
-		
+
+		ServiceLocator.serverInstance().getSimulationService().simulateWithCurrentParams();
+
 		ServiceLocator.serverInstance().shutdown();
 	}
 }

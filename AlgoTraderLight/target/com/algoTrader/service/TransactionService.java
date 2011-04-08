@@ -8,12 +8,12 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface TransactionService {
-	
-	/**
+public interface TransactionService
+{
+
+    /**
      * 
      */
-	public com.algoTrader.entity.Order executeTransaction(
-	        java.lang.String strategyName, com.algoTrader.vo.OrderVO order);
-	
+    public com.algoTrader.entity.Order executeTransaction(java.lang.String strategyName, com.algoTrader.vo.OrderVO order);
+
 }

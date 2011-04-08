@@ -9,10 +9,11 @@ package com.algoTrader.entity;
  * @see com.algoTrader.entity.WatchListItem
  */
 public class WatchListItemImpl
-        extends com.algoTrader.entity.WatchListItem {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= -4095123636197045014L;
-	
+    extends com.algoTrader.entity.WatchListItem
+{
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = -4095123636197045014L;
+
 }

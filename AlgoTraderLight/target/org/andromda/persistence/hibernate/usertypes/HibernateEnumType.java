@@ -5,6 +5,10 @@
 //
 package org.andromda.persistence.hibernate.usertypes;
 
+import org.hibernate.HibernateException;
+import org.hibernate.usertype.EnhancedUserType;
+import org.hibernate.usertype.ParameterizedType;
+
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,114 +16,111 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
 
-import org.hibernate.HibernateException;
-import org.hibernate.usertype.EnhancedUserType;
-import org.hibernate.usertype.ParameterizedType;
-
 /**
  * A Hibernate UserType for Java5 enumerations. Taken from
  * <a href="http://www.hibernate.org/272.html">Java 5 EnumUserType</a>.
  */
-public class HibernateEnumType implements EnhancedUserType, ParameterizedType {
-	private Class<Enum>	enumClass;
-	
-	@Override
-	public void setParameterValues(final Properties parameters) {
-		final String enumClassName = parameters.getProperty("enumClassName");
-		try {
-			// noinspection unchecked
-			enumClass = (Class<Enum>) Class.forName(enumClassName);
-		} catch (final ClassNotFoundException cnfe) {
-			throw new HibernateException("Enum class not found", cnfe);
-		}
-	}
-	
-	@Override
-	public Object assemble(final Serializable cached, final Object owner)
-	        throws HibernateException {
-		return cached;
-	}
-	
-	@Override
-	public Object deepCopy(final Object value) throws HibernateException {
-		return value;
-	}
-	
-	@Override
-	public Serializable disassemble(final Object value)
-	        throws HibernateException {
-		return (Enum) value;
-	}
-	
-	@Override
-	public boolean equals(final Object x, final Object y)
-	        throws HibernateException {
-		return x == y;
-	}
-	
-	@Override
-	public int hashCode(final Object x) throws HibernateException {
-		return x.hashCode();
-	}
-	
-	@Override
-	public boolean isMutable() {
-		return false;
-	}
-	
-	@Override
-	public Object nullSafeGet(final ResultSet resultSet, final String[] names,
-	        final Object owner) throws HibernateException, SQLException {
-		final String name = resultSet.getString(names[0]);
-		return resultSet.wasNull() ? null : Enum.valueOf(enumClass, name);
-	}
-	
-	@Override
-	public void nullSafeSet(final PreparedStatement statement,
-	        final Object value, final int index) throws HibernateException,
-	        SQLException {
-		if (value == null) {
-			statement.setNull(index, Types.VARCHAR);
-		} else {
-			if (value instanceof Enum) {
-				statement.setString(index, ((Enum) value).name());
-			} else {
-				statement.setString(index, (String) value);
-			}
-		}
-	}
-	
-	@Override
-	public Object replace(final Object original, final Object target,
-	        final Object owner) throws HibernateException {
-		return original;
-	}
-	
-	@Override
-	public Class returnedClass() {
-		return enumClass;
-	}
-	
-	@Override
-	public int[] sqlTypes() {
-		return new int[] {
-			Types.VARCHAR
-		};
-	}
-	
-	@Override
-	public Object fromXMLString(final String xmlValue) {
-		return Enum.valueOf(enumClass, xmlValue);
-	}
-	
-	@Override
-	public String objectToSQLString(final Object value) {
-		return '\'' + ((Enum) value).name() + '\'';
-	}
-	
-	@Override
-	public String toXMLString(final Object value) {
-		return ((Enum) value).name();
-	}
-	
+public class HibernateEnumType implements EnhancedUserType, ParameterizedType
+{
+    private Class<Enum> enumClass;
+
+    public void setParameterValues(Properties parameters)
+    {
+        final String enumClassName = parameters.getProperty("enumClassName");
+        try
+        {
+            //noinspection unchecked
+            enumClass = (Class<Enum>)Class.forName(enumClassName);
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            throw new HibernateException("Enum class not found", cnfe);
+        }
+    }
+
+    public Object assemble(Serializable cached, Object owner) throws HibernateException
+    {
+        return cached;
+    }
+
+    public Object deepCopy(Object value) throws HibernateException
+    {
+        return value;
+    }
+
+    public Serializable disassemble(Object value) throws HibernateException
+    {
+        return (Enum)value;
+    }
+
+    public boolean equals(Object x, Object y) throws HibernateException
+    {
+        return x == y;
+    }
+
+    public int hashCode(Object x) throws HibernateException
+    {
+        return x.hashCode();
+    }
+
+    public boolean isMutable()
+    {
+        return false;
+    }
+
+    public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner) throws HibernateException, SQLException
+    {
+        final String name = resultSet.getString(names[0]);
+        return resultSet.wasNull() ? null : Enum.valueOf(enumClass, name);
+    }
+
+    public void nullSafeSet(PreparedStatement statement, Object value, int index) throws HibernateException, SQLException
+    {
+        if (value == null)
+        {
+            statement.setNull(index, Types.VARCHAR);
+        }
+        else
+        {
+        	if(value instanceof Enum)
+        	{
+            	statement.setString(index, ((Enum)value).name());
+            }
+            else
+            {
+            	statement.setString(index, (String)value);
+            }
+        }
+    }
+
+    public Object replace(Object original, Object target, Object owner) throws HibernateException
+    {
+        return original;
+    }
+
+    public Class returnedClass()
+    {
+        return enumClass;
+    }
+
+    public int[] sqlTypes()
+    {
+        return new int[]{Types.VARCHAR};
+    }
+
+    public Object fromXMLString(String xmlValue)
+    {
+        return Enum.valueOf(enumClass, xmlValue);
+    }
+
+    public String objectToSQLString(Object value)
+    {
+        return '\'' + ((Enum)value).name() + '\'';
+    }
+
+    public String toXMLString(Object value)
+    {
+        return ((Enum)value).name();
+    }
+
 }

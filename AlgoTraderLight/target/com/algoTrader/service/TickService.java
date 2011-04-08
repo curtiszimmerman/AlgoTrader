@@ -8,40 +8,37 @@ package com.algoTrader.service;
 /**
  * 
  */
-public interface TickService {
-	
-	/**
+public interface TickService
+{
+
+    /**
      * 
      */
-	public com.algoTrader.entity.Tick completeRawTick(
-	        com.algoTrader.vo.RawTickVO tick);
-	
-	/**
+    public com.algoTrader.entity.Tick completeRawTick(com.algoTrader.vo.RawTickVO tick);
+
+    /**
      * 
      */
-	public void propagateTick(com.algoTrader.entity.Tick tick);
-	
-	/**
+    public void propagateTick(com.algoTrader.entity.Tick tick);
+
+    /**
      * 
      */
-	public void putOnWatchlist(com.algoTrader.entity.Strategy strategy,
-	        com.algoTrader.entity.Security security);
-	
-	/**
+    public void putOnWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security);
+
+    /**
      * 
      */
-	public void putOnWatchlist(java.lang.String strategyName, int securityId);
-	
-	/**
+    public void putOnWatchlist(java.lang.String strategyName, int securityId);
+
+    /**
      * 
      */
-	public void removeFromWatchlist(com.algoTrader.entity.Strategy strategy,
-	        com.algoTrader.entity.Security security);
-	
-	/**
+    public void removeFromWatchlist(com.algoTrader.entity.Strategy strategy, com.algoTrader.entity.Security security);
+
+    /**
      * 
      */
-	public void removeFromWatchlist(java.lang.String strategyName,
-	        int securityId);
-	
+    public void removeFromWatchlist(java.lang.String strategyName, int securityId);
+
 }

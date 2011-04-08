@@ -8,24 +8,22 @@ import com.espertech.esperio.SendableEvent;
 import com.espertech.esperio.csv.CSVInputAdapter;
 
 public class CsvTickInputAdapter extends CSVInputAdapter {
-	
-	private final CsvTickInputAdapterSpec	spec;
-	
-	public CsvTickInputAdapter(final EPServiceProvider epService,
-	        final CsvTickInputAdapterSpec spec) {
-		
+
+	private CsvTickInputAdapterSpec spec;
+
+	public CsvTickInputAdapter(EPServiceProvider epService, CsvTickInputAdapterSpec spec) {
+
 		super(epService, spec);
 		this.spec = spec;
 	}
-	
-	@Override
+
 	public SendableEvent read() throws EPException {
-		final SendableBeanEvent event = (SendableBeanEvent) super.read();
-		
+		SendableBeanEvent event = (SendableBeanEvent)super.read();
+
 		if (event != null && event.getBeanToSend() instanceof RawTickVO) {
-			
-			final RawTickVO tick = (RawTickVO) event.getBeanToSend();
-			final String isin = spec.getFile().getName().split("\\.")[0];
+
+			RawTickVO tick = (RawTickVO) event.getBeanToSend();
+			String isin = this.spec.getFile().getName().split("\\.")[0];
 			tick.setIsin(isin);
 		}
 		return event;

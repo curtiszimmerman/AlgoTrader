@@ -8,168 +8,169 @@ package com.algoTrader;
 /**
  * Locates and provides all available application services.
  */
-public class RemoteServiceLocator implements CommonServiceLocator {
-	
-	private RemoteServiceLocator() {
-		// shouldn't be instantiated
-	}
-	
-	/**
-	 * The shared instance of this RemoteServiceLocator.
-	 */
-	private final static RemoteServiceLocator	instance	= new RemoteServiceLocator();
-	
-	/**
-	 * Gets the shared instance of this Class
-	 * 
-	 * @return the shared service locator instance.
-	 */
-	public static final RemoteServiceLocator instance() {
-		return RemoteServiceLocator.instance;
-	}
-	
-	/**
-	 * The bean factory reference instance.
-	 */
-	private org.springframework.beans.factory.access.BeanFactoryReference	beanFactoryReference;
-	
-	/**
-	 * The bean factory reference location.
-	 */
-	private String	                                                      beanFactoryReferenceLocation;
-	
-	/**
-	 * The bean factory reference id.
-	 */
-	private String	                                                      beanRefFactoryReferenceId;
-	
-	/**
-	 * Initializes the Spring application context from
-	 * the given <code>beanFactoryReferenceLocation</code>. If <code>null</code>
-	 * is specified for the <code>beanFactoryReferenceLocation</code> then the
-	 * default application context will be used.
-	 * 
-	 * @param beanFactoryReferenceLocation
-	 *            the location of the beanRefFactory reference.
-	 */
-	public synchronized void init(final String beanFactoryReferenceLocation,
-	        final String beanRefFactoryReferenceId) {
-		this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
-		this.beanRefFactoryReferenceId = beanRefFactoryReferenceId;
-		beanFactoryReference = null;
-	}
-	
-	/**
-	 * Initializes the Spring application context from
-	 * the given <code>beanFactoryReferenceLocation</code>. If <code>null</code>
-	 * is specified for the <code>beanFactoryReferenceLocation</code> then the
-	 * default application context will be used.
-	 * 
-	 * @param beanFactoryReferenceLocation
-	 *            the location of the beanRefFactory reference.
-	 */
-	@Override
-	public synchronized void init(final String beanFactoryReferenceLocation) {
-		this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
-		beanFactoryReference = null;
-	}
-	
-	/**
-	 * The default bean reference factory location.
-	 */
-	private final String	DEFAULT_BEAN_REFERENCE_LOCATION	= "beanRefFactoryClient.xml";
-	
-	/**
-	 * The default bean reference factory ID.
-	 */
-	private final String	DEFAULT_BEAN_REFERENCE_ID	    = "beanRefFactory";
-	
-	/**
-	 * Gets the Spring ApplicationContext.
-	 */
-	protected synchronized org.springframework.context.ApplicationContext
-	        getContext() {
-		if (beanFactoryReference == null) {
-			if (beanFactoryReferenceLocation == null) {
-				beanFactoryReferenceLocation = DEFAULT_BEAN_REFERENCE_LOCATION;
-			}
-			if (beanRefFactoryReferenceId == null) {
-				beanRefFactoryReferenceId = DEFAULT_BEAN_REFERENCE_ID;
-			}
-			final org.springframework.beans.factory.access.BeanFactoryLocator beanFactoryLocator =
-			        org.springframework.context.access.ContextSingletonBeanFactoryLocator
-			                .getInstance(
-			                beanFactoryReferenceLocation);
-			beanFactoryReference = beanFactoryLocator
-			        .useBeanFactory(beanRefFactoryReferenceId);
-		}
-		return (org.springframework.context.ApplicationContext) beanFactoryReference
-		        .getFactory();
-	}
-	
-	/**
-	 * Shuts down the ServiceLocator and releases any used resources.
-	 */
-	@Override
-	public synchronized void shutdown() {
-		if (beanFactoryReference != null) {
-			beanFactoryReference.release();
-			beanFactoryReference = null;
-		}
-	}
-	
-	/**
-	 * Gets an instance of {@link com.algoTrader.service.RuleService}.
-	 */
-	@Override
-	public final com.algoTrader.service.RuleService getRuleService() {
-		return (com.algoTrader.service.RuleService) getContext().getBean(
-		        "ruleService");
-	}
-	
-	/**
-	 * Gets an instance of {@link com.algoTrader.service.TickService}.
-	 */
-	@Override
-	public final com.algoTrader.service.TickService getTickService() {
-		return (com.algoTrader.service.TickService) getContext().getBean(
-		        "tickService");
-	}
-	
-	/**
-	 * Gets an instance of {@link com.algoTrader.service.TransactionService}.
-	 */
-	@Override
-	public final com.algoTrader.service.TransactionService
-	        getTransactionService() {
-		return (com.algoTrader.service.TransactionService) getContext()
-		        .getBean("transactionService");
-	}
-	
-	/**
-	 * Gets an instance of {@link com.algoTrader.service.LookupService}.
-	 */
-	@Override
-	public final com.algoTrader.service.LookupService getLookupService() {
-		return (com.algoTrader.service.LookupService) getContext().getBean(
-		        "lookupService");
-	}
-	
-	/**
-	 * Gets an instance of {@link com.algoTrader.service.PositionService}.
-	 */
-	@Override
-	public final com.algoTrader.service.PositionService getPositionService() {
-		return (com.algoTrader.service.PositionService) getContext().getBean(
-		        "positionService");
-	}
-	
-	/**
-	 * Gets an instance of the given service.
-	 */
-	@Override
-	public final Object getService(final String serviceName) {
-		return getContext().getBean(serviceName);
-	}
+public class RemoteServiceLocator implements CommonServiceLocator
+{
+
+    private RemoteServiceLocator()
+    {
+        // shouldn't be instantiated
+    }
+
+    /**
+     * The shared instance of this RemoteServiceLocator.
+     */
+    private final static RemoteServiceLocator instance = new RemoteServiceLocator();
+
+    /**
+     * Gets the shared instance of this Class
+     *
+     * @return the shared service locator instance.
+     */
+    public static final RemoteServiceLocator instance()
+    {
+        return instance;
+    }
+
+    /**
+     * The bean factory reference instance.
+     */
+    private org.springframework.beans.factory.access.BeanFactoryReference beanFactoryReference;
+    
+    /**
+     * The bean factory reference location.
+     */
+    private String beanFactoryReferenceLocation;
+    
+    /**
+     * The bean factory reference id.
+     */
+    private String beanRefFactoryReferenceId;
+
+    /**
+     * Initializes the Spring application context from
+     * the given <code>beanFactoryReferenceLocation</code>.  If <code>null</code>
+     * is specified for the <code>beanFactoryReferenceLocation</code>
+     * then the default application context will be used.
+     *
+     * @param beanFactoryReferenceLocation the location of the beanRefFactory reference.
+     */
+    public synchronized void init(final String beanFactoryReferenceLocation, final String beanRefFactoryReferenceId)
+    {
+        this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
+        this.beanRefFactoryReferenceId = beanRefFactoryReferenceId;
+        this.beanFactoryReference = null;
+    }
+
+    /**
+     * Initializes the Spring application context from
+     * the given <code>beanFactoryReferenceLocation</code>.  If <code>null</code>
+     * is specified for the <code>beanFactoryReferenceLocation</code>
+     * then the default application context will be used.
+     *
+     * @param beanFactoryReferenceLocation the location of the beanRefFactory reference.
+     */
+    public synchronized void init(final String beanFactoryReferenceLocation)
+    {
+        this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
+        this.beanFactoryReference = null;
+    }
+    
+    /**
+     * The default bean reference factory location.
+     */
+    private final String DEFAULT_BEAN_REFERENCE_LOCATION = "beanRefFactoryClient.xml";
+    
+    /**
+     * The default bean reference factory ID.
+     */
+    private final String DEFAULT_BEAN_REFERENCE_ID = "beanRefFactory";
+
+    /**
+     * Gets the Spring ApplicationContext.
+     */
+    protected synchronized org.springframework.context.ApplicationContext getContext()
+    {
+        if (this.beanFactoryReference == null)
+        {
+            if (this.beanFactoryReferenceLocation == null)
+            {
+                this.beanFactoryReferenceLocation = DEFAULT_BEAN_REFERENCE_LOCATION;
+            }
+            if (this.beanRefFactoryReferenceId == null)
+            {
+                this.beanRefFactoryReferenceId = DEFAULT_BEAN_REFERENCE_ID;
+            }
+            org.springframework.beans.factory.access.BeanFactoryLocator beanFactoryLocator =
+                org.springframework.context.access.ContextSingletonBeanFactoryLocator.getInstance(
+                    this.beanFactoryReferenceLocation);
+            this.beanFactoryReference = beanFactoryLocator.useBeanFactory(this.beanRefFactoryReferenceId);
+        }
+        return (org.springframework.context.ApplicationContext)this.beanFactoryReference.getFactory();
+    }
+
+    /**
+     * Shuts down the ServiceLocator and releases any used resources.
+     */
+    public synchronized void shutdown()
+    {
+        if (this.beanFactoryReference != null)
+        {
+            this.beanFactoryReference.release();
+            this.beanFactoryReference = null;
+        }
+    }
+
+    /**
+     * Gets an instance of {@link com.algoTrader.service.RuleService}.
+     */
+    public final com.algoTrader.service.RuleService getRuleService()
+    {
+        return (com.algoTrader.service.RuleService)
+            getContext().getBean("ruleService");
+    }
+
+    /**
+     * Gets an instance of {@link com.algoTrader.service.TickService}.
+     */
+    public final com.algoTrader.service.TickService getTickService()
+    {
+        return (com.algoTrader.service.TickService)
+            getContext().getBean("tickService");
+    }
+
+    /**
+     * Gets an instance of {@link com.algoTrader.service.TransactionService}.
+     */
+    public final com.algoTrader.service.TransactionService getTransactionService()
+    {
+        return (com.algoTrader.service.TransactionService)
+            getContext().getBean("transactionService");
+    }
+
+    /**
+     * Gets an instance of {@link com.algoTrader.service.LookupService}.
+     */
+    public final com.algoTrader.service.LookupService getLookupService()
+    {
+        return (com.algoTrader.service.LookupService)
+            getContext().getBean("lookupService");
+    }
+
+    /**
+     * Gets an instance of {@link com.algoTrader.service.PositionService}.
+     */
+    public final com.algoTrader.service.PositionService getPositionService()
+    {
+        return (com.algoTrader.service.PositionService)
+            getContext().getBean("positionService");
+    }
+
+    /**
+     * Gets an instance of the given service.
+     */
+    public final Object getService(String serviceName)
+    {
+        return getContext().getBean(serviceName);
+    }
 	
 }

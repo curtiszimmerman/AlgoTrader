@@ -9,222 +9,230 @@ package com.algoTrader.entity;
  * 
  */
 public abstract class Order
-        extends com.algoTrader.BaseObject
-        implements java.io.Serializable {
-	/**
-	 * The serial version UID of this class. Needed for serialization.
-	 */
-	private static final long	serialVersionUID	= 8897089975060464052L;
-	
-	private int	              number;
-	
-	/**
+    extends com.algoTrader.BaseObject
+    implements java.io.Serializable
+{
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = 8897089975060464052L;
+
+    private int number;
+
+    /**
      * 
      */
-	public int getNumber() {
-		return number;
-	}
-	
-	public void setNumber(final int number) {
-		this.number = number;
-	}
-	
-	private com.algoTrader.enumeration.TransactionType	transactionType;
-	
-	/**
+    public int getNumber()
+    {
+        return this.number;
+    }
+
+    public void setNumber(int number)
+    {
+        this.number = number;
+    }
+
+    private com.algoTrader.enumeration.TransactionType transactionType;
+
+    /**
      * 
      */
-	public com.algoTrader.enumeration.TransactionType getTransactionType() {
-		return transactionType;
-	}
-	
-	public void setTransactionType(
-	        final com.algoTrader.enumeration.TransactionType transactionType) {
-		this.transactionType = transactionType;
-	}
-	
-	private com.algoTrader.enumeration.OrderStatus	status;
-	
-	/**
+    public com.algoTrader.enumeration.TransactionType getTransactionType()
+    {
+        return this.transactionType;
+    }
+
+    public void setTransactionType(com.algoTrader.enumeration.TransactionType transactionType)
+    {
+        this.transactionType = transactionType;
+    }
+
+    private com.algoTrader.enumeration.OrderStatus status;
+
+    /**
      * 
      */
-	public com.algoTrader.enumeration.OrderStatus getStatus() {
-		return status;
-	}
-	
-	public void setStatus(final com.algoTrader.enumeration.OrderStatus status) {
-		this.status = status;
-	}
-	
-	private long	requestedQuantity;
-	
-	/**
+    public com.algoTrader.enumeration.OrderStatus getStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(com.algoTrader.enumeration.OrderStatus status)
+    {
+        this.status = status;
+    }
+
+    private long requestedQuantity;
+
+    /**
      * 
      */
-	public long getRequestedQuantity() {
-		return requestedQuantity;
-	}
-	
-	public void setRequestedQuantity(final long requestedQuantity) {
-		this.requestedQuantity = requestedQuantity;
-	}
-	
-	private long	executedQuantity;
-	
-	/**
+    public long getRequestedQuantity()
+    {
+        return this.requestedQuantity;
+    }
+
+    public void setRequestedQuantity(long requestedQuantity)
+    {
+        this.requestedQuantity = requestedQuantity;
+    }
+
+    private long executedQuantity;
+
+    /**
      * 
      */
-	public long getExecutedQuantity() {
-		return executedQuantity;
-	}
-	
-	public void setExecutedQuantity(final long executedQuantity) {
-		this.executedQuantity = executedQuantity;
-	}
-	
-	private int	id;
-	
-	/**
+    public long getExecutedQuantity()
+    {
+        return this.executedQuantity;
+    }
+
+    public void setExecutedQuantity(long executedQuantity)
+    {
+        this.executedQuantity = executedQuantity;
+    }
+
+    private int id;
+
+    /**
      * 
      */
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(final int id) {
-		this.id = id;
-	}
-	
-	private com.algoTrader.entity.Security	security;
-	
-	/**
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    private com.algoTrader.entity.Security security;
+
+    /**
      * 
      */
-	public com.algoTrader.entity.Security getSecurity() {
-		return security;
-	}
-	
-	public void setSecurity(final com.algoTrader.entity.Security security) {
-		this.security = security;
-	}
-	
-	private java.util.Collection	transactions	= new java.util.ArrayList();
-	
-	/**
+    public com.algoTrader.entity.Security getSecurity()
+    {
+        return this.security;
+    }
+
+    public void setSecurity(com.algoTrader.entity.Security security)
+    {
+        this.security = security;
+    }
+
+    private java.util.Collection transactions = new java.util.ArrayList();
+
+    /**
      * 
      */
-	public java.util.Collection getTransactions() {
-		return transactions;
-	}
-	
-	public void setTransactions(final java.util.Collection transactions) {
-		this.transactions = transactions;
-	}
-	
-	private com.algoTrader.entity.Strategy	strategy;
-	
-	/**
+    public java.util.Collection getTransactions()
+    {
+        return this.transactions;
+    }
+
+    public void setTransactions(java.util.Collection transactions)
+    {
+        this.transactions = transactions;
+    }
+
+    private com.algoTrader.entity.Strategy strategy;
+
+    /**
      * 
      */
-	public com.algoTrader.entity.Strategy getStrategy() {
-		return strategy;
-	}
-	
-	public void setStrategy(final com.algoTrader.entity.Strategy strategy) {
-		this.strategy = strategy;
-	}
-	
-	/**
-	 * Returns <code>true</code> if the argument is an Order instance and all
-	 * identifiers for this entity
-	 * equal the identifiers of the argument entity. Returns <code>false</code>
-	 * otherwise.
-	 */
-	@Override
-	public boolean equals(final Object object) {
-		if (this == object) { return true; }
-		if (!(object instanceof Order)) { return false; }
-		final Order that = (Order) object;
-		if (id != that.getId()) { return false; }
-		return true;
-	}
-	
-	/**
-	 * Returns a hash code based on this entity's identifiers.
-	 */
-	@Override
-	public int hashCode() {
-		int hashCode = 0;
-		hashCode = 29 * hashCode + id;
-		
-		return hashCode;
-	}
-	
-	/**
-	 * Constructs new instances of {@link com.algoTrader.entity.Order}.
-	 */
-	public static final class Factory {
-		/**
-		 * Constructs a new instance of {@link com.algoTrader.entity.Order}.
-		 */
-		public static com.algoTrader.entity.Order newInstance() {
-			return new com.algoTrader.entity.OrderImpl();
-		}
-		
-		/**
-		 * Constructs a new instance of {@link com.algoTrader.entity.Order},
-		 * taking all required and/or
-		 * read-only properties as arguments.
-		 */
-		public static
-		        com.algoTrader.entity.Order
-		        newInstance(
-		                final int number,
-		                final com.algoTrader.enumeration.TransactionType transactionType,
-		                final com.algoTrader.enumeration.OrderStatus status,
-		                final long requestedQuantity,
-		                final long executedQuantity,
-		                final com.algoTrader.entity.Security security,
-		                final com.algoTrader.entity.Strategy strategy) {
-			final com.algoTrader.entity.Order entity = new com.algoTrader.entity.OrderImpl();
-			entity.setNumber(number);
-			entity.setTransactionType(transactionType);
-			entity.setStatus(status);
-			entity.setRequestedQuantity(requestedQuantity);
-			entity.setExecutedQuantity(executedQuantity);
-			entity.setSecurity(security);
-			entity.setStrategy(strategy);
-			return entity;
-		}
-		
-		/**
-		 * Constructs a new instance of {@link com.algoTrader.entity.Order},
-		 * taking all possible properties
-		 * (except the identifier(s))as arguments.
-		 */
-		public static
-		        com.algoTrader.entity.Order
-		        newInstance(
-		                final int number,
-		                final com.algoTrader.enumeration.TransactionType transactionType,
-		                final com.algoTrader.enumeration.OrderStatus status,
-		                final long requestedQuantity,
-		                final long executedQuantity,
-		                final com.algoTrader.entity.Security security,
-		                final java.util.Collection transactions,
-		                final com.algoTrader.entity.Strategy strategy) {
-			final com.algoTrader.entity.Order entity = new com.algoTrader.entity.OrderImpl();
-			entity.setNumber(number);
-			entity.setTransactionType(transactionType);
-			entity.setStatus(status);
-			entity.setRequestedQuantity(requestedQuantity);
-			entity.setExecutedQuantity(executedQuantity);
-			entity.setSecurity(security);
-			entity.setTransactions(transactions);
-			entity.setStrategy(strategy);
-			return entity;
-		}
-	}
-	
-	// HibernateEntity.vsl merge-point
+    public com.algoTrader.entity.Strategy getStrategy()
+    {
+        return this.strategy;
+    }
+
+    public void setStrategy(com.algoTrader.entity.Strategy strategy)
+    {
+        this.strategy = strategy;
+    }
+
+    /**
+     * Returns <code>true</code> if the argument is an Order instance and all identifiers for this entity
+     * equal the identifiers of the argument entity. Returns <code>false</code> otherwise.
+     */
+    public boolean equals(Object object)
+    {
+        if (this == object)
+        {
+            return true;
+        }
+        if (!(object instanceof Order))
+        {
+            return false;
+        }
+        final Order that = (Order)object;
+        if (this.id != that.getId())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns a hash code based on this entity's identifiers.
+     */
+    public int hashCode()
+    {
+        int hashCode = 0;
+        hashCode = 29 * hashCode + (int)id;
+
+        return hashCode;
+    }
+
+    /**
+     * Constructs new instances of {@link com.algoTrader.entity.Order}.
+     */
+    public static final class Factory
+    {
+        /**
+         * Constructs a new instance of {@link com.algoTrader.entity.Order}.
+         */
+        public static com.algoTrader.entity.Order newInstance()
+        {
+            return new com.algoTrader.entity.OrderImpl();
+        }
+
+        /**
+         * Constructs a new instance of {@link com.algoTrader.entity.Order}, taking all required and/or
+         * read-only properties as arguments.
+         */
+        public static com.algoTrader.entity.Order newInstance(int number, com.algoTrader.enumeration.TransactionType transactionType, com.algoTrader.enumeration.OrderStatus status, long requestedQuantity, long executedQuantity, com.algoTrader.entity.Security security, com.algoTrader.entity.Strategy strategy)
+        {
+            final com.algoTrader.entity.Order entity = new com.algoTrader.entity.OrderImpl();
+            entity.setNumber(number);
+            entity.setTransactionType(transactionType);
+            entity.setStatus(status);
+            entity.setRequestedQuantity(requestedQuantity);
+            entity.setExecutedQuantity(executedQuantity);
+            entity.setSecurity(security);
+            entity.setStrategy(strategy);
+            return entity;
+        }
+
+        /**
+         * Constructs a new instance of {@link com.algoTrader.entity.Order}, taking all possible properties
+         * (except the identifier(s))as arguments.
+         */
+        public static com.algoTrader.entity.Order newInstance(int number, com.algoTrader.enumeration.TransactionType transactionType, com.algoTrader.enumeration.OrderStatus status, long requestedQuantity, long executedQuantity, com.algoTrader.entity.Security security, java.util.Collection transactions, com.algoTrader.entity.Strategy strategy)
+        {
+            final com.algoTrader.entity.Order entity = new com.algoTrader.entity.OrderImpl();
+            entity.setNumber(number);
+            entity.setTransactionType(transactionType);
+            entity.setStatus(status);
+            entity.setRequestedQuantity(requestedQuantity);
+            entity.setExecutedQuantity(executedQuantity);
+            entity.setSecurity(security);
+            entity.setTransactions(transactions);
+            entity.setStrategy(strategy);
+            return entity;
+        }
+    }
+
+// HibernateEntity.vsl merge-point
 }
