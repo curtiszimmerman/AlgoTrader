@@ -1,7 +1,5 @@
 package com.ceptrader.ib.esper.adapters;
 
-import com.ceptrader.tradeapp.ib.esper.adapters.*;
-
 import com.ib.client.EClientSocket;
 
 public aspect IBAdapterHelper {

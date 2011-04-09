@@ -12,6 +12,10 @@ import com.ceptrader.generic.esper.pojoevents.SellLmt;
 import com.ceptrader.generic.esper.pojoevents.SellMkt;
 import com.ceptrader.generic.esper.pojoevents.SellStop;
 import com.ceptrader.util.BasicUtils;
+import com.ib.client.ComboLeg;
+import com.ib.client.Contract;
+import com.ib.client.ContractDetails;
+import com.ib.client.Order;
 
 public class IBUtils {
 	static {
