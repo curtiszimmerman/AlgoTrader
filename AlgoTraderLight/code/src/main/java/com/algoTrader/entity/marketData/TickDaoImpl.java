@@ -1,49 +1,46 @@
-package com.algoTrader.entity;
+package com.algoTrader.entity.marketData;
 
 import org.hibernate.Hibernate;
 
+import com.algoTrader.entity.Security;
 import com.algoTrader.vo.RawTickVO;
 
 public class TickDaoImpl extends TickDaoBase {
-	
-	@Override
-	public void toRawTickVO(final Tick tick, final RawTickVO rawTickVO) {
-		
+
+	public void toRawTickVO(Tick tick, RawTickVO rawTickVO) {
+
 		super.toRawTickVO(tick, rawTickVO);
-		
+
 		completeRawTickVO(tick, rawTickVO);
 	}
-	
-	@Override
+
 	public RawTickVO toRawTickVO(final Tick tick) {
-		
-		final RawTickVO rawTickVO = super.toRawTickVO(tick);
-		
+
+		RawTickVO rawTickVO = super.toRawTickVO(tick);
+
 		completeRawTickVO(tick, rawTickVO);
-		
+
 		return rawTickVO;
 	}
-	
-	private void completeRawTickVO(final Tick tick, final RawTickVO rawTickVO) {
-		
+
+	private void completeRawTickVO(Tick tick, RawTickVO rawTickVO) {
+
 		rawTickVO.setIsin(tick.getSecurity().getIsin());
 	}
+
+	public Tick rawTickVOToEntity(RawTickVO rawTickVO) {
 	
-	@Override
-	public Tick rawTickVOToEntity(final RawTickVO rawTickVO) {
-		
-		final Tick tick = new TickImpl();
+		Tick tick = new TickImpl();
 		super.rawTickVOToEntity(rawTickVO, tick, true);
-		
-		final Security security = getSecurityDao().findByIsinFetched(
-		        rawTickVO.getIsin());
-		
+	
+		Security security = getSecurityDao().findByIsinFetched(rawTickVO.getIsin());
+	
 		// initialize the proxys
 		Hibernate.initialize(security.getUnderlaying());
 		Hibernate.initialize(security.getSecurityFamily());
-		
+	
 		tick.setSecurity(security);
-		
+	
 		return tick;
 	}
 }
