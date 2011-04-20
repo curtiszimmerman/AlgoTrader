@@ -1,0 +1,65 @@
+module base;
+
+@Name('SET_MARGINS')
+@Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
+select * 
+from pattern[every timer:at (0, 7, *, *, 1:5)];
+
+@Name('CREATE_PORTFOLIO_VALUE')
+@Tag(name='subscriber', value='com.algoTrader.subscriber.PrintPortfolioValueSubscriber')
+insert into Portfolio
+select current_timestamp() as timestamp,
+LookupUtil.getPortfolioValue() as value,
+cashTransaction
+from pattern[every(timer:at (0, 10:18, *, *, 1:5) or cashTransaction=Transaction(type=TransactionType.CREDIT or type=TransactionType.DEBIT or type=TransactionType.INTREST or type=TransactionType.FEES))]
+where LookupUtil.hasLastTicks();
+
+@Name('CREATE_MONTHLY_PERFORMANCE')
+@Priority(2)
+insert into MonthlyPerformance
+select DateUtil.toDate(current_timestamp()) as date,
+portfolio.value.netLiqValue / prior(1, portfolio.value.netLiqValue) - 1 as value
+from pattern[every timer:at (0, 0, 1, *, *) -> portfolio=Portfolio]
+having prior(1, portfolio.value.netLiqValue) != null and 
+portfolio.value.netLiqValue != prior(1, portfolio.value.netLiqValue);
+
+@Name('GET_LAST_TICK')
+@Priority(6)
+select tick.security.id as securityId, tick.* as tick 
+from Tick.std:groupwin(security.id).win:time(7 days).win:length(1) as tick;
+
+@Name('CLOSE_POSITION')
+@Priority(1)
+@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
+select position.id
+from Tick as tick,
+method:LookupUtil.getPositions(tick.security) as position
+where position.quantity != 0
+and position.exitValue != null
+and ((position.short and (tick.currentValue >= position.exitValue)) or (position.long and (tick.currentValue <= position.exitValue)));
+
+@Name('CREATE_PERFORMANCE_KEYS')
+insert into PerformanceKeys
+select uni.datapoints as n, 
+uni.geomaverage as avgM,
+uni.stddev as stdM, 
+Math.pow(1 + uni.geomaverage,12) - 1  as avgY,
+uni.stddev * Math.sqrt(12) as stdY,
+(Math.pow(1 + uni.geomaverage,12) - 1 - marketIntrest) / (uni.stddev * Math.sqrt(12)) as sharpRatio
+from MonthlyPerformance.win:keepall().stat:uni(value) as uni;
+
+@Name('KEEP_MONTHLY_PERFORMANCE')
+select *
+from MonthlyPerformance.win:keepall();
+
+@Name('CREATE_DRAW_DOWN')
+insert into DrawDown
+select 1 - portfolio.value.netLiqValue / max(portfolio.value.netLiqValue) as amount,
+case when portfolio.value.netLiqValue = max(portfolio.value.netLiqValue) then DrawDownUtil.resetDrawDownPeriod() else DrawDownUtil.increaseDrawDownPeriod(current_timestamp - prior(1, portfolio.timestamp)) end as period
+from Portfolio as portfolio;
+
+@Name('CREATE_MAX_DRAW_DOWN')
+insert into MaxDrawDown
+select max(drawDown.amount) as amount,
+max(drawDown.period) as period
+from DrawDown as drawDown;
