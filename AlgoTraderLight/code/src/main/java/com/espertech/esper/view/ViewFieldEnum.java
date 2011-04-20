@@ -1,16 +1,14 @@
 // line 53: add UNIVARIATE_STATISTICS__GEOMAVERAGE
 /**************************************************************************************
- * Copyright (C) 2008 EsperTech, Inc. All rights reserved. *
- * http://esper.codehaus.org *
- * http://www.espertech.com *
- * ----------------------------------------------------------------------------
- * ------ *
- * The software in this package is published under the terms of the GPL license
- * *
- * a copy of which has been included with this distribution in the license.txt
- * file. *
+ * Copyright (C) 2008 EsperTech, Inc. All rights reserved.                            *
+ * http://esper.codehaus.org                                                          *
+ * http://www.espertech.com                                                           *
+ * ---------------------------------------------------------------------------------- *
+ * The software in this package is published under the terms of the GPL license       *
+ * a copy of which has been included with this distribution in the license.txt file.  *
  **************************************************************************************/
 package com.espertech.esper.view;
+
 
 /**
  * Enumerates the valid values for each view's public fields. The name of the
@@ -162,14 +160,14 @@ public enum ViewFieldEnum {
 	 * Size.
 	 */
 	SIZE_VIEW__SIZE("size");
-	
-	private final String	name;
-	
-	ViewFieldEnum(final String name) {
+
+    private final String name;
+
+    ViewFieldEnum(String name) {
 		this.name = name;
 	}
-	
-	/**
+
+    /**
 	 * Returns the field name of fields that contain data within a view's posted
 	 * objects.
 	 * 
@@ -177,6 +175,6 @@ public enum ViewFieldEnum {
 	 *         objects.
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 }

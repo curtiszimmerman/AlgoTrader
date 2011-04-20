@@ -7,74 +7,54 @@ import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 
 import com.algoTrader.ServiceLocator;
-import com.algoTrader.util.ConfigurationUtil;
+import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.util.StrategyUtil;
 import com.espertech.esper.event.bean.BeanEventBean;
 
 public class SecurityImpl extends Security {
-	
-	private static final long	serialVersionUID	= -6631052475125813394L;
-	
-	private static Logger	  logger	          = MyLogger
-	                                                      .getLogger(SecurityImpl.class
-	                                                              .getName());
-	
-	private static double	  initialMarginMarkup	= ConfigurationUtil
-	                                                      .getBaseConfig()
-	                                                      .getDouble(
-	                                                              "initialMarginMarkup");
-	
-	@Override
-	@SuppressWarnings({
-	        "unchecked", "rawtypes"
-	})
+
+	private static final long serialVersionUID = -6631052475125813394L;
+
+	private static Logger logger = MyLogger.getLogger(SecurityImpl.class.getName());
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Tick getLastTick() {
-		
-		final List<Map> events = ServiceLocator
-		        .commonInstance()
-		        .getRuleService()
-		        .getAllEvents(StrategyUtil.getStartedStrategyName(),
-		                "GET_LAST_TICK");
-		
+	
+		List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK");
+	
 		// try to see if the rule GET_LAST_TICK has the tick
-		for (final Map event : events) {
-			final Integer securityId = (Integer) event.get("securityId");
-			if (securityId.equals(getId())) { return (Tick) ((BeanEventBean) event
-			        .get("tick")).getUnderlying(); }
+		for (Map event : events) {
+			Integer securityId = (Integer) event.get("securityId");
+			if (securityId.equals(getId())) {
+				return (Tick) ((BeanEventBean) event.get("tick")).getUnderlying();
+			}
 		}
-		
-		// if we did not get the tick up to now go to the db an get the last
-		// tick
-		final Tick tick = ServiceLocator.commonInstance().getLookupService()
-		        .getLastTick(getId());
+	
+		// if we did not get the tick up to now go to the db an get the last tick
+		Tick tick = ServiceLocator.commonInstance().getLookupService().getLastTick(getId());
 		return tick;
 	}
-	
-	@Override
+
 	public boolean isOnWatchlist() {
-		
-		return Hibernate.isInitialized(getWatchListItems()) &&
-		        getWatchListItems().size() != 0;
-	}
 	
+		return Hibernate.isInitialized(getWatchListItems()) && (getWatchListItems().size() != 0);
+	}
+
 	/**
 	 * generic default margin
 	 */
-	@Override
 	public double getMargin() {
-		
-		final Tick lastTick = getLastTick();
-		
+
+		Tick lastTick = getLastTick();
+
 		double marginPerContract = 0;
 		if (lastTick != null && lastTick.getCurrentValueDouble() > 0.0) {
-			
-			final int contractSize = getSecurityFamily().getContractSize();
+
+			int contractSize = getSecurityFamily().getContractSize();
 			marginPerContract = lastTick.getCurrentValueDouble() * contractSize;
 		} else {
-			SecurityImpl.logger
-			        .warn("no last tick available or currentValue to low to set margin on " +
-			                getSymbol());
+			logger.warn("no last tick available or currentValue to low to set margin on " + getSymbol());
 		}
 		return marginPerContract;
 	}

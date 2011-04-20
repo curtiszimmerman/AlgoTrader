@@ -47,123 +47,101 @@ import com.espertech.esperio.csv.CSVInputAdapter;
 import com.espertech.esperio.csv.CSVInputAdapterSpec;
 
 public class RuleServiceImpl extends RuleServiceBase {
-	
-	private static Logger	                      logger	         = MyLogger
-	                                                                         .getLogger(RuleServiceImpl.class
-	                                                                                 .getName());
-	
-	private static final long	                  initTime	         = 631148400000l;	                            // 01.01.1990
-	                                                                                                                
-	private final Map<String, AdapterCoordinator>	coordinators	 = new HashMap<String, AdapterCoordinator>();
-	private final Map<String, Boolean>	          internalClock	     = new HashMap<String, Boolean>();
-	private final Map<String, EPServiceProvider>	serviceProviders	= new HashMap<String, EPServiceProvider>();
-	
-	@Override
-	protected void handleInitServiceProvider(final String strategyName) {
-		
-		final String providerURI = getProviderURI(strategyName);
-		
-		final Configuration configuration = new Configuration();
-		configuration.configure("esper-" + providerURI.toLowerCase() +
-		        ".cfg.xml");
-		
+
+	private static Logger logger = MyLogger.getLogger(RuleServiceImpl.class.getName());
+
+	private static final long initTime = 631148400000l; // 01.01.1990
+
+	private Map<String, AdapterCoordinator> coordinators = new HashMap<String, AdapterCoordinator>();
+	private Map<String, Boolean> internalClock = new HashMap<String, Boolean>();
+	private Map<String, EPServiceProvider> serviceProviders = new HashMap<String, EPServiceProvider>();
+
+	protected void handleInitServiceProvider(String strategyName) {
+
+		String providerURI = getProviderURI(strategyName);
+
+		Configuration configuration = new Configuration();
+		configuration.configure("esper-" + providerURI.toLowerCase() + ".cfg.xml");
+
 		initVariables(strategyName, configuration);
-		
-		final Strategy strategy = getLookupService().getStrategyByNameFetched(
-		        strategyName);
-		configuration.getVariables().get("engineStrategy")
-		        .setInitializationValue(strategy);
-		
-		final EPServiceProvider serviceProvider = EPServiceProviderManager
-		        .getProvider(providerURI, configuration);
-		
+
+		Strategy strategy = getLookupService().getStrategyByNameFetched(strategyName);
+		configuration.getVariables().get("engineStrategy").setInitializationValue(strategy);
+
+		EPServiceProvider serviceProvider = EPServiceProviderManager.getProvider(providerURI, configuration);
+
 		// must send time event before first schedule pattern
-		serviceProvider.getEPRuntime().sendEvent(
-		        new CurrentTimeEvent(RuleServiceImpl.initTime));
-		internalClock.put(strategyName, false);
-		
-		serviceProviders.put(providerURI, serviceProvider);
-		
-		RuleServiceImpl.logger.debug("initialized service provider: " +
-		        strategyName);
+		serviceProvider.getEPRuntime().sendEvent(new CurrentTimeEvent(initTime));
+		this.internalClock.put(strategyName, false);
+
+		this.serviceProviders.put(providerURI, serviceProvider);
+
+		logger.debug("initialized service provider: " + strategyName);
 	}
-	
-	@Override
-	protected boolean handleIsInitialized(final String strategyName)
-	        throws Exception {
-		
-		return serviceProviders.containsKey(getProviderURI(strategyName));
+
+	protected boolean handleIsInitialized(String strategyName) throws Exception {
+
+		return this.serviceProviders.containsKey(getProviderURI(strategyName));
 	}
-	
-	@Override
-	protected void handleDestroyServiceProvider(final String strategyName) {
-		
+
+	protected void handleDestroyServiceProvider(String strategyName) {
+
 		getServiceProvider(strategyName).destroy();
-		serviceProviders.remove(getProviderURI(strategyName));
-		
-		RuleServiceImpl.logger.debug("destroyed service provider: " +
-		        strategyName);
+		this.serviceProviders.remove(getProviderURI(strategyName));
+
+		logger.debug("destroyed service provider: " + strategyName);
 	}
+
+	protected void handleDeployRule(String strategyName, String moduleName, String ruleName) throws Exception {
 	
-	@Override
-	protected void handleDeployRule(final String strategyName,
-	        final String moduleName, final String ruleName) throws Exception {
-		
 		deployRule(strategyName, moduleName, ruleName, null);
 	}
-	
-	@Override
-	protected void handleDeployRule(final String strategyName,
-	        final String moduleName, final String ruleName,
-	        final Integer targetId) throws Exception {
-		
-		final EPAdministrator administrator = getServiceProvider(strategyName)
-		        .getEPAdministrator();
-		
+
+	protected void handleDeployRule(String strategyName, String moduleName, String ruleName, Integer targetId) throws Exception {
+
+		EPAdministrator administrator = getServiceProvider(strategyName).getEPAdministrator();
+
 		// do nothing if the statement already exists
-		final EPStatement oldStatement = administrator.getStatement(ruleName);
-		if (oldStatement != null && oldStatement.isStarted()) { return; }
-		
+		EPStatement oldStatement = administrator.getStatement(ruleName);
+		if (oldStatement != null && oldStatement.isStarted()) {
+			return;
+		}
+
 		// read the statement from the module
-		final EPDeploymentAdmin deployAdmin = administrator
-		        .getDeploymentAdmin();
-		final Module module = deployAdmin.read("module-" + moduleName + ".epl");
-		final List<ModuleItem> items = module.getItems();
-		
+		EPDeploymentAdmin deployAdmin = administrator.getDeploymentAdmin();
+		Module module = deployAdmin.read("module-" + moduleName + ".epl");
+		List<ModuleItem> items = module.getItems();
+
 		// go through all statements in the module
 		EPStatement newStatement = null;
-		items: for (final ModuleItem item : items) {
+		items: for (ModuleItem item : items) {
 			String exp = item.getExpression();
-			
+
 			// get the ObjectModel for the statement
 			EPStatementObjectModel model;
 			EPPreparedStatementImpl prepared = null;
 			if (exp.contains("?")) {
-				prepared = (EPPreparedStatementImpl) administrator
-				        .prepareEPL(exp);
+				prepared = ((EPPreparedStatementImpl) administrator.prepareEPL(exp));
 				model = prepared.getModel();
 			} else {
 				model = administrator.compileEPL(exp);
 			}
-			
-			// go through all annotations and check if the statement has the
-			// 'name' 'ruleName'
-			final List<AnnotationPart> annotations = model.getAnnotations();
-			for (final AnnotationPart annotation : annotations) {
+
+			// go through all annotations and check if the statement has the 'name' 'ruleName'
+			List<AnnotationPart> annotations = model.getAnnotations();
+			for (AnnotationPart annotation : annotations) {
 				if (annotation.getName().equals("Name")) {
-					for (final AnnotationAttribute attribute : annotation
-					        .getAttributes()) {
+					for (AnnotationAttribute attribute : annotation.getAttributes()) {
 						if (attribute.getValue().equals(ruleName)) {
-							
+
 							// for preparedStatements set the target
 							if (prepared != null) {
-								exp = exp
-								        .replace("?", String.valueOf(targetId));
+								exp = exp.replace("?", String.valueOf(targetId));
 							}
-							
+
 							// create the statement
 							newStatement = administrator.createEPL(exp);
-							
+
 							// break iterating over the statements
 							break items;
 						}
@@ -171,154 +149,120 @@ public class RuleServiceImpl extends RuleServiceBase {
 				}
 			}
 		}
-		
+
 		if (newStatement == null) {
-			
-			RuleServiceImpl.logger.warn("statement " + ruleName +
-			        " was not found");
+
+			logger.warn("statement " + ruleName + " was not found");
 		} else {
 			addSubscriberAndListeners(newStatement);
-			
-			RuleServiceImpl.logger.debug("deployed rule " +
-			        newStatement.getName() + " on service provider: " +
-			        strategyName);
+
+			logger.debug("deployed rule " + newStatement.getName() + " on service provider: " + strategyName);
 		}
 	}
+
+	protected void handleDeployModule(String strategyName, String moduleName) throws java.lang.Exception {
 	
-	@Override
-	protected void handleDeployModule(final String strategyName,
-	        final String moduleName) throws java.lang.Exception {
-		
-		final EPAdministrator administrator = getServiceProvider(strategyName)
-		        .getEPAdministrator();
-		final EPDeploymentAdmin deployAdmin = administrator
-		        .getDeploymentAdmin();
-		final Module module = deployAdmin.read("module-" + moduleName + ".epl");
-		final DeploymentResult deployResult = deployAdmin.deploy(module,
-		        new DeploymentOptions());
-		final List<EPStatement> statements = deployResult.getStatements();
-		
-		for (final EPStatement statement : statements) {
-			
+		EPAdministrator administrator = getServiceProvider(strategyName).getEPAdministrator();
+		EPDeploymentAdmin deployAdmin = administrator.getDeploymentAdmin();
+		Module module = deployAdmin.read("module-" + moduleName + ".epl");
+		DeploymentResult deployResult = deployAdmin.deploy(module, new DeploymentOptions());
+		List<EPStatement> statements = deployResult.getStatements();
+
+		for (EPStatement statement : statements) {
+
 			addSubscriberAndListeners(statement);
 		}
-		
-		RuleServiceImpl.logger.debug("deployed module " + moduleName +
-		        " on service provider: " + strategyName);
+
+		logger.debug("deployed module " + moduleName + " on service provider: " + strategyName);
 	}
-	
-	@Override
-	protected void handleDeployAllModules(final String strategyName)
-	        throws Exception {
-		
-		final Strategy strategy = getLookupService().getStrategyByName(
-		        strategyName);
-		final String[] modules = strategy.getModules().split(",");
-		for (final String module : modules) {
+
+	protected void handleDeployAllModules(String strategyName) throws Exception {
+
+		Strategy strategy = getLookupService().getStrategyByName(strategyName);
+		String[] modules = strategy.getModules().split(",");
+		for (String module : modules) {
 			deployModule(strategyName, module);
 		}
 	}
+
+	protected boolean handleIsDeployed(String strategyName, String ruleName) throws Exception {
 	
-	@Override
-	protected boolean handleIsDeployed(final String strategyName,
-	        final String ruleName) throws Exception {
-		
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
-		
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
+	
 		if (statement != null && statement.isStarted()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	protected void handleUndeployRule(String strategyName, String ruleName) throws Exception {
 	
-	@Override
-	protected void handleUndeployRule(final String strategyName,
-	        final String ruleName) throws Exception {
-		
 		// destroy the statement
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
-		
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
+	
 		if (statement != null && statement.isStarted()) {
 			statement.destroy();
-			RuleServiceImpl.logger.debug("undeployed rule " + ruleName);
+			logger.debug("undeployed rule " + ruleName);
 		}
 	}
-	
-	@Override
-	protected void handleUndeployRuleByTarget(final String strategyName,
-	        final String ruleName, final int targetId) throws Exception {
-		
+
+	protected void handleUndeployRuleByTarget(String strategyName, String ruleName, int targetId) throws Exception {
+
 		if (hasServiceProvider(strategyName)) {
-			final EPStatement statement = getServiceProvider(strategyName)
-			        .getEPAdministrator().getStatement(ruleName);
-			if (statement != null && statement.isStarted() &&
-			        statement.getText().contains(String.valueOf(targetId))) {
+			EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
+			if (statement != null && statement.isStarted() && statement.getText().contains(String.valueOf(targetId))) {
 				statement.destroy();
-				RuleServiceImpl.logger.debug("undeployed rule " + ruleName);
+				logger.debug("undeployed rule " + ruleName);
 			}
 		}
 	}
+
+	protected void handleUndeployModule(String strategyName, String moduleName) throws java.lang.Exception {
 	
-	@Override
-	protected void handleUndeployModule(final String strategyName,
-	        final String moduleName) throws java.lang.Exception {
-		
-		final EPAdministrator administrator = getServiceProvider(strategyName)
-		        .getEPAdministrator();
-		final EPDeploymentAdmin deployAdmin = administrator
-		        .getDeploymentAdmin();
-		for (final DeploymentInformation deploymentInformation : deployAdmin
-		        .getDeploymentInformation()) {
+		EPAdministrator administrator = getServiceProvider(strategyName).getEPAdministrator();
+		EPDeploymentAdmin deployAdmin = administrator.getDeploymentAdmin();
+		for (DeploymentInformation deploymentInformation : deployAdmin.getDeploymentInformation()) {
 			if (deploymentInformation.getModule().getName().equals(moduleName)) {
 				deployAdmin.undeploy(deploymentInformation.getDeploymentId());
 			}
 		}
-		
-		RuleServiceImpl.logger.debug("undeployed module " + moduleName);
+
+		logger.debug("undeployed module " + moduleName);
 	}
+
+	protected void handleSendEvent(String strategyName, Object obj) {
 	
-	@Override
-	protected void handleSendEvent(final String strategyName, final Object obj) {
-		
 		getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
 	}
+
+	protected void handleRouteEvent(String strategyName, Object obj) {
 	
-	@Override
-	protected void
-	        handleRouteEvent(final String strategyName, final Object obj) {
-		
 		// routing always goes to the local engine
 		getServiceProvider(strategyName).getEPRuntime().route(obj);
 	}
+
+	protected Object handleGetLastEvent(String strategyName, String ruleName) {
 	
-	@Override
-	protected Object handleGetLastEvent(final String strategyName,
-	        final String ruleName) {
-		
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
 		if (statement != null && statement.isStarted()) {
-			final SafeIterator<EventBean> it = statement.safeIterator();
+			SafeIterator<EventBean> it = statement.safeIterator();
 			try {
-				if (it.hasNext()) { return it.next().getUnderlying(); }
+				if (it.hasNext()) {
+					return it.next().getUnderlying();
+				}
 			} finally {
 				it.close();
 			}
 		}
 		return null;
 	}
-	
-	@Override
-	protected Object handleGetLastEventProperty(final String strategyName,
-	        final String ruleName, final String property) throws Exception {
-		
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
+
+	protected Object handleGetLastEventProperty(String strategyName, String ruleName, String property) throws Exception {
+
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
 		if (statement != null && statement.isStarted()) {
-			final SafeIterator<EventBean> it = statement.safeIterator();
+			SafeIterator<EventBean> it = statement.safeIterator();
 			try {
 				return it.next().get(property);
 			} finally {
@@ -327,20 +271,17 @@ public class RuleServiceImpl extends RuleServiceBase {
 		}
 		return null;
 	}
+
+	protected List<Object> handleGetAllEvents(String strategyName, String ruleName) {
 	
-	@Override
-	protected List<Object> handleGetAllEvents(final String strategyName,
-	        final String ruleName) {
-		
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
-		final List<Object> list = new ArrayList<Object>();
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
+		List<Object> list = new ArrayList<Object>();
 		if (statement != null && statement.isStarted()) {
-			final SafeIterator<EventBean> it = statement.safeIterator();
+			SafeIterator<EventBean> it = statement.safeIterator();
 			try {
 				while (it.hasNext()) {
-					final EventBean bean = it.next();
-					final Object underlaying = bean.getUnderlying();
+					EventBean bean = it.next();
+					Object underlaying = bean.getUnderlying();
 					list.add(underlaying);
 				}
 			} finally {
@@ -349,21 +290,17 @@ public class RuleServiceImpl extends RuleServiceBase {
 		}
 		return list;
 	}
-	
-	@Override
-	protected List<Object> handleGetAllEventsProperty(
-	        final String strategyName, final String ruleName,
-	        final String property) throws Exception {
-		
-		final EPStatement statement = getServiceProvider(strategyName)
-		        .getEPAdministrator().getStatement(ruleName);
-		final List<Object> list = new ArrayList<Object>();
+
+	protected List<Object> handleGetAllEventsProperty(String strategyName, String ruleName, String property) throws Exception {
+
+		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
+		List<Object> list = new ArrayList<Object>();
 		if (statement != null && statement.isStarted()) {
-			final SafeIterator<EventBean> it = statement.safeIterator();
+			SafeIterator<EventBean> it = statement.safeIterator();
 			try {
 				while (it.hasNext()) {
-					final EventBean bean = it.next();
-					final Object underlaying = bean.get(property);
+					EventBean bean = it.next();
+					Object underlaying = bean.get(property);
 					list.add(underlaying);
 				}
 			} finally {
@@ -372,171 +309,138 @@ public class RuleServiceImpl extends RuleServiceBase {
 		}
 		return list;
 	}
+
+	protected void handleSetInternalClock(String strategyName, boolean internal) {
 	
-	@Override
-	protected void handleSetInternalClock(final String strategyName,
-	        final boolean internal) {
-		
-		internalClock.put(strategyName, internal);
-		
+		this.internalClock.put(strategyName, internal);
+
 		if (internal) {
-			sendEvent(strategyName, new TimerControlEvent(
-			        TimerControlEvent.ClockType.CLOCK_INTERNAL));
-			final EPServiceProviderImpl provider = (EPServiceProviderImpl) getServiceProvider(strategyName);
+			sendEvent(strategyName, new TimerControlEvent(TimerControlEvent.ClockType.CLOCK_INTERNAL));
+			EPServiceProviderImpl provider = (EPServiceProviderImpl) getServiceProvider(strategyName);
 			provider.getTimerService().enableStats();
 		} else {
-			sendEvent(strategyName, new TimerControlEvent(
-			        TimerControlEvent.ClockType.CLOCK_EXTERNAL));
-			final EPServiceProviderImpl provider = (EPServiceProviderImpl) getServiceProvider(strategyName);
+			sendEvent(strategyName, new TimerControlEvent(TimerControlEvent.ClockType.CLOCK_EXTERNAL));
+			EPServiceProviderImpl provider = (EPServiceProviderImpl) getServiceProvider(strategyName);
 			provider.getTimerService().disableStats();
 		}
-		
-		RuleServiceImpl.logger.debug("set internal clock to: " + internal +
-		        " for strategy: " + strategyName);
+
+		logger.debug("set internal clock to: " + internal + " for strategy: " + strategyName);
 	}
+
+	protected boolean handleIsInternalClock(String strategyName) {
 	
-	@Override
-	protected boolean handleIsInternalClock(final String strategyName) {
-		
-		return internalClock.get(strategyName);
+		return this.internalClock.get(strategyName);
 	}
-	
-	@Override
-	protected void
-	        handleSetCurrentTime(final CurrentTimeEvent currentTimeEvent) {
-		
+
+	protected void handleSetCurrentTime(CurrentTimeEvent currentTimeEvent) {
+
 		// sent currentTime to all local engines
-		for (final String providerURI : EPServiceProviderManager
-		        .getProviderURIs()) {
+		for (String providerURI : EPServiceProviderManager.getProviderURIs()) {
 			sendEvent(providerURI, currentTimeEvent);
 		}
 	}
-	
-	@Override
-	protected long handleGetCurrentTime(final String strategyName) {
-		
+
+	protected long handleGetCurrentTime(String strategyName) {
+
 		return getServiceProvider(strategyName).getEPRuntime().getCurrentTime();
 	}
-	
-	@Override
-	protected void handleInitCoordination(final String strategyName)
-	        throws Exception {
-		
-		coordinators.put(strategyName, new AdapterCoordinatorImpl(
-		        getServiceProvider(strategyName), true, true));
+
+	protected void handleInitCoordination(String strategyName) throws Exception {
+
+		this.coordinators.put(strategyName, new AdapterCoordinatorImpl(getServiceProvider(strategyName), true, true));
 	}
-	
-	@Override
-	protected void handleCoordinate(final String strategyName,
-	        final CSVInputAdapterSpec csvInputAdapterSpec) throws Exception {
-		
+
+	protected void handleCoordinate(String strategyName, CSVInputAdapterSpec csvInputAdapterSpec) throws Exception {
+
 		InputAdapter inputAdapter;
 		if (csvInputAdapterSpec instanceof CsvTickInputAdapterSpec) {
-			inputAdapter = new CsvTickInputAdapter(
-			        getServiceProvider(strategyName),
-			        (CsvTickInputAdapterSpec) csvInputAdapterSpec);
+			inputAdapter = new CsvTickInputAdapter(getServiceProvider(strategyName), (CsvTickInputAdapterSpec) csvInputAdapterSpec);
 		} else {
-			inputAdapter = new CSVInputAdapter(
-			        getServiceProvider(strategyName), csvInputAdapterSpec);
+			inputAdapter = new CSVInputAdapter(getServiceProvider(strategyName), csvInputAdapterSpec);
 		}
-		coordinators.get(strategyName).coordinate(inputAdapter);
+		this.coordinators.get(strategyName).coordinate(inputAdapter);
 	}
-	
-	@Override
-	protected void handleStartCoordination(final String strategyName)
-	        throws Exception {
-		
-		coordinators.get(strategyName).start();
+
+	protected void handleStartCoordination(String strategyName) throws Exception {
+
+		this.coordinators.get(strategyName).start();
 	}
+
+	protected void handleSetProperty(String strategyName, String key, String value) {
 	
-	@Override
-	protected void handleSetProperty(final String strategyName, String key,
-	        final String value) {
-		
 		key = key.replace(".", "_");
-		final EPRuntime runtime = getServiceProvider(strategyName)
-		        .getEPRuntime();
+		EPRuntime runtime = getServiceProvider(strategyName).getEPRuntime();
 		if (runtime.getVariableValueAll().containsKey(key)) {
-			final Class<?> clazz = runtime.getVariableValue(key).getClass();
-			final Object castedObj = JavaClassHelper.parse(clazz, value);
+			Class<?> clazz = runtime.getVariableValue(key).getClass();
+			Object castedObj = JavaClassHelper.parse(clazz, value);
 			runtime.setVariableValue(key, castedObj);
 		}
 	}
-	
-	private String getProviderURI(final String strategyName) {
-		
-		return strategyName == null || "".equals(strategyName) ? StrategyImpl.BASE
-		        : strategyName.toUpperCase();
+
+	private String getProviderURI(String strategyName) {
+
+		return (strategyName == null || "".equals(strategyName)) ? StrategyImpl.BASE : strategyName.toUpperCase();
 	}
-	
-	private EPServiceProvider getServiceProvider(final String strategyName) {
-		
-		final String providerURI = getProviderURI(strategyName);
-		
-		final EPServiceProvider serviceProvider = serviceProviders
-		        .get(providerURI);
-		if (serviceProvider == null) { throw new RuleServiceException(
-		        "strategy " + providerURI + " is not initialized yet!"); }
-		
+
+	private EPServiceProvider getServiceProvider(String strategyName) {
+
+		String providerURI = getProviderURI(strategyName);
+
+		EPServiceProvider serviceProvider = this.serviceProviders.get(providerURI);
+		if (serviceProvider == null) {
+			throw new RuleServiceException("strategy " + providerURI + " is not initialized yet!");
+		}
+
 		return serviceProvider;
 	}
-	
-	private boolean hasServiceProvider(final String strategyName) {
-		
-		final String providerURI = getProviderURI(strategyName);
-		
-		final EPServiceProvider serviceProvider = serviceProviders
-		        .get(providerURI);
-		
-		return serviceProvider != null;
+
+	private boolean hasServiceProvider(String strategyName) {
+
+		String providerURI = getProviderURI(strategyName);
+
+		EPServiceProvider serviceProvider = this.serviceProviders.get(providerURI);
+
+		return (serviceProvider != null);
 	}
-	
+
 	/**
 	 * initialize all the variables from the Configuration
 	 */
-	private void initVariables(final String strategyName,
-	        final Configuration configuration) {
-		
+	private void initVariables(String strategyName, Configuration configuration) {
+
 		try {
-			final Map<String, ConfigurationVariable> variables = configuration
-			        .getVariables();
-			for (final Map.Entry<String, ConfigurationVariable> entry : variables
-			        .entrySet()) {
-				final String key = entry.getKey().replace("_", ".");
-				final String obj = ConfigurationUtil.getStrategyConfig(
-				        strategyName).getString(key);
+			Map<String, ConfigurationVariable> variables = configuration.getVariables();
+			for (Map.Entry<String, ConfigurationVariable> entry : variables.entrySet()) {
+				String key = entry.getKey().replace("_", ".");
+				String obj = ConfigurationUtil.getStrategyConfig(strategyName).getString(key);
 				if (obj != null) {
-					final Class<?> clazz = Class.forName(entry.getValue()
-					        .getType());
-					final Object castedObj = JavaClassHelper.parse(clazz, obj);
+					Class<?> clazz = Class.forName(entry.getValue().getType());
+					Object castedObj = JavaClassHelper.parse(clazz, obj);
 					entry.getValue().setInitializationValue(castedObj);
 				}
 			}
-		} catch (final ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			throw new RuleServiceException(e);
 		}
 	}
-	
-	private void addSubscriberAndListeners(final EPStatement statement)
-	        throws ClassNotFoundException, InstantiationException,
-	        IllegalAccessException {
-		
-		final Annotation[] annotations = statement.getAnnotations();
-		for (final Annotation annotation : annotations) {
+
+	private void addSubscriberAndListeners(EPStatement statement) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+		Annotation[] annotations = statement.getAnnotations();
+		for (Annotation annotation : annotations) {
 			if (annotation instanceof Tag) {
-				final Tag tag = (Tag) annotation;
+				Tag tag = (Tag) annotation;
 				if (tag.name().equals("subscriber")) {
-					final Class<?> cl = Class.forName(tag.value());
-					final Object obj = cl.newInstance();
+					Class<?> cl = Class.forName(tag.value());
+					Object obj = cl.newInstance();
 					statement.setSubscriber(obj);
 				} else if (tag.name().equals("listeners")) {
-					final String[] listeners = tag.value().split("\\s");
-					for (final String listener : listeners) {
-						final Class<?> cl = Class.forName(listener);
-						final Object obj = cl.newInstance();
+					String[] listeners = tag.value().split("\\s");
+					for (String listener : listeners) {
+						Class<?> cl = Class.forName(listener);
+						Object obj = cl.newInstance();
 						if (obj instanceof StatementAwareUpdateListener) {
-							statement
-							        .addListener((StatementAwareUpdateListener) obj);
+							statement.addListener((StatementAwareUpdateListener) obj);
 						} else {
 							statement.addListener((UpdateListener) obj);
 						}

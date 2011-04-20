@@ -5,35 +5,32 @@ import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 
 public class StrategyUtil {
-	
-	private static boolean	simulation	= ConfigurationUtil.getBaseConfig()
-	                                           .getBoolean("simulation");
-	private static Strategy	startedStrategy;
-	
+
+	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
+	private static Strategy startedStrategy;
+
 	/**
-	 * returns the "main" started startegy. in simulation this is always BASE in
-	 * realtime this is whatever has been specified on the command-line
+	 * returns the "main" started startegy. in simulation this is always BASE in realtime this is whatever has been specified on the command-line
 	 */
 	public static Strategy getStartedStrategy() {
-		
-		if (StrategyUtil.startedStrategy == null) {
+
+		if (startedStrategy == null) {
 			String strategyName;
-			if (StrategyUtil.simulation) {
+			if (simulation) {
 				strategyName = StrategyImpl.BASE;
 			} else {
-				strategyName = ConfigurationUtil.getBaseConfig().getString(
-				        "strategyName");
-				if (strategyName == null) { throw new RuntimeException(
-				        "no strategy defined on commandline"); }
+				strategyName = ConfigurationUtil.getBaseConfig().getString("strategyName");
+				if (strategyName == null) {
+					throw new RuntimeException("no strategy defined on commandline");
+				}
 			}
-			StrategyUtil.startedStrategy = ServiceLocator.commonInstance()
-			        .getLookupService().getStrategyByNameFetched(strategyName);
+			startedStrategy = ServiceLocator.commonInstance().getLookupService().getStrategyByNameFetched(strategyName);
 		}
-		return StrategyUtil.startedStrategy;
+		return startedStrategy;
 	}
-	
+
 	public static String getStartedStrategyName() {
-		
-		return StrategyUtil.getStartedStrategy().getName();
+
+		return getStartedStrategy().getName();
 	}
 }
