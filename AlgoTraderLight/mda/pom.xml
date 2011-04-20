@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <!-- These settings apply specifically to the andromda code generation process. To generate code without
+    compiling or testing or packaging, run mvn install from /mda instead of from the root directory. -->
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>algotrader</groupId>
+        <artifactId>algotraderlight</artifactId>
+        <version>1.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>algotraderlight-mda</artifactId>
+    <packaging>pom</packaging>
+    <name>AlgoTrader Light MDA</name>
+    <dependencies>
+        
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-hibernate-cartridge</artifactId>
+            <version>${andromda.version}</version>
+            <scope>runtime</scope>
+        </dependency><dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-java-cartridge</artifactId>
+            <version>${andromda.version}</version>
+            <scope>runtime</scope>
+        </dependency><dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-spring-cartridge</artifactId>
+            <version>${andromda.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.andromda.profiles.uml14</groupId>
+            <artifactId>andromda-profile</artifactId>
+            <version>${andromda.version}</version>
+            <type>xml.zip</type>
+            <scope>runtime</scope>
+        </dependency><dependency>
+            <groupId>org.andromda.translationlibraries</groupId>
+            <artifactId>andromda-ocl-query-library</artifactId>
+            <version>${andromda.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.translationlibraries</groupId>
+            <artifactId>andromda-ocl-validation-library</artifactId>
+            <version>${andromda.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>eclipse</id>
+            <build>
+                <plugins>
+                    <!-- This will overwrite top level .project and .classpath each time.
+                         The maven Eclipse plugin in mda/pom.xml does a better job anyway. See mda/eclipse.bat.-->
+                    <plugin>
+                        <groupId>org.andromda.maven.plugins</groupId>
+                        <artifactId>andromdapp-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>eclipse</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <excludes>
+                                <exclude>app/pom.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <build>
+        <sourceDirectory>${project.basedir}/src/main/uml</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configurationUri>${project.basedir}/src/main/config/andromda.xml</configurationUri>
+                    <!-- Check model dates vs output file dates from previous gen, skip if files are later -->
+                    <lastModifiedCheck>true</lastModifiedCheck>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <!-- Avoid JDK6 XJC runtime error on wdsl2java from conflicting Jaxb2.2 -->
+        <!-- Versioned independently from CXF core -->
+        <cxf.xjc.version>2.3.0</cxf.xjc.version>
+        <model.uri>file:${project.basedir}/src/main/uml/algotrader.xmi</model.uri>
+        <filter></filter>
+        <validation>true</validation>
+        <!-- ant script location for temp copy of resources -->
+        <andromda.project>${project.basedir}/..</andromda.project>
+        <conf.dir>${project.basedir}/src/main/config</conf.dir>
+        <!-- cartridge output locations -->
+        <common.generated.dir>${project.basedir}/../code/target/src/main/java</common.generated.dir>
+        <common.manual.dir>${project.basedir}/../code/src/main/java</common.manual.dir>
+        <core.generated.dir>${project.basedir}/../code/target/src/main/java</core.generated.dir>
+        <core.manual.dir>${project.basedir}/../code/src/main/java</core.manual.dir>
+        <core.manual.java.dir>${project.basedir}/../code/src/main/java</core.manual.java.dir>
+        <!-- hibernate configuration -->
+        <!-- default strategy to use when using inhertiance -->
+        <hibernate.inheritance.strategy>subclass</hibernate.inheritance.strategy>
+        <!-- hibernate generator class to use for identifiers -->
+        <hibernate.generatorClass>native</hibernate.generatorClass>
+    </properties>
+</project>

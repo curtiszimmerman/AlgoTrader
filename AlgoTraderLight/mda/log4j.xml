@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- the log configuration file for the AndroMDA project -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <!-- ============================================
+          Append error messages to a local error log
+         ============================================ -->
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="andromda.log"/>
+        <!-- Added HHmm so that new file with minute timestamp is created on each MDA run -->
+        <param name="DatePattern" value="MMdd-HH"/>
+        <param name="Threshold" value="DEBUG"/>
+        <param name="Append" value="false"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- The default pattern: Date Priority [Category] Message\n -->
+            <param name="ConversionPattern" value="%d %-5p [%c] %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- ================================
+          Append messages to the console
+         ================================ -->
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="INFO"/>
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- The default pattern: Date Priority [Category] Message\n -->
+            <param name="ConversionPattern" value="%-5p [%c{1}] %m%n"/>
+        </layout>
+    </appender>
+
+
+    <!-- ==================
+          Limit categories
+         ================== -->
+
+    <category name="org.apache">
+        <priority value="WARN" />
+    </category>
+
+    <category name="org.apache.cxf">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.springframework">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.eclipse">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.andromda">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.andromda.core.metafacades">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.andromda.core.configuration">
+        <priority value="INFO" />
+    </category>
+
+    <category name="org.andromda.namespaces.webservice">
+        <priority value="DEBUG" />
+    </category>
+
+    <!--category name="org.andromda.namespaces.java">
+        <priority value="DEBUG" />
+    </category-->
+
+    <category name="org.andromda.cartridges">
+        <priority value="INFO" />
+    </category>
+
+    <category name="org.andromda.cartridges.webservice">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.andromda.cartridges.java">
+        <priority value="DEBUG" />
+    </category>
+
+    <category name="org.andromda.templateengines">
+        <priority value="INFO" />
+    </category>
+
+    <category name="org.andromda.translation">
+        <priority value="INFO" />
+    </category>
+
+    <!-- =========================
+          Setup the Root category
+         ========================= -->
+    <root>
+        <priority value="DEBUG" />
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</log4j:configuration>
