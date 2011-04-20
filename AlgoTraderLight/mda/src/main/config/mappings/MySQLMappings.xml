@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  This is used to map the model types to 
+  MySQL types for generated code.
+  line 16: remove BINARY
+-->
+<mappings name="MySQL">
+	<extends>MySQL</extends>
+    <mapping>
+        <from>String</from>
+        <from>PrimitiveTypes::String</from>
+        <from>UML2::String</from>
+        <from>UMLTypes::String</from>
+        <from>UMLPrimitiveTypes::String</from>
+        <from>datatype::String</from>
+        <from>datatypes::String</from>
+        <to>VARCHAR(255)</to>
+    </mapping>
+</mappings>

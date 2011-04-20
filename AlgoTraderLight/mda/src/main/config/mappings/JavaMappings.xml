@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- This is used to map the model types to Java types for the generated code.
+  It extends the default META-INF\andromda\mappings\JavaMappings.xml file in the
+  org/andromda/plugins/andromda-maven-plugin/<Version>/andromda-maven-plugin-<Version>.jar file.
+  If any type mappings are missing or need to be changed
+  from the default mapping file, they can be added here. Examples
+  below are already mapped. A reference was added to config\andromda.xml
+  under default namespace properties languageMappingsUri.
+  See http://docs.andromda.org/mappings.html -->
+<mappings name="Java">
+    <extends>Java</extends>
+    <!-- Example mapping implementations. -->
+    <!-- PrimitiveTypes and datatype refer to referenced model file packages -->
+    <!-- PrimitiveTypes package created automatically in RSM when adding datatype without a package -->
+    <!-- datatype:: is the androMDA specific datatypes contained in the datatype profile referenced by project -->
+    <!-- webservice date default and java value object date mappings match -->
+    <!--mapping>
+        <from>Time</from>
+        <from>Date</from>
+        <from>DateTime</from>
+        <from>Timestamp</from>
+        <from>PrimitiveTypes::Time</from>
+        <from>PrimitiveTypes::Date</from>
+        <from>PrimitiveTypes::DateTime</from>
+        <from>PrimitiveTypes::Timestamp</from>
+        <from>datatype::Time</from>
+        <from>datatype::Date</from>
+        <from>datatype::DateTime</from>
+        <from>datatype::Timestamp</from>
+        <to>java.util.Calendar</to>
+    </mapping>
+    <mapping>
+        <from>Integer</from>
+        <from>PrimitiveTypes::Integer</from>
+        <from>datatype::Integer</from>
+        <to>java.math.BigInteger</to>
+    </mapping>
+    <mapping>
+        <from>Enumeration</from>
+        <to>String</to>
+    </mapping>
+    <mapping>
+        <from>PrimitiveTypes::Double</from>
+        <to>Double</to>
+    </mapping-->
+</mappings>

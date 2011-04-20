@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<mappings name="HibernateMerge">
+
+        <mapping>
+            <from><![CDATA[<template
+        path="templates/hibernate3/hibernate.hbm.xml.vsl"
+        outputPattern="$generatedFile"
+        outlet="entity-mappings"
+        overwrite="true">
+        <modelElements variable="entity">
+            <modelElement>
+                <type name="org.andromda.cartridges.hibernate.metafacades.HibernateEntity">
+                    <property name="requiresMapping"/>
+                    <property name="version">3</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>]]></from>
+            <to><![CDATA[<template
+        path="templates/hibernate3/hibernate.hbm.xml.vsl"
+        outputPattern="$generatedFile"
+        outlet="entity-mappings"
+        overwrite="true"
+        outputCondition="$stringUtils.isBlank($entity.findTaggedValue('@algoTrader.entity.nonPersistent'))">
+        <modelElements variable="entity">
+            <modelElement>
+                <type name="org.andromda.cartridges.hibernate.metafacades.HibernateEntity">
+                    <property name="requiresMapping"/>
+                    <property name="version">3</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>]]></to>
+        </mapping>
+</mappings>
