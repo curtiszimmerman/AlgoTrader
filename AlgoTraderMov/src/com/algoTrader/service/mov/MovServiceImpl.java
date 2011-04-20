@@ -6,14 +6,16 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
+import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
-import com.algoTrader.enumeration.TransactionType;
+import com.algoTrader.entity.trade.MarketOrderImpl;
+import com.algoTrader.entity.trade.Order;
+import com.algoTrader.enumeration.Side;
 import com.algoTrader.service.LookupService;
+import com.algoTrader.service.OrderService;
 import com.algoTrader.service.PositionService;
-import com.algoTrader.service.TransactionService;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
-import com.algoTrader.vo.OrderVO;
 
 public class MovServiceImpl {
 
@@ -21,32 +23,32 @@ public class MovServiceImpl {
 
 	private PositionService positionService;
 	private LookupService lookupService;
-	private TransactionService transactionService;
+	private OrderService orderService;
 	private static double initialStopLoss = ConfigurationUtil.getStrategyConfig("MOV").getDouble("initialStopLoss");
 
-	public MovServiceImpl(PositionService positionService, LookupService lookupService, TransactionService transactionService) {
+	public MovServiceImpl(PositionService positionService, LookupService lookupService, OrderService orderService) {
 
 		this.positionService = positionService;
 		this.lookupService = lookupService;
-		this.transactionService = transactionService;
+		this.orderService = orderService;
 	}
 
 	public void openPosition(String strategyName, int securityId, BigDecimal currentValue) {
 
 		Strategy strategy = this.lookupService.getStrategyByNameFetched(strategyName);
+		Security security = this.lookupService.getSecurity(securityId);
 
 		int qty = (int) (strategy.getAvailableFundsDouble() / currentValue.doubleValue());
 		
 		if (qty <= 0)
 			return;
 
-		OrderVO order = new OrderVO();
-		order.setStrategyName(strategyName);
-		order.setSecurityId(securityId);
-		order.setRequestedQuantity(qty);
-		order.setTransactionType(TransactionType.BUY);
+		Order order = new MarketOrderImpl();
+		order.setSecurity(security);
+		order.setQuantity(qty);
+		order.setSide(Side.BUY);
 
-		this.transactionService.executeTransaction(strategy.getName(), order);
+		this.orderService.sendOrder(strategy.getName(), order);
 		
 		// if a position was open (or already existed) set margin and exitValue
 		Position position = this.lookupService.getPositionBySecurityAndStrategy(securityId, strategyName);
