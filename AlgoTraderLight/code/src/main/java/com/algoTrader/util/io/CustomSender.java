@@ -18,7 +18,7 @@ public class CustomSender extends AbstractSender {
 		// raw Ticks are always sent using MarketDataService
 		if (beanToSend instanceof RawTickVO) {
 
-			MarketDataService marketDataService = ServiceLocator.commonInstance().getIbMarketDataService(); // TODO replace with generic Market DataService
+			MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
 
 			Tick tick = marketDataService.completeRawTick((RawTickVO) beanToSend);
 			marketDataService.propagateTick(tick);

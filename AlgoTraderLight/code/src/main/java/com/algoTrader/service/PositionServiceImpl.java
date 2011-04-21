@@ -43,7 +43,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 
 		// only remove the security from the watchlist, if the position is closed
 		if (!position.isOpen()) {
-			ServiceLocator.commonInstance().getIbMarketDataService().removeFromWatchlist(position.getStrategy(), security); // TODO replace with generic Market DataService
+			ServiceLocator.commonInstance().getMarketDataService().removeFromWatchlist(position.getStrategy(), security);
 		}
 	}
 
