@@ -71,6 +71,10 @@
 	<logger name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog">
 		<level value="error" />
 	</logger>
+		
+	<logger name="com.espertech.esper.util.MethodResolver.MethodResolver">
+		<level value="error" />
+	</logger>	
 
 	<logger name="com.algoTrader.subscriber.PrintPortfolioValueSubscriber">
 		<appender-ref ref="PORTFOLIO" />
