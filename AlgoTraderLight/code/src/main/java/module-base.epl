@@ -17,7 +17,7 @@ where LookupUtil.hasLastTicks();
 @Name('CREATE_MONTHLY_PERFORMANCE')
 @Priority(2)
 insert into MonthlyPerformance
-current_timestamp().toDate() as date,
+select current_timestamp().toDate() as date,
 portfolio.value.netLiqValue / prior(1, portfolio.value.netLiqValue) - 1 as value
 from pattern[every timer:at (0, 0, 1, *, *) -> portfolio=Portfolio]
 having prior(1, portfolio.value.netLiqValue) != null and 
