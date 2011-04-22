@@ -13,7 +13,6 @@
 
 	<auto-import import-name="com.algoTrader.enumeration.TransactionType"/>
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
-	<auto-import import-name="com.algoTrader.util.DateUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.util.DrawDownUtil"/>
 

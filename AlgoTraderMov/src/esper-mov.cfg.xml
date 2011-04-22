@@ -6,7 +6,6 @@
 	<event-type name="Tick" class="com.algoTrader.entity.marketData.TickImpl"/>
 
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
-	<auto-import import-name="com.algoTrader.util.DateUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.service.mov.MovUtil"/>
 
