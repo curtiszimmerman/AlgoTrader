@@ -9,6 +9,7 @@
         <artifactId>algotraderlight</artifactId>
         <version>1.4-SNAPSHOT</version>
     </parent>
+    <groupId>algotraderlight</groupId>
     <artifactId>algotraderlight-mda</artifactId>
     <packaging>pom</packaging>
     <name>AlgoTrader Light MDA</name>
