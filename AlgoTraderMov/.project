@@ -35,8 +35,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.maven.ide.eclipse.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.maven.ide.eclipse.maven2Nature</nature>
 		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>com.genuitec.eclipse.hibernate.hibernatenature</nature>
 		<nature>com.genuitec.eclipse.ast.deploy.core.deploymentnature</nature>
