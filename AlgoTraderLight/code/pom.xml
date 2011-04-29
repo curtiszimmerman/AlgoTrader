@@ -224,11 +224,11 @@
                     <jdbcPassword>${jdbc.password}</jdbcPassword>
                     <!-- set this to false if you don't want to execute
                          the generated SQL scripts (creates and saves DDL under app/target/schema*.sql -->
-                    <executeScripts>true</executeScripts>
+                    <executeScripts>false</executeScripts>
                     <properties>
                         <property>
                             <name>mappingsLocation</name>
-                            <value>${project.basedir}/target/src</value>
+                            <value>${project.basedir}/target/src/main/java</value>
                         </property>
                         <property>
                             <name>mappingFileExtension</name>
@@ -236,11 +236,11 @@
                         </property>
                         <property>
                             <name>createOutputPath</name>
-                            <value>${project.basedir}/../web/target/schema-create.sql</value>
+                            <value>${project.basedir}/../sql/schema-create.sql</value>
                         </property>
                         <property>
                             <name>dropOutputPath</name>
-                            <value>${project.basedir}/../web/target/schema-drop.sql</value>
+                            <value>${project.basedir}/../sql/schema-drop.sql</value>
                         </property>
                     </properties>
                     <!-- You might need to execute additional scripts, just uncomment and add

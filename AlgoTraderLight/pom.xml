@@ -508,6 +508,16 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <repository>
+            <id>andromda</id>
+            <name>AndroMDA Repository</name>
+            <url>http://team.andromda.org/maven2</url>
+        </repository>
+		<repository>
+			<id>java.net</id>
+			<name>The Java.net Maven repository</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -524,6 +534,11 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>andromda</id>
+            <name>AndroMDA Repository</name>
+            <url>http://team.andromda.org/maven2</url>
         </pluginRepository>
     </pluginRepositories>
     <prerequisites>
