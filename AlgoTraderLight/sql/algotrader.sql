@@ -98,13 +98,35 @@ CREATE TABLE `position` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1020 DEFAULT CHARSET=latin1;
 
 #
+# Structure for the `bar` table : 
+#
+
+DROP TABLE IF EXISTS `bar`;
+
+CREATE TABLE `bar` (
+  `ID` int(11) NOT NULL,
+  `DATE_TIME` datetime NOT NULL,
+  `OPEN` double NOT NULL,
+  `HIGH` double NOT NULL,
+  `LOW` double NOT NULL,
+  `CLOSE` double NOT NULL,
+  `ADJ_CLOSE` double DEFAULT NULL,
+  `VOL` int(11) NOT NULL,
+  `OPEN_INTEREST` int(11) NOT NULL,
+  `SECURITY_FK` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `BAR_SECURITY_FKC` (`SECURITY_FK`),
+  CONSTRAINT `BAR_SECURITY_FKC` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
 # Structure for the `tick` table : 
 #
 
 DROP TABLE IF EXISTS `tick`;
 
 CREATE TABLE `tick` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `DATE_TIME` datetime NOT NULL,
   `LAST` decimal(11,2) DEFAULT NULL,
   `LAST_DATE_TIME` datetime DEFAULT NULL,
