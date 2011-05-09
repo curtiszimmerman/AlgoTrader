@@ -51,6 +51,10 @@
 	<logger name="com.espertech">
 		<level value="warn" />
 	</logger>
+	
+	<logger name="com.espertech.esper.util.MethodResolver">
+		<level value="error" />
+	</logger>	
 
 	<logger name="httpclient">
 		<level value="warn" />
