@@ -221,6 +221,7 @@
 					<jdbcConnectionUrl>${jdbc.url}</jdbcConnectionUrl>
 					<jdbcUsername>${jdbc.username}</jdbcUsername>
 					<jdbcPassword>${jdbc.password}</jdbcPassword>
+					<tasks>create</tasks>
 					<!-- set this to false if you don't want to execute the generated SQL 
 						scripts (creates and saves DDL under app/target/schema*.sql -->
 					<executeScripts>false</executeScripts>
