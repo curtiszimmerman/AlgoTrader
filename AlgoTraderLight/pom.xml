@@ -353,7 +353,7 @@
                 For Hypersonic use: hsqldb.jar
                 -->
                 <jdbc.driver.jar>
-                    /path/to/mysql/lib/mysql-connector-java-5.1.14.jar
+                    ${settings.localRepository}\mysql\mysql-connector-java\5.1.15\mysql-connector-java-5.1.15.jar
                 </jdbc.driver.jar>
                 <!--
                     Change driver for appropriate database
