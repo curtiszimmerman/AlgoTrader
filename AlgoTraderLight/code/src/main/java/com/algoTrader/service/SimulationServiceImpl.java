@@ -3,6 +3,7 @@ package com.algoTrader.service;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,8 +34,13 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
 	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet");
 	private static DecimalFormat twoDigitFormat = new DecimalFormat("#,##0.00");
-	private static DecimalFormat threeDigitFormat = new DecimalFormat("#,##0.000");
 	private static DateFormat dateFormat = new SimpleDateFormat(" MMM-yy ");
+	private static final NumberFormat format = NumberFormat.getInstance();
+	private static final int roundDigits = ConfigurationUtil.getBaseConfig().getInt("simulation.roundDigits");
+
+	static {
+		format.setMinimumFractionDigits(roundDigits);
+	}
 
 	protected void handleResetDB() throws Exception {
 	
@@ -153,6 +159,17 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 		logMultiLineString(convertStatisticsToLongString(resultVO));
 	}
 
+	protected void handleOptimizeSingleParamLinear(String strategyName, String parameter, double min, double max, double increment) throws Exception {
+
+		for (double i = min; i <= max; i += increment) {
+
+			ConfigurationUtil.getStrategyConfig(strategyName).setProperty(parameter, format.format(i));
+
+			SimulationResultVO resultVO = ServiceLocator.serverInstance().getSimulationService().runByUnderlayings();
+			logMultiLineString(convertStatisticsToLongString(resultVO));
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	private static String convertStatisticsToLongString(SimulationResultVO resultVO) {
 	
@@ -187,7 +204,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 			buffer.append(" stdM=" + twoDigitFormat.format(performanceKeys.getStdM() * 100) + "%");
 			buffer.append(" avgY=" + twoDigitFormat.format(performanceKeys.getAvgY() * 100) + "%");
 			buffer.append(" stdY=" + twoDigitFormat.format(performanceKeys.getStdY() * 100) + "% ");
-			buffer.append(" sharpRatio=" + threeDigitFormat.format(performanceKeys.getSharpRatio()) + "\r\n");
+			buffer.append(" sharpRatio=" + twoDigitFormat.format(performanceKeys.getSharpRatio()) + "\r\n");
 			
 			buffer.append("maxDrawDownM=" + twoDigitFormat.format(-maxDrawDownM * 100) + "%");
 			buffer.append(" bestMonthlyPerformance=" + twoDigitFormat.format(bestMonthlyPerformance * 100) + "%");
