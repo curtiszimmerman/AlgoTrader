@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Tue May 10 15:54:27 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Tue May 10 16:01:54 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -1285,9 +1285,9 @@
 														<UML:Parameter xmi.id='_9_5_1_8b60294_1303211365819_524239_7300' kind='return' type='_9_5_1_8b60294_1303211365812_82578_7076'/>
 													</UML:BehavioralFeature.parameter>
 												</UML:Operation>
-												<UML:Operation xmi.id='_9_5_1_8b60294_1303211365819_623894_7304' name='propagateTick' visibility='public'>
+												<UML:Operation xmi.id='_9_5_1_8b60294_1303211365819_623894_7304' name='propagateMarketDataEvent' visibility='public'>
 													<UML:BehavioralFeature.parameter>
-														<UML:Parameter xmi.id='_9_5_1_8b60294_1303211365819_717097_7302' name='tick' type='_9_5_1_8b60294_1303211365812_82578_7076'/>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1303211365819_717097_7302' name='marketDataEvent' type='_9_5_1_8b60294_1304862638550_509874_567'/>
 														<UML:Parameter xmi.id='_9_5_1_8b60294_1303211365819_357355_7303' kind='return'>
 															<UML:Parameter.type>
 																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_324247_52'>
@@ -7159,7 +7159,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<elementID xmi.idref='_9_5_1_8b60294_1303211365770_747382_6784'/>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 1, 914, 623</diagramWindowBounds>
+					<diagramWindowBounds>0, 1, 914, 597</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
 					<maximized xmi.value='false'/>
@@ -8826,79 +8826,30 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530040_355465_8046'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_839731_7426'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>900, 10, 557, 461</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530040_565252_8047'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365819_12442_7325'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
-							<geometry>10, 10, 855, 171</geometry>
+							<geometry>10, 10, 741, 171</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530041_37434_8048'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365819_25621_7298'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>10, 190, 791, 81</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530041_983333_8049'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365816_473928_7196'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>10, 290, 871, 141</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530041_137370_8050'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365818_601287_7288'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>900, 480, 462, 396</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530042_956525_8051'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365816_950347_7219'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>10, 540, 691, 160</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530042_340198_8052'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365814_103066_7160'/>
-							<properties>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>AUTOSIZE</propertyID>
-									<propertyDescriptionID>AUTOSIZE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='true'/>
-								</mdElement>
-							</properties>
 							<geometry>10, 450, 799, 66</geometry>
 						</mdElement>
 					</mdOwnedViews>
@@ -8938,6 +8889,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -9110,6 +9067,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -9498,6 +9461,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>620, 237, 109, 42</geometry>
 						</mdElement>
@@ -9706,6 +9675,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>460, 237, 74, 42</geometry>
 						</mdElement>
@@ -9827,6 +9802,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -10014,6 +9995,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>310, 427, 95, 42</geometry>
 						</mdElement>
@@ -10058,6 +10045,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -10217,6 +10210,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>460, 27, 74, 42</geometry>
 						</mdElement>
@@ -10274,6 +10273,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -10622,6 +10627,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>30, 520, 91, 42</geometry>
 						</mdElement>
@@ -10883,6 +10894,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>160, 430, 83, 42</geometry>
 						</mdElement>
@@ -10898,6 +10915,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -10986,6 +11009,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>600, 20, 117, 42</geometry>
 						</mdElement>
@@ -10998,6 +11027,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
 							</properties>
 							<geometry>603, 435, 83, 42</geometry>
 						</mdElement>
@@ -11008,6 +11043,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -11177,6 +11218,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
@@ -11676,6 +11723,12 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='false'/>
 								</mdElement>
 								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
 									<propertyID>SHOW_OPERATIONS_PROPERTIES</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SHOW_OPERATIONS_PROPERTIES_DESCRIPTION</propertyDescriptionID>
@@ -11696,12 +11749,6 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SHOW_OPERATIONS_SIGNATURE</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SHOW_OPERATIONS_SIGNATURE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='false'/>
-								</mdElement>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
-									<propertyGroup>OPERATIONS</propertyGroup>
-									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='false'/>
 								</mdElement>
 								<mdElement elementClass='BooleanProperty'>
@@ -11728,12 +11775,6 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='false'/>
 								</mdElement>
 								<mdElement elementClass='BooleanProperty'>
-									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
-									<propertyGroup>OPERATIONS</propertyGroup>
-									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='false'/>
-								</mdElement>
-								<mdElement elementClass='BooleanProperty'>
 									<propertyID>SHOW_OPERATIONS_PROPERTIES</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SHOW_OPERATIONS_PROPERTIES_DESCRIPTION</propertyDescriptionID>
@@ -11754,12 +11795,6 @@ order by s.id</UML:TaggedValue.dataValue>
 									<propertyID>SHOW_OPERATIONS_SIGNATURE</propertyID>
 									<propertyGroup>OPERATIONS</propertyGroup>
 									<propertyDescriptionID>SHOW_OPERATIONS_SIGNATURE_DESCRIPTION</propertyDescriptionID>
-									<value xmi.value='false'/>
-								</mdElement>
-								<mdElement elementClass='BooleanProperty'>
-									<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
-									<propertyGroup>OPERATIONS</propertyGroup>
-									<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
 									<value xmi.value='false'/>
 								</mdElement>
 								<mdElement elementClass='BooleanProperty'>
@@ -11978,7 +12013,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>BROWSER_LAYOUT</propertyID>
 						<propertyDescriptionID>BROWSER_LAYOUT_DESCRIPTION</propertyDescriptionID>
-						<value>0 13 0 0 7 80 0 0 0 0 0 0 7 80 0 0 4 1a 0 0 0 6 0 0 0 9 0 0 0 f 0 4d 0 45 0 53 0 53 0 41 0 47 0 45 0 53 0 5f 0 57 0 49 0 4e 0 44 0 4f 0 57 0 0 5e bf 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 f 0 0 0 0 0 0 0 0 0 0 0 2 0 0 3 be 0 0 1 4d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 5e bf 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 2 0 0 0 0 0 0 7b d2 0 0 0 1 0 0 5e bf 0 0 0 2 0 0 12 df 0 0 7b d2 0 0 0 1 0 0 0 2 0 0 ee 86 0 0 7b d2 0 0 6a 3f 0 0 12 df 0 0 0 0 0 0 0 2 0 0 cf e7 0 0 12 df 0 0 0 1 0 0 0 0 0 0 5e bf 0 0 0 0 0 0 0 3c 0 0 0 3c 0 0 0 c8 0 0 0 c8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 f 0 45 0 58 0 54 0 45 0 4e 0 53 0 49 0 4f 0 4e 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 3c 51 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 3c 51 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 d 0 44 0 49 0 41 0 47 0 52 0 41 0 4d 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 7 6d 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 7 6d 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 a 0 50 0 52 0 4f 0 50 0 45 0 52 0 54 0 49 0 45 0 53 0 0 41 84 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 41 84 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 d 0 44 0 4f 0 43 0 55 0 4d 0 45 0 4e 0 54 0 41 0 54 0 49 0 4f 0 4e 0 0 7f 7 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 7f 7 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 c 0 5a 0 4f 0 4f 0 4d 0 5f 0 43 0 4f 0 4e 0 54 0 52 0 4f 0 4c 0 0 e8 84 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 e8 84 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 13 0 53 0 45 0 41 0 52 0 43 0 48 0 5f 0 52 0 45 0 53 0 55 0 4c 0 54 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 18 4f 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 18 4f 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 43 0 4f 0 4e 0 54 0 41 0 49 0 4e 0 4d 0 45 0 4e 0 54 0 5f 0 54 0 52 0 45 0 45 0 0 2a bd 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 2a bd 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 49 0 4e 0 48 0 45 0 52 0 49 0 54 0 41 0 4e 0 43 0 45 0 5f 0 54 0 52 0 45 0 45 0 0 ad e5 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 ad e5 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 63 0 0 0 0 0 0 6a 3f 0 0 0 1 0 0 4 63 0 0 0 1 0 0 cf e7 0 0 0 2 0 0 4 63 0 0 0 0 0 0 32 a0 0 0 0 2 0 0 4 64 0 0 71 89 0 0 0 5 0 0 4 65 0 0 0 10 0 43 0 4f 0 4e 0 54 0 41 0 49 0 4e 0 4d 0 45 0 4e 0 54 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 10 0 49 0 4e 0 48 0 45 0 52 0 49 0 54 0 41 0 4e 0 43 0 45 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 d 0 44 0 49 0 41 0 47 0 52 0 41 0 4d 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 f 0 45 0 58 0 54 0 45 0 4e 0 53 0 49 0 4f 0 4e 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 13 0 53 0 45 0 41 0 52 0 43 0 48 0 5f 0 52 0 45 0 53 0 55 0 4c 0 54 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 1 e4 0 0 2 b6 0 0 0 0 0 0 4 64 0 0 ca bc 0 0 0 3 0 0 4 65 0 0 0 c 0 5a 0 4f 0 4f 0 4d 0 5f 0 43 0 4f 0 4e 0 54 0 52 0 4f 0 4c 0 0 4 65 0 0 0 d 0 44 0 4f 0 43 0 55 0 4d 0 45 0 4e 0 54 0 41 0 54 0 49 0 4f 0 4e 0 0 4 65 0 0 0 a 0 50 0 52 0 4f 0 50 0 45 0 52 0 54 0 49 0 45 0 53 0 0 1 e4 0 0 1 3 0 0 0 0 0 0 1 79 0 0 3 bd 0 0 4 66 0 0 6 3 0 0 0 1a 0 0 0 0 0 0 1 e9 0 0 3 bd 0 0 1 e9 0 0 3 bd 0 0 0 3 0 0 0 0 0 0 0 7 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 f 0 4d 0 45 0 53 0 53 0 41 0 47 0 45 0 53 0 5f 0 57 0 49 0 4e 0 44 0 4f 0 57 </value>
+						<value>0 13 0 0 7 80 0 0 0 0 0 0 7 80 0 0 4 1a 0 0 0 6 0 0 0 9 0 0 0 f 0 4d 0 45 0 53 0 53 0 41 0 47 0 45 0 53 0 5f 0 57 0 49 0 4e 0 44 0 4f 0 57 0 0 5e bf 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 f 0 0 0 0 0 0 0 0 0 0 0 2 0 0 4 f9 0 0 1 37 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 5e bf 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 2 0 0 0 0 0 0 7b d2 0 0 0 1 0 0 5e bf 0 0 0 2 0 0 12 df 0 0 7b d2 0 0 0 1 0 0 0 2 0 0 62 ac 0 0 7b d2 0 0 6a 3f 0 0 12 df 0 0 0 0 0 0 0 2 0 0 cf e7 0 0 12 df 0 0 0 1 0 0 0 0 0 0 5e bf 0 0 0 0 0 0 0 3c 0 0 0 3c 0 0 0 c8 0 0 0 c8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 f 0 45 0 58 0 54 0 45 0 4e 0 53 0 49 0 4f 0 4e 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 3c 51 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 3c 51 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 d 0 44 0 49 0 41 0 47 0 52 0 41 0 4d 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 7 6d 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 7 6d 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 a 0 50 0 52 0 4f 0 50 0 45 0 52 0 54 0 49 0 45 0 53 0 0 41 84 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 41 84 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 d 0 44 0 4f 0 43 0 55 0 4d 0 45 0 4e 0 54 0 41 0 54 0 49 0 4f 0 4e 0 0 7f 7 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 7f 7 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 c 0 5a 0 4f 0 4f 0 4d 0 5f 0 43 0 4f 0 4e 0 54 0 52 0 4f 0 4c 0 0 e8 84 0 0 0 8 0 0 0 1 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 0 ea 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 e8 84 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 ca bc 0 0 0 3 0 0 e8 84 0 0 7f 7 0 0 41 84 0 0 0 2 0 0 32 a0 0 0 ca bc 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 13 0 53 0 45 0 41 0 52 0 43 0 48 0 5f 0 52 0 45 0 53 0 55 0 4c 0 54 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 18 4f 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 18 4f 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 43 0 4f 0 4e 0 54 0 41 0 49 0 4e 0 4d 0 45 0 4e 0 54 0 5f 0 54 0 52 0 45 0 45 0 0 2a bd 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 2a bd 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 49 0 4e 0 48 0 45 0 52 0 49 0 54 0 41 0 4e 0 43 0 45 0 5f 0 54 0 52 0 45 0 45 0 0 ad e5 0 0 0 8 0 0 0 0 0 0 0 1 0 0 0 f 0 0 0 4 0 0 0 4 0 0 0 8 0 0 1 79 0 0 2 3f 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 4 0 0 ad e5 0 0 0 2 0 0 0 0 0 0 0 0 0 0 7 80 0 0 3 bd 0 0 0 8 0 0 0 0 0 0 71 89 0 0 0 5 0 0 2a bd 0 0 ad e5 0 0 7 6d 0 0 3c 51 0 0 18 4f 0 0 0 2 0 0 32 a0 0 0 71 89 0 0 0 0 0 0 0 2 0 0 71 89 0 0 ca bc 0 0 cf e7 0 0 32 a0 0 0 0 1 0 0 0 2 0 0 32 a0 ff ff ff ff 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 63 0 0 0 0 0 0 6a 3f 0 0 0 1 0 0 4 63 0 0 0 1 0 0 cf e7 0 0 0 2 0 0 4 63 0 0 0 0 0 0 32 a0 0 0 0 2 0 0 4 64 0 0 71 89 0 0 0 5 0 0 4 65 0 0 0 10 0 43 0 4f 0 4e 0 54 0 41 0 49 0 4e 0 4d 0 45 0 4e 0 54 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 10 0 49 0 4e 0 48 0 45 0 52 0 49 0 54 0 41 0 4e 0 43 0 45 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 d 0 44 0 49 0 41 0 47 0 52 0 41 0 4d 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 f 0 45 0 58 0 54 0 45 0 4e 0 53 0 49 0 4f 0 4e 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 4 65 0 0 0 13 0 53 0 45 0 41 0 52 0 43 0 48 0 5f 0 52 0 45 0 53 0 55 0 4c 0 54 0 53 0 5f 0 54 0 52 0 45 0 45 0 0 1 e4 0 0 2 b6 0 0 0 0 0 0 4 64 0 0 ca bc 0 0 0 3 0 0 4 65 0 0 0 c 0 5a 0 4f 0 4f 0 4d 0 5f 0 43 0 4f 0 4e 0 54 0 52 0 4f 0 4c 0 0 4 65 0 0 0 d 0 44 0 4f 0 43 0 55 0 4d 0 45 0 4e 0 54 0 41 0 54 0 49 0 4f 0 4e 0 0 4 65 0 0 0 a 0 50 0 52 0 4f 0 50 0 45 0 52 0 54 0 49 0 45 0 53 0 0 1 e4 0 0 1 3 0 0 0 0 0 0 1 79 0 0 3 bd 0 0 4 66 0 0 6 3 0 0 0 1a 0 0 0 0 0 0 1 e9 0 0 3 bd 0 0 1 e9 0 0 3 bd 0 0 0 3 0 0 0 0 0 0 0 7 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 f 0 4d 0 45 0 53 0 53 0 41 0 47 0 45 0 53 0 5f 0 57 0 49 0 4e 0 44 0 4f 0 57 0 0 0 48 0 63 0 6f 0 6d 0 2e 0 6e 0 6f 0 6d 0 61 0 67 0 69 0 63 0 2e 0 6d 0 61 0 67 0 69 0 63 0 64 0 72 0 61 0 77 0 2e 0 70 0 6c 0 75 0 67 0 69 0 6e 0 73 0 2e 0 69 0 6d 0 70 0 6c 0 2e 0 55 0 73 0 61 0 67 0 65 0 73 0 44 0 65 0 70 0 65 0 6e 0 64 0 65 0 6e 0 63 0 69 0 65 0 73 0 44 0 69 0 61 0 6c 0 6f 0 67 0 3a 0 3a 0 67 0 65 0 74 0 49 0 6e 0 73 0 74 0 61 0 6e 0 63 0 65 </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='StringProperty'>
@@ -12027,7 +12062,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>7 59 65 79 22 3d 5f 54 78 69 41 a7 75 5b 37 95 81 5f 3e d5 74 76 23 32 f2 64 59 7d b2 84 0 e9 b 85 10 f2 4f f0 d ee fd a0 ed 17 8e 11 b5 1a 28 25 14 b5 6f 55 30 1d f8 7d 9a ea 4f f1 8d 22 8c 82 98 aa 8b ee 82 70 </value>
+						<value>7 59 65 79 22 3d 5f 54 78 69 41 a7 75 5b 37 95 81 5f 3e d5 74 76 23 31 f2 61 5c 7d b5 87 0 e9 b 85 10 f2 4f f0 d ee fd a0 ed 17 8e 11 b5 1a 28 25 14 b5 6f 55 30 1d f8 7d 9a ea 4f f1 8d 22 8c 82 98 aa 8b ee 82 70 </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>
@@ -13536,6 +13571,21 @@ order by s.id</UML:TaggedValue.dataValue>
 					<extendableByDiagram xmi.value='false'/>
 					<extendableByStereotype xmi.value='false'/>
 					<name>Implementation Diagram</name>
+					<propertyManagerID>_9_5_1_8b60294_1304797037226_514387_151</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037226_293452_152</parentPropertyManager>
+					<mdElement elementClass='BooleanProperty'>
+						<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
+						<propertyGroup>OPERATIONS</propertyGroup>
+						<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+						<value xmi.value='true'/>
+					</mdElement>
+				</mdElement>
+				<mdElement elementClass='PropertyManagerByDiagram'>
+					<diagramType>Implementation Diagram</diagramType>
+					<removable xmi.value='true'/>
+					<extendableByDiagram xmi.value='false'/>
+					<extendableByStereotype xmi.value='false'/>
+					<name>Implementation Diagram</name>
 					<propertyManagerID>_9_0_be00301_1102495862296_461313_216</propertyManagerID>
 					<parentPropertyManager>_9_5_1_8b60294_1304797037226_771794_153</parentPropertyManager>
 					<mdElement elementClass='ChoiceProperty'>
@@ -13560,21 +13610,6 @@ order by s.id</UML:TaggedValue.dataValue>
 						<value>OBLIQUE</value>
 						<choice xmi.value='RECTILINEAR^OBLIQUE^BEZIER'/>
 						<index xmi.value='1'/>
-					</mdElement>
-				</mdElement>
-				<mdElement elementClass='PropertyManagerByDiagram'>
-					<diagramType>Implementation Diagram</diagramType>
-					<removable xmi.value='true'/>
-					<extendableByDiagram xmi.value='false'/>
-					<extendableByStereotype xmi.value='false'/>
-					<name>Implementation Diagram</name>
-					<propertyManagerID>_9_5_1_8b60294_1304797037226_514387_151</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037226_293452_152</parentPropertyManager>
-					<mdElement elementClass='BooleanProperty'>
-						<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
-						<propertyGroup>OPERATIONS</propertyGroup>
-						<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
-						<value xmi.value='true'/>
 					</mdElement>
 				</mdElement>
 				<mdElement elementClass='ExtendableManager'>
@@ -14461,6 +14496,18 @@ order by s.id</UML:TaggedValue.dataValue>
 						<propertyDescriptionID>SUPPRESS_CLASS_ATTRIBUTES_DESCRIPTION</propertyDescriptionID>
 						<value xmi.value='true'/>
 					</mdElement>
+					<mdElement elementClass='BooleanProperty'>
+						<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+						<propertyGroup>OPERATIONS</propertyGroup>
+						<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+						<value xmi.value='false'/>
+					</mdElement>
+					<mdElement elementClass='BooleanProperty'>
+						<propertyID>SHOW_OPERATIONS_STEREOTYPE</propertyID>
+						<propertyGroup>OPERATIONS</propertyGroup>
+						<propertyDescriptionID>SHOW_OPERATIONS_STEREOTYPE_DESCRIPTION</propertyDescriptionID>
+						<value xmi.value='false'/>
+					</mdElement>
 				</mdElement>
 				<mdElement elementClass='PropertyManagerByStereotype'>
 					<stereotype>_9_5_1_2e90116_1282776586186_939392_1</stereotype>
@@ -15251,8 +15298,8 @@ order by s.id</UML:TaggedValue.dataValue>
 					<extendableByDiagram xmi.value='false'/>
 					<extendableByStereotype xmi.value='false'/>
 					<name>Use Case Diagram</name>
-					<propertyManagerID>_9_5_1_8b60294_1304797037234_627066_202</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037226_771794_153</parentPropertyManager>
+					<propertyManagerID>_9_5_1_8b60294_1304797037233_293384_201</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037221_975289_126</parentPropertyManager>
 					<mdElement elementClass='ChoiceProperty'>
 						<propertyID>LINK_LINE_STYLE</propertyID>
 						<propertyDescriptionID>LINK_LINE_STYLE_DESCRIPTION</propertyDescriptionID>
@@ -15283,8 +15330,8 @@ order by s.id</UML:TaggedValue.dataValue>
 					<extendableByDiagram xmi.value='false'/>
 					<extendableByStereotype xmi.value='false'/>
 					<name>Use Case Diagram</name>
-					<propertyManagerID>_9_5_1_8b60294_1304797037233_293384_201</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037221_975289_126</parentPropertyManager>
+					<propertyManagerID>_9_5_1_8b60294_1304797037234_627066_202</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037226_771794_153</parentPropertyManager>
 					<mdElement elementClass='ChoiceProperty'>
 						<propertyID>LINK_LINE_STYLE</propertyID>
 						<propertyDescriptionID>LINK_LINE_STYLE_DESCRIPTION</propertyDescriptionID>
@@ -15317,24 +15364,13 @@ order by s.id</UML:TaggedValue.dataValue>
 					<extendableByDiagram xmi.value='false'/>
 					<extendableByStereotype xmi.value='false'/>
 					<name>Web Diagram</name>
-					<propertyManagerID>_9_5_1_12ab03bf_1174398674125_994714_93</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037228_42268_174</parentPropertyManager>
-					<mdElement elementClass='ColorProperty'>
-						<propertyID>FILL_COLOR</propertyID>
-						<value xmi.value='-3287061'/>
-					</mdElement>
-				</mdElement>
-				<mdElement elementClass='PropertyManagerByDiagram'>
-					<diagramType>Web Diagram</diagramType>
-					<removable xmi.value='true'/>
-					<extendableByDiagram xmi.value='false'/>
-					<extendableByStereotype xmi.value='false'/>
-					<name>Web Diagram</name>
-					<propertyManagerID>_9_5_1_12ab03bf_1174398674125_416855_94</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037226_293452_152</parentPropertyManager>
-					<mdElement elementClass='ColorProperty'>
-						<propertyID>FILL_COLOR</propertyID>
-						<value xmi.value='-3916'/>
+					<propertyManagerID>_62a020a_1073978175326_177412_83</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037221_975289_126</parentPropertyManager>
+					<mdElement elementClass='ChoiceProperty'>
+						<propertyID>LINK_LINE_STYLE</propertyID>
+						<value>OBLIQUE</value>
+						<choice xmi.value='RECTILINEAR^OBLIQUE^BEZIER'/>
+						<index xmi.value='1'/>
 					</mdElement>
 				</mdElement>
 				<mdElement elementClass='PropertyManagerByDiagram'>
@@ -15356,13 +15392,24 @@ order by s.id</UML:TaggedValue.dataValue>
 					<extendableByDiagram xmi.value='false'/>
 					<extendableByStereotype xmi.value='false'/>
 					<name>Web Diagram</name>
-					<propertyManagerID>_62a020a_1073978175326_177412_83</propertyManagerID>
-					<parentPropertyManager>_9_5_1_8b60294_1304797037221_975289_126</parentPropertyManager>
-					<mdElement elementClass='ChoiceProperty'>
-						<propertyID>LINK_LINE_STYLE</propertyID>
-						<value>OBLIQUE</value>
-						<choice xmi.value='RECTILINEAR^OBLIQUE^BEZIER'/>
-						<index xmi.value='1'/>
+					<propertyManagerID>_9_5_1_12ab03bf_1174398674125_994714_93</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037228_42268_174</parentPropertyManager>
+					<mdElement elementClass='ColorProperty'>
+						<propertyID>FILL_COLOR</propertyID>
+						<value xmi.value='-3287061'/>
+					</mdElement>
+				</mdElement>
+				<mdElement elementClass='PropertyManagerByDiagram'>
+					<diagramType>Web Diagram</diagramType>
+					<removable xmi.value='true'/>
+					<extendableByDiagram xmi.value='false'/>
+					<extendableByStereotype xmi.value='false'/>
+					<name>Web Diagram</name>
+					<propertyManagerID>_9_5_1_12ab03bf_1174398674125_416855_94</propertyManagerID>
+					<parentPropertyManager>_9_5_1_8b60294_1304797037226_293452_152</parentPropertyManager>
+					<mdElement elementClass='ColorProperty'>
+						<propertyID>FILL_COLOR</propertyID>
+						<value xmi.value='-3916'/>
 					</mdElement>
 				</mdElement>
 				<mdElement elementClass='PropertyManagerByStereotype'>

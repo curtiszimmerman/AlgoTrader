@@ -9,6 +9,7 @@ import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.WatchListItem;
 import com.algoTrader.entity.WatchListItemImpl;
+import com.algoTrader.entity.marketData.MarketDataEvent;
 import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.RawTickVO;
@@ -22,15 +23,15 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 		return getTickDao().rawTickVOToEntity(rawTick);
 	}
 
-	protected void handlePropagateTick(Tick tick) {
+	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {
 	
-		logger.debug(tick.getSecurity().getSymbol() + " " + tick);
+		logger.debug(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
 
-		getRuleService().sendEvent(StrategyImpl.BASE, tick);
+		getRuleService().sendEvent(StrategyImpl.BASE, marketDataEvent);
 	
-		Collection<WatchListItem> watchListItems = tick.getSecurity().getWatchListItems();
+		Collection<WatchListItem> watchListItems = marketDataEvent.getSecurity().getWatchListItems();
 		for (WatchListItem watchListItem : watchListItems) {
-			getRuleService().sendEvent(watchListItem.getStrategy().getName(), tick);
+			getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
 		}
 	}
 

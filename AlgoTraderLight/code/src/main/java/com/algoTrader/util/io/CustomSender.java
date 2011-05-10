@@ -21,7 +21,7 @@ public class CustomSender extends AbstractSender {
 			MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
 
 			Tick tick = marketDataService.completeRawTick((RawTickVO) beanToSend);
-			marketDataService.propagateTick(tick);
+			marketDataService.propagateMarketDataEvent(tick);
 
 			// currentTimeEvents are sent to all started strategies
 		} else if (beanToSend instanceof CurrentTimeEvent) {
