@@ -16,12 +16,19 @@ method:MovUtil.getExitValue(position.strategy.name, tick.security, tick.currentV
 where exitValue.value > position.exitValue
 and position.quantity != 0;
 
+// Moving Average using Ta-Lib
 @Name('MOVING_AVERAGE')
 insert into Indicator
-select stat1.average - stat2.average as value
-from Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:uni(currentValueDouble) as stat1, 
-Tick(security.isin = underlayingIsin).win:length(movLengthSlow).stat:uni(currentValueDouble) as stat2
-where stat2.datapoints = movLengthSlow;
+select talib("movingAverage", currentValueDouble, movLengthFast, "Sma") - talib("movingAverage", currentValueDouble, movLengthSlow, "Sma") as value
+from Tick(security.isin = underlayingIsin);
+
+// Moving Average using of esper built in functions
+//@Name('MOVING_AVERAGE')
+//insert into Indicator
+//select stat1.average - stat2.average as value
+//from Tick(security.isin = underlayingIsin).win:length(movLengthFast).stat:uni(currentValueDouble) as stat1, 
+//Tick(security.isin = underlayingIsin).win:length(movLengthSlow).stat:uni(currentValueDouble) as stat2
+//where stat2.datapoints = movLengthSlow;
 
 @Name('OPEN_POSITION')
 @Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$OpenPositionSubscriber')

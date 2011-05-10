@@ -13,6 +13,8 @@
 	<auto-import import-name="java.math.*"/>
 	<auto-import import-name="java.text.*"/>
 	<auto-import import-name="java.util.*"/>
+	
+	<plugin-aggregation-function name="talib" function-class="com.algoTrader.util.GenericTALibFunction"/>				
 
 	<variable name="simulation" type="boolean"/>
 	<variable name="simulation_eventsPerDay" type="long"/>	
