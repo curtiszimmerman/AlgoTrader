@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.espertech.esper.epl.agg.AggregationSupport;
 import com.espertech.esper.epl.agg.AggregationValidationContext;
+import com.espertech.esper.epl.expression.ExprEvaluator;
 import com.tictactec.ta.lib.CoreAnnotated;
 import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
@@ -46,7 +47,6 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterType;
  * </pre>
  * 
  * The AggregationFunction can be used in an esper statement like this:
- * 
  * <pre>
  * insert into StochF
  * select talib("stochF", high, low, close, 3, 2, "Sma") as values
@@ -55,19 +55,27 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterType;
  * select values.fastk, values.fastd
  * from StochF(values != null);
  * </pre>
+ * The following parameters from the com.tictactec.ta.lib.Core methods will be needed:
+ * <ul>
+ * <li>in...(i.e. inHigh, inLow, inClose)</li>
+ * <li>optIn..(i.e. optInFastK_Period, optInFastD_Period, optInFastD_MAType)</li>
+ * <li>startIdx, endIdx, outBegIdx & outNBElement can be ignored</li>
+ * </ul>
  * If the TA-Lib Function returns just one value, the value is directly exposed by the AggregationFunction.
  * </p>
  * If the TA-Lib Function returns multiple-values, a dynamic class will be generated on the fly, which gives
- * access to properly typed return-values.
+ * access to properly typed return-values. all return value names are lower-case!
  * </p>
  * Example: the TA-Lib function stochF has return values: outFastK and outFastD. The returned dynamic class
  * will have double typed properties by the name of: fastk and fastd (all lowercase)
  * </p>
  * The AggregationFunction needs the following libraries: </p>
+ * <ul>
  * <li><a href="http://commons.apache.org/lang/">Apache Commons Lang</a></li>
  * <li><a href="http://larvalabs.com/collections/">Commons Generics</a></li>
  * <li><a href="http://ta-lib.org/">TA-Lib</a></li> </p>
  * <li><a href="http://www.javassist.org/">Javaassist</a></li> </p>
+ * </ul>
  * 
  * @author Andy Flury
  * 
@@ -92,16 +100,10 @@ public class GenericTALibFunction extends AggregationSupport {
 
 	public void validate(AggregationValidationContext validationContext) {
 
-		boolean[] isConstant = validationContext.getIsConstantValue();
-		Object[] constants = validationContext.getConstantValues();
 		Class<?>[] paramTypes = validationContext.getParameterTypes();
 
 		// get the functionname
-		if (isConstant[0] && paramTypes[0].equals(String.class)) {
-			this.functionName = (String) constants[0];
-		} else {
-			throw new IllegalArgumentException("param 0 has to be a constant and of type String");
-		}
+		this.functionName = (String) getConstant(validationContext, 0, String.class);
 
 		// get the method by iterating over all core-methods
 		// we have to do it this way, since we don't have the exact parameters
@@ -159,27 +161,13 @@ public class GenericTALibFunction extends AggregationSupport {
 				} else if (annotation instanceof OptInputParameterInfo) {
 					OptInputParameterInfo optInputParameterInfo = (OptInputParameterInfo) annotation;
 					if (optInputParameterInfo.type().equals(OptInputParameterType.TA_OptInput_IntegerRange)) {
-						if (isConstant[paramCounter] && paramTypes[paramCounter].equals(Integer.class)) {
-							this.optInputParams.add(constants[paramCounter]);
-						} else {
-							throw new IllegalArgumentException("param number " + paramCounter + " needs to be a constant of type int");
-						}
+						this.optInputParams.add(getConstant(validationContext, paramCounter, Integer.class));
 					} else if (optInputParameterInfo.type().equals(OptInputParameterType.TA_OptInput_RealRange)) {
-						if (isConstant[paramCounter] && paramTypes[paramCounter].equals(Double.class)) {
-							this.optInputParams.add(constants[paramCounter]);
-						} else {
-							throw new IllegalArgumentException("param number " + paramCounter + " needs to be a constant of type double");
-						}
+						this.optInputParams.add(getConstant(validationContext, paramCounter, Double.class));
 					} else if (optInputParameterInfo.type().equals(OptInputParameterType.TA_OptInput_IntegerList)) {
-						if (isConstant[paramCounter] && paramTypes[paramCounter].equals(String.class)) {
-							String value = (String) constants[paramCounter];
-
-							// get the MAType Enum from the value
-							MAType type = MAType.valueOf(value);
-							this.optInputParams.add(type);
-						} else {
-							throw new IllegalArgumentException("param number " + paramCounter + " needs to be a constant of type String");
-						}
+						String value = (String) getConstant(validationContext, paramCounter, String.class);
+						MAType type = MAType.valueOf(value);
+						this.optInputParams.add(type);
 					}
 					paramCounter++;
 
@@ -264,7 +252,12 @@ public class GenericTALibFunction extends AggregationSupport {
 		// if we only have one outPutParam return that value
 		// otherwise return the dynamically generated class
 		if (this.outputParams.size() == 1) {
-			return this.outputParams.values().iterator().next().getClass();
+			Class<?> clazz = this.outputParams.values().iterator().next().getClass();
+			if (clazz.isArray()) {
+				return clazz.getComponentType();
+			} else {
+				return clazz;
+			}
 		} else {
 			return this.outputClass;
 		}
@@ -378,24 +371,56 @@ public class GenericTALibFunction extends AggregationSupport {
 	
 	private Class<?> getReturnClass(String className, Map<String, Class<?>> fields) throws CannotCompileException, NotFoundException {
 
-		ClassPool pool = ClassPool.getDefault();
-		CtClass ctClass = pool.makeClass(this.getClass().getPackage().getName() + "." + className);
+		String fqClassName = this.getClass().getPackage().getName() + "." + className;
 
-		for (Map.Entry<String, Class<?>> entry : fields.entrySet()) {
+		try {
+			// see if the class already exists
+			return Class.forName(fqClassName);
 
-			// generate a public field (we don't need a setter)
-			String fieldName = entry.getKey();
-			CtClass valueClass = pool.get(entry.getValue().getName());
-			CtField ctField = new CtField(valueClass, fieldName, ctClass);
-			ctField.setModifiers(Modifier.PUBLIC);
-			ctClass.addField(ctField);
+		} catch (ClassNotFoundException e) {
 
-			// generate the getter method
-			String methodName = "get" + StringUtils.capitalize(fieldName);
-			CtMethod ctMethod = CtNewMethod.make(valueClass, methodName, new CtClass[] {}, new CtClass[] {}, "{ return this." + fieldName + ";}", ctClass);
-			ctClass.addMethod(ctMethod);
+			// otherwise create the class
+			ClassPool pool = ClassPool.getDefault();
+			CtClass ctClass = pool.makeClass(fqClassName);
+
+			for (Map.Entry<String, Class<?>> entry : fields.entrySet()) {
+
+				// generate a public field (we don't need a setter)
+				String fieldName = entry.getKey();
+				CtClass valueClass = pool.get(entry.getValue().getName());
+				CtField ctField = new CtField(valueClass, fieldName, ctClass);
+				ctField.setModifiers(Modifier.PUBLIC);
+				ctClass.addField(ctField);
+
+				// generate the getter method
+				String methodName = "get" + StringUtils.capitalize(fieldName);
+				CtMethod ctMethod = CtNewMethod.make(valueClass, methodName, new CtClass[] {}, new CtClass[] {}, "{ return this." + fieldName + ";}", ctClass);
+				ctClass.addMethod(ctMethod);
+			}
+			return ctClass.toClass();
+		}
+	}
+
+	private Object getConstant(AggregationValidationContext validationContext, int index, Class<?> clazz) {
+
+		if (index >= validationContext.getIsConstantValue().length) {
+			throw new IllegalArgumentException("only " + validationContext.getIsConstantValue().length + " params have been specified, should be " + (index + 1));
 		}
 
-		return ctClass.toClass();
+		if (validationContext.getIsConstantValue()[index]) {
+			if (validationContext.getParameterTypes()[index].equals(clazz)) {
+				return validationContext.getConstantValues()[index];
+			} else {
+				throw new IllegalArgumentException("param " + index + " has to be a constant of type " + clazz);
+			}
+		} else {
+			ExprEvaluator evaluator = (ExprEvaluator) validationContext.getExpressions()[index];
+			Object obj = evaluator.evaluate(null, true, null);
+			if (obj.getClass().equals(clazz)) {
+				return obj;
+			} else {
+				throw new IllegalArgumentException("param " + index + " has to be a constant of type " + clazz);
+			}
+		}
 	}
 }
