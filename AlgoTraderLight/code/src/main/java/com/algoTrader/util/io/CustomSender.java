@@ -4,9 +4,11 @@ import java.util.Map;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.marketData.Tick;
+import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.service.MarketDataService;
 import com.algoTrader.service.RuleService;
 import com.algoTrader.vo.RawTickVO;
+import com.algoTrader.vo.BarVO;
 import com.espertech.esper.client.time.CurrentTimeEvent;
 import com.espertech.esperio.AbstractSendableEvent;
 import com.espertech.esperio.AbstractSender;
@@ -23,7 +25,15 @@ public class CustomSender extends AbstractSender {
 			Tick tick = marketDataService.completeRawTick((RawTickVO) beanToSend);
 			marketDataService.propagateMarketDataEvent(tick);
 
-			// currentTimeEvents are sent to all started strategies
+		// Bars are always sent using MarketDataService
+		} else if (beanToSend instanceof BarVO) {
+
+				MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
+
+				Bar bar = marketDataService.completeBar((BarVO) beanToSend);
+				marketDataService.propagateMarketDataEvent(bar);
+
+		// currentTimeEvents are sent to all started strategies
 		} else if (beanToSend instanceof CurrentTimeEvent) {
 
 			RuleService ruleService = ServiceLocator.commonInstance().getRuleService();

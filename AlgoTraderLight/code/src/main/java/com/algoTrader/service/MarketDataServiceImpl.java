@@ -11,8 +11,10 @@ import com.algoTrader.entity.WatchListItem;
 import com.algoTrader.entity.WatchListItemImpl;
 import com.algoTrader.entity.marketData.MarketDataEvent;
 import com.algoTrader.entity.marketData.Tick;
+import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.RawTickVO;
+import com.algoTrader.vo.BarVO;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
@@ -21,6 +23,11 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	protected Tick handleCompleteRawTick(RawTickVO rawTick) {
 
 		return getTickDao().rawTickVOToEntity(rawTick);
+	}
+
+	protected Bar handleCompleteBar(BarVO barVO) {
+
+		return getBarDao().barVOToEntity(barVO);
 	}
 
 	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {

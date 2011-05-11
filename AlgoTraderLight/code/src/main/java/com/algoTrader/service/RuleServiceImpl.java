@@ -14,6 +14,8 @@ import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.util.io.CsvTickInputAdapter;
 import com.algoTrader.util.io.CsvTickInputAdapterSpec;
+import com.algoTrader.util.io.CsvBarInputAdapter;
+import com.algoTrader.util.io.CsvBarInputAdapterSpec;
 import com.espertech.esper.adapter.InputAdapter;
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.ConfigurationVariable;
@@ -355,6 +357,8 @@ public class RuleServiceImpl extends RuleServiceBase {
 		InputAdapter inputAdapter;
 		if (csvInputAdapterSpec instanceof CsvTickInputAdapterSpec) {
 			inputAdapter = new CsvTickInputAdapter(getServiceProvider(strategyName), (CsvTickInputAdapterSpec) csvInputAdapterSpec);
+		} else if (csvInputAdapterSpec instanceof CsvBarInputAdapterSpec) {
+			inputAdapter = new CsvBarInputAdapter(getServiceProvider(strategyName), (CsvBarInputAdapterSpec) csvInputAdapterSpec);
 		} else {
 			inputAdapter = new CSVInputAdapter(getServiceProvider(strategyName), csvInputAdapterSpec);
 		}
