@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Wed May 11 22:07:09 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Wed May 11 22:44:58 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -2289,6 +2289,7 @@
 										<UML:Dependency xmi.id='_9_5_1_8b60294_1303224386955_554456_9261' client='_9_5_1_8b60294_1303211365819_25621_7298' supplier='_9_5_1_8b60294_1303211365795_289963_7034'/>
 										<UML:Dependency xmi.id='_9_5_1_8b60294_1303224389793_105852_9272' client='_9_5_1_8b60294_1303211365819_25621_7298' supplier='_9_5_1_8b60294_1303211365793_780102_6946'/>
 										<UML:Dependency xmi.id='_9_5_1_8b60294_1303224604810_537883_9354' client='_9_5_1_8b60294_1303211365819_25621_7298' supplier='_9_5_1_8b60294_1303211365822_839731_7426'/>
+										<UML:Dependency xmi.id='_9_5_1_8b60294_1305146655390_111510_182' client='_9_5_1_8b60294_1303211365819_12442_7325' supplier='_9_5_1_8b60294_1303211365812_995753_7053'/>
 									</UML:Namespace.ownedElement>
 								</UML:Package>
 								<UML:Package xmi.id='_9_5_1_8b60294_1303211365776_681534_6788' name='vo'>
@@ -8770,11 +8771,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					<elementID xmi.idref='_9_5_1_8b60294_1303211365769_197690_6779'/>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
+					<diagramWindowBounds>0, 1, 1432, 931</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='true'/>
-					<active xmi.value='true'/>
+					<maximized xmi.value='false'/>
+					<active xmi.value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530040_355465_8046'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_839731_7426'/>
@@ -8818,11 +8819,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					<elementID xmi.idref='_9_5_1_8b60294_1303211365769_877687_6780'/>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 1, 1432, 931</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='false'/>
-					<active xmi.value='false'/>
+					<maximized xmi.value='true'/>
+					<active xmi.value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530043_759213_8054'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_839731_7426'/>
@@ -11291,6 +11292,61 @@ order by s.id</UML:TaggedValue.dataValue>
 							<linkStereotypeID xmi.idref='_9_5_1_8b60294_1304454389204_494890_145'/>
 							<linkTaggedValuesID xmi.idref='_9_5_1_8b60294_1304454389204_89611_148'/>
 						</mdElement>
+						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1305146650034_201685_130'>
+							<elementID xmi.idref='_9_5_1_8b60294_1303211365812_995753_7053'/>
+							<properties>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SUPPRESS_CLASS_OPERATIONS</propertyID>
+									<propertyGroup>OPERATIONS</propertyGroup>
+									<propertyDescriptionID>SUPPRESS_CLASS_OPERATIONS_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+								<mdElement elementClass='BooleanProperty'>
+									<propertyID>SUPPRESS_CLASS_ATTRIBUTES</propertyID>
+									<propertyGroup>ATTRIBUTES</propertyGroup>
+									<propertyDescriptionID>SUPPRESS_CLASS_ATTRIBUTES_DESCRIPTION</propertyDescriptionID>
+									<value xmi.value='true'/>
+								</mdElement>
+							</properties>
+							<geometry>20, 100, 63, 72</geometry>
+						</mdElement>
+						<mdElement elementClass='DependencyView' xmi.id='_9_5_1_8b60294_1305146655391_269403_183'>
+							<elementID xmi.idref='_9_5_1_8b60294_1305146655390_111510_182'/>
+							<linkFirstEndID xmi.idref='_9_5_1_8b60294_1305146650034_201685_130'/>
+							<linkSecondEndID xmi.idref='_9_5_1_8b60294_1303211530053_691608_8137'/>
+							<geometry>68, 127; 182, 62; </geometry>
+							<linkNameID xmi.idref='_9_5_1_8b60294_1305146655391_201122_184'/>
+							<nameVisible xmi.value='true'/>
+							<mdOwnedViews>
+								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1305146655391_201122_184'>
+									<visible xmi.value='false'/>
+									<geometry>110, 83, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1305146655391_391977_186'>
+									<editable xmi.value='false'/>
+									<visible xmi.value='false'/>
+									<geometry>110, 68, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1305146655391_388596_188'>
+									<editable xmi.value='false'/>
+									<visible xmi.value='false'/>
+									<geometry>107, 106, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1305146655391_83490_191'>
+									<editable xmi.value='false'/>
+									<visible xmi.value='false'/>
+									<geometry>8, 0, 30, 15</geometry>
+									<text>&lt;html&gt;
+&lt;body&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</text>
+								</mdElement>
+							</mdOwnedViews>
+							<linkConstraintID xmi.idref='_9_5_1_8b60294_1305146655391_391977_186'/>
+							<linkStereotypeID xmi.idref='_9_5_1_8b60294_1305146655391_388596_188'/>
+							<linkTaggedValuesID xmi.idref='_9_5_1_8b60294_1305146655391_83490_191'/>
+						</mdElement>
 					</mdOwnedViews>
 				</mdElement>
 			</mdElement>
@@ -12014,7 +12070,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>45 62 6d 68 64 37 49 2d 2e 3e bd 4d 9e 45 83 c5 c1 af 19 4b 4d b7 8e 55 ab c3 e3 30 8e b4 80 e3 80 65 ae ff de 16 e0 96 2a 14 b9 8d 83 eb de 19 db 48 f7 4e e d3 1b 10 33 81 92 9 fc 90 a7 c6 60 f5 ed b6 16 40 4f af </value>
+						<value>45 62 6d 68 64 37 49 2d 2e 3e bd 4d 9e 45 83 c5 c1 af 19 4b 4d b7 8e 55 ab c7 e0 30 8b b5 80 e3 80 65 ae ff de 16 e0 96 2a 14 b9 8d 83 eb de 19 db 48 f7 4e e d3 1b 10 33 81 92 9 fc 90 a7 c6 60 f5 ed b6 16 40 4f af </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>
