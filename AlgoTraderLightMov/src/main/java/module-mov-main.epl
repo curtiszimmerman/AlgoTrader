@@ -1,10 +1,5 @@
 module movMain;
 
-@Name('GET_LAST_TICK')
-@Priority(6)
-select tick.security.id as securityId, tick.* as tick 
-from Tick.std:groupwin(security.id).win:time(7 days).win:length(1) as tick;
-
 @Name('CREATE_EXIT_VALUE')
 @Priority(4)
 @Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$SetExitValueSubscriber')
