@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
 <log4j:configuration>
 
-	<appender name="FA" class="org.apache.log4j.FileAppender">
+	<appender name="FILE" class="org.apache.log4j.FileAppender">
 		<param name="File" value="log/AlgoTrader.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p %c{1} %m %n" />
@@ -93,7 +93,7 @@
 
 	<root>
 		<level value="info" />
-		<appender-ref ref="FA"/>
+		<!-- <appender-ref ref="FILE"/> -->
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="STDERR"/>
 	</root>
