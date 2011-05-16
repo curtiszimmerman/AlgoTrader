@@ -19,11 +19,12 @@ import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.Transaction;
+import com.algoTrader.enumeration.MarketDataType;
 import com.algoTrader.enumeration.TransactionType;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
-import com.algoTrader.util.io.CsvTickInputAdapterSpec;
 import com.algoTrader.util.io.CsvBarInputAdapterSpec;
+import com.algoTrader.util.io.CsvTickInputAdapterSpec;
 import com.algoTrader.vo.MaxDrawDownVO;
 import com.algoTrader.vo.MonthlyPerformanceVO;
 import com.algoTrader.vo.PerformanceKeysVO;
@@ -33,8 +34,8 @@ import com.espertech.esperio.csv.CSVInputAdapterSpec;
 public class SimulationServiceImpl extends SimulationServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
-	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[1].toLowerCase();
-	private static String dataSetType = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[0].toLowerCase();
+	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[1];
+	private static MarketDataType marketDataType = MarketDataType.fromString(ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[0].toUpperCase());
 	private static DecimalFormat twoDigitFormat = new DecimalFormat("#,##0.00");
 	private static DateFormat dateFormat = new SimpleDateFormat(" MMM-yy ");
 	private static final NumberFormat format = NumberFormat.getInstance();
@@ -86,7 +87,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 				continue;
 			}
 
-			File file = new File("results/" + dataSetType + "data/" + dataSet + "/" + security.getIsin() + ".csv");
+			File file = new File("results/" + marketDataType.toString().toLowerCase() + "data/" + dataSet + "/" + security.getIsin() + ".csv");
 
 			if (file == null || !file.exists()) {
 				logger.warn("no data available for " + security.getSymbol());
@@ -96,13 +97,12 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 			}
 
 			CSVInputAdapterSpec spec;
-			if (("tick").equals(dataSetType)) {
+			if (MarketDataType.TICK.equals(marketDataType)) {
 				spec = new CsvTickInputAdapterSpec(file);
-			} else if (("bar").equals(dataSetType)) {
+			} else if (MarketDataType.BAR.equals(marketDataType)) {
 				spec = new CsvBarInputAdapterSpec(file);
 			} else {
-				logger.error("incorrect parameter for dataSetType: " + dataSetType);
-				spec = null;
+				throw new SimulationServiceException("incorrect parameter for dataSetType: " + marketDataType);
 			}
 
 			getRuleService().coordinate(StrategyImpl.BASE, spec);
