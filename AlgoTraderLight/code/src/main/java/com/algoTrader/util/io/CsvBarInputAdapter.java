@@ -1,9 +1,5 @@
 package com.algoTrader.util.io;
 
-import org.apache.log4j.Logger;
-
-import com.algoTrader.service.RuleServiceImpl;
-import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.BarVO;
 import com.espertech.esper.client.EPException;
 import com.espertech.esper.client.EPServiceProvider;
@@ -12,8 +8,6 @@ import com.espertech.esperio.SendableEvent;
 import com.espertech.esperio.csv.CSVInputAdapter;
 
 public class CsvBarInputAdapter extends CSVInputAdapter {
-
-	private static Logger logger = MyLogger.getLogger(CsvBarInputAdapter.class.getName());
 	
 	private CsvBarInputAdapterSpec spec;
 
