@@ -34,8 +34,8 @@ import com.espertech.esperio.csv.CSVInputAdapterSpec;
 public class SimulationServiceImpl extends SimulationServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
-	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[1];
-	private static MarketDataType marketDataType = MarketDataType.fromString(ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet").split(":")[0].toUpperCase());
+	private static MarketDataType marketDataType = MarketDataType.fromString(ConfigurationUtil.getBaseConfig().getString("dataSource.dataSetType").toUpperCase());
+	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet");
 	private static DecimalFormat twoDigitFormat = new DecimalFormat("#,##0.00");
 	private static DateFormat dateFormat = new SimpleDateFormat(" MMM-yy ");
 	private static final NumberFormat format = NumberFormat.getInstance();
