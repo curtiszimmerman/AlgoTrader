@@ -104,7 +104,7 @@
         <!-- Avoid JDK6 XJC runtime error on wdsl2java from conflicting Jaxb2.2 -->
         <!-- Versioned independently from CXF core -->
         <cxf.xjc.version>2.3.0</cxf.xjc.version>
-        <model.uri>file:${project.basedir}/src/main/uml/algotrader.xmi</model.uri>
+        <model.uri>file:${project.basedir}/src/main/uml/algoTrader.xmi</model.uri>
         <filter></filter>
         <validation>true</validation>
         <!-- ant script location for temp copy of resources -->
