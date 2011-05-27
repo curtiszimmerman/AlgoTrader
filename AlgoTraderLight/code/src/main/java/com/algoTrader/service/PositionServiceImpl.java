@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
-import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.MarketOrderImpl;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.Side;

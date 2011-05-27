@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 
-import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.WatchListItem;
@@ -12,6 +11,7 @@ import com.algoTrader.entity.WatchListItemImpl;
 import com.algoTrader.entity.marketData.MarketDataEvent;
 import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.entity.marketData.Bar;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.RawTickVO;
 import com.algoTrader.vo.BarVO;

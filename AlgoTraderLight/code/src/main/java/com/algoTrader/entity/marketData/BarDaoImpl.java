@@ -2,7 +2,7 @@ package com.algoTrader.entity.marketData;
 
 import org.hibernate.Hibernate;
 
-import com.algoTrader.entity.Security;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.vo.BarVO;
 
 /**

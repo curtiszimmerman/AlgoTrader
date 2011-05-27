@@ -1,6 +1,6 @@
 package com.algoTrader.service.mov;
 
-import com.algoTrader.entity.Security;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.vo.ExitValueVO;
 

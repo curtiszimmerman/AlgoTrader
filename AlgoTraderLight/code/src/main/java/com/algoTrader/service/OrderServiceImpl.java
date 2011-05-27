@@ -2,8 +2,8 @@ package com.algoTrader.service;
 
 import java.math.BigDecimal;
 
-import com.algoTrader.entity.Security;
 import com.algoTrader.entity.marketData.Tick;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.entity.trade.FillImpl;
 import com.algoTrader.entity.trade.LimitOrderInterface;

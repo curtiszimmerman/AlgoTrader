@@ -3,11 +3,11 @@ package com.algoTrader.service;
 import java.util.List;
 
 import com.algoTrader.entity.Position;
-import com.algoTrader.entity.Security;
-import com.algoTrader.entity.SecurityFamily;
 import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.Transaction;
 import com.algoTrader.entity.marketData.Tick;
+import com.algoTrader.entity.security.Security;
+import com.algoTrader.entity.security.SecurityFamily;
 import com.algoTrader.util.DateUtil;
 import com.algoTrader.vo.PortfolioValueVO;
 

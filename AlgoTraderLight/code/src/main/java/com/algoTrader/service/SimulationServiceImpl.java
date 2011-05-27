@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
-import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.Transaction;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.enumeration.MarketDataType;
 import com.algoTrader.enumeration.TransactionType;
 import com.algoTrader.util.ConfigurationUtil;

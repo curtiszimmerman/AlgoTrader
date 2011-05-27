@@ -4,10 +4,10 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.entity.Position;
 import com.algoTrader.entity.PositionImpl;
-import com.algoTrader.entity.Security;
 import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.Transaction;
 import com.algoTrader.entity.TransactionImpl;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.enumeration.Side;
 import com.algoTrader.enumeration.TransactionType;
