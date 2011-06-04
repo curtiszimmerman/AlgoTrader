@@ -1,4 +1,5 @@
-## do not output abstract services
+## AlgoTrader: 15075
+## 131: do not output services with superClassServices
 ## output client services
 // license-header java merge-point
 //
@@ -25,7 +26,7 @@ public class $clientServiceLocatorName implements CommonServiceLocator
     /**
      * The shared instance of this ${clientServiceLocatorName}.
      */
-    private final static ${clientServiceLocatorName} instance = new ${clientServiceLocatorName}();
+    private static final ${clientServiceLocatorName} instance = new ${clientServiceLocatorName}();
 
     /**
      * Gets the shared instance of this Class
@@ -128,6 +129,8 @@ public class $clientServiceLocatorName implements CommonServiceLocator
 
 #foreach ($service in $services)
 #if($service.remotable || !$stringUtils.isBlank($service.findTaggedValue('@algoTrader.service.client')))
+#if($stringUtils.isBlank($service.superClass))
+	
     /**
      * Gets an instance of {@link $service.fullyQualifiedName}.
      */
@@ -137,6 +140,7 @@ public class $clientServiceLocatorName implements CommonServiceLocator
             getContext().getBean("$service.beanName");
     }
 
+#end
 #end
 #end
 #foreach ($manageable in $manageables)

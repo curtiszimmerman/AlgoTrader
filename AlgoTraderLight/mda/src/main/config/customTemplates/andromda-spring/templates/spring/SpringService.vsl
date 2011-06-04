@@ -1,3 +1,4 @@
+// AlgoTrader: 15075
 // line 61: use $service.operations instead of $serviceOperations (because the later does not output abstract operations of superclass)
 // license-header java merge-point
 //
@@ -37,12 +38,14 @@ public interface $service.name
 #set ($typeName = $attribute.getterSetterTypeName)
 #if(!$attribute.visibility.equalsIgnoreCase("private") && !$attribute.visibility.equalsIgnoreCase("protected"))
     /**
+$attribute.getDocumentation("     * ")
      * Getter for $attribute.name
      * @return Value of $attribute.name
      */
     $attribute.visibility $typeName ${attribute.getterName}();
 
     /**
+$attribute.getDocumentation("     * ")
      * Setter for $attribute.name
      * @param ${attribute.name}In New value for $attribute.name
      */
@@ -62,7 +65,10 @@ public interface $service.name
 #if(!$operation.visibility.equalsIgnoreCase("private") && !$operation.visibility.equalsIgnoreCase("protected"))
     /**
 $operation.getDocumentation("     * ")
-     * @return $operation.returnParameter.name
+#foreach($parameter in $operation.arguments)
+     * @param $parameter.name $parameter.getDocumentation("")
+#end
+     * @return $operation.returnParameter.name $operation.getterSetterReturnTypeName
 #foreach($exception in $operation.exceptions)
      * @throws $exception.fullyQualifiedName
 #end

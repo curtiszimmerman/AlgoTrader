@@ -1,5 +1,6 @@
-## line 20: changed tablename to LowerCase
-## line 26: remove id unsaved-value
+## AlgoTrader: 15903
+## line 21: changed tablename to LowerCase
+## line 35: remove id unsaved-value
 ## 
 ## 
 #parse("templates/hibernate3/hibernate.hbm.xml.vm")
@@ -18,13 +19,28 @@
 #else
     <class name="$entity.fullyQualifiedEntityImplementationName"
         table="$entity.tableName.toLowerCase()"#if($stringUtils.isNotBlank($entity.schema)) schema="$entity.schema"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate"#if (!$entity.specializations.empty && $entity.hibernateInheritanceClass && !$entity.abstract) discriminator-value="$entity.hibernateDiscriminatorValue"#end#if ($entity.xmlTagName) node="$entity.xmlTagName"#end#if ($entity.abstract) abstract="true"#end>
+## Comment is used for DDL comments, class-description and field-description is used for Java generated from hbm mapping file
+#set ($doc=$stringUtils.replaceChars($entity.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+        <meta attribute="class-description">$doc</meta>
 #if($hibernateEnableCache.equalsIgnoreCase("true"))
+        <cache usage="$entity.hibernateCacheType" />
+#end
+        <comment>$doc</comment>
+#elseif($hibernateEnableCache.equalsIgnoreCase("true"))
         <cache usage="$entity.hibernateCacheType" />
 #end
 #if (!$entity.compositeIdentifier)
 #set ($identifier = $entity.identifiers.iterator().next())
         <id name="$identifier.name" type="$identifier.fullyQualifiedHibernateType" #if ($identifier.xmlTagName) node="$identifier.xmlTagName"#end>
-            <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+            <meta attribute="field-description">$doc</meta>
+#end
+            <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if ($stringUtils.isBlank($doc))/>#else>
+                <comment>$doc</comment>
+            </column>#end
+
             <generator class="$entity.hibernateGeneratorClass">
 #if ($entity.sequenceHibernateGeneratorClass)
 #if($stringUtils.isNotBlank($entity.schema))
@@ -42,14 +58,29 @@
 #else
         <composite-id name="$entity.identifierName" class="$entity.fullyQualifiedIdentifierTypeName">
 #foreach ($identifier in $entity.identifiers)
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+            <meta attribute="field-description">$doc</meta>
+#end
             <key-property name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType">
-                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end not-null="true"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end not-null="true"#if ($stringUtils.isBlank($doc))/>#else>
+                    <comment>$doc</comment>
+                </column>#end
+
             </key-property>
 #end
 #foreach ($sourceEnd in $entity.identifierAssociationEnds)
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+## TODO: Verify that cannot have both attribute and associationEnd identifiers. meta comes before key-property and key-many-to-one in hibernate dtd
+            <meta attribute="field-description">$doc</meta>
+#end
             <key-many-to-one name="$sourceEnd.otherEnd.name" class="$sourceEnd.otherEnd.type.fullyQualifiedEntityImplementationName" >
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if ($stringUtils.isBlank($doc))/>#else>
+                    <comment>$doc</comment>
+                </column>#end
+
 #end
             </key-many-to-one>
 #end

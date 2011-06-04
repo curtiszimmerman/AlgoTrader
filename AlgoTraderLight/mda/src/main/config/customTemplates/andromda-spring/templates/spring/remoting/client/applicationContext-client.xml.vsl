@@ -1,5 +1,6 @@
+## AndroMDA: 15075
 ## line 8 - 15: add schema definition
-## line 50: do not output abstract services
+## line 50: do not output services with superclass services
 ## line 95: RmiProxyFactoryBean: add refreshStubOnConnectFailure
 ## line 188 - 219: output client services
 ## line 221 - 266: MBeanExporter / LazyLoaderAspect / context weaver
@@ -47,7 +48,7 @@
     <!-- ========================= Start of SERVICE DEFINITIONS ========================= -->
 
 #foreach($service in $services)
-#if($service.remotable && !$service.abstract)
+#if($service.remotable && $stringUtils.isBlank($service.superClass))
 #if($service.remotingTypeLingo)
     <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
     <bean id="$service.getBeanName(false)" class="org.logicblaze.lingo.jms.JmsProxyFactoryBean">

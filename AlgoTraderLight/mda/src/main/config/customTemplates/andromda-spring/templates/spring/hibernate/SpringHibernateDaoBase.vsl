@@ -1,5 +1,7 @@
+## AlgoTraderRevision: 15095
 ## line 756 - 763: handle algoTrader.entity.query.native
 ## line 764 - 766: if taggedValue @andromda.hibernate.query.useCache is set add queryObject.setCacheable(true);
+## line 776: Enumerations do not use SpringUtils (it will output param.getValue() for Enumerations, which is wrong)
 #set ($generatedFile = "${entity.packagePath}/${entity.daoBaseName}.java")
 // license-header java merge-point
 //
@@ -86,6 +88,9 @@ public abstract class $entity.daoBaseName
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object get(final int transform, final ${identifierTypeName} ${identifierName})
     {
 #set ($argument = ${identifierName})
@@ -128,6 +133,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType get(${identifierTypeName} ${identifierName})
     {
         return ($entity.fullyQualifiedEntityName)this.get($entity.daoNoTransformationConstantName, ${identifierName});
@@ -136,6 +144,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object load(final int transform, final ${identifierTypeName} ${identifierName})
     {
 #set ($argument = ${identifierName})
@@ -179,6 +190,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType load(${identifierTypeName} ${identifierName})
     {
         return ($entity.fullyQualifiedEntityName)this.load($entity.daoNoTransformationConstantName, ${identifierName});
@@ -187,6 +201,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -198,6 +215,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public java.util.Collection#if($enableTemplating)<?>#end loadAll(final int transform)
     {
         return this.loadAll(transform, -1, -1);
@@ -206,6 +226,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public java.util.Collection#if($enableTemplating)<?>#end loadAll(final int pageNumber, final int pageSize)
     {
         return this.loadAll(${entity.fullyQualifiedDaoName}.${entity.daoNoTransformationConstantName}, pageNumber, pageSize);
@@ -214,6 +237,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public java.util.Collection#if($enableTemplating)<?>#end loadAll(final int transform, final int pageNumber, final int pageSize)
     {
         try
@@ -255,6 +281,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType create($entity.fullyQualifiedEntityName $argumentName)
     {
         return ($entity.fullyQualifiedEntityName)this.create(${entity.fullyQualifiedDaoName}.${entity.daoNoTransformationConstantName}, $argumentName);
@@ -264,6 +293,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType create(org.dom4j.Element $argumentName)
     {
        return ($entity.fullyQualifiedEntityName)this.create(${entity.fullyQualifiedDaoName}.${entity.daoNoTransformationConstantName}, $argumentName);
@@ -272,6 +304,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -300,6 +335,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object create(final int transform, final $entity.fullyQualifiedName $argumentName)
     {
         if ($argumentName == null)
@@ -328,6 +366,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -339,6 +380,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public java.util.Collection#if($enableTemplating)<?>#end create(final int transform, final $entityCollectionType entities)
     {
         if (entities == null)
@@ -375,6 +419,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType create(
 #foreach($attribute in $attributes)
         $attribute.getterSetterTypeName $attribute.name#if($velocityHasNext),#else)#end
@@ -387,6 +434,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object create(
         final int transform,
 #foreach($attribute in $attributes)
@@ -419,6 +469,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $rootEntityType create(
 #foreach($property in $requiredProperties)
         $property.getterSetterTypeName $property.name#if($velocityHasNext),#else)#end
@@ -431,6 +484,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object create(
         final int transform,
 #foreach($property in $requiredProperties)
@@ -451,6 +507,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void update($entity.fullyQualifiedEntityName $argumentName)
     {
         if ($argumentName == null)
@@ -465,6 +524,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void update(final org.dom4j.Element $argumentName)
     {
         if ($argumentName == null)
@@ -489,6 +551,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void update(final $entityCollectionType entities)
     {
         if (entities == null)
@@ -521,6 +586,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void remove($entity.fullyQualifiedEntityName $argumentName)
     {
         if ($argumentName == null)
@@ -535,6 +603,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void remove(final org.dom4j.Element $argumentName)
     {
         if ($argumentName == null)
@@ -559,6 +630,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void remove($identifierTypeName $identifierName)
     {
 #set ($argument = $identifierName)
@@ -585,6 +659,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void remove($entityCollectionType entities)
     {
         if (entities == null)
@@ -613,6 +690,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -635,6 +715,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($finder.returnType.collectionType)
 #if($enableTemplating)
 #set ($returnType = "${finder.getterSetterReturnTypeName}<?>")
@@ -662,6 +745,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating && $finder.returnType.collectionType)
     @SuppressWarnings({"unchecked"})
 #end
@@ -681,6 +767,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -695,6 +784,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
@@ -712,6 +804,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     $finder.visibility $returnType ${finder.name}(final int transform, final String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
@@ -723,6 +818,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     $finder.visibility $returnType ${finder.name}(final int transform, final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
@@ -742,6 +840,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings("unchecked")
 #end
@@ -841,6 +942,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings("unchecked")
 #end
@@ -927,6 +1031,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     $operation.visibility $operation.getterSetterReturnTypeName ${operation.name}(${operation.getTypedArgumentList('final')})
 #if ($operation.exceptionsPresent)
         throws $operation.exceptionList
@@ -966,9 +1073,15 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 
-     /**
-      * Performs the core logic for {@link ${esc.hash}${operation.getSignature(false)}}
-      */
+    /**
+     * Performs the core logic for {@link ${esc.hash}${operation.getSignature(false)}}
+#foreach ($argument in $operation.arguments)
+     * @param $argument.name
+#end
+     * @return $operation.getterSetterReturnTypeName#if($enableTemplating && $operation.returnType.collectionType)<?>#end
+
+     * @throws Exception
+     */
     protected abstract $operation.getterSetterReturnTypeName#if($enableTemplating && $operation.returnType.collectionType)<?>#end $operation.implementationSignature
         throws Exception;
 
@@ -1027,6 +1140,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void transformEntities(final int transform, final java.util.Collection#if($enableTemplating)<?>#end entities)
     {
         switch (transform)
@@ -1103,17 +1219,26 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
-    public final void ${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection#if($enableTemplating)<?>#end entities)
+#if ($enableAnnotations)
+    @Override
+#end
+    public final Collection#if($enabletemplating)<? extends ${valueObjectRef.targetElement.fullyQualifiedName}>#end ${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection#if($enableTemplating)<?>#end entities)
     {
+        Collection#if($enabletemplating)<${valueObjectRef.targetElement.fullyQualifiedName}>#end result = new ArrayList<${valueObjectRef.targetElement.fullyQualifiedName}>();
         if (entities != null)
         {
             org.apache.commons.collections.CollectionUtils.transform(entities, this.${valueObjectRef.transformationAnonymousName});
+            result.addAll((Collection#if($enabletemplating)<? extends ${valueObjectRef.targetElement.fullyQualifiedName}>#end) entities);
         }
+        return result;
     }
 
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({ "unchecked" })
 #end
@@ -1169,6 +1294,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public final void ${valueObjectRef.transformationToEntityCollectionMethodName}(java.util.Collection#if($enableTemplating)<?>#end instances)
     {
         if (instances != null)
@@ -1198,6 +1326,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void ${valueObjectRef.transformationMethodName}(
         $entity.fullyQualifiedEntityName source,
         $valueObjectRef.targetElement.fullyQualifiedName target)
@@ -1228,6 +1359,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(final $entity.fullyQualifiedName entity)
     {
         $valueObjectRef.targetElement.fullyQualifiedName target = null;
@@ -1245,6 +1379,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public void ${valueObjectRef.transformationToEntityMethodName}(
         $valueObjectRef.targetElement.fullyQualifiedName source,
         $entity.fullyQualifiedEntityName target,
@@ -1312,6 +1449,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings({ "unchecked" })
 #end
@@ -1336,6 +1476,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public $fullyQualifiedPagingResultName search(final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search)
     {
         return this.search(${entity.fullyQualifiedDaoName}.$entity.daoNoTransformationConstantName, pageNumber, pageSize, search);
@@ -1344,6 +1487,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public java.util.Set#if($enableTemplating)<?>#end search(final int transform, final $fullyQualifiedSearchClassName search)
     {
         try
@@ -1363,6 +1509,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
 #if ($enableTemplating)
     @SuppressWarnings("unchecked")
 #end
@@ -1371,14 +1520,14 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return#if($enableTemplating) (java.util.Set<#if($daoInheritance)? extends #end${rootEntityType}>)#end this.search(${entity.fullyQualifiedDaoName}.$entity.daoNoTransformationConstantName, search);
     }
 
-   /**
-    * Executes and returns the given Hibernate queryObject as a {@link $fullyQualifiedPagingResultName} instance.
-    * @param queryObject
-    * @param transform
-    * @param pageNumber
-    * @param pageSize
-    * @return $fullyQualifiedPagingResultName
-    */
+    /**
+     * Executes and returns the given Hibernate queryObject as a {@link $fullyQualifiedPagingResultName} instance.
+     * @param queryObject
+     * @param transform
+     * @param pageNumber
+     * @param pageSize
+     * @return $fullyQualifiedPagingResultName
+     */
 #if ($enableTemplating)
     @SuppressWarnings({ "unchecked" })
 #end
@@ -1415,6 +1564,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public ${entity.fullyQualifiedEntityName} $searchUniqueMethod(final ${attribute.type.fullyQualifiedName} ${attribute.name})
     {
         final $fullyQualifiedSearchClassName search=new $fullyQualifiedSearchClassName(
@@ -1435,6 +1587,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * {@inheritDoc}
      */
+#if ($enableAnnotations)
+    @Override
+#end
     public Object $searchUniqueMethod(final int transform, final ${attribute.type.fullyQualifiedName} ${attribute.name})
     {
         final ${entity.fullyQualifiedEntityName} entity=this.$searchUniqueMethod(${attribute.name});

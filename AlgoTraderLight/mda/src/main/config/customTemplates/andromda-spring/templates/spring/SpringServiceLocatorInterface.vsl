@@ -33,12 +33,14 @@ public interface $serviceLocatorInterfaceName
     public void shutdown();	
 
 #foreach ($service in $services)
-#if($service.remotable || !$stringUtils.isBlank($service.findTaggedValue('@algoTrader.service.client')))	
+#if($service.remotable || !$stringUtils.isBlank($service.findTaggedValue('@algoTrader.service.client')))
+#if($stringUtils.isBlank($service.superClass))
     /**
      * Gets an instance of {@link $service.fullyQualifiedName}.
      */
     public $service.fullyQualifiedName get${service.name}();
 
+#end
 #end
 #end
 
