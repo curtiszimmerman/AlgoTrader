@@ -265,6 +265,7 @@
         	<from><![CDATA[<metafacade class="org.andromda.cartridges.spring.metafacades.SpringServiceOperationLogicImpl">
         <mapping>
             <property name="owner.serviceMetaType"/>
+            <!--property name="owner.interface"/-->
         </mapping>
         <property reference="implementationOperationNamePattern"/>
     </metafacade>]]></from>
