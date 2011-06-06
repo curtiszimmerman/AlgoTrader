@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/java"/>
+	<classpathentry kind="src" output="target/classes" path="src/groovy"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/conf"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/controllers"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/domain"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/services"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/taglib"/>
+	<classpathentry kind="src" output="target/classes" path="grails-app/utils"/>
+	<classpathentry kind="src" output="target/test-classes" path="test/unit"/>
+	<classpathentry kind="src" output="target/test-classes" path="test/integration"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
