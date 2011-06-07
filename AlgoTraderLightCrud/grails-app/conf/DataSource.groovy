@@ -1,5 +1,5 @@
 dataSource {
-	pooled = true
+	pooled = false
 	driverClassName = "org.gjt.mm.mysql.Driver"
 	username = "root"
 	password = "password"
