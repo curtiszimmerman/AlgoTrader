@@ -284,7 +284,7 @@
     <repository>
       <id>jboss.org</id>
       <name>jboss.org</name>
-      <url>http://repository.jboss.com/maven2/</url>
+      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
     </repository>
   </repositories>
   
