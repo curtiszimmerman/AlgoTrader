@@ -11,7 +11,7 @@
         <constructor-arg>
            <list>
                 <value>applicationContext.xml</value>
-                <value>applicationContext-algoTrader.xml</value>
+                <value>applicationContext-server.xml</value>
                 <value>applicationContext-client.xml</value>
            </list>
         </constructor-arg>
