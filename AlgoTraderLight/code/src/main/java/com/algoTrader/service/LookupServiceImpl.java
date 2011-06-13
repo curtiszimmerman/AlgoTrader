@@ -23,6 +23,11 @@ public class LookupServiceImpl extends LookupServiceBase {
 		return getSecurityDao().findByIsin(isin);
 	}
 
+	protected Security handleGetSecurityBySymbol(String symbol) throws Exception {
+
+		return getSecurityDao().findByIsin(symbol);
+	}
+
 	protected Security handleGetSecurityFetched(int securityId) throws Exception {
 
 		return getSecurityDao().findByIdFetched(securityId);
