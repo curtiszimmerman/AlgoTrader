@@ -102,8 +102,8 @@ insert into
 select
 	  fill.*
 from 
-	pattern[every order=Order -> (openOrder=OpenOrder(orderId = order.number) and execDetails=ExecDetails(m_orderId = order.number))], 
-	method:OrderUtil.getFill(openOrder, execDetails) as fill;
+	pattern[every (genericOrder=GenericOrder -> (openOrder=OpenOrder(orderId = genericOrder.number) and execDetails=ExecDetails(execution.m_orderId = genericOrder.number)))], 
+	method:IBOrderUtil.getFill(genericOrder, openOrder, execDetails) as fill;
 
 @Name('CREATE_TRANSACTION')
 @Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')

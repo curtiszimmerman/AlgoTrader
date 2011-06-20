@@ -248,7 +248,7 @@ public class IBAdapter implements EWrapper {
 	@Override
 	public void openOrderEnd() {
 		final OpenOrderEnd o = new OpenOrderEnd();
-		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
+		//ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.openOrderEnd());
 	}
 

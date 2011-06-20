@@ -11,7 +11,7 @@ import com.algoTrader.util.RoundUtil;
 import com.algoTrader.vo.ib.ExecDetails;
 import com.algoTrader.vo.ib.OpenOrder;
 
-public class OrderUtil {
+public class IBOrderUtil {
 
 	public static Fill getFill(Order order, OpenOrder openOrder, ExecDetails details) {
 

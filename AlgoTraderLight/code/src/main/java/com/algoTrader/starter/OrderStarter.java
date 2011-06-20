@@ -21,12 +21,12 @@ public class OrderStarter {
 		int quantity = Integer.parseInt(args[0]);
 		int securityId = Integer.parseInt(args[1]);
 		
-		LookupService lookupService = ServiceLocator.commonInstance().getLookupService();
+		LookupService lookupService = ServiceLocator.serverInstance().getLookupService();
 		
-		ServiceLocator.commonInstance().getRuleService().initServiceProvider(StrategyImpl.BASE);
-		ServiceLocator.commonInstance().getRuleService().deployAllModules(StrategyImpl.BASE);
+		ServiceLocator.serverInstance().getRuleService().initServiceProvider(StrategyImpl.BASE);
+		ServiceLocator.serverInstance().getRuleService().deployAllModules(StrategyImpl.BASE);
 		
-		Security security = lookupService.getSecurity(securityId);
+		Security security = lookupService.getSecurityFetched(securityId);
 		
 		//submits a simple market order of 1000 shares
 		Order order = new MarketOrderImpl();
@@ -34,7 +34,7 @@ public class OrderStarter {
 		order.setQuantity(quantity);
 		order.setSide(Side.BUY);
 		
-		OrderService orderService = ServiceLocator.commonInstance().getOrderService();
+		OrderService orderService = ServiceLocator.serverInstance().getOrderService();
 		orderService.sendOrder(StrategyImpl.BASE, order);
 	}
 }

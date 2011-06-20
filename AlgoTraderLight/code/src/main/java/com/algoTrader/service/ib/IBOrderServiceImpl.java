@@ -33,6 +33,12 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 		ibOrder.m_transmit = true;
 
 		int orderId = RequestIDGenerator.singleton().getNextOrderId();
+		order.setNumber(orderId);
+
+		// send the order into the engine to be correlated with fills
+		getRuleService().sendEvent(strategyName, order);
+
+		// place the order through IBClient
 		client.placeOrder(orderId, contract, ibOrder);
 	}
 }

@@ -26,9 +26,6 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 			sendInternalOrder(strategyName, order);
 		} else {
 
-			// send the order into the engine to be correlated with fills
-			getRuleService().sendEvent(strategyName, order);
-
 			// use brooker specific functionality to execute the order
 			sendExternalOrder(strategyName, order);
 		}

@@ -8,7 +8,7 @@
 	<event-type name="Tick" class="com.algoTrader.entity.marketData.TickImpl"/>
 	<event-type name="Bar" class="com.algoTrader.entity.marketData.BarImpl"/>
 	<event-type name="Transaction" class="com.algoTrader.entity.TransactionImpl"/>
-	<event-type name="Order" class="com.algoTrader.entity.trade.OrderImpl"/>
+	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.OrderImpl"/>
 	
 	<event-type name="MonthlyPerformance" class="com.algoTrader.vo.MonthlyPerformanceVO"/>
 	<event-type name="PerformanceKeys" class="com.algoTrader.vo.PerformanceKeysVO"/>	
@@ -17,12 +17,16 @@
 	<event-type name="ExecDetails" class="com.algoTrader.vo.ib.ExecDetails"/>
 	<event-type name="OpenOrder" class="com.algoTrader.vo.ib.OpenOrder"/>
 	
+	<event-type name="Execution" class="com.ib.client.Execution">
+		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>
+	</event-type>
+		
 	<auto-import import-name="com.algoTrader.enumeration.TransactionType"/>
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.util.DrawDownUtil"/>
 	<auto-import import-name="com.algoTrader.util.DateUtil"/>
-	<auto-import import-name="com.algoTrader.service.ib.OrderUtil"/>
+	<auto-import import-name="com.algoTrader.service.ib.IBOrderUtil"/>
 
 	<auto-import import-name="java.lang.*"/>
 	<auto-import import-name="java.math.*"/>
