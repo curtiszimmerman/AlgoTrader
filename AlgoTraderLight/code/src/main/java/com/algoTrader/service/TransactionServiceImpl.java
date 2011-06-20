@@ -2,6 +2,7 @@ package com.algoTrader.service;
 
 import org.apache.log4j.Logger;
 
+import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
 import com.algoTrader.entity.PositionImpl;
 import com.algoTrader.entity.Strategy;
@@ -11,7 +12,6 @@ import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.enumeration.Side;
 import com.algoTrader.enumeration.TransactionType;
-import com.algoTrader.util.DateUtil;
 import com.algoTrader.util.MyLogger;
 
 public class TransactionServiceImpl extends TransactionServiceBase {
@@ -27,7 +27,7 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		long quantity = Side.BUY.equals(fill.getSide()) ? fill.getQuantity() : -fill.getQuantity();
 
 		Transaction transaction = new TransactionImpl();
-		transaction.setDateTime(DateUtil.getCurrentEPTime());
+		transaction.setDateTime(fill.getDateTime());
 		transaction.setQuantity(quantity);
 		transaction.setPrice(fill.getPrice());
 		transaction.setType(transactionType);
@@ -86,5 +86,19 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 			" commission: " + transaction.getCommission();
 
 		logger.info(logMessage);
+	}
+	
+	public static class CreateTransactionSubscriber {
+
+		public void update(String strategyName, Fill fill) {
+
+			long startTime = System.currentTimeMillis();
+			logger.info("createTransaction start");
+
+			ServiceLocator.commonInstance().getTransactionService().createTransaction(strategyName, fill);
+
+			logger.info("createTransaction end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
+		}
+		
 	}
 }

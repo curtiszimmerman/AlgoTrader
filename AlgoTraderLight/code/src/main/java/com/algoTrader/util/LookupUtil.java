@@ -17,6 +17,10 @@ public class LookupUtil {
 
 		return ServiceLocator.commonInstance().getLookupService().getSecurityByIsin(isin);
 	}
+	
+	public static Security getSecurityBySymbol(String symbol) {
+		return ServiceLocator.commonInstance().getLookupService().getSecurityBySymbol(symbol);
+	}
 
 	public static Position[] getPositions(Security security) {
 

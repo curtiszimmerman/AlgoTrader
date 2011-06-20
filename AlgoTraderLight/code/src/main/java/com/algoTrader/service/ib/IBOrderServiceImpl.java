@@ -1,0 +1,38 @@
+package com.algoTrader.service.ib;
+
+import org.apache.log4j.Logger;
+
+import com.algoTrader.entity.trade.Order;
+import com.algoTrader.enumeration.ConnectionState;
+import com.algoTrader.util.MyLogger;
+import com.ib.client.Contract;
+
+public class IBOrderServiceImpl extends IBOrderServiceBase {
+
+	private static IBClient client;
+	private static Logger logger = MyLogger.getLogger(IBOrderServiceImpl.class.getName());
+
+	public IBOrderServiceImpl() {
+		super();
+		client = IBClient.getInstance();
+	}
+
+	protected void handleSendExternalOrder(String strategyName, Order order) throws Exception {
+
+		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
+			logger.error("transaction cannot be executed, because IB is not connected");
+			return;
+		}
+
+		Contract contract = IBUtil.getContract(order.getSecurity());
+
+		com.ib.client.Order ibOrder = new com.ib.client.Order();
+		ibOrder.m_action = order.getSide().getValue();
+		ibOrder.m_totalQuantity = (int) order.getQuantity();
+		ibOrder.m_orderType = IBUtil.getIBOrderType(order);
+		ibOrder.m_transmit = true;
+
+		int orderId = RequestIDGenerator.singleton().getNextOrderId();
+		client.placeOrder(orderId, contract, ibOrder);
+	}
+}
