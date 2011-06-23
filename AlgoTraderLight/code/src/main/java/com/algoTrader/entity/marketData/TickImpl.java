@@ -44,4 +44,14 @@ public class TickImpl extends Tick {
 			return super.getSettlement();
 		}
 	}
+
+	public BigDecimal getBidAskSpread() {
+
+		return RoundUtil.getBigDecimal(getBidAskSpreadDouble());
+	}
+
+	public double getBidAskSpreadDouble() {
+
+		return getBid().doubleValue() - getAsk().doubleValue();
+	}
 }

@@ -4,11 +4,9 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.StrategyImpl;
-import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.MarketOrderImpl;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.Side;
-import com.algoTrader.service.LookupService;
 import com.algoTrader.service.OrderService;
 import com.algoTrader.util.MyLogger;
 
@@ -21,20 +19,15 @@ public class OrderStarter {
 		int quantity = Integer.parseInt(args[0]);
 		int securityId = Integer.parseInt(args[1]);
 		
-		LookupService lookupService = ServiceLocator.serverInstance().getLookupService();
-		
 		ServiceLocator.serverInstance().getRuleService().initServiceProvider(StrategyImpl.BASE);
 		ServiceLocator.serverInstance().getRuleService().deployAllModules(StrategyImpl.BASE);
 		
-		Security security = lookupService.getSecurityFetched(securityId);
-		
 		//submits a simple market order of 1000 shares
 		Order order = new MarketOrderImpl();
-		order.setSecurity(security);
 		order.setQuantity(quantity);
 		order.setSide(Side.BUY);
 		
 		OrderService orderService = ServiceLocator.serverInstance().getOrderService();
-		orderService.sendOrder(StrategyImpl.BASE, order);
+		orderService.sendOrder(StrategyImpl.BASE, order, securityId);
 	}
 }

@@ -31,6 +31,15 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		}
 	}
 
+	protected void handleSendOrder(String strategyName, Order order, int securityId) throws Exception {
+
+		Security security = getSecurityDao().findByIdFetched(securityId);
+
+		order.setSecurity(security);
+
+		sendOrder(strategyName, order);
+	}
+
 	private void sendInternalOrder(String strategyName, Order order) {
 	
 		if (order.getQuantity() < 0) {
