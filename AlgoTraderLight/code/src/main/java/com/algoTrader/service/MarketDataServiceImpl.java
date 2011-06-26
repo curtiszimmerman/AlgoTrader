@@ -8,13 +8,13 @@ import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.WatchListItem;
 import com.algoTrader.entity.WatchListItemImpl;
+import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.entity.marketData.MarketDataEvent;
 import com.algoTrader.entity.marketData.Tick;
-import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.util.MyLogger;
-import com.algoTrader.vo.RawTickVO;
 import com.algoTrader.vo.BarVO;
+import com.algoTrader.vo.RawTickVO;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
@@ -52,6 +52,11 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	protected void handlePutOnWatchlist(Strategy strategy, Security security) throws Exception {
 	
 		if (getWatchListItemDao().findByStrategyAndSecurity(strategy, security) == null) {
+
+			// only put on external watchlist if nobody was watching this security so far
+			if (security.getWatchListItems().size() == 0) {
+				putOnExternalWatchlist(security);
+			}
 
 			// update links
 			WatchListItem watchListItem = new WatchListItemImpl();
@@ -92,7 +97,12 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			getStrategyDao().update(strategy);
 
 			getWatchListItemDao().remove(watchListItem);
-	
+
+			// only remove from external watchlist if nobody is watching this security anymore
+			if (security.getWatchListItems().size() == 0) {
+				removeFromExternalWatchlist(security);
+			}
+			
 			logger.info("removed security from watchlist " + security.getSymbol());
 		}
 	}

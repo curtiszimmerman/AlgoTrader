@@ -32,6 +32,8 @@
 	<auto-import import-name="java.math.*"/>
 	<auto-import import-name="java.text.*"/>
 	<auto-import import-name="java.util.*"/>	
+	
+	<plugin-view factory-class="com.espertech.esper.ohlc.OHLCBarPlugInViewFactory" name="ohlcbar" namespace="custom"/>	
 
 	<variable name="simulation" type="boolean"/>
 	<variable name="simulation_eventsPerDay" type="long"/>	

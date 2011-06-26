@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Thu Jun 23 14:01:07 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Sun Jun 26 14:56:51 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -1917,6 +1917,7 @@
 												</UML:Operation>
 												<UML:Operation xmi.id='_9_5_1_8b60294_1303211365819_110332_7324' name='putOnExternalWatchlist' visibility='public' isAbstract='true'>
 													<UML:BehavioralFeature.parameter>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1309092998352_933267_514' name='security' type='_9_5_1_8b60294_1303211365793_780102_6946'/>
 														<UML:Parameter xmi.id='_9_5_1_8b60294_1303211365819_900983_7323' kind='return'>
 															<UML:Parameter.type>
 																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_324247_52'>
@@ -1930,6 +1931,7 @@
 												</UML:Operation>
 												<UML:Operation xmi.id='_9_5_1_8b60294_1303214045272_125973_8869' name='removeFromExternalWatchlist' visibility='public' isAbstract='true'>
 													<UML:BehavioralFeature.parameter>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1309093009792_157682_515' name='security' type='_9_5_1_8b60294_1303211365793_780102_6946'/>
 														<UML:Parameter xmi.id='_9_5_1_8b60294_1303214053571_545703_8874' kind='return'>
 															<UML:Parameter.type>
 																<UML:Classifier href='UML_Standard_Profile.xml|eee_1045467100323_249638_60'>
@@ -10456,11 +10458,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					</properties>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
+					<diagramWindowBounds>0, 1, 1432, 931</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='true'/>
-					<active xmi.value='true'/>
+					<maximized xmi.value='false'/>
+					<active xmi.value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530025_290053_7931'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365812_71670_7101'/>
@@ -14767,11 +14769,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					</properties>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 1, 1432, 931</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='false'/>
-					<active xmi.value='false'/>
+					<maximized xmi.value='true'/>
+					<active xmi.value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530011_743434_7825'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365782_68676_6798'/>
@@ -16423,7 +16425,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>75 6e 39 14 3d 5d 4a 7c 66 1f 3d fa 1d a7 a5 ad c 9d 14 1e f6 28 f9 15 71 42 15 75 9e 3d 29 e5 a8 d0 57 22 ac 8 6f 5b 7 ee 90 54 94 1a ec a8 1b f4 ef c2 5c b1 44 5e 84 27 8c 5c 8c 6c e8 ae a5 ed e8 d8 c3 59 6 83 </value>
+						<value>75 6e 39 14 3d 5d 4a 7c 66 1f 3d fd 0 bc a5 ad c 9d 14 1e f3 28 f9 15 71 47 12 75 9b 3b 29 e5 a8 d0 57 22 ac 8 6f 5b 7 ee 90 54 94 1a ec a8 1b f4 ef c2 5c b1 44 5e 84 27 8c 5c 8c 6c e8 ae a5 ed e8 d8 c3 59 6 83 </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>
