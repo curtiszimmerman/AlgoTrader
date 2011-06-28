@@ -1,5 +1,6 @@
 package com.algoTrader.entity.security;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,11 @@ import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 
 import com.algoTrader.ServiceLocator;
+import com.algoTrader.entity.marketData.Ask;
+import com.algoTrader.entity.marketData.Bar;
+import com.algoTrader.entity.marketData.Bid;
 import com.algoTrader.entity.marketData.Tick;
-import com.algoTrader.entity.security.Security;
+import com.algoTrader.entity.marketData.Trade;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.util.StrategyUtil;
 import com.espertech.esper.event.bean.BeanEventBean;
@@ -58,5 +62,35 @@ public class SecurityImpl extends Security {
 			logger.warn("no last tick available or currentValue to low to set margin on " + getSymbol());
 		}
 		return marginPerContract;
+	}
+
+	@Override
+	public BigDecimal getCurrentValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Trade getLastTrade() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Bid getLastBid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ask getLastAsk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Bar getLastBar() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
