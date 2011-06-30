@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.ConnectionState;
+import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.ib.client.Contract;
 
@@ -11,10 +12,12 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 
 	private static IBClient client;
 	private static Logger logger = MyLogger.getLogger(IBOrderServiceImpl.class.getName());
-
+	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
+	
 	public IBOrderServiceImpl() {
 		super();
-		client = IBClient.getInstance();
+		if(simulation == false)
+			client = IBClient.getInstance();
 	}
 
 	protected void handleSendExternalOrder(String strategyName, Order order) throws Exception {
