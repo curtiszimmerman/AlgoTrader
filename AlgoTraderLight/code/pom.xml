@@ -11,16 +11,6 @@
 	<packaging>jar</packaging>
 	<name>AlgoTrader Light Program Code</name>
 	<repositories>
-		<repository>
-			<id>intalio</id>
-			<name>intalio</name>
-			<url>http://www.intalio.org/public/maven2/</url>
-		</repository>
-		<repository>
-			<id>activequant</id>
-			<name>activequant</name>
-			<url>http://activequant.org/m2/external/</url>
-		</repository>
 	</repositories>
 	<dependencies>
 	<dependency>
@@ -158,11 +148,15 @@
 			<groupId>org.supercsv</groupId>
 			<artifactId>SuperCSV</artifactId>
 			<version>1.52</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/SuperCSV-1.52.jar</systemPath>
 		</dependency><dependency>
 			<groupId>org.ta-lib</groupId>
 			<artifactId>ta-lib</artifactId>
 			<version>0.4.0</version>
-		</dependency>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/ta-lib-0.4.0.jar</systemPath>
+</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
