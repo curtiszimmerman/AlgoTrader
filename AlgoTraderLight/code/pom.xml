@@ -205,6 +205,13 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.interactivebrokers</groupId>
+			<artifactId>ibclient</artifactId>
+			<version>9.6.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/ibclient-9.6.3.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
