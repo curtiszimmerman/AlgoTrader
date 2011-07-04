@@ -1,7 +1,5 @@
 package com.algoTrader.entity;
 
-import com.algoTrader.entity.marketData.Tick;
-
 
 
 public class PositionImpl extends Position {
@@ -34,20 +32,14 @@ public class PositionImpl extends Position {
 	public double getMarketPriceDouble() {
 
 		if (isOpen()) {
+			if (getQuantity() < 0) {
 
-			Tick tick = getSecurity().getLastTick();
-			if (tick != null) {
-				if (getQuantity() < 0) {
-
-					// short position
-					return tick.getAsk().doubleValue();
-				} else {
-
-					// short position
-					return tick.getBid().doubleValue();
-				}
+				// short position
+				return getSecurity().getLastAsk().getPrice().doubleValue();
 			} else {
-				return Double.NaN;
+
+				// long position
+				return getSecurity().getLastBid().getPrice().doubleValue();
 			}
 		} else {
 			return 0.0;

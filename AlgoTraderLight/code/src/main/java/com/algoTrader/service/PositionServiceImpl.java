@@ -80,7 +80,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 		}
 	
 		// exitValue cannot be lower than currentValue
-		double currentValue = position.getSecurity().getLastTick().getCurrentValueDouble();
+		double currentValue = position.getSecurity().getCurrentValue().doubleValue();
 		if (position.isShort() && exitValue < currentValue) {
             throw new PositionServiceException("ExitValue (" + exitValue + ") for short-position " + position.getId() + " is lower than currentValue: "
                     + currentValue);

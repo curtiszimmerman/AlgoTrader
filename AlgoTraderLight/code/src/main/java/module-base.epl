@@ -41,20 +41,54 @@ select
 from 
 	Tick.std:groupwin(security.id).win:time(7 days).win:length(1) as tick;
 
-@Name('CLOSE_POSITION')
+@Name('GET_LAST_BAR')
+@Priority(6)
+select
+	bar.security.id as securityId,
+	bar.* as bar 
+from
+	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as bar;
+
+@Name('GET_LAST_BID')
+@Priority(6)
+select
+	bid.security.id as securityId,
+	bid.* as bid 
+from
+	Bid.std:groupwin(security.id).win:time(7 days).win:length(1) as bid;
+
+@Name('GET_LAST_ASK')
+@Priority(6)
+select
+	ask.security.id as securityId,
+	ask.* as ask 
+from
+	Ask.std:groupwin(security.id).win:time(7 days).win:length(1) as ask;
+
+@Name('GET_LAST_TRADE')
+@Priority(6)
+select
+	trade.security.id as securityId,
+	trade.* as trade 
+from
+	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as trade;
+
+@Name('CLOSE_POSITION')			// TODO - This is the quick and dirty version!
 @Priority(1)
 @Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
-select 
+select
 	position.id
-from 
-	Tick as tick,
-	method:LookupUtil.getPositions(tick.security) as position
-where 
+from
+	MarketDataEvent as event,
+	method:LookupUtil.getPositions(event.security) as position
+where
 	position.quantity != 0
-and 
+and
 	position.exitValue != null
-and 
-	((position.short and (tick.currentValue >= position.exitValue)) or (position.long and (tick.currentValue <= position.exitValue)));
+and
+	((position.short and (event.security.currentValue >= position.exitValue))
+or
+	(position.long and (event.security.currentValue <= position.exitValue)));
 
 @Name('CREATE_PERFORMANCE_KEYS')
 insert into 

@@ -7,6 +7,10 @@
 	<event-type name="BarVO" class="com.algoTrader.vo.BarVO"/>
 	<event-type name="Tick" class="com.algoTrader.entity.marketData.TickImpl"/>
 	<event-type name="Bar" class="com.algoTrader.entity.marketData.BarImpl"/>
+	<event-type name="Bid" class="com.algoTrader.entity.marketData.BidImpl"/>
+	<event-type name="Ask" class="com.algoTrader.entity.marketData.AskImpl"/>
+	<event-type name="Trade" class="com.algoTrader.entity.marketData.TradeImpl"/>
+	<event-type name="MarketDataEvent" class="com.algoTrader.entity.marketData.MarketDataEvent"/>
 	<event-type name="Transaction" class="com.algoTrader.entity.TransactionImpl"/>
 	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.OrderImpl"/>
 	

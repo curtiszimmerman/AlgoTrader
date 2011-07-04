@@ -2,7 +2,6 @@ package com.algoTrader.service;
 
 import java.math.BigDecimal;
 
-import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.entity.trade.FillImpl;
@@ -26,7 +25,7 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 			sendInternalOrder(strategyName, order);
 		} else {
 
-			// use brooker specific functionality to execute the order
+			// use broker specific functionality to execute the order
 			sendExternalOrder(strategyName, order);
 		}
 	}
@@ -47,7 +46,6 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		}
 
 		Security security = order.getSecurity();
-		Tick tick = security.getLastTick();
 
 		// create one fill per order
 		Fill fill = new FillImpl();
@@ -57,14 +55,14 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 
 		// for MarketOrders get the price from the last tick
 		if (order instanceof MarketOrder) {
+			double entry = 0.0;
 			if (Side.SELL.equals(order.getSide())) {
-				double bid = tick.getBid().doubleValue();
-				fill.setPrice(RoundUtil.getBigDecimal(bid));
+				entry = security.getLastBid().getPrice().doubleValue();
 
 			} else if (Side.BUY.equals(order.getSide())) {
-				double ask = tick.getAsk().doubleValue();
-				fill.setPrice(RoundUtil.getBigDecimal(ask));
+				entry = security.getLastAsk().getPrice().doubleValue();
 			}
+			fill.setPrice(RoundUtil.getBigDecimal(entry));
 
 			// for limit orders get the price from the orderLimit
 		} else if (order instanceof LimitOrderInterface) {
