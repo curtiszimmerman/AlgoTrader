@@ -39,6 +39,18 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>checkstyle</groupId>
+			<artifactId>checkstyle</artifactId>
+			<version>5.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency><dependency>
+			<groupId>checkstyle</groupId>
+			<artifactId>checkstyle-optional</artifactId>
+			<version>4.4</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency><dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
@@ -75,6 +87,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.interactivebrokers</groupId>
+			<artifactId>ibclient</artifactId>
+			<version>9.6.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/ibclient-9.6.3.jar</systemPath>
+		</dependency><dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.12.1.GA</version>
@@ -89,6 +107,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency><dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math</artifactId>
 			<version>2.2</version>
@@ -192,28 +216,19 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.interactivebrokers</groupId>
-			<artifactId>ibclient</artifactId>
-			<version>9.6.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ibclient-9.6.3.jar</systemPath>
-		</dependency>
+		
+		
+		
+		
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin><plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
+			</plugin><plugin>
 				<groupId>org.andromda.maven.plugins</groupId>
 				<artifactId>andromdapp-maven-plugin</artifactId>
 				<executions>
@@ -264,8 +279,16 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<excludes>com/espertech/**,org/**</excludes>
+				</configuration>
 			</plugin>
+			
+			
 		</plugins>
 		<resources>
 			<resource>
