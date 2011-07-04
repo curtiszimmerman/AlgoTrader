@@ -67,137 +67,138 @@ public class SecurityImpl extends Security {
 		}
 		return marginPerContract;
 	}
-}
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public Bar getLastBar() {
-	Bar bar = null;
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Bar getLastBar() {
+		Bar bar = null;
+		
+		List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_BAR");
 	
-	List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_BAR");
-
-	// try to see if the rule GET_LAST_BAR has the bar
-	for (Map event : events) {
-		Integer securityId = (Integer) event.get("securityId");
-		if (securityId.equals(getId())) {
-			bar = (Bar) ((BeanEventBean) event.get("bar")).getUnderlying();
+		// try to see if the rule GET_LAST_BAR has the bar
+		for (Map event : events) {
+			Integer securityId = (Integer) event.get("securityId");
+			if (securityId.equals(getId())) {
+				bar = (Bar) ((BeanEventBean) event.get("bar")).getUnderlying();
+			}
 		}
+		return (bar);	// TODO - Check database
 	}
-	return (bar);	// TODO - Check database
-}
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public Bid getLastBid() {
-	Bid bid = null;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Bid getLastBid() {
+		Bid bid = null;
+		
+		List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_BID");
 	
-	List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_BID");
-
-	// try to see if the rule GET_LAST_BID has the bid
-	for (Map event : events) {
-		Integer securityId = (Integer) event.get("securityId");
-		if (securityId.equals(getId())) {
-			return (Bid) ((BeanEventBean) event.get("bid")).getUnderlying();
+		// try to see if the rule GET_LAST_BID has the bid
+		for (Map event : events) {
+			Integer securityId = (Integer) event.get("securityId");
+			if (securityId.equals(getId())) {
+				return (Bid) ((BeanEventBean) event.get("bid")).getUnderlying();
+			}
 		}
-	}
-	
-	Tick tick = getLastTick();
-	if (tick != null) {
-		bid = Bid.Factory.newInstance();
-		bid.setPrice(tick.getBid());
-		bid.setDateTime(tick.getDateTime());
-		bid.setSecurity(this);
-		return (bid);
-	}
-	
-	Bar bar = getLastBar();
-	if (bar != null) {
-		bid = Bid.Factory.newInstance();
-		bid.setPrice(bar.getClose());
-		bid.setDateTime(bar.getDateTime());
-		bid.setSecurity(this);
-		return (bid);
-	}
-	
-	return (bid);	// TODO - Check database
-}
-
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public Ask getLastAsk() {
-	Ask ask = null;
-	
-	List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_ASK");
-
-	// try to see if the rule GET_LAST_ASK has the ask
-	for (Map event : events) {
-		Integer securityId = (Integer) event.get("securityId");
-		if (securityId.equals(getId())) {
-			return (Ask) ((BeanEventBean) event.get("ask")).getUnderlying();
+		
+		Tick tick = getLastTick();
+		if (tick != null) {
+			bid = Bid.Factory.newInstance();
+			bid.setPrice(tick.getBid());
+			bid.setDateTime(tick.getDateTime());
+			bid.setSecurity(this);
+			return (bid);
 		}
-	}
-	
-	Tick tick = getLastTick();
-	if (tick != null) {
-		ask = Ask.Factory.newInstance();
-		ask.setPrice(tick.getAsk());
-		ask.setDateTime(tick.getDateTime());
-		ask.setSecurity(this);
-		return (ask);
-	}
-	
-	Bar bar = getLastBar();
-	if (bar != null) {
-		ask = Ask.Factory.newInstance();
-		ask.setPrice(bar.getClose());
-		ask.setDateTime(bar.getDateTime());
-		ask.setSecurity(this);
-		return (ask);
-	}
-	
-	return (ask);	// TODO - Check database
-}
-
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public Trade getLastTrade() {
-	Trade trade = null;
-	
-	List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_TRADE");
-
-	// try to see if the rule GET_LAST_TRADE has the trade
-	for (Map event : events) {
-		Integer securityId = (Integer) event.get("securityId");
-		if (securityId.equals(getId())) {
-			return (Trade) ((BeanEventBean) event.get("trade")).getUnderlying();
+		
+		Bar bar = getLastBar();
+		if (bar != null) {
+			bid = Bid.Factory.newInstance();
+			bid.setPrice(bar.getClose());
+			bid.setDateTime(bar.getDateTime());
+			bid.setSecurity(this);
+			return (bid);
 		}
+		
+		return (bid);	// TODO - Check database
 	}
-	
-	Tick tick = getLastTick();
-	if (tick != null) {
-		trade = Trade.Factory.newInstance();
-		trade.setPrice(tick.getLast());
-		trade.setSize(tick.getVol());
-		trade.setDateTime(tick.getLastDateTime());
-		trade.setSecurity(this);
-		return (trade);
-	}
-	
-	Bar bar = getLastBar();
-	if (bar != null) {
-		trade = Trade.Factory.newInstance();
-		trade.setPrice(bar.getClose());
-		trade.setDateTime(bar.getDateTime());
-		trade.setSecurity(this);
-		return (trade);
-	}
-	
-	return (trade);	// TODO - Check database
-}
 
-public BigDecimal getCurrentValue() {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Ask getLastAsk() {
+		Ask ask = null;
+		
+		List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_ASK");
 	
-	if (simulation || this.getSecurityFamily().isTradeable()) {
-		Bid bid = getLastBid();
-		Ask ask = getLastAsk();
-		if ((bid != null) && (ask != null))
-			return RoundUtil.getBigDecimal((ask.getPrice().doubleValue() + bid.getPrice().doubleValue()) / 2.0);
+		// try to see if the rule GET_LAST_ASK has the ask
+		for (Map event : events) {
+			Integer securityId = (Integer) event.get("securityId");
+			if (securityId.equals(getId())) {
+				return (Ask) ((BeanEventBean) event.get("ask")).getUnderlying();
+			}
+		}
+		
+		Tick tick = getLastTick();
+		if (tick != null) {
+			ask = Ask.Factory.newInstance();
+			ask.setPrice(tick.getAsk());
+			ask.setDateTime(tick.getDateTime());
+			ask.setSecurity(this);
+			return (ask);
+		}
+		
+		Bar bar = getLastBar();
+		if (bar != null) {
+			ask = Ask.Factory.newInstance();
+			ask.setPrice(bar.getClose());
+			ask.setDateTime(bar.getDateTime());
+			ask.setSecurity(this);
+			return (ask);
+		}
+		
+		return (ask);	// TODO - Check database
 	}
-	return getLastTrade().getPrice();
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Trade getLastTrade() {
+		Trade trade = null;
+		
+		List<Map> events = ServiceLocator.commonInstance().getRuleService().getAllEvents(StrategyUtil.getStartedStrategyName(), "GET_LAST_TRADE");
+	
+		// try to see if the rule GET_LAST_TRADE has the trade
+		for (Map event : events) {
+			Integer securityId = (Integer) event.get("securityId");
+			if (securityId.equals(getId())) {
+				return (Trade) ((BeanEventBean) event.get("trade")).getUnderlying();
+			}
+		}
+		
+		Tick tick = getLastTick();
+		if (tick != null) {
+			trade = Trade.Factory.newInstance();
+			trade.setPrice(tick.getLast());
+			trade.setSize(tick.getVol());
+			trade.setDateTime(tick.getLastDateTime());
+			trade.setSecurity(this);
+			return (trade);
+		}
+		
+		Bar bar = getLastBar();
+		if (bar != null) {
+			trade = Trade.Factory.newInstance();
+			trade.setPrice(bar.getClose());
+			trade.setDateTime(bar.getDateTime());
+			trade.setSecurity(this);
+			return (trade);
+		}
+		
+		return (trade);	// TODO - Check database
+	}
+
+	public BigDecimal getCurrentValue() {
+		
+		if (simulation || this.getSecurityFamily().isTradeable()) {
+			Bid bid = getLastBid();
+			Ask ask = getLastAsk();
+			if ((bid != null) && (ask != null))
+				return RoundUtil.getBigDecimal((ask.getPrice().doubleValue() + bid.getPrice().doubleValue()) / 2.0);
+		}
+		return getLastTrade().getPrice();
+	}
 }
