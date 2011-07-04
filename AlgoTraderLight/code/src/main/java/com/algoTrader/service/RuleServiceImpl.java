@@ -12,10 +12,10 @@ import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
-import com.algoTrader.util.io.CsvTickInputAdapter;
-import com.algoTrader.util.io.CsvTickInputAdapterSpec;
 import com.algoTrader.util.io.CsvBarInputAdapter;
 import com.algoTrader.util.io.CsvBarInputAdapterSpec;
+import com.algoTrader.util.io.CsvTickInputAdapter;
+import com.algoTrader.util.io.CsvTickInputAdapterSpec;
 import com.espertech.esper.adapter.InputAdapter;
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.ConfigurationVariable;
@@ -52,7 +52,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(RuleServiceImpl.class.getName());
 
-	private static final long initTime = 631148400000l; // 01.01.1990
+    private static long initTime = 631148400000L; // 01.01.1990
 
 	private Map<String, AdapterCoordinator> coordinators = new HashMap<String, AdapterCoordinator>();
 	private Map<String, Boolean> internalClock = new HashMap<String, Boolean>();
@@ -116,14 +116,14 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 		// go through all statements in the module
 		EPStatement newStatement = null;
-		items: for (ModuleItem item : items) {
+        items: for (ModuleItem item : items) {
 			String exp = item.getExpression();
 
 			// get the ObjectModel for the statement
 			EPStatementObjectModel model;
 			EPPreparedStatementImpl prepared = null;
 			if (exp.contains("?")) {
-				prepared = ((EPPreparedStatementImpl) administrator.prepareEPL(exp));
+				prepared = (EPPreparedStatementImpl) administrator.prepareEPL(exp);
 				model = prepared.getModel();
 			} else {
 				model = administrator.compileEPL(exp);
@@ -132,7 +132,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 			// go through all annotations and check if the statement has the 'name' 'ruleName'
 			List<AnnotationPart> annotations = model.getAnnotations();
 			for (AnnotationPart annotation : annotations) {
-				if (annotation.getName().equals("Name")) {
+                if ("Name".equals(annotation.getName())) {
 					for (AnnotationAttribute attribute : annotation.getAttributes()) {
 						if (attribute.getValue().equals(ruleName)) {
 
@@ -191,11 +191,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	
 		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
 	
-		if (statement != null && statement.isStarted()) {
-			return true;
-		} else {
-			return false;
-		}
+		return statement != null && statement.isStarted();
 	}
 
 	protected void handleUndeployRule(String strategyName, String ruleName) throws Exception {
@@ -372,12 +368,12 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 	protected void handleSetProperty(String strategyName, String key, String value) {
 	
-		key = key.replace(".", "_");
+        String keyReplaced = key.replace(".", "_");
 		EPRuntime runtime = getServiceProvider(strategyName).getEPRuntime();
-		if (runtime.getVariableValueAll().containsKey(key)) {
-			Class<?> clazz = runtime.getVariableValue(key).getClass();
+        if (runtime.getVariableValueAll().containsKey(keyReplaced)) {
+            Class<?> clazz = runtime.getVariableValue(keyReplaced).getClass();
 			Object castedObj = JavaClassHelper.parse(clazz, value);
-			runtime.setVariableValue(key, castedObj);
+            runtime.setVariableValue(keyReplaced, castedObj);
 		}
 	}
 
@@ -404,7 +400,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 		EPServiceProvider serviceProvider = this.serviceProviders.get(providerURI);
 
-		return (serviceProvider != null);
+		return serviceProvider != null;
 	}
 
 	/**
@@ -434,11 +430,11 @@ public class RuleServiceImpl extends RuleServiceBase {
 		for (Annotation annotation : annotations) {
 			if (annotation instanceof Tag) {
 				Tag tag = (Tag) annotation;
-				if (tag.name().equals("subscriber")) {
+                if ("subscriber".equals(tag.name())) {
 					Class<?> cl = Class.forName(tag.value());
 					Object obj = cl.newInstance();
 					statement.setSubscriber(obj);
-				} else if (tag.name().equals("listeners")) {
+                } else if ("listeners".equals(tag.name())) {
 					String[] listeners = tag.value().split("\\s");
 					for (String listener : listeners) {
 						Class<?> cl = Class.forName(listener);

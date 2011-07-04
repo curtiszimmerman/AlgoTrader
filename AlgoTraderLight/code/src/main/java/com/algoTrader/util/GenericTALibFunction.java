@@ -130,14 +130,14 @@ public class GenericTALibFunction extends AggregationSupport {
 				if (annotation instanceof InputParameterInfo) {
 					InputParameterInfo inputParameterInfo = (InputParameterInfo) annotation;
 					if (inputParameterInfo.type().equals(InputParameterType.TA_Input_Real)) {
-						if (paramTypes[paramCounter].equals(double.class)) {
+                        if (double.class.equals(paramTypes[paramCounter])) {
 							inputParamCount++;
 							paramCounter++;
 						} else {
 							throw new IllegalArgumentException("param number " + paramCounter + " needs must be of type double");
 						}
 					} else if (inputParameterInfo.type().equals(InputParameterType.TA_Input_Integer)) {
-						if (paramTypes[paramCounter].equals(int.class)) {
+                        if (int.class.equals(paramTypes[paramCounter])) {
 							inputParamCount++;
 							paramCounter++;
 						} else {
@@ -148,7 +148,7 @@ public class GenericTALibFunction extends AggregationSupport {
 						// the flags define the number of parameters in use by a bitwise or
 						int priceParamSize = numberOfSetBits(inputParameterInfo.flags());
 						for (int i = 0; i < priceParamSize; i++) {
-							if (paramTypes[paramCounter].equals(double.class)) {
+                            if (double.class.equals(paramTypes[paramCounter])) {
 								inputParamCount++;
 								paramCounter++;
 							} else {
@@ -317,8 +317,9 @@ public class GenericTALibFunction extends AggregationSupport {
 			RetCode retCode = (RetCode) this.function.invoke(this.core, args);
 
 			if (retCode == RetCode.Success) {
-				if (length.value == 0)
-					return null;
+				if (length.value == 0) {
+                    return null;
+                }
 
 				// if we only have one outPutParam return that value
 				// otherwise return a Map
@@ -364,9 +365,9 @@ public class GenericTALibFunction extends AggregationSupport {
 	}
 
 	private int numberOfSetBits(int i) {
-		i = i - ((i >> 1) & 0x55555555);
-		i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
-		return ((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
+        int j = i - ((i >> 1) & 0x55555555);
+        j = (j & 0x33333333) + ((j >> 2) & 0x33333333);
+        return ((j + (j >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
 	}
 	
 	private Class<?> getReturnClass(String className, Map<String, Class<?>> fields) throws CannotCompileException, NotFoundException {
@@ -403,8 +404,9 @@ public class GenericTALibFunction extends AggregationSupport {
 
 	private Object getConstant(AggregationValidationContext validationContext, int index, Class<?> clazz) {
 
-		if (index >= validationContext.getIsConstantValue().length) {
-			throw new IllegalArgumentException("only " + validationContext.getIsConstantValue().length + " params have been specified, should be " + (index + 1));
+        int constantLength = validationContext.getIsConstantValue().length;
+        if (index >= constantLength) {
+            throw new IllegalArgumentException("only " + constantLength + " params have been specified, should be " + (index + 1));
 		}
 
 		if (validationContext.getIsConstantValue()[index]) {

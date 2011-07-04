@@ -3,9 +3,9 @@ package com.algoTrader.service.ib;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestIDGenerator {
+public final class RequestIDGenerator {
 
-    private static RequestIDGenerator singleton = null;
+    private static RequestIDGenerator singleton;
     private int requestId = 1;
     private int orderId = 1;
     private List<Integer> requestsCompleted = new ArrayList<Integer>();
@@ -14,7 +14,7 @@ public class RequestIDGenerator {
     	super();
     }
 
-    public synchronized static RequestIDGenerator singleton() {
+	public static synchronized RequestIDGenerator singleton() {
     	
     	if (singleton == null) {
 		    singleton = new RequestIDGenerator();
@@ -23,15 +23,15 @@ public class RequestIDGenerator {
     }
 
     public int getNextOrderId() {
-        return orderId++;
+        return this.orderId++;
     }
 
     public int getNextRequestId() {
-        return requestId++;
+        return this.requestId++;
     }
 
     public void addToRequestsCompleted(int requestId) {
-        requestsCompleted.add(Integer.valueOf(requestId));
+        this.requestsCompleted.add(Integer.valueOf(requestId));
     }
 
     public void initializeOrderId(int orderId) {
@@ -39,18 +39,12 @@ public class RequestIDGenerator {
     }
 
     public boolean isOrderIdInitialized() {
-        if (orderId == -1) {
-            return false;
-        } else {
-            return true;
-        }
+
+		return this.orderId != -1;
     }
 
     public boolean isRequestComplete(int requestId) {
-        if (requestsCompleted.contains(Integer.valueOf(requestId))) {
-            return true;
-        } else {
-            return false;
-        }
+
+		return this.requestsCompleted.contains(Integer.valueOf(requestId));
     }
 }

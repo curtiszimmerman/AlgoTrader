@@ -1,6 +1,5 @@
 package com.algoTrader.entity.security;
 
-import com.algoTrader.entity.security.StockOption;
 
 public class StockOptionImpl extends StockOption {
 

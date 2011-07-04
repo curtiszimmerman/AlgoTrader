@@ -24,7 +24,7 @@ public class BarDaoImpl extends BarDaoBase {
 
 		completeBarVO(bar, rawBarVO);
 
-		return rawBarVO;    	
+		return rawBarVO;
     }
 
 	private void completeBarVO(Bar bar, BarVO barVO) {

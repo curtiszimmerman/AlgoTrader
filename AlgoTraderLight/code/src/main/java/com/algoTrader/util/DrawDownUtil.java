@@ -7,7 +7,9 @@ public class DrawDownUtil {
 	
 	public static long resetDrawDownPeriod() {
 		
-		return drawDownPeriod = 0;
+		drawDownPeriod = 0;
+
+		return drawDownPeriod;
 	}
 
 	public static long increaseDrawDownPeriod(long milliseconds) {

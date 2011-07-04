@@ -75,7 +75,7 @@ public class PositionImpl extends Position {
 	public double getMaintenanceMarginDouble() {
 
 		if (isOpen() && getMaintenanceMargin() != null) {
-				return getMaintenanceMargin().doubleValue();
+            return getMaintenanceMargin().doubleValue();
 		} else {
 			return 0.0;
 		}

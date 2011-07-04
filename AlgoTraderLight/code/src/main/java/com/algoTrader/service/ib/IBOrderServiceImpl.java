@@ -16,8 +16,9 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	
 	public IBOrderServiceImpl() {
 		super();
-		if(simulation == false)
-			client = IBClient.getInstance();
+		if (!simulation) {
+            client = IBClient.getInstance();
+        }
 	}
 
 	protected void handleSendExternalOrder(String strategyName, Order order) throws Exception {

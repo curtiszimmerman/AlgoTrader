@@ -14,7 +14,7 @@ public class RoundUtil {
 
 	public static double roundToNextN(double value, double n) {
 
-		return MathUtils.round((value) / n, 0) * n;
+		return MathUtils.round(value / n, 0) * n;
 	}
 	
 	public static BigDecimal roundToNextN(BigDecimal value, double n) {
@@ -24,7 +24,7 @@ public class RoundUtil {
 
 	public static double roundToNextN(double value, double n, int roundingMethod) {
 
-		return MathUtils.round((value) / n, 0, roundingMethod) * n;
+		return MathUtils.round(value / n, 0, roundingMethod) * n;
 	}
 
 	public static BigDecimal roundToNextN(BigDecimal value, double n, int roundingMethod) {

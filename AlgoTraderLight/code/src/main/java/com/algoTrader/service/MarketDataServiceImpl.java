@@ -65,7 +65,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			watchListItem.setPersistent(false);
 			getWatchListItemDao().create(watchListItem);
 
-			 security.getWatchListItems().add(watchListItem);
+            security.getWatchListItems().add(watchListItem);
 			getSecurityDao().update(security);
 
 			strategy.getWatchListItems().add(watchListItem);

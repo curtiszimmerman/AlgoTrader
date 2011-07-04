@@ -1,7 +1,6 @@
 package com.algoTrader.util.io;
 
 import com.algoTrader.vo.BarVO;
-import com.espertech.esper.client.EPException;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esperio.SendableBeanEvent;
 import com.espertech.esperio.SendableEvent;
@@ -17,7 +16,7 @@ public class CsvBarInputAdapter extends CSVInputAdapter {
 		this.spec = spec;
 	}
 
-	public SendableEvent read() throws EPException {
+	public SendableEvent read() {
 
 		SendableBeanEvent event = (SendableBeanEvent)super.read();
 		
@@ -26,7 +25,7 @@ public class CsvBarInputAdapter extends CSVInputAdapter {
 			BarVO bar = (BarVO) event.getBeanToSend();
 			String isin = this.spec.getFile().getName().split("\\.")[0];
 			bar.setIsin(isin);
-		}		
+		}
 		return event;
 	}
 }

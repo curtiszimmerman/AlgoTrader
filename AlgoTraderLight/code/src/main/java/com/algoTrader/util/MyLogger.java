@@ -13,7 +13,7 @@ public class MyLogger extends Logger {
 	// qualified class name. This makes caller localization to work
 	// properly even from classes that have almost the same fully
 	// qualified class name as MyLogger, e.g. MyLoggerTest.
-	static String FQCN = MyLogger.class.getName() + ".";
+    private static String fqcn = MyLogger.class.getName() + ".";
 
 	// It's enough to instantiate a factory once and for all.
 	private static MyLoggerFactory myFactory = new MyLoggerFactory();

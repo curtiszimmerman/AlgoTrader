@@ -79,11 +79,11 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		getStrategyDao().update(strategy);
 		getSecurityDao().update(security);
 
-		String logMessage = "executed transaction type: " + transactionType +
-			" quantity: " + transaction.getQuantity() +
-			" of " + security.getSymbol() +
-			" price: " + transaction.getPrice() +
-			" commission: " + transaction.getCommission();
+		String logMessage = "executed transaction type: " + transactionType 
+		    + " quantity: " + transaction.getQuantity()
+			+ " of " + security.getSymbol()
+			+ " price: " + transaction.getPrice()
+			+ " commission: " + transaction.getCommission();
 
 		logger.info(logMessage);
 	}

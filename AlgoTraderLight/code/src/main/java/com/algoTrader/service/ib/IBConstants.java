@@ -43,19 +43,19 @@ public class IBConstants {
 	public static final String PINK_OTCBB_EXCHANGE = "STK.US.MINOR";
 	
 	//max request constants
-	public static final int MAX_NUM_CONCURRENT_CALLS_TO_REQMKTDATA =  100; 
-	public static final int MAX_NUM_CONCURRENT_CALLS_REQMKTDEPTH = 3; 
+	public static final int MAX_NUM_CONCURRENT_CALLS_TO_REQMKTDATA =  100;
+	public static final int MAX_NUM_CONCURRENT_CALLS_REQMKTDEPTH = 3;
 	
 	/**
-	 * make sure don't exceed 1 requests per 10 seconds 
+	 * make sure don't exceed 1 requests per 10 seconds
 	 */
-	public static final int MMAX_NUM_CONCURRENT_CALLS_REQREALTIMEBARS = 120; 
+	public static final int MMAX_NUM_CONCURRENT_CALLS_REQREALTIMEBARS = 120;
 	
 	/**
-	 * 60 requests per 10 minutes. Click the link below for entire historical data limitation 
-	 * http://individuals.interactivebrokers.com/php/apiUsersGuide/apiguide/api/historical_data_limitations.htm 
+	 * 60 requests per 10 minutes. Click the link below for entire historical data limitation
+	 * http://individuals.interactivebrokers.com/php/apiUsersGuide/apiguide/api/historical_data_limitations.htm
 	 */
-	public static final int MAX_HISTORICAL_DATA_REQUESTS = 60; 
+	public static final int MAX_HISTORICAL_DATA_REQUESTS = 60;
 	
 	//TODO add the API Message codes (100=Max rate of messages per second has been exceeded., etc)
 	

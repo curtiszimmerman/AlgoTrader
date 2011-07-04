@@ -19,5 +19,5 @@ public class TestListener implements UpdateListener {
 		logger.info("event underlying object: " + event.getUnderlying() + " event " + event.toString());
 
 		logger.info("testListener end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
-	}	
+	}
 }

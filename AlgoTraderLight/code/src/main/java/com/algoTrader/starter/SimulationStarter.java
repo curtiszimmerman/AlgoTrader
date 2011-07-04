@@ -10,17 +10,17 @@ import com.algoTrader.util.MyLogger;
 
 public class SimulationStarter {
 
-	public static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
+	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
 
 	public static void main(String[] args) throws ConvergenceException, FunctionEvaluationException {
 
 		ServiceLocator.serverInstance().init("beanRefFactorySimulation.xml");
 
-		if (args[0].equals("simulateWithCurrentParams")) {
+        if ("simulateWithCurrentParams".equals(args[0])) {
 
 			ServiceLocator.serverInstance().getSimulationService().simulateWithCurrentParams();
 
-		} else if (args[0].equals("optimizeSingleParamLinear")) {
+        } else if ("optimizeSingleParamLinear".equals(args[0])) {
 
 			String strategyName = args[1];
 			for (int i = 2; i < args.length; i++) {

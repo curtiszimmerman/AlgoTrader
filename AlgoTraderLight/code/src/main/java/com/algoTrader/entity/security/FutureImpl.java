@@ -1,6 +1,5 @@
 package com.algoTrader.entity.security;
 
-import com.algoTrader.entity.security.Future;
 
 public class FutureImpl extends Future {
 

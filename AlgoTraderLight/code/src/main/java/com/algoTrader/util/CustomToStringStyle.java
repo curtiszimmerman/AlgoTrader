@@ -35,7 +35,7 @@ public class CustomToStringStyle extends StandardToStringStyle {
 
 	protected void appendDetail(StringBuffer buffer, String fieldName, Object value) {
 
-		if ( value instanceof BaseObject ) {
+		if (value instanceof BaseObject) {
 			return;
 		} else if (value instanceof Date) {
 			buffer.append(format.format(value));
@@ -46,7 +46,7 @@ public class CustomToStringStyle extends StandardToStringStyle {
 
 	public void append(StringBuffer buffer, String fieldName, Object value, Boolean fullDetail) {
 
-		if ( value instanceof BaseObject ) {
+		if (value instanceof BaseObject) {
 			return;
 		} else if (Hibernate.isInitialized(value)) {
 			super.append(buffer, fieldName, value, fullDetail);

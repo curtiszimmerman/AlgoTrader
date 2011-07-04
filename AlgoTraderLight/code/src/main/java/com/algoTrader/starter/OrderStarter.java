@@ -12,7 +12,7 @@ import com.algoTrader.util.MyLogger;
 
 public class OrderStarter {
 	
-	public static Logger logger = MyLogger.getLogger(OrderStarter.class.getName());
+	private static Logger logger = MyLogger.getLogger(OrderStarter.class.getName());
 	
 	public static void main(String[] args) {
 		

@@ -12,6 +12,7 @@ import com.algoTrader.util.MyLogger;
 
 public class ServiceInvoker {
 
+    private static final String MESSAGE = "you must specifiy service and method";
 	private static Logger logger = MyLogger.getLogger(ServiceInvoker.class.getName());
 	private static ServiceInvoker invoker;
 
@@ -24,23 +25,25 @@ public class ServiceInvoker {
 
 	public static ServiceInvoker getInstance() {
 
-		if (invoker == null) invoker = new ServiceInvoker();
+		if (invoker == null) {
+            invoker = new ServiceInvoker();
+        }
 		return invoker;
 	}
 
 	public Object invoke(String call)  {
 
 		if (call == null) {
-			logger.warn("you must specifiy service and method");
-			return "you must specifiy service and method";
+            logger.warn(MESSAGE);
+            return MESSAGE;
 		}
 
 		StringTokenizer tokenizer = new StringTokenizer(call, ":");
 
 		int len = tokenizer.countTokens();
 		if (len < 2) {
-			logger.warn("you must specifiy service and method");
-			return "you must specifiy service and method";
+            logger.warn(MESSAGE);
+            return MESSAGE;
 		}
 
 		String serviceName = tokenizer.nextToken();

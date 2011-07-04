@@ -33,13 +33,18 @@ import com.espertech.esperio.csv.CSVInputAdapterSpec;
 
 public class SimulationServiceImpl extends SimulationServiceBase {
 
-	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
-	private static MarketDataType marketDataType = MarketDataType.fromString(ConfigurationUtil.getBaseConfig().getString("dataSource.dataSetType").toUpperCase());
+    private static final String LF = "\r\n";
+    private static final String PCNT = "%";
+
+    private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
+
+    private static NumberFormat format = NumberFormat.getInstance();
+    private static int roundDigits = ConfigurationUtil.getBaseConfig().getInt("simulation.roundDigits");
+    private static String dataSetType = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSetType").toUpperCase();
+	private static MarketDataType marketDataType = MarketDataType.fromString(dataSetType);
 	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet");
 	private static DecimalFormat twoDigitFormat = new DecimalFormat("#,##0.00");
 	private static DateFormat dateFormat = new SimpleDateFormat(" MMM-yy ");
-	private static final NumberFormat format = NumberFormat.getInstance();
-	private static final int roundDigits = ConfigurationUtil.getBaseConfig().getInt("simulation.roundDigits");
 
 	static {
 		format.setMinimumFractionDigits(roundDigits);
@@ -186,41 +191,41 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 	private static String convertStatisticsToLongString(SimulationResultVO resultVO) {
 	
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("execution time (min): " + (new DecimalFormat("0.00")).format(resultVO.getMins()) + "\r\n");
-		buffer.append("dataSet: " + dataSet + "\r\n");
+        buffer.append("execution time (min): " + (new DecimalFormat("0.00")).format(resultVO.getMins()) + LF);
+        buffer.append("dataSet: " + dataSet + LF);
 
 		double netLiqValue = resultVO.getNetLiqValue();
-		buffer.append("netLiqValue=" + twoDigitFormat.format(netLiqValue) + "\r\n");
+        buffer.append("netLiqValue=" + twoDigitFormat.format(netLiqValue) + LF);
 	
 		List<MonthlyPerformanceVO> monthlyPerformanceVOs = resultVO.getMonthlyPerformanceVOs();
 		double maxDrawDownM = 0d;
 		double bestMonthlyPerformance = Double.NEGATIVE_INFINITY;
-		if ((monthlyPerformanceVOs != null)) {
-			StringBuffer dateBuffer= new StringBuffer("month-year:         ");
+		if (monthlyPerformanceVOs != null) {
+			StringBuffer dateBuffer = new StringBuffer("month-year:         ");
 			StringBuffer performanceBuffer = new StringBuffer("MonthlyPerformance: ");
-			for (MonthlyPerformanceVO MonthlyPerformanceVO : monthlyPerformanceVOs) {
-				maxDrawDownM = Math.min(maxDrawDownM, MonthlyPerformanceVO.getValue());
-				bestMonthlyPerformance = Math.max(bestMonthlyPerformance, MonthlyPerformanceVO.getValue());
-				dateBuffer.append(dateFormat.format(MonthlyPerformanceVO.getDate()));
-				performanceBuffer.append(StringUtils.leftPad(twoDigitFormat.format(MonthlyPerformanceVO.getValue() * 100), 6) + "% ");
+            for (MonthlyPerformanceVO monthlyPerformanceVO : monthlyPerformanceVOs) {
+                maxDrawDownM = Math.min(maxDrawDownM, monthlyPerformanceVO.getValue());
+                bestMonthlyPerformance = Math.max(bestMonthlyPerformance, monthlyPerformanceVO.getValue());
+                dateBuffer.append(dateFormat.format(monthlyPerformanceVO.getDate()));
+                performanceBuffer.append(StringUtils.leftPad(twoDigitFormat.format(monthlyPerformanceVO.getValue() * 100), 6) + "% ");
 			}
-			buffer.append(dateBuffer.toString() + "\r\n");
-			buffer.append(performanceBuffer.toString() + "\r\n");
+            buffer.append(dateBuffer.toString() + LF);
+            buffer.append(performanceBuffer.toString() + LF);
 		}
 
 		PerformanceKeysVO performanceKeys = resultVO.getPerformanceKeysVO();
 		MaxDrawDownVO maxDrawDownVO = resultVO.getMaxDrawDownVO();
 		if (performanceKeys != null && maxDrawDownVO != null) {
 			buffer.append("n=" + performanceKeys.getN());
-			buffer.append(" avgM=" + twoDigitFormat.format(performanceKeys.getAvgM() * 100) + "%");
-			buffer.append(" stdM=" + twoDigitFormat.format(performanceKeys.getStdM() * 100) + "%");
-			buffer.append(" avgY=" + twoDigitFormat.format(performanceKeys.getAvgY() * 100) + "%");
-			buffer.append(" stdY=" + twoDigitFormat.format(performanceKeys.getStdY() * 100) + "% ");
-			buffer.append(" sharpRatio=" + twoDigitFormat.format(performanceKeys.getSharpRatio()) + "\r\n");
+            buffer.append(" avgM=" + twoDigitFormat.format(performanceKeys.getAvgM() * 100) + PCNT);
+            buffer.append(" stdM=" + twoDigitFormat.format(performanceKeys.getStdM() * 100) + PCNT);
+            buffer.append(" avgY=" + twoDigitFormat.format(performanceKeys.getAvgY() * 100) + PCNT);
+            buffer.append(" stdY=" + twoDigitFormat.format(performanceKeys.getStdY() * 100) + PCNT);
+            buffer.append(" sharpRatio=" + twoDigitFormat.format(performanceKeys.getSharpRatio()) + LF);
 			
-			buffer.append("maxDrawDownM=" + twoDigitFormat.format(-maxDrawDownM * 100) + "%");
-			buffer.append(" bestMonthlyPerformance=" + twoDigitFormat.format(bestMonthlyPerformance * 100) + "%");
-			buffer.append(" maxDrawDown=" + twoDigitFormat.format(maxDrawDownVO.getAmount() * 100) + "%");
+            buffer.append("maxDrawDownM=" + twoDigitFormat.format(-maxDrawDownM * 100) + PCNT);
+            buffer.append(" bestMonthlyPerformance=" + twoDigitFormat.format(bestMonthlyPerformance * 100) + PCNT);
+            buffer.append(" maxDrawDown=" + twoDigitFormat.format(maxDrawDownVO.getAmount() * 100) + PCNT);
 			buffer.append(" maxDrawDownPeriod=" + twoDigitFormat.format(maxDrawDownVO.getPeriod() / 86400000) + "days");
 			buffer.append(" colmarRatio=" + twoDigitFormat.format(performanceKeys.getAvgY() / maxDrawDownVO.getAmount()));
 		}
@@ -230,7 +235,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 
 	private static void logMultiLineString(String input) {
 
-		String[] lines = input.split("\r\n");
+        String[] lines = input.split(LF);
 		for (String line : lines) {
 			logger.info(line);
 		}

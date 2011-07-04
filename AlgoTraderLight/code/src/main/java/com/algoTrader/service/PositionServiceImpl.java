@@ -82,9 +82,11 @@ public class PositionServiceImpl extends PositionServiceBase {
 		// exitValue cannot be lower than currentValue
 		double currentValue = position.getSecurity().getLastTick().getCurrentValueDouble();
 		if (position.isShort() && exitValue < currentValue) {
-			throw new PositionServiceException("ExitValue (" + exitValue + ") for short-position " + position.getId() + " is lower than currentValue: " + currentValue);
+            throw new PositionServiceException("ExitValue (" + exitValue + ") for short-position " + position.getId() + " is lower than currentValue: "
+                    + currentValue);
 		} else if (position.isLong() && exitValue > currentValue) {
-			throw new PositionServiceException("ExitValue (" + exitValue + ") for long-position " + position.getId() + " is higher than currentValue: " + currentValue);
+            throw new PositionServiceException("ExitValue (" + exitValue + ") for long-position " + position.getId() + " is higher than currentValue: "
+                    + currentValue);
 		}
 	
 		position.setExitValue(exitValue);
@@ -116,11 +118,13 @@ public class PositionServiceImpl extends PositionServiceBase {
 	
 			int percent = (int) (strategy.getAvailableFundsDouble() / strategy.getNetLiqValueDouble() * 100.0);
 			if (strategy.getAvailableFundsDouble() >= 0) {
-				logger.info("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: " + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble())
-						+ " availableFunds: " + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
+                logger.info("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
+                        + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
+                        + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
 			} else {
-				logger.warn("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: " + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble())
-						+ " availableFunds: " + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
+                logger.warn("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
+                        + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
+                        + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
 			}
 		}
 	}

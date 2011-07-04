@@ -7,11 +7,11 @@ import com.algoTrader.util.ConfigurationUtil;
 
 public class StrategyImpl extends Strategy {
 
+	public static final String BASE = "BASE";
+
 	private static final long serialVersionUID = -2271735085273721632L;
 
 	private static double initialMarginMarkup = ConfigurationUtil.getBaseConfig().getDouble("initialMarginMarkup");
-
-	public final static String BASE = "BASE";
 
 	public double getCashBalanceDouble() {
 
@@ -28,7 +28,7 @@ public class StrategyImpl extends Strategy {
 		for (Transaction transaction : cashFlowTransactions) {
 			cashFlows += transaction.getValueDouble();
 		}
-		balance += (cashFlows * getAllocation());
+		balance += cashFlows * getAllocation();
 
 		return balance;
 	}
@@ -70,6 +70,6 @@ public class StrategyImpl extends Strategy {
 	}
 
 	public boolean isBase() {
-		return (BASE.equals(getName()));
+        return BASE.equals(getName());
 	}
 }

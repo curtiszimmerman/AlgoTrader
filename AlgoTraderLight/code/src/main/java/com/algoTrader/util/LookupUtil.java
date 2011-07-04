@@ -39,7 +39,7 @@ public class LookupUtil {
 
 	public static boolean hasOpenPositions() {
 
-		return (ServiceLocator.commonInstance().getLookupService().getOpenPositions().length != 0);
+        return ServiceLocator.commonInstance().getLookupService().getOpenPositions().length != 0;
 	}
 	
 	public static PortfolioValueVO getPortfolioValue() {
@@ -49,6 +49,6 @@ public class LookupUtil {
 
 	public static boolean hasLastTicks() {
 
-		return (ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK") != null);
+        return ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK") != null;
 	}
 }
