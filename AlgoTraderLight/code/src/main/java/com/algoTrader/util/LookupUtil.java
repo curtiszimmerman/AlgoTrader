@@ -13,6 +13,11 @@ public class LookupUtil {
 		return ServiceLocator.commonInstance().getLookupService().getAllSecuritiesInPortfolio();
 	}
 
+    public static Security[] getSecuritiesOnWatchlist() {
+
+        return ServiceLocator.commonInstance().getLookupService().getSecuritiesOnWatchlist();
+    }
+
 	public static Security getSecurityByIsin(String isin) {
 
 		return ServiceLocator.commonInstance().getLookupService().getSecurityByIsin(isin);

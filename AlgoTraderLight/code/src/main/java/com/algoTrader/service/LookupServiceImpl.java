@@ -108,7 +108,12 @@ public class LookupServiceImpl extends LookupServiceBase {
 		return getSecurityDao().findSecuritiesInPortfolio().toArray(new Security[0]);
 	}
 
-	protected Position[] handleGetOpenPositions() throws Exception {
+    protected Security[] handleGetSecuritiesOnWatchlist() throws Exception {
+
+        return getSecurityDao().findSecuritiesOnWatchlist().toArray(new Security[0]);
+    }
+
+    protected Position[] handleGetOpenPositions() throws Exception {
 
 		return getPositionDao().findOpenPositions().toArray(new Position[0]);
 	}
