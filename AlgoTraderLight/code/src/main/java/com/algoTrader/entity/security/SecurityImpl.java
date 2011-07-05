@@ -13,17 +13,18 @@ import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.entity.marketData.Bid;
 import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.entity.marketData.Trade;
-import com.algoTrader.util.MyLogger;
-import com.algoTrader.util.StrategyUtil;
 import com.algoTrader.util.ConfigurationUtil;
+import com.algoTrader.util.MyLogger;
 import com.algoTrader.util.RoundUtil;
+import com.algoTrader.util.StrategyUtil;
 import com.espertech.esper.event.bean.BeanEventBean;
 
 public class SecurityImpl extends Security {
 
-	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
+    private static final long serialVersionUID = -6631052475125813394L;
+    private static final String SECURITY_ID = "securityId";
 
-	private static final long serialVersionUID = -6631052475125813394L;
+    private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
 	private static Logger logger = MyLogger.getLogger(SecurityImpl.class.getName());
 
@@ -34,7 +35,7 @@ public class SecurityImpl extends Security {
 	
 		// try to see if the rule GET_LAST_TICK has the tick
 		for (Map event : events) {
-			Integer securityId = (Integer) event.get("securityId");
+            Integer securityId = (Integer) event.get(SECURITY_ID);
 			if (securityId.equals(getId())) {
 				return (Tick) ((BeanEventBean) event.get("tick")).getUnderlying();
 			}
@@ -82,7 +83,7 @@ public class SecurityImpl extends Security {
 				bar = (Bar) ((BeanEventBean) event.get("bar")).getUnderlying();
 			}
 		}
-		return (bar);	// TODO - Check database
+        return bar; // TODO - Check database
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -93,7 +94,7 @@ public class SecurityImpl extends Security {
 	
 		// try to see if the rule GET_LAST_BID has the bid
 		for (Map event : events) {
-			Integer securityId = (Integer) event.get("securityId");
+            Integer securityId = (Integer) event.get(SECURITY_ID);
 			if (securityId.equals(getId())) {
 				return (Bid) ((BeanEventBean) event.get("bid")).getUnderlying();
 			}
@@ -105,7 +106,7 @@ public class SecurityImpl extends Security {
 			bid.setPrice(tick.getBid());
 			bid.setDateTime(tick.getDateTime());
 			bid.setSecurity(this);
-			return (bid);
+            return bid;
 		}
 		
 		Bar bar = getLastBar();
@@ -114,10 +115,10 @@ public class SecurityImpl extends Security {
 			bid.setPrice(bar.getClose());
 			bid.setDateTime(bar.getDateTime());
 			bid.setSecurity(this);
-			return (bid);
+            return bid;
 		}
 		
-		return (bid);	// TODO - Check database
+        return bid; // TODO - Check database
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -128,7 +129,7 @@ public class SecurityImpl extends Security {
 	
 		// try to see if the rule GET_LAST_ASK has the ask
 		for (Map event : events) {
-			Integer securityId = (Integer) event.get("securityId");
+            Integer securityId = (Integer) event.get(SECURITY_ID);
 			if (securityId.equals(getId())) {
 				return (Ask) ((BeanEventBean) event.get("ask")).getUnderlying();
 			}
@@ -140,7 +141,7 @@ public class SecurityImpl extends Security {
 			ask.setPrice(tick.getAsk());
 			ask.setDateTime(tick.getDateTime());
 			ask.setSecurity(this);
-			return (ask);
+            return ask;
 		}
 		
 		Bar bar = getLastBar();
@@ -149,10 +150,10 @@ public class SecurityImpl extends Security {
 			ask.setPrice(bar.getClose());
 			ask.setDateTime(bar.getDateTime());
 			ask.setSecurity(this);
-			return (ask);
+            return ask;
 		}
 		
-		return (ask);	// TODO - Check database
+        return ask; // TODO - Check database
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -163,7 +164,7 @@ public class SecurityImpl extends Security {
 	
 		// try to see if the rule GET_LAST_TRADE has the trade
 		for (Map event : events) {
-			Integer securityId = (Integer) event.get("securityId");
+            Integer securityId = (Integer) event.get(SECURITY_ID);
 			if (securityId.equals(getId())) {
 				return (Trade) ((BeanEventBean) event.get("trade")).getUnderlying();
 			}
@@ -176,7 +177,7 @@ public class SecurityImpl extends Security {
 			trade.setSize(tick.getVol());
 			trade.setDateTime(tick.getLastDateTime());
 			trade.setSecurity(this);
-			return (trade);
+            return trade;
 		}
 		
 		Bar bar = getLastBar();
@@ -185,10 +186,10 @@ public class SecurityImpl extends Security {
 			trade.setPrice(bar.getClose());
 			trade.setDateTime(bar.getDateTime());
 			trade.setSecurity(this);
-			return (trade);
+            return trade;
 		}
 		
-		return (trade);	// TODO - Check database
+        return trade; // TODO - Check database
 	}
 
 	public BigDecimal getCurrentValue() {
@@ -196,8 +197,9 @@ public class SecurityImpl extends Security {
 		if (simulation || this.getSecurityFamily().isTradeable()) {
 			Bid bid = getLastBid();
 			Ask ask = getLastAsk();
-			if ((bid != null) && (ask != null))
-				return RoundUtil.getBigDecimal((ask.getPrice().doubleValue() + bid.getPrice().doubleValue()) / 2.0);
+			if ((bid != null) && (ask != null)) {
+                return RoundUtil.getBigDecimal((ask.getPrice().doubleValue() + bid.getPrice().doubleValue()) / 2.0);
+            }
 		}
 		return getLastTrade().getPrice();
 	}
