@@ -31,11 +31,11 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	}
 
 	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {
-	
+
 		logger.debug(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
 
 		getRuleService().sendEvent(StrategyImpl.BASE, marketDataEvent);
-	
+
 		Collection<WatchListItem> watchListItems = marketDataEvent.getSecurity().getWatchListItems();
 		for (WatchListItem watchListItem : watchListItems) {
 			getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
@@ -43,14 +43,14 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	}
 
 	protected void handlePutOnWatchlist(String strategyName, int securityId) throws Exception {
-	
+
 		Strategy strategy = getStrategyDao().findByName(strategyName);
 		Security security = getSecurityDao().load(securityId);
 		putOnWatchlist(strategy, security);
 	}
 
 	protected void handlePutOnWatchlist(Strategy strategy, Security security) throws Exception {
-	
+
 		if (getWatchListItemDao().findByStrategyAndSecurity(strategy, security) == null) {
 
 			// only put on external watchlist if nobody was watching this security so far
@@ -65,18 +65,18 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			watchListItem.setPersistent(false);
 			getWatchListItemDao().create(watchListItem);
 
-            security.getWatchListItems().add(watchListItem);
+			security.getWatchListItems().add(watchListItem);
 			getSecurityDao().update(security);
 
 			strategy.getWatchListItems().add(watchListItem);
 			getStrategyDao().update(strategy);
-	
+
 			logger.info("put security on watchlist " + security.getSymbol());
 		}
 	}
 
 	protected void handleRemoveFromWatchlist(String strategyName, int securityId) throws Exception {
-	
+
 		Strategy strategy = getStrategyDao().findByName(strategyName);
 		Security security = getSecurityDao().load(securityId);
 
@@ -84,7 +84,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	}
 
 	protected void handleRemoveFromWatchlist(Strategy strategy, Security security) throws Exception {
-	
+
 		WatchListItem watchListItem = getWatchListItemDao().findByStrategyAndSecurity(strategy, security);
 
 		if (watchListItem != null && !watchListItem.isPersistent()) {
@@ -102,7 +102,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			if (security.getWatchListItems().size() == 0) {
 				removeFromExternalWatchlist(security);
 			}
-			
+
 			logger.info("removed security from watchlist " + security.getSymbol());
 		}
 	}

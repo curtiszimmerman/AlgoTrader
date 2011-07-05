@@ -14,7 +14,7 @@ public class PrintPortfolioValueSubscriber {
 
 	private static long initialBalance = ConfigurationUtil.getBaseConfig().getLong("simulation.initialBalance");
 
-    private static boolean initialized;
+	private static boolean initialized;
 
 	public void update(long timestamp, PortfolioValueVO portfolioValue, Transaction transaction) {
 
@@ -24,9 +24,8 @@ public class PrintPortfolioValueSubscriber {
 		}
 
 		if (initialized) {
-			logger.info(RoundUtil.getBigDecimal(portfolioValue.getCashBalance()) + ","
-			        + RoundUtil.getBigDecimal(portfolioValue.getSecuritiesCurrentValue()) + ","
-			        + RoundUtil.getBigDecimal(portfolioValue.getMaintenanceMargin()));
+			logger.info(RoundUtil.getBigDecimal(portfolioValue.getCashBalance()) + "," + RoundUtil.getBigDecimal(portfolioValue.getSecuritiesCurrentValue())
+					+ "," + RoundUtil.getBigDecimal(portfolioValue.getMaintenanceMargin()));
 		}
 	}
 }

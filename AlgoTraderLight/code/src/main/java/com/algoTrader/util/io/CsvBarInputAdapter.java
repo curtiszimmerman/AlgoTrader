@@ -7,7 +7,7 @@ import com.espertech.esperio.SendableEvent;
 import com.espertech.esperio.csv.CSVInputAdapter;
 
 public class CsvBarInputAdapter extends CSVInputAdapter {
-	
+
 	private CsvBarInputAdapterSpec spec;
 
 	public CsvBarInputAdapter(EPServiceProvider epService, CsvBarInputAdapterSpec spec) {
@@ -18,8 +18,8 @@ public class CsvBarInputAdapter extends CSVInputAdapter {
 
 	public SendableEvent read() {
 
-		SendableBeanEvent event = (SendableBeanEvent)super.read();
-		
+		SendableBeanEvent event = (SendableBeanEvent) super.read();
+
 		if (event != null && event.getBeanToSend() instanceof BarVO) {
 
 			BarVO bar = (BarVO) event.getBeanToSend();

@@ -16,11 +16,11 @@ public class SimulationStarter {
 
 		ServiceLocator.serverInstance().init("beanRefFactorySimulation.xml");
 
-        if ("simulateWithCurrentParams".equals(args[0])) {
+		if ("simulateWithCurrentParams".equals(args[0])) {
 
 			ServiceLocator.serverInstance().getSimulationService().simulateWithCurrentParams();
 
-        } else if ("optimizeSingleParamLinear".equals(args[0])) {
+		} else if ("optimizeSingleParamLinear".equals(args[0])) {
 
 			String strategyName = args[1];
 			for (int i = 2; i < args.length; i++) {

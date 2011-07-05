@@ -1,7 +1,5 @@
 package com.algoTrader.entity;
 
-
-
 public class PositionImpl extends Position {
 
 	private static final long serialVersionUID = -2679980079043322328L;
@@ -50,9 +48,9 @@ public class PositionImpl extends Position {
 	 * short positions: negative long positions: positive
 	 */
 	public double getMarketValueDouble() {
-	
+
 		if (isOpen()) {
-	
+
 			return getQuantity() * getSecurity().getSecurityFamily().getContractSize() * getMarketPriceDouble();
 		} else {
 			return 0.0;
@@ -67,7 +65,7 @@ public class PositionImpl extends Position {
 	public double getMaintenanceMarginDouble() {
 
 		if (isOpen() && getMaintenanceMargin() != null) {
-            return getMaintenanceMargin().doubleValue();
+			return getMaintenanceMargin().doubleValue();
 		} else {
 			return 0.0;
 		}

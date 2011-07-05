@@ -8,7 +8,7 @@ public class CustomDate extends Date {
 
 	public CustomDate(String date) {
 		super();
-		
+
 		if (!"".equals(date)) {
 			setTime(Long.parseLong(date));
 		}

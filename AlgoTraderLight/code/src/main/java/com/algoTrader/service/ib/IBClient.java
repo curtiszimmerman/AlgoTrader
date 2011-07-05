@@ -21,10 +21,10 @@ public final class IBClient extends EClientSocket {
 
 	private static Logger logger = MyLogger.getLogger(IBClient.class.getName());
 
-    private static int clientId = ConfigurationUtil.getBaseConfig().getInt("ib.clientId"); //0
-    private static long connectionTimeout = ConfigurationUtil.getBaseConfig().getInt("ib.connectionTimeout"); //10000;//
-    private static int port = ConfigurationUtil.getBaseConfig().getInt("ib.port"); //7496;//
-    private static String host = ConfigurationUtil.getBaseConfig().getString("ib.host"); // "127.0.0.1";
+	private static int clientId = ConfigurationUtil.getBaseConfig().getInt("ib.clientId"); //0
+	private static long connectionTimeout = ConfigurationUtil.getBaseConfig().getInt("ib.connectionTimeout"); //10000;//
+	private static int port = ConfigurationUtil.getBaseConfig().getInt("ib.port"); //7496;//
+	private static String host = ConfigurationUtil.getBaseConfig().getString("ib.host"); // "127.0.0.1";
 
 	private static IBClient ibClient;
 	private IBAdapter ibAdapter;
@@ -57,14 +57,14 @@ public final class IBClient extends EClientSocket {
 		if (isConnected()) {
 			eDisconnect();
 
-            sleep();
+			sleep();
 		}
 
 		this.ibAdapter.setRequested(false);
 
 		while (!connectionAvailable()) {
 
-            sleep();
+			sleep();
 		}
 
 		eConnect(null, port, clientId);
@@ -75,19 +75,19 @@ public final class IBClient extends EClientSocket {
 		}
 	}
 
-    private static void sleep() {
+	private static void sleep() {
 
-        try {
-            Thread.sleep(connectionTimeout);
-        } catch (InterruptedException e1) {
-            try {
-                // during eDisconnect this thread get's interrupted so sleep again
-                Thread.sleep(connectionTimeout);
-            } catch (InterruptedException e2) {
-                logger.error("problem sleeping", e2);
-            }
-        }
-    }
+		try {
+			Thread.sleep(connectionTimeout);
+		} catch (InterruptedException e1) {
+			try {
+				// during eDisconnect this thread get's interrupted so sleep again
+				Thread.sleep(connectionTimeout);
+			} catch (InterruptedException e2) {
+				logger.error("problem sleeping", e2);
+			}
+		}
+	}
 
 	public void disconnect() {
 
@@ -205,8 +205,8 @@ public final class IBClient extends EClientSocket {
 	}
 
 	@Override
-    public synchronized void exerciseOptions(final int tickerId, final Contract contract, final int exerciseAction, final int exerciseQuantity,
-            final String account, final int override) {
+	public synchronized void exerciseOptions(final int tickerId, final Contract contract, final int exerciseAction, final int exerciseQuantity,
+			final String account, final int override) {
 		super.exerciseOptions(tickerId, contract, exerciseAction, exerciseQuantity, account, override);
 
 	}
@@ -276,8 +276,8 @@ public final class IBClient extends EClientSocket {
 	}
 
 	@Override
-    public synchronized void reqHistoricalData(final int tickerId, final Contract contract, final String endDateTime, final String durationStr,
-            final String barSizeSetting, final String whatToShow, final int useRTH, final int formatDate) {
+	public synchronized void reqHistoricalData(final int tickerId, final Contract contract, final String endDateTime, final String durationStr,
+			final String barSizeSetting, final String whatToShow, final int useRTH, final int formatDate) {
 		super.reqHistoricalData(tickerId, contract, endDateTime, durationStr, barSizeSetting, whatToShow, useRTH, formatDate);
 
 	}

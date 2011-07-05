@@ -12,7 +12,7 @@ import com.algoTrader.util.MyLogger;
 
 public class ServiceInvoker {
 
-    private static final String MESSAGE = "you must specifiy service and method";
+	private static final String MESSAGE = "you must specifiy service and method";
 	private static Logger logger = MyLogger.getLogger(ServiceInvoker.class.getName());
 	private static ServiceInvoker invoker;
 
@@ -26,24 +26,24 @@ public class ServiceInvoker {
 	public static ServiceInvoker getInstance() {
 
 		if (invoker == null) {
-            invoker = new ServiceInvoker();
-        }
+			invoker = new ServiceInvoker();
+		}
 		return invoker;
 	}
 
-	public Object invoke(String call)  {
+	public Object invoke(String call) {
 
 		if (call == null) {
-            logger.warn(MESSAGE);
-            return MESSAGE;
+			logger.warn(MESSAGE);
+			return MESSAGE;
 		}
 
 		StringTokenizer tokenizer = new StringTokenizer(call, ":");
 
 		int len = tokenizer.countTokens();
 		if (len < 2) {
-            logger.warn(MESSAGE);
-            return MESSAGE;
+			logger.warn(MESSAGE);
+			return MESSAGE;
 		}
 
 		String serviceName = tokenizer.nextToken();
@@ -52,7 +52,7 @@ public class ServiceInvoker {
 		ServerServiceLocator serviceLocator = ServiceLocator.serverInstance();
 
 		try {
-			Method getServiceMethod = serviceLocator.getClass().getMethod("get" + serviceName, (Class[])null);
+			Method getServiceMethod = serviceLocator.getClass().getMethod("get" + serviceName, (Class[]) null);
 			Object service = getServiceMethod.invoke(serviceLocator, new Object[] {});
 
 			Class<?>[] signature = new Class<?>[len - 2];
@@ -65,7 +65,7 @@ public class ServiceInvoker {
 			}
 
 			Method method = service.getClass().getMethod(methodName, signature);
-			return method.invoke(service, (Object[])params);
+			return method.invoke(service, (Object[]) params);
 
 		} catch (NoSuchMethodException e) {
 			logger.error("the specified service or method does not exist", e);

@@ -16,11 +16,10 @@ public class ConfigurationUtil {
 
 	private static String baseFileName = "conf-base.properties";
 
-    private static CompositeConfiguration baseConfig;
+	private static CompositeConfiguration baseConfig;
 	private static Map<String, CompositeConfiguration> strategyConfigMap = new HashMap<String, CompositeConfiguration>();
 
 	private static Logger logger = MyLogger.getLogger(ConfigurationUtil.class.getName());
-
 
 	public static Configuration getBaseConfig() {
 
@@ -40,8 +39,8 @@ public class ConfigurationUtil {
 	public static Configuration getStrategyConfig(String strategyName) {
 
 		if (StrategyImpl.BASE.equals(strategyName.toUpperCase())) {
-            return getBaseConfig();
-        }
+			return getBaseConfig();
+		}
 
 		CompositeConfiguration strategyConfig = strategyConfigMap.get(strategyName.toUpperCase());
 		if (strategyConfig == null) {

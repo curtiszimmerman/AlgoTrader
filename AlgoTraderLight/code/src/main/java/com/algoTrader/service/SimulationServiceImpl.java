@@ -33,14 +33,14 @@ import com.espertech.esperio.csv.CSVInputAdapterSpec;
 
 public class SimulationServiceImpl extends SimulationServiceBase {
 
-    private static final String LF = "\r\n";
-    private static final String PCNT = "%";
+	private static final String LF = "\r\n";
+	private static final String PCNT = "%";
 
-    private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
+	private static Logger logger = MyLogger.getLogger(SimulationServiceImpl.class.getName());
 
-    private static NumberFormat format = NumberFormat.getInstance();
-    private static int roundDigits = ConfigurationUtil.getBaseConfig().getInt("simulation.roundDigits");
-    private static String dataSetType = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSetType").toUpperCase();
+	private static NumberFormat format = NumberFormat.getInstance();
+	private static int roundDigits = ConfigurationUtil.getBaseConfig().getInt("simulation.roundDigits");
+	private static String dataSetType = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSetType").toUpperCase();
 	private static MarketDataType marketDataType = MarketDataType.fromString(dataSetType);
 	private static String dataSet = ConfigurationUtil.getBaseConfig().getString("dataSource.dataSet");
 	private static DecimalFormat twoDigitFormat = new DecimalFormat("#,##0.00");
@@ -51,7 +51,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 	}
 
 	protected void handleResetDB() throws Exception {
-	
+
 		// process all strategies
 		Collection<Strategy> strategies = getStrategyDao().loadAll();
 		for (Strategy strategy : strategies) {
@@ -69,7 +69,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 			}
 			getTransactionDao().remove(toRemoveTransactions);
 			strategy.setTransactions(toKeepTransactions);
-		
+
 			// delete all positions and references to them
 			Collection<Position> positions = strategy.getPositions();
 			getPositionDao().remove(positions);
@@ -121,10 +121,10 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 	protected SimulationResultVO handleRunByUnderlayings() {
 
 		long startTime = System.currentTimeMillis();
-		
+
 		// must call resetDB through ServiceLocator in order to get a transaction
 		ServiceLocator.serverInstance().getSimulationService().resetDB();
-		
+
 		// init all activatable strategies
 		List<Strategy> strategies = getStrategyDao().findAutoActivateStrategies();
 		for (Strategy strategy : strategies) {
@@ -137,12 +137,12 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 
 		// get the results
 		SimulationResultVO resultVO = getSimulationResultVO(startTime);
-		
+
 		// destroy all service providers
 		for (Strategy strategy : strategies) {
 			getRuleService().destroyServiceProvider(strategy.getName());
 		}
-		
+
 		// reset all configuration variables
 		ConfigurationUtil.resetConfig();
 
@@ -169,9 +169,9 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 		resultVO.setMaxDrawDownVO(maxDrawDown);
 		return resultVO;
 	}
-	
+
 	protected void handleSimulateWithCurrentParams() throws Exception {
-	
+
 		SimulationResultVO resultVO = ServiceLocator.serverInstance().getSimulationService().runByUnderlayings();
 		logMultiLineString(convertStatisticsToLongString(resultVO));
 	}
@@ -189,43 +189,43 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 
 	@SuppressWarnings("unchecked")
 	private static String convertStatisticsToLongString(SimulationResultVO resultVO) {
-	
+
 		StringBuffer buffer = new StringBuffer();
-        buffer.append("execution time (min): " + (new DecimalFormat("0.00")).format(resultVO.getMins()) + LF);
-        buffer.append("dataSet: " + dataSet + LF);
+		buffer.append("execution time (min): " + (new DecimalFormat("0.00")).format(resultVO.getMins()) + LF);
+		buffer.append("dataSet: " + dataSet + LF);
 
 		double netLiqValue = resultVO.getNetLiqValue();
-        buffer.append("netLiqValue=" + twoDigitFormat.format(netLiqValue) + LF);
-	
+		buffer.append("netLiqValue=" + twoDigitFormat.format(netLiqValue) + LF);
+
 		List<MonthlyPerformanceVO> monthlyPerformanceVOs = resultVO.getMonthlyPerformanceVOs();
 		double maxDrawDownM = 0d;
 		double bestMonthlyPerformance = Double.NEGATIVE_INFINITY;
 		if (monthlyPerformanceVOs != null) {
 			StringBuffer dateBuffer = new StringBuffer("month-year:         ");
 			StringBuffer performanceBuffer = new StringBuffer("MonthlyPerformance: ");
-            for (MonthlyPerformanceVO monthlyPerformanceVO : monthlyPerformanceVOs) {
-                maxDrawDownM = Math.min(maxDrawDownM, monthlyPerformanceVO.getValue());
-                bestMonthlyPerformance = Math.max(bestMonthlyPerformance, monthlyPerformanceVO.getValue());
-                dateBuffer.append(dateFormat.format(monthlyPerformanceVO.getDate()));
-                performanceBuffer.append(StringUtils.leftPad(twoDigitFormat.format(monthlyPerformanceVO.getValue() * 100), 6) + "% ");
+			for (MonthlyPerformanceVO monthlyPerformanceVO : monthlyPerformanceVOs) {
+				maxDrawDownM = Math.min(maxDrawDownM, monthlyPerformanceVO.getValue());
+				bestMonthlyPerformance = Math.max(bestMonthlyPerformance, monthlyPerformanceVO.getValue());
+				dateBuffer.append(dateFormat.format(monthlyPerformanceVO.getDate()));
+				performanceBuffer.append(StringUtils.leftPad(twoDigitFormat.format(monthlyPerformanceVO.getValue() * 100), 6) + "% ");
 			}
-            buffer.append(dateBuffer.toString() + LF);
-            buffer.append(performanceBuffer.toString() + LF);
+			buffer.append(dateBuffer.toString() + LF);
+			buffer.append(performanceBuffer.toString() + LF);
 		}
 
 		PerformanceKeysVO performanceKeys = resultVO.getPerformanceKeysVO();
 		MaxDrawDownVO maxDrawDownVO = resultVO.getMaxDrawDownVO();
 		if (performanceKeys != null && maxDrawDownVO != null) {
 			buffer.append("n=" + performanceKeys.getN());
-            buffer.append(" avgM=" + twoDigitFormat.format(performanceKeys.getAvgM() * 100) + PCNT);
-            buffer.append(" stdM=" + twoDigitFormat.format(performanceKeys.getStdM() * 100) + PCNT);
-            buffer.append(" avgY=" + twoDigitFormat.format(performanceKeys.getAvgY() * 100) + PCNT);
-            buffer.append(" stdY=" + twoDigitFormat.format(performanceKeys.getStdY() * 100) + PCNT);
-            buffer.append(" sharpRatio=" + twoDigitFormat.format(performanceKeys.getSharpRatio()) + LF);
-			
-            buffer.append("maxDrawDownM=" + twoDigitFormat.format(-maxDrawDownM * 100) + PCNT);
-            buffer.append(" bestMonthlyPerformance=" + twoDigitFormat.format(bestMonthlyPerformance * 100) + PCNT);
-            buffer.append(" maxDrawDown=" + twoDigitFormat.format(maxDrawDownVO.getAmount() * 100) + PCNT);
+			buffer.append(" avgM=" + twoDigitFormat.format(performanceKeys.getAvgM() * 100) + PCNT);
+			buffer.append(" stdM=" + twoDigitFormat.format(performanceKeys.getStdM() * 100) + PCNT);
+			buffer.append(" avgY=" + twoDigitFormat.format(performanceKeys.getAvgY() * 100) + PCNT);
+			buffer.append(" stdY=" + twoDigitFormat.format(performanceKeys.getStdY() * 100) + PCNT);
+			buffer.append(" sharpRatio=" + twoDigitFormat.format(performanceKeys.getSharpRatio()) + LF);
+
+			buffer.append("maxDrawDownM=" + twoDigitFormat.format(-maxDrawDownM * 100) + PCNT);
+			buffer.append(" bestMonthlyPerformance=" + twoDigitFormat.format(bestMonthlyPerformance * 100) + PCNT);
+			buffer.append(" maxDrawDown=" + twoDigitFormat.format(maxDrawDownVO.getAmount() * 100) + PCNT);
 			buffer.append(" maxDrawDownPeriod=" + twoDigitFormat.format(maxDrawDownVO.getPeriod() / 86400000) + "days");
 			buffer.append(" colmarRatio=" + twoDigitFormat.format(performanceKeys.getAvgY() / maxDrawDownVO.getAmount()));
 		}
@@ -235,7 +235,7 @@ public class SimulationServiceImpl extends SimulationServiceBase {
 
 	private static void logMultiLineString(String input) {
 
-        String[] lines = input.split(LF);
+		String[] lines = input.split(LF);
 		for (String line : lines) {
 			logger.info(line);
 		}

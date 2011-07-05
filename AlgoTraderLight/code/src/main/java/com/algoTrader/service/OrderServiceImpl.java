@@ -40,7 +40,7 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 	}
 
 	private void sendInternalOrder(String strategyName, Order order) {
-	
+
 		if (order.getQuantity() < 0) {
 			throw new IllegalArgumentException("quantity has to be positive");
 		}
@@ -69,14 +69,14 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 			LimitOrderInterface limitOrder = (LimitOrderInterface) order;
 			fill.setPrice(limitOrder.getLimit());
 		}
-	
+
 		// set the commission
 		if (Side.SELL.equals(order.getSide()) || Side.BUY.equals(order.getSide())) {
 
 			if (security.getSecurityFamily().getCommission() == null) {
 				throw new RuntimeException("commission is undefined for " + security.getSymbol());
 			}
-	
+
 			double commission = Math.abs(order.getQuantity() * security.getSecurityFamily().getCommission().doubleValue());
 			fill.setCommission(RoundUtil.getBigDecimal(commission));
 		} else {

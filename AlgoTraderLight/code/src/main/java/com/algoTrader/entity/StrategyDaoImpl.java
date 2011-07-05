@@ -44,10 +44,10 @@ public class StrategyDaoImpl extends StrategyDaoBase {
 	}
 
 	protected double handleGetPortfolioNetLiqValueDouble() throws Exception {
-	
+
 		return getPortfolioCashBalanceDouble() + getPortfolioSecuritiesCurrentValueDouble();
 	}
-	
+
 	protected double handleGetPortfolioAvailableFundsDouble() throws Exception {
 
 		return getPortfolioNetLiqValueDouble() - getPortfolioInitialMarginDouble();

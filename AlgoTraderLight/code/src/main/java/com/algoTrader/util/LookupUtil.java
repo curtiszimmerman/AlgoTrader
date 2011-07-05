@@ -13,16 +13,16 @@ public class LookupUtil {
 		return ServiceLocator.commonInstance().getLookupService().getAllSecuritiesInPortfolio();
 	}
 
-    public static Security[] getSecuritiesOnWatchlist() {
+	public static Security[] getSecuritiesOnWatchlist() {
 
-        return ServiceLocator.commonInstance().getLookupService().getSecuritiesOnWatchlist();
-    }
+		return ServiceLocator.commonInstance().getLookupService().getSecuritiesOnWatchlist();
+	}
 
 	public static Security getSecurityByIsin(String isin) {
 
 		return ServiceLocator.commonInstance().getLookupService().getSecurityByIsin(isin);
 	}
-	
+
 	public static Security getSecurityBySymbol(String symbol) {
 		return ServiceLocator.commonInstance().getLookupService().getSecurityBySymbol(symbol);
 	}
@@ -44,9 +44,9 @@ public class LookupUtil {
 
 	public static boolean hasOpenPositions() {
 
-        return ServiceLocator.commonInstance().getLookupService().getOpenPositions().length != 0;
+		return ServiceLocator.commonInstance().getLookupService().getOpenPositions().length != 0;
 	}
-	
+
 	public static PortfolioValueVO getPortfolioValue() {
 
 		return ServiceLocator.commonInstance().getLookupService().getPortfolioValue();
@@ -54,6 +54,6 @@ public class LookupUtil {
 
 	public static boolean hasLastTicks() {
 
-        return ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK") != null;
+		return ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK") != null;
 	}
 }

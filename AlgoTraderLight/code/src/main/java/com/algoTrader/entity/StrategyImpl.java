@@ -45,7 +45,7 @@ public class StrategyImpl extends Strategy {
 
 	@Override
 	public double getInitialMarginDouble() {
-		
+
 		return initialMarginMarkup * getMaintenanceMarginDouble();
 	}
 
@@ -70,6 +70,6 @@ public class StrategyImpl extends Strategy {
 	}
 
 	public boolean isBase() {
-        return BASE.equals(getName());
+		return BASE.equals(getName());
 	}
 }

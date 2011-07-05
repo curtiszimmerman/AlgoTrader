@@ -16,7 +16,7 @@ public class RoundUtil {
 
 		return MathUtils.round(value / n, 0) * n;
 	}
-	
+
 	public static BigDecimal roundToNextN(BigDecimal value, double n) {
 
 		return RoundUtil.getBigDecimal(roundToNextN(value.doubleValue(), n));

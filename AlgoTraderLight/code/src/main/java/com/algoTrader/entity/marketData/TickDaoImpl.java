@@ -29,18 +29,18 @@ public class TickDaoImpl extends TickDaoBase {
 	}
 
 	public Tick rawTickVOToEntity(RawTickVO rawTickVO) {
-	
+
 		Tick tick = new TickImpl();
 		super.rawTickVOToEntity(rawTickVO, tick, true);
-	
+
 		Security security = getSecurityDao().findByIsinFetched(rawTickVO.getIsin());
-	
+
 		// initialize the proxys
 		Hibernate.initialize(security.getUnderlaying());
 		Hibernate.initialize(security.getSecurityFamily());
-	
+
 		tick.setSecurity(security);
-	
+
 		return tick;
 	}
 }

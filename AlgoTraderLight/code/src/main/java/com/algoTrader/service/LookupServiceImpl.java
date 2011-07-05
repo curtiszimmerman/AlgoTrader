@@ -102,18 +102,18 @@ public class LookupServiceImpl extends LookupServiceBase {
 
 		return getTransactionDao().findAllCashflows().toArray(new Transaction[0]);
 	}
-	
+
 	protected Security[] handleGetAllSecuritiesInPortfolio() throws Exception {
 
 		return getSecurityDao().findSecuritiesInPortfolio().toArray(new Security[0]);
 	}
 
-    protected Security[] handleGetSecuritiesOnWatchlist() throws Exception {
+	protected Security[] handleGetSecuritiesOnWatchlist() throws Exception {
 
-        return getSecurityDao().findSecuritiesOnWatchlist().toArray(new Security[0]);
-    }
+		return getSecurityDao().findSecuritiesOnWatchlist().toArray(new Security[0]);
+	}
 
-    protected Position[] handleGetOpenPositions() throws Exception {
+	protected Position[] handleGetOpenPositions() throws Exception {
 
 		return getPositionDao().findOpenPositions().toArray(new Position[0]);
 	}

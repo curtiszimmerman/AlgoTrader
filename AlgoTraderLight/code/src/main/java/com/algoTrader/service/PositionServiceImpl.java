@@ -23,7 +23,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 	private static Logger logger = MyLogger.getLogger(PositionServiceImpl.class.getName());
 
 	protected void handleClosePosition(int positionId) throws Exception {
-	
+
 		Position position = getPositionDao().load(positionId);
 
 		reducePosition(positionId, Math.abs(position.getQuantity()));
@@ -48,14 +48,14 @@ public class PositionServiceImpl extends PositionServiceBase {
 	}
 
 	protected void handleSetExitValue(int positionId, double exitValue, boolean force) throws MathException {
-	
+
 		Position position = getPositionDao().load(positionId);
-	
+
 		// there needs to be a position
 		if (position == null) {
 			throw new PositionServiceException("position does not exist: " + positionId);
 		}
-	
+
 		// in generall there should have been set a exitValue on creation of the position
 		if (!force && position.getExitValue() == null) {
 			logger.warn("no exitValue was set for position: " + positionId);
@@ -78,61 +78,61 @@ public class PositionServiceImpl extends PositionServiceBase {
 				return;
 			}
 		}
-	
+
 		// exitValue cannot be lower than currentValue
 		double currentValue = position.getSecurity().getCurrentValue().doubleValue();
 		if (position.isShort() && exitValue < currentValue) {
-            throw new PositionServiceException("ExitValue (" + exitValue + ") for short-position " + position.getId() + " is lower than currentValue: "
-                    + currentValue);
+			throw new PositionServiceException("ExitValue (" + exitValue + ") for short-position " + position.getId() + " is lower than currentValue: "
+					+ currentValue);
 		} else if (position.isLong() && exitValue > currentValue) {
-            throw new PositionServiceException("ExitValue (" + exitValue + ") for long-position " + position.getId() + " is higher than currentValue: "
-                    + currentValue);
+			throw new PositionServiceException("ExitValue (" + exitValue + ") for long-position " + position.getId() + " is higher than currentValue: "
+					+ currentValue);
 		}
-	
+
 		position.setExitValue(exitValue);
 		getPositionDao().update(position);
-	
+
 		logger.info("set exit value " + position.getSecurity().getSymbol() + " to " + exitValue);
 	}
 
 	protected void handleSetMargin(int positionId) throws Exception {
-	
+
 		Position position = getPositionDao().load(positionId);
 		setMargin(position);
 	}
 
 	protected void handleSetMargin(Position position) throws Exception {
-	
+
 		Security security = position.getSecurity();
 		double marginPerContract = security.getMargin();
-	
+
 		if (marginPerContract != 0) {
-	
+
 			long numberOfContracts = Math.abs(position.getQuantity());
 			BigDecimal totalMargin = RoundUtil.getBigDecimal(marginPerContract * numberOfContracts);
 			position.setMaintenanceMargin(totalMargin);
-	
+
 			getPositionDao().update(position);
-	
+
 			Strategy strategy = position.getStrategy();
-	
+
 			int percent = (int) (strategy.getAvailableFundsDouble() / strategy.getNetLiqValueDouble() * 100.0);
 			if (strategy.getAvailableFundsDouble() >= 0) {
-                logger.info("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
-                        + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
-                        + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
+				logger.info("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
+						+ RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
+						+ RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
 			} else {
-                logger.warn("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
-                        + RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
-                        + RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
+				logger.warn("set margin for " + security.getSymbol() + " to " + RoundUtil.getBigDecimal(marginPerContract) + " total margin: "
+						+ RoundUtil.getBigDecimal(strategy.getMaintenanceMarginDouble()) + " availableFunds: "
+						+ RoundUtil.getBigDecimal(strategy.getAvailableFundsDouble()) + " (" + percent + "% of balance)");
 			}
 		}
 	}
 
 	protected void handleSetMargins() throws Exception {
-	
+
 		List<Position> positions = getPositionDao().findOpenPositions();
-	
+
 		for (Position position : positions) {
 			setMargin(position);
 		}
@@ -165,14 +165,14 @@ public class PositionServiceImpl extends PositionServiceBase {
 	}
 
 	public static class SetMarginsListener implements UpdateListener {
-	
+
 		public void update(EventBean[] newEvents, EventBean[] oldEvents) {
-	
+
 			long startTime = System.currentTimeMillis();
 			logger.debug("setMargins start");
-	
+
 			ServiceLocator.serverInstance().getPositionService().setMargins();
-	
+
 			logger.debug("setMargins end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
 		}
 	}

@@ -63,10 +63,10 @@ public class IBUtil {
 
 		} else if (security instanceof Stock) {
 
-            contract.m_currency = security.getSecurityFamily().getCurrency().toString(); //"USD";//
+			contract.m_currency = security.getSecurityFamily().getCurrency().toString(); //"USD";//
 			contract.m_symbol = security.getSymbol();
 			contract.m_secType = "STK";
-            contract.m_exchange = IBMarketConverter.marketToString(security.getSecurityFamily().getMarket()); //"SMART";//
+			contract.m_exchange = IBMarketConverter.marketToString(security.getSecurityFamily().getMarket()); //"SMART";//
 
 		} else if (security instanceof EquityIndex) {
 
@@ -85,12 +85,12 @@ public class IBUtil {
 	public static String getIBOrderType(Order order) {
 
 		if (order instanceof MarketOrder) {
-            return "MKT";
-        }
+			return "MKT";
+		}
 		if (order instanceof LimitOrder) {
-            return "LMT";
-        } else {
-            return "";
-        }
+			return "LMT";
+		} else {
+			return "";
+		}
 	}
 }

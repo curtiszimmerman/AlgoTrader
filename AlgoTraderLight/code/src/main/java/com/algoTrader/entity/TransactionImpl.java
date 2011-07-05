@@ -9,7 +9,7 @@ public class TransactionImpl extends Transaction {
 
 	private static final long serialVersionUID = -1528408715199422753L;
 
-    private Double value; // cache getValueDouble because getValue get's called very often
+	private Double value; // cache getValueDouble because getValue get's called very often
 
 	public BigDecimal getValue() {
 
@@ -24,15 +24,11 @@ public class TransactionImpl extends Transaction {
 	public double getValueDouble() {
 
 		if (this.value == null) {
-			if (getType().equals(TransactionType.BUY)
-			        || getType().equals(TransactionType.SELL)
-			        || getType().equals(TransactionType.EXPIRATION)) {
+			if (getType().equals(TransactionType.BUY) || getType().equals(TransactionType.SELL) || getType().equals(TransactionType.EXPIRATION)) {
 				this.value = -getQuantity() * getSecurity().getSecurityFamily().getContractSize() * getPrice().doubleValue() - getCommission().doubleValue();
-			} else if (getType().equals(TransactionType.CREDIT)
-			        || getType().equals(TransactionType.INTREST)) {
+			} else if (getType().equals(TransactionType.CREDIT) || getType().equals(TransactionType.INTREST)) {
 				this.value = getPrice().doubleValue();
-			} else if (getType().equals(TransactionType.DEBIT)
-			        || getType().equals(TransactionType.FEES)) {
+			} else if (getType().equals(TransactionType.DEBIT) || getType().equals(TransactionType.FEES)) {
 				this.value = -getPrice().doubleValue();
 			} else if (getType().equals(TransactionType.REBALANCE)) {
 				this.value = getQuantity() * getPrice().doubleValue();

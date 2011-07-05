@@ -17,7 +17,7 @@ public class CsvTickInputAdapter extends CSVInputAdapter {
 	}
 
 	public SendableEvent read() {
-        SendableBeanEvent event = (SendableBeanEvent) super.read();
+		SendableBeanEvent event = (SendableBeanEvent) super.read();
 
 		if (event != null && event.getBeanToSend() instanceof RawTickVO) {
 

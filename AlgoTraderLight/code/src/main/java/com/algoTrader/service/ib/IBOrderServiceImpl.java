@@ -13,12 +13,12 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	private static IBClient client;
 	private static Logger logger = MyLogger.getLogger(IBOrderServiceImpl.class.getName());
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
-	
+
 	public IBOrderServiceImpl() {
 		super();
 		if (!simulation) {
-            client = IBClient.getInstance();
-        }
+			client = IBClient.getInstance();
+		}
 	}
 
 	protected void handleSendExternalOrder(String strategyName, Order order) throws Exception {

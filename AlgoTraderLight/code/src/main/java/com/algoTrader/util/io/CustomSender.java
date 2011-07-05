@@ -25,15 +25,15 @@ public class CustomSender extends AbstractSender {
 			Tick tick = marketDataService.completeRawTick((RawTickVO) beanToSend);
 			marketDataService.propagateMarketDataEvent(tick);
 
-		// Bars are always sent using MarketDataService
+			// Bars are always sent using MarketDataService
 		} else if (beanToSend instanceof BarVO) {
 
-            MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
+			MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
 
 			Bar bar = marketDataService.completeBar((BarVO) beanToSend);
-            marketDataService.propagateMarketDataEvent(bar);
+			marketDataService.propagateMarketDataEvent(bar);
 
-		// currentTimeEvents are sent to all started strategies
+			// currentTimeEvents are sent to all started strategies
 		} else if (beanToSend instanceof CurrentTimeEvent) {
 
 			RuleService ruleService = ServiceLocator.commonInstance().getRuleService();

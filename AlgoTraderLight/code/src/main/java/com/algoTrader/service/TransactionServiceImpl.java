@@ -22,7 +22,7 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 		Strategy strategy = getStrategyDao().findByName(strategyName);
 		Security security = fill.getOrder().getSecurity();
-		
+
 		TransactionType transactionType = Side.BUY.equals(fill.getSide()) ? TransactionType.BUY : TransactionType.SELL;
 		long quantity = Side.BUY.equals(fill.getSide()) ? fill.getQuantity() : -fill.getQuantity();
 
@@ -34,7 +34,7 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		transaction.setSecurity(security);
 		transaction.setCurrency(security.getSecurityFamily().getCurrency());
 		transaction.setCommission(fill.getCommission());
-		
+
 		// Strategy
 		transaction.setStrategy(strategy);
 		strategy.getTransactions().add(transaction);
@@ -79,15 +79,12 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		getStrategyDao().update(strategy);
 		getSecurityDao().update(security);
 
-		String logMessage = "executed transaction type: " + transactionType 
-		    + " quantity: " + transaction.getQuantity()
-			+ " of " + security.getSymbol()
-			+ " price: " + transaction.getPrice()
-			+ " commission: " + transaction.getCommission();
+		String logMessage = "executed transaction type: " + transactionType + " quantity: " + transaction.getQuantity() + " of " + security.getSymbol()
+				+ " price: " + transaction.getPrice() + " commission: " + transaction.getCommission();
 
 		logger.info(logMessage);
 	}
-	
+
 	public static class CreateTransactionSubscriber {
 
 		public void update(String strategyName, Fill fill) {
@@ -99,6 +96,6 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 			logger.info("createTransaction end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
 		}
-		
+
 	}
 }

@@ -50,7 +50,7 @@ import com.ib.client.UnderComp;
 
 public final class IBAdapter implements EWrapper {
 
-    private static final String CONNECTION_STATE = "connectionState: ";
+	private static final String CONNECTION_STATE = "connectionState: ";
 
 	private static Logger logger = MyLogger.getLogger(IBAdapter.class.getName());
 	private static IBAdapter ibAdapter;
@@ -142,20 +142,20 @@ public final class IBAdapter implements EWrapper {
 
 			// Couldn't connect to TWS
 			this.state = ConnectionState.DISCONNECTED;
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 
 		} else if (code == 1100) {
 
 			// Connectivity between IB and TWS has been lost.
 			this.state = ConnectionState.CONNECTED;
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 
 		} else if (code == 1101) {
 
 			// Connectivity between IB and TWS has been restored data lost.
 			this.requested = false;
 			this.state = ConnectionState.READY;
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 
 		} else if (code == 1102) {
 
@@ -165,13 +165,13 @@ public final class IBAdapter implements EWrapper {
 			} else {
 				this.state = ConnectionState.READY;
 			}
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 
 		} else if (code == 2110) {
 
 			// Connectivity between TWS and server is broken. It will be restored automatically.
 			this.state = ConnectionState.CONNECTED;
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 
 		} else if (code == 2104) {
 
@@ -181,7 +181,7 @@ public final class IBAdapter implements EWrapper {
 			} else {
 				this.state = ConnectionState.READY;
 			}
-            logger.info(CONNECTION_STATE + this.state);
+			logger.info(CONNECTION_STATE + this.state);
 		}
 	}
 
@@ -213,11 +213,11 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void historicalData(final int reqId, final String date, final double open, final double high, final double low, final double close,
-            final int volume, final int count, final double wap, final boolean hasGaps) {
-        final HistoricalData o = new HistoricalData(reqId, date, open, high, low, close, volume, count, wap, hasGaps);
+	public void historicalData(final int reqId, final String date, final double open, final double high, final double low, final double close,
+			final int volume, final int count, final double wap, final boolean hasGaps) {
+		final HistoricalData o = new HistoricalData(reqId, date, open, high, low, close, volume, count, wap, hasGaps);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-        logger.info(EWrapperMsgGenerator.historicalData(reqId, date, open, high, low, close, volume, count, wap, hasGaps));
+		logger.info(EWrapperMsgGenerator.historicalData(reqId, date, open, high, low, close, volume, count, wap, hasGaps));
 	}
 
 	@Override
@@ -245,22 +245,22 @@ public final class IBAdapter implements EWrapper {
 
 	@Override
 	public void openOrderEnd() {
-        //final OpenOrderEnd o = new OpenOrderEnd();
+		//final OpenOrderEnd o = new OpenOrderEnd();
 		//ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.openOrderEnd());
 	}
 
 	@Override
-    public void orderStatus(final int orderId, final String status, final int filled, final int remaining, final double avgFillPrice, final int permId,
-            final int parentId, final double lastFillPrice, final int clientId, final String whyHeld) {
+	public void orderStatus(final int orderId, final String status, final int filled, final int remaining, final double avgFillPrice, final int permId,
+			final int parentId, final double lastFillPrice, final int clientId, final String whyHeld) {
 		final OrderStatus o = new OrderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld));
 	}
 
 	@Override
-    public void realtimeBar(final int reqId, final long time, final double open, final double high, final double low, final double close, final long volume,
-            final double wap, final int count) {
+	public void realtimeBar(final int reqId, final long time, final double open, final double high, final double low, final double close, final long volume,
+			final double wap, final int count) {
 		final RealtimeBar o = new RealtimeBar(reqId, time, open, high, low, close, volume, wap, count);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.realtimeBar(reqId, time, open, high, low, close, volume, wap, count));
@@ -274,8 +274,8 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void scannerData(final int reqId, final int rank, final ContractDetails contractDetails, final String distance, final String benchmark,
-            final String projection, final String legsStr) {
+	public void scannerData(final int reqId, final int rank, final ContractDetails contractDetails, final String distance, final String benchmark,
+			final String projection, final String legsStr) {
 		final ScannerData o = new ScannerData(reqId, rank, contractDetails, distance, benchmark, projection, legsStr);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.scannerData(reqId, rank, contractDetails, distance, benchmark, projection, legsStr));
@@ -296,13 +296,13 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void tickEFP(final int tickerId, final int tickType, final double basisPoints, final String formattedBasisPoints, final double impliedFuture,
-            final int holdDays, final String futureExpiry, final double dividendImpact, final double dividendsToExpiry) {
-        final TickEFP o = new TickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
-                dividendsToExpiry);
+	public void tickEFP(final int tickerId, final int tickType, final double basisPoints, final String formattedBasisPoints, final double impliedFuture,
+			final int holdDays, final String futureExpiry, final double dividendImpact, final double dividendsToExpiry) {
+		final TickEFP o = new TickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
+				dividendsToExpiry);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-        logger.info(EWrapperMsgGenerator.tickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
-                dividendsToExpiry));
+		logger.info(EWrapperMsgGenerator.tickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
+				dividendsToExpiry));
 	}
 
 	@Override
@@ -313,8 +313,8 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void tickOptionComputation(final int tickerId, final int field, final double impliedVol, final double delta, final double optPrice,
-            final double pvDividend, final double gamma, final double vega, final double theta, final double undPrice) {
+	public void tickOptionComputation(final int tickerId, final int field, final double impliedVol, final double delta, final double optPrice,
+			final double pvDividend, final double gamma, final double vega, final double theta, final double undPrice) {
 		final TickOptionComputation o = new TickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.tickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice));
@@ -370,8 +370,8 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void updateMktDepthL2(final int tickerId, final int position, final String marketMaker, final int operation, final int side, final double price,
-            final int size) {
+	public void updateMktDepthL2(final int tickerId, final int position, final String marketMaker, final int operation, final int side, final double price,
+			final int size) {
 		final UpdateMktDepthL2 o = new UpdateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.updateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size));
@@ -385,8 +385,8 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-    public void updatePortfolio(final Contract contract, final int position, final double marketPrice, final double marketValue, final double averageCost,
-            final double unrealizedPNL, final double realizedPNL, final String accountName) {
+	public void updatePortfolio(final Contract contract, final int position, final double marketPrice, final double marketValue, final double averageCost,
+			final double unrealizedPNL, final double realizedPNL, final String accountName) {
 		final UpdatePortfolio o = new UpdatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.info(EWrapperMsgGenerator.updatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName));

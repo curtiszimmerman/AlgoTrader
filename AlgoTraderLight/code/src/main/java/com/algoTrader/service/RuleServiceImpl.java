@@ -52,7 +52,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(RuleServiceImpl.class.getName());
 
-    private static long initTime = 631148400000L; // 01.01.1990
+	private static long initTime = 631148400000L; // 01.01.1990
 
 	private Map<String, AdapterCoordinator> coordinators = new HashMap<String, AdapterCoordinator>();
 	private Map<String, Boolean> internalClock = new HashMap<String, Boolean>();
@@ -95,7 +95,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleDeployRule(String strategyName, String moduleName, String ruleName) throws Exception {
-	
+
 		deployRule(strategyName, moduleName, ruleName, null);
 	}
 
@@ -116,7 +116,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 		// go through all statements in the module
 		EPStatement newStatement = null;
-        items: for (ModuleItem item : items) {
+		items: for (ModuleItem item : items) {
 			String exp = item.getExpression();
 
 			// get the ObjectModel for the statement
@@ -132,7 +132,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 			// go through all annotations and check if the statement has the 'name' 'ruleName'
 			List<AnnotationPart> annotations = model.getAnnotations();
 			for (AnnotationPart annotation : annotations) {
-                if ("Name".equals(annotation.getName())) {
+				if ("Name".equals(annotation.getName())) {
 					for (AnnotationAttribute attribute : annotation.getAttributes()) {
 						if (attribute.getValue().equals(ruleName)) {
 
@@ -163,7 +163,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleDeployModule(String strategyName, String moduleName) throws java.lang.Exception {
-	
+
 		EPAdministrator administrator = getServiceProvider(strategyName).getEPAdministrator();
 		EPDeploymentAdmin deployAdmin = administrator.getDeploymentAdmin();
 		Module module = deployAdmin.read("module-" + moduleName + ".epl");
@@ -188,17 +188,17 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected boolean handleIsDeployed(String strategyName, String ruleName) throws Exception {
-	
+
 		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
-	
+
 		return statement != null && statement.isStarted();
 	}
 
 	protected void handleUndeployRule(String strategyName, String ruleName) throws Exception {
-	
+
 		// destroy the statement
 		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
-	
+
 		if (statement != null && statement.isStarted()) {
 			statement.destroy();
 			logger.debug("undeployed rule " + ruleName);
@@ -217,7 +217,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleUndeployModule(String strategyName, String moduleName) throws java.lang.Exception {
-	
+
 		EPAdministrator administrator = getServiceProvider(strategyName).getEPAdministrator();
 		EPDeploymentAdmin deployAdmin = administrator.getDeploymentAdmin();
 		for (DeploymentInformation deploymentInformation : deployAdmin.getDeploymentInformation()) {
@@ -230,18 +230,18 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleSendEvent(String strategyName, Object obj) {
-	
+
 		getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
 	}
 
 	protected void handleRouteEvent(String strategyName, Object obj) {
-	
+
 		// routing always goes to the local engine
 		getServiceProvider(strategyName).getEPRuntime().route(obj);
 	}
 
 	protected Object handleGetLastEvent(String strategyName, String ruleName) {
-	
+
 		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
 		if (statement != null && statement.isStarted()) {
 			SafeIterator<EventBean> it = statement.safeIterator();
@@ -271,7 +271,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected List<Object> handleGetAllEvents(String strategyName, String ruleName) {
-	
+
 		EPStatement statement = getServiceProvider(strategyName).getEPAdministrator().getStatement(ruleName);
 		List<Object> list = new ArrayList<Object>();
 		if (statement != null && statement.isStarted()) {
@@ -309,7 +309,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleSetInternalClock(String strategyName, boolean internal) {
-	
+
 		this.internalClock.put(strategyName, internal);
 
 		if (internal) {
@@ -326,7 +326,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected boolean handleIsInternalClock(String strategyName) {
-	
+
 		return this.internalClock.get(strategyName);
 	}
 
@@ -367,13 +367,13 @@ public class RuleServiceImpl extends RuleServiceBase {
 	}
 
 	protected void handleSetProperty(String strategyName, String key, String value) {
-	
-        String keyReplaced = key.replace(".", "_");
+
+		String keyReplaced = key.replace(".", "_");
 		EPRuntime runtime = getServiceProvider(strategyName).getEPRuntime();
-        if (runtime.getVariableValueAll().containsKey(keyReplaced)) {
-            Class<?> clazz = runtime.getVariableValue(keyReplaced).getClass();
+		if (runtime.getVariableValueAll().containsKey(keyReplaced)) {
+			Class<?> clazz = runtime.getVariableValue(keyReplaced).getClass();
 			Object castedObj = JavaClassHelper.parse(clazz, value);
-            runtime.setVariableValue(keyReplaced, castedObj);
+			runtime.setVariableValue(keyReplaced, castedObj);
 		}
 	}
 
@@ -430,11 +430,11 @@ public class RuleServiceImpl extends RuleServiceBase {
 		for (Annotation annotation : annotations) {
 			if (annotation instanceof Tag) {
 				Tag tag = (Tag) annotation;
-                if ("subscriber".equals(tag.name())) {
+				if ("subscriber".equals(tag.name())) {
 					Class<?> cl = Class.forName(tag.value());
 					Object obj = cl.newInstance();
 					statement.setSubscriber(obj);
-                } else if ("listeners".equals(tag.name())) {
+				} else if ("listeners".equals(tag.name())) {
 					String[] listeners = tag.value().split("\\s");
 					for (String listener : listeners) {
 						Class<?> cl = Class.forName(listener);

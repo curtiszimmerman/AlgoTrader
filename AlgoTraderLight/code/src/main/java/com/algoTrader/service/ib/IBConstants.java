@@ -35,41 +35,41 @@ public class IBConstants {
 	public static final String IMMEDIATE_OR_CANCEL = "IOC";
 	public static final String ONE_CANCELS_ALL = "OCA";
 	public static final String VOLATILITY = "VOL";
-	
+
 	//exchanges
 	public static final String NASDAQ_EXCHANGE = "STK.NASDAQ";
 	public static final String NYSE_EXCHANGE = "STK.NYSE";
 	public static final String AMEX_EXCHANGE = "STK.AMEX";
 	public static final String PINK_OTCBB_EXCHANGE = "STK.US.MINOR";
-	
+
 	//max request constants
-	public static final int MAX_NUM_CONCURRENT_CALLS_TO_REQMKTDATA =  100;
+	public static final int MAX_NUM_CONCURRENT_CALLS_TO_REQMKTDATA = 100;
 	public static final int MAX_NUM_CONCURRENT_CALLS_REQMKTDEPTH = 3;
-	
+
 	/**
 	 * make sure don't exceed 1 requests per 10 seconds
 	 */
 	public static final int MMAX_NUM_CONCURRENT_CALLS_REQREALTIMEBARS = 120;
-	
+
 	/**
 	 * 60 requests per 10 minutes. Click the link below for entire historical data limitation
 	 * http://individuals.interactivebrokers.com/php/apiUsersGuide/apiguide/api/historical_data_limitations.htm
 	 */
 	public static final int MAX_HISTORICAL_DATA_REQUESTS = 60;
-	
+
 	//TODO add the API Message codes (100=Max rate of messages per second has been exceeded., etc)
-	
+
 	//TODO add the tick types (bid size =0, bid price =1 , etc)
-	
+
 	//TODO add the generic tick types
-	
+
 	//TODO add the constants in the Appendix A - Extended Order Attributes
-	
+
 	//TODO add the IBAlgo Parameters
-	
+
 	//TODO Extended Order Attributes
-	
+
 	//TODO Available Market Scanners
-	
+
 	//TODO Supported Time Zones (link is not working on IB site, will have to talk to tech support about this.)
 }
