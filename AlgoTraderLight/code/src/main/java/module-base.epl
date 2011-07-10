@@ -6,6 +6,13 @@ select
 	* 
 from 
 	pattern[every timer:at (0, 7, *, *, 1:5)];
+	
+@Name('PROPAGATE_TICKS')
+@Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
+select 
+	*
+from
+	com.algoTrader.entity.marketData.MarketDataEvent;	
 
 @Name('CREATE_PORTFOLIO_VALUE')
 @Tag(name='subscriber', value='com.algoTrader.subscriber.PrintPortfolioValueSubscriber')

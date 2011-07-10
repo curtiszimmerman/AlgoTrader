@@ -2,10 +2,11 @@ package com.algoTrader.service;
 
 import java.util.Collection;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Strategy;
-import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.WatchListItem;
 import com.algoTrader.entity.WatchListItemImpl;
 import com.algoTrader.entity.marketData.Bar;
@@ -31,11 +32,12 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	}
 
 	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {
-
-		logger.debug(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
-
-		getRuleService().sendEvent(StrategyImpl.BASE, marketDataEvent);
-
+	
+		// marketDataEvent.toString is expensive, so only log if debug is anabled
+		if (!logger.getParent().getLevel().isGreaterOrEqual(Level.INFO)) {
+			logger.debug(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
+		}
+	
 		Collection<WatchListItem> watchListItems = marketDataEvent.getSecurity().getWatchListItems();
 		for (WatchListItem watchListItem : watchListItems) {
 			getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
@@ -104,6 +106,14 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			}
 
 			logger.info("removed security from watchlist " + security.getSymbol());
+		}
+	}
+
+	public static class PropagateTickSubscriber {
+
+		public void update(MarketDataEvent marketDataEvent) {
+
+			ServiceLocator.serverInstance().getMarketDataService().propagateMarketDataEvent(marketDataEvent);
 		}
 	}
 }

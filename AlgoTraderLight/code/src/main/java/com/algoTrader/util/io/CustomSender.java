@@ -3,6 +3,7 @@ package com.algoTrader.util.io;
 import java.util.Map;
 
 import com.algoTrader.ServiceLocator;
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.marketData.Bar;
 import com.algoTrader.entity.marketData.Tick;
 import com.algoTrader.service.MarketDataService;
@@ -18,12 +19,14 @@ public class CustomSender extends AbstractSender {
 	public void sendEvent(AbstractSendableEvent event, Object beanToSend) {
 
 		// raw Ticks are always sent using MarketDataService
+		RuleService ruleService = ServiceLocator.commonInstance().getRuleService();
 		if (beanToSend instanceof RawTickVO) {
 
 			MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
 
 			Tick tick = marketDataService.completeRawTick((RawTickVO) beanToSend);
-			marketDataService.propagateMarketDataEvent(tick);
+
+			ruleService.sendEvent(StrategyImpl.BASE, tick);
 
 			// Bars are always sent using MarketDataService
 		} else if (beanToSend instanceof BarVO) {
@@ -31,12 +34,12 @@ public class CustomSender extends AbstractSender {
 			MarketDataService marketDataService = ServiceLocator.commonInstance().getMarketDataService();
 
 			Bar bar = marketDataService.completeBar((BarVO) beanToSend);
-			marketDataService.propagateMarketDataEvent(bar);
+
+			ruleService.sendEvent(StrategyImpl.BASE, bar);
 
 			// currentTimeEvents are sent to all started strategies
 		} else if (beanToSend instanceof CurrentTimeEvent) {
 
-			RuleService ruleService = ServiceLocator.commonInstance().getRuleService();
 			ruleService.setCurrentTime((CurrentTimeEvent) beanToSend);
 
 			// everything else (especially Ticks) are sent to the specified runtime
