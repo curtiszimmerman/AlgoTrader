@@ -54,6 +54,5 @@ public class LookupUtil {
 
 	public static boolean hasLastTicks() {
 
-		return ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_LAST_TICK") != null;
-	}
+        return ServiceLocator.commonInstance().getRuleService().getLastEvent(StrategyUtil.getStartedStrategyName(), "GET_CURRENT_VALUE") != null;	}
 }
