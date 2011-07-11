@@ -1,0 +1,27 @@
+module maxMain;
+
+// Moving Average using Ta-Lib
+@Name('MOVING_AVERAGE')
+insert into Indicator
+select talib("movingAverage", currentValueDouble, movLengthFast, "Ema") - talib("movingAverage", currentValueDouble, movLengthSlow, "Ema") as value
+from Bar(security.isin = underlayingIsin);
+
+@Name('OPEN_LONG')
+@Tag(name='subscriber', value='com.algoTrader.service.max.MaxServiceImpl$OpenLongSubscriber')
+select
+engineStrategy.name as strategyName, 
+indexTick.security.id as underlayingid,
+indexTick.currentValue as underlayingSpot
+from pattern [every (indexTick=Bar(security.isin=underlayingIsin) -> indicator=Indicator)]
+where indicator.value > 0
+and prior(1, indicator.value) <= 0;
+
+@Name('OPEN_SHORT')
+@Tag(name='subscriber', value='com.algoTrader.service.max.MaxServiceImpl$OpenShortSubscriber')
+select
+engineStrategy.name as strategyName, 
+indexTick.security.id as underlayingid,
+indexTick.currentValue as underlayingSpot
+from pattern [every (indexTick=Bar(security.isin=underlayingIsin) -> indicator=Indicator)]
+where indicator.value < 0
+and prior(1, indicator.value) >= 0;
