@@ -28,11 +28,7 @@
 		<defaults>
 			<threading>
 				<internal-timer enabled="false" msec-resolution="100"/>
-			</threading>
-			<logging>
-				<execution-path enabled="true" />
-				<timer-debug enabled="true" />
-			</logging>				
+			</threading>			
 			<expression udf-cache="false"/>
 			<execution prioritized="true"/>			
 		</defaults>
