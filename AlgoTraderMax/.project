@@ -40,6 +40,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.maven.ide.eclipse.maven2Nature</nature>
@@ -53,6 +58,7 @@
 		<nature>org.mevenide.ui.mavennature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 		<nature>net.sourceforge.metrics.nature</nature>
+		<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>
 	</natures>
 	<filteredResources>
 		<filter>

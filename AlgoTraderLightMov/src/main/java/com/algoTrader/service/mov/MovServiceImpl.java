@@ -20,11 +20,11 @@ import com.algoTrader.util.MyLogger;
 public class MovServiceImpl {
 
 	private static Logger logger = MyLogger.getLogger(MovServiceImpl.class.getName());
+	private static double initialStopLoss = ConfigurationUtil.getStrategyConfig("MOV").getDouble("initialStopLoss");
 
 	private PositionService positionService;
 	private LookupService lookupService;
 	private OrderService orderService;
-	private static double initialStopLoss = ConfigurationUtil.getStrategyConfig("MOV").getDouble("initialStopLoss");
 
 	public MovServiceImpl(PositionService positionService, LookupService lookupService, OrderService orderService) {
 
@@ -40,8 +40,9 @@ public class MovServiceImpl {
 
 		int qty = (int) (strategy.getAvailableFundsDouble() / currentValue.doubleValue());
 		
-		if (qty <= 0)
+		if (qty <= 0) {
 			return;
+		}
 
 		Order order = new MarketOrderImpl();
 		order.setSecurity(security);
@@ -67,7 +68,7 @@ public class MovServiceImpl {
 			long startTime = System.currentTimeMillis();
 			logger.debug("openPosition start");
 	
-			MovServiceImpl movService = ((MovServiceImpl) ServiceLocator.commonInstance().getService("movService"));
+			MovServiceImpl movService = (MovServiceImpl) ServiceLocator.commonInstance().getService("movService");
 			movService.openPosition(strategyName, securityId, currentValue);
 	
 			logger.debug("openPosition end (" + (System.currentTimeMillis() - startTime) + "ms execution)");

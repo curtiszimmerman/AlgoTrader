@@ -20,11 +20,11 @@ import com.algoTrader.util.MyLogger;
 public class MaxServiceImpl {
 
 	private static Logger logger = MyLogger.getLogger(MaxServiceImpl.class.getName());
+	private static int positionSize = ConfigurationUtil.getStrategyConfig("MAX").getInt("positionSize");
 
 	private final PositionService positionService;
 	private final LookupService lookupService;
 	private final OrderService orderService;
-	private static int positionSize = ConfigurationUtil.getStrategyConfig("MAX").getInt("positionSize");
 
 	public MaxServiceImpl(PositionService positionService, LookupService lookupService, OrderService orderService) {
 
@@ -46,10 +46,11 @@ public class MaxServiceImpl {
 		Order order = new MarketOrderImpl();
 		order.setSecurity(security);
 		order.setQuantity(positionSize);
-		if (side)
+		if (side) {
 			order.setSide(Side.SELL);
-		else	
+		} else {
 			order.setSide(Side.BUY);
+		}
 
 		this.orderService.sendOrder(strategy.getName(), order);
 		
@@ -65,7 +66,7 @@ public class MaxServiceImpl {
 			long startTime = System.currentTimeMillis();
 			logger.debug("MAX openLong start");
 	
-			MaxServiceImpl maxService = ((MaxServiceImpl) ServiceLocator.commonInstance().getService("maxService"));
+			MaxServiceImpl maxService = (MaxServiceImpl) ServiceLocator.commonInstance().getService("maxService");
 			maxService.openPosition(strategyName, securityId, currentValue, true);
 	
 			logger.debug("MAX openLong end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
@@ -79,7 +80,7 @@ public class MaxServiceImpl {
 			long startTime = System.currentTimeMillis();
 			logger.debug("MAX openShort start");
 	
-			MaxServiceImpl maxService = ((MaxServiceImpl) ServiceLocator.commonInstance().getService("maxService"));
+			MaxServiceImpl maxService = (MaxServiceImpl) ServiceLocator.commonInstance().getService("maxService");
 			maxService.openPosition(strategyName, securityId, currentValue, false);
 	
 			logger.debug("MAX openShort end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
