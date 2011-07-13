@@ -232,7 +232,8 @@ The avgDailyChange is defined as an exponential moving average of the contract's
 	public static final String TOP_VOLUME_RATE = "TOP_VOLUME_RATE";
 	
 	/**
-	 * Shows the top underlying contracts (stocks or indices) with the lowest vega-weighted implied volatility of near-the-money options with an expiration date in the next two months.
+	 * Shows the top underlying contracts (stocks or indices) with the lowest vega-weighted implied volatility of 
+	 * near-the-money options with an expiration date in the next two months.
 	 */
 	//private final static String LOW_OPT_IMP_VOLAT = "";
 	
@@ -272,17 +273,20 @@ The avgDailyChange is defined as an exponential moving average of the contract's
 	public static final String LOW_OPEN_GAP = "LOW_OPEN_GAP";
 	
 	/**
-	 * Shows the top underlying contracts (stocks or indices) with the lowest vega-weighted implied volatility of near-the-money options with an expiration date in the next two months.
+	 * Shows the top underlying contracts (stocks or indices) with the lowest vega-weighted implied volatility of 
+	 * near-the-money options with an expiration date in the next two months.
 	 */
 	public static final String LOW_OPT_IMP_VOLAT = "LOW_OPT_IMP_VOLAT";
 	
 	/**
-	 * Shows the top underlying contracts (stocks or indices) with the largest percent gain between current implied volatility and yesterday's closing value of the 15 minute average of implied volatility.
+	 * Shows the top underlying contracts (stocks or indices) with the largest percent gain between current implied 
+	 * volatility and yesterday's closing value of the 15 minute average of implied volatility.
 	 */
 	public static final String TOP_OPT_IMP_VOLAT_GAIN = "TOP_OPT_IMP_VOLAT_GAIN";
 	
 	/**
-	 * Shows the top underlying contracts (stocks or indices) with the largest percent loss between current implied volatility and yesterday's closing value of the 15 minute average of implied volatility.
+	 * Shows the top underlying contracts (stocks or indices) with the largest percent loss between current implied 
+	 * volatility and yesterday's closing value of the 15 minute average of implied volatility.
 	 */
 	public static final String TOP_OPT_IMP_VOLAT_LOSE = "TOP_OPT_IMP_VOLAT_LOSE";
 	
@@ -317,12 +321,16 @@ The avgDailyChange is defined as an exponential moving average of the contract's
 	public static final String LOW_VS_52W_HL = "LOW_VS_52W_HL";
 	
 	/**
-	 * Highlights the highest synthetic EFP interest rates available. These rates are computed by taking the price differential between the SSF and the underlying stock and netting dividends to calculate an annualized synthetic implied interest rate over the period of the SSF. The High rates may present an investment opportunity.
+	 * Highlights the highest synthetic EFP interest rates available. These rates are computed by taking the price 
+	 * differential between the SSF and the underlying stock and netting dividends to calculate an annualized synthetic
+	 *  implied interest rate over the period of the SSF. The High rates may present an investment opportunity.
 	 */
 	public static final String HIGH_SYNTH_BID_REV_NAT_YIELD = "HIGH_SYNTH_BID_REV_NAT_YIELD";
 	
 	/**
-	 * Highlights the lowest synthetic EFP interest rates available. These rates are computed by taking the price differential between the SSF and the underlying stock and netting dividends to calculate an annualized synthetic implied interest rate over the period of the SSF. The Low rates may present a borrowing opportunity.
+	 * Highlights the lowest synthetic EFP interest rates available. These rates are computed by taking the price 
+	 * differential between the SSF and the underlying stock and netting dividends to calculate an annualized synthetic 
+	 * implied interest rate over the period of the SSF. The Low rates may present a borrowing opportunity.
  	 */
 	public static final String LOW_SYNTH_BID_REV_NAT_YIELD = "LOW_SYNTH_BID_REV_NAT_YIELD";
 	
