@@ -231,7 +231,9 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 	protected void handleSendEvent(String strategyName, Object obj) {
 
-		getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
+		if (hasServiceProvider(strategyName)) {
+			getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
+		}
 	}
 
 	protected void handleRouteEvent(String strategyName, Object obj) {
