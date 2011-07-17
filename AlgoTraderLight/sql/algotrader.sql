@@ -397,7 +397,11 @@ COMMIT;
 
 INSERT INTO `equity_index` (`ID`) VALUES 
   (2),
-  (4);
+  (4),
+  (15),
+  (18),
+  (19),
+  (21);
 
 COMMIT;
 
@@ -448,6 +452,19 @@ INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `
 COMMIT;
 
 #
+# Data for the `stock` table  (LIMIT 0,500)
+#
+
+INSERT INTO `stock` (`ID`) VALUES 
+  (12),
+  (13),
+  (14),
+  (16),
+  (17);
+
+COMMIT;
+
+#
 # Data for the `transaction` table  (LIMIT 0,500)
 #
 
@@ -461,7 +478,7 @@ COMMIT;
 #
 
 INSERT INTO `watch_list_item` (`id`, `PERSISTENT`, `SECURITY_FK`, `STRATEGY_FK`) VALUES 
-  (4,True,4,1);
+  (34,True,13,1);
 
 COMMIT;
 
