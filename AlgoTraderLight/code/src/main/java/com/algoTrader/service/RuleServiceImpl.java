@@ -12,6 +12,7 @@ import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
+import com.algoTrader.util.StrategyUtil;
 import com.algoTrader.util.io.CsvBarInputAdapter;
 import com.algoTrader.util.io.CsvBarInputAdapterSpec;
 import com.algoTrader.util.io.CsvTickInputAdapter;
@@ -53,6 +54,7 @@ public class RuleServiceImpl extends RuleServiceBase {
 	private static Logger logger = MyLogger.getLogger(RuleServiceImpl.class.getName());
 
 	private static long initTime = 631148400000L; // 01.01.1990
+	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
 	private Map<String, AdapterCoordinator> coordinators = new HashMap<String, AdapterCoordinator>();
 	private Map<String, Boolean> internalClock = new HashMap<String, Boolean>();
@@ -231,8 +233,19 @@ public class RuleServiceImpl extends RuleServiceBase {
 
 	protected void handleSendEvent(String strategyName, Object obj) {
 
-		if (hasServiceProvider(strategyName)) {
-			getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
+		if (simulation) {
+			Strategy strategy = getLookupService().getStrategyByName(strategyName);
+			if (strategy.isAutoActivate()) {
+				getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
+			}
+		} else {
+
+			// check if it is the localStrategy
+			if (StrategyUtil.getStartedStrategyName().equals(strategyName) && hasServiceProvider(strategyName)) {
+				getServiceProvider(strategyName).getEPRuntime().sendEvent(obj);
+			} else {
+				getStrategyService().sendEvent(strategyName, obj);
+			}
 		}
 	}
 

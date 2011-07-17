@@ -26,6 +26,14 @@
 	<variable name="movLengthFast" type="int"/>
 	<variable name="movLengthSlow" type="int"/>
 	
+	<plugin-loader name="EsperIOSocketAdapter" class-name="com.espertech.esperio.socket.EsperIOSocketAdapterPlugin">
+		<config-xml>	
+			<esperio-socket-configuration>
+				<socket name="mov-socket" port="1101" data="object"/>
+			</esperio-socket-configuration>
+		</config-xml>
+	</plugin-loader>	
+	
 	<engine-settings>
 		<defaults>
 			<threading>
