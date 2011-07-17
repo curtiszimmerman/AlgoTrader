@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+<session-factory>
+	<mapping resource="com/algoTrader/entity/Position.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/Strategy.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/Transaction.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/WatchListItem.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/marketData/MarketDataEvent.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/security/Security.hbm.xml" />
+	<mapping resource="com/algoTrader/entity/security/SecurityFamily.hbm.xml" />
+</session-factory>
+</hibernate-configuration>
