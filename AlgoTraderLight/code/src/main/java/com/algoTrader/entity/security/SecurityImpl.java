@@ -202,4 +202,9 @@ public class SecurityImpl extends Security {
 		}
 		return getLastTrade().getPrice();
 	}
+
+	public String toString() {
+	
+		return getSymbol();
+	}
 }

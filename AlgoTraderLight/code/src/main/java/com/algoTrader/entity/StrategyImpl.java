@@ -72,4 +72,9 @@ public class StrategyImpl extends Strategy {
 	public boolean isBase() {
 		return BASE.equals(getName());
 	}
+
+	public String toString() {
+	
+		return getName();
+	}
 }

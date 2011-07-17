@@ -70,4 +70,9 @@ public class PositionImpl extends Position {
 			return 0.0;
 		}
 	}
+
+	public String toString() {
+	
+		return getQuantity() + " " + getSecurity();
+	}
 }
