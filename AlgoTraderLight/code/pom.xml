@@ -220,6 +220,11 @@
 		
 		
 		
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esperio-socket</artifactId>
+			<version>4.2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
