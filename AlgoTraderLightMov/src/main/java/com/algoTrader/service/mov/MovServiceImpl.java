@@ -46,10 +46,11 @@ public class MovServiceImpl {
 
 		Order order = new MarketOrderImpl();
 		order.setSecurity(security);
+		order.setStrategy(strategy);
 		order.setQuantity(qty);
 		order.setSide(Side.BUY);
 
-		this.orderService.sendOrder(strategy.getName(), order);
+		this.orderService.sendOrder(order);
 		
 		// if a position was open (or already existed) set margin and exitValue
 		Position position = this.lookupService.getPositionBySecurityAndStrategy(securityId, strategyName);

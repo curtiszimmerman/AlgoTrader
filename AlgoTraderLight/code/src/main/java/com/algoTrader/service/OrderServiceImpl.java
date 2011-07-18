@@ -2,6 +2,12 @@ package com.algoTrader.service;
 
 import java.math.BigDecimal;
 
+import org.hibernate.Hibernate;
+import org.hibernate.LockOptions;
+import org.hibernate.Session;
+import org.hibernate.proxy.HibernateProxy;
+
+import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.entity.trade.FillImpl;
@@ -17,29 +23,43 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
-	protected void handleSendOrder(String strategyName, Order order) throws Exception {
+	protected void handleSendOrder(Order order) throws Exception {
 
 		if (simulation) {
 
 			// process the order internally
-			sendInternalOrder(strategyName, order);
+			sendInternalOrder(order);
 		} else {
 
+			Security security = order.getSecurity();
+			Strategy strategy = order.getStrategy();
+
+			// lock and initialize the security & strategy
+			Session session = this.getSessionFactory().getCurrentSession();
+			session.buildLockRequest(LockOptions.NONE).lock(security);
+			session.buildLockRequest(LockOptions.NONE).lock(strategy);
+			Hibernate.initialize(security);
+			Hibernate.initialize(strategy);
+
+			// in security and strategy are HibernateProxies convert them to objects
+			if (security instanceof HibernateProxy) {
+				HibernateProxy proxy = (HibernateProxy) security;
+				security = (Security) proxy.getHibernateLazyInitializer().getImplementation();
+				order.setSecurity(security);
+			}
+
+			if (strategy instanceof HibernateProxy) {
+				HibernateProxy proxy = (HibernateProxy) strategy;
+				strategy = (Strategy) proxy.getHibernateLazyInitializer().getImplementation();
+				order.setStrategy(strategy);
+			}
+
 			// use broker specific functionality to execute the order
-			sendExternalOrder(strategyName, order);
+			sendExternalOrder(order);
 		}
 	}
 
-	protected void handleSendOrder(String strategyName, Order order, int securityId) throws Exception {
-
-		Security security = getSecurityDao().findByIdFetched(securityId);
-
-		order.setSecurity(security);
-
-		sendOrder(strategyName, order);
-	}
-
-	private void sendInternalOrder(String strategyName, Order order) {
+	private void sendInternalOrder(Order order) {
 
 		if (order.getQuantity() < 0) {
 			throw new IllegalArgumentException("quantity has to be positive");
@@ -86,6 +106,6 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		fill.setOrder(order);
 
 		// create the transaction based on the fill
-		getTransactionService().createTransaction(strategyName, fill);
+		getTransactionService().createTransaction(fill);
 	}
 }

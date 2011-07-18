@@ -1,6 +1,9 @@
 package com.algoTrader.service;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.hibernate.LockOptions;
+import org.hibernate.Session;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
@@ -18,10 +21,17 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(TransactionServiceImpl.class.getName());
 
-	protected void handleCreateTransaction(String strategyName, Fill fill) throws Exception {
+	protected void handleCreateTransaction(Fill fill) throws Exception {
 
-		Strategy strategy = getStrategyDao().findByName(strategyName);
+		Strategy strategy = fill.getOrder().getStrategy();
 		Security security = fill.getOrder().getSecurity();
+
+		// lock and initialize the security & strategy
+		Session session = this.getSessionFactory().getCurrentSession();
+		session.buildLockRequest(LockOptions.NONE).lock(security);
+		session.buildLockRequest(LockOptions.NONE).lock(strategy);
+		Hibernate.initialize(security);
+		Hibernate.initialize(strategy);
 
 		TransactionType transactionType = Side.BUY.equals(fill.getSide()) ? TransactionType.BUY : TransactionType.SELL;
 		long quantity = Side.BUY.equals(fill.getSide()) ? fill.getQuantity() : -fill.getQuantity();
@@ -40,7 +50,7 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		strategy.getTransactions().add(transaction);
 
 		// Position
-		Position position = getPositionDao().findBySecurityAndStrategy(security.getId(), strategyName);
+		Position position = getPositionDao().findBySecurityAndStrategy(security.getId(), strategy.getName());
 		if (position == null) {
 
 			position = new PositionImpl();
@@ -87,12 +97,12 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 	public static class CreateTransactionSubscriber {
 
-		public void update(String strategyName, Fill fill) {
+		public void update(Fill fill) {
 
 			long startTime = System.currentTimeMillis();
 			logger.info("createTransaction start");
 
-			ServiceLocator.commonInstance().getTransactionService().createTransaction(strategyName, fill);
+			ServiceLocator.commonInstance().getTransactionService().createTransaction(fill);
 
 			logger.info("createTransaction end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
 		}

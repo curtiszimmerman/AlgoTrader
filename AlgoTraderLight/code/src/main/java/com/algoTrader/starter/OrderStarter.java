@@ -1,18 +1,15 @@
 package com.algoTrader.starter;
 
-import org.apache.log4j.Logger;
-
 import com.algoTrader.ServiceLocator;
+import com.algoTrader.entity.Strategy;
 import com.algoTrader.entity.StrategyImpl;
+import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.MarketOrderImpl;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.Side;
 import com.algoTrader.service.OrderService;
-import com.algoTrader.util.MyLogger;
 
 public class OrderStarter {
-
-	private static Logger logger = MyLogger.getLogger(OrderStarter.class.getName());
 
 	public static void main(String[] args) {
 
@@ -22,12 +19,17 @@ public class OrderStarter {
 		ServiceLocator.serverInstance().getRuleService().initServiceProvider(StrategyImpl.BASE);
 		ServiceLocator.serverInstance().getRuleService().deployAllModules(StrategyImpl.BASE);
 
-		//submits a simple market order of 1000 shares
+		Strategy strategy = ServiceLocator.serverInstance().getLookupService().getStrategyByName("MOV");
+		Security security = ServiceLocator.serverInstance().getLookupService().getSecurity(securityId);
+
+		//submits a market order 
 		Order order = new MarketOrderImpl();
 		order.setQuantity(quantity);
 		order.setSide(Side.BUY);
+		order.setSecurity(security);
+		order.setStrategy(strategy);
 
 		OrderService orderService = ServiceLocator.serverInstance().getOrderService();
-		orderService.sendOrder(StrategyImpl.BASE, order, securityId);
+		orderService.sendOrder(order);
 	}
 }

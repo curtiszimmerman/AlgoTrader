@@ -45,6 +45,7 @@ public class MaxServiceImpl {
 
 		Order order = new MarketOrderImpl();
 		order.setSecurity(security);
+		order.setStrategy(strategy);
 		order.setQuantity(positionSize);
 		if (side) {
 			order.setSide(Side.SELL);
@@ -52,7 +53,7 @@ public class MaxServiceImpl {
 			order.setSide(Side.BUY);
 		}
 
-		this.orderService.sendOrder(strategy.getName(), order);
+		this.orderService.sendOrder(order);
 		
 		if (position != null && position.isOpen()) {
 			this.positionService.setMargin(position.getId());

@@ -2,6 +2,7 @@ package com.algoTrader.service.ib;
 
 import org.apache.log4j.Logger;
 
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.ConfigurationUtil;
@@ -21,7 +22,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 		}
 	}
 
-	protected void handleSendExternalOrder(String strategyName, Order order) throws Exception {
+	protected void handleSendExternalOrder(Order order) throws Exception {
 
 		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
 			logger.error("transaction cannot be executed, because IB is not connected");
@@ -40,7 +41,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 		order.setNumber(orderId);
 
 		// send the order into the engine to be correlated with fills
-		getRuleService().sendEvent(strategyName, order);
+		getRuleService().sendEvent(StrategyImpl.BASE, order);
 
 		// place the order through IBClient
 		client.placeOrder(orderId, contract, ibOrder);

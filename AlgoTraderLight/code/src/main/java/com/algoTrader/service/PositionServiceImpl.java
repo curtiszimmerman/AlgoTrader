@@ -36,10 +36,11 @@ public class PositionServiceImpl extends PositionServiceBase {
 
 		Order order = new MarketOrderImpl();
 		order.setSecurity(security);
+		order.setStrategy(position.getStrategy());
 		order.setQuantity(Math.abs(quantity));
 		order.setSide((position.getQuantity() > 0) ? Side.SELL : Side.BUY);
 
-		getOrderService().sendOrder(position.getStrategy().getName(), order);
+		getOrderService().sendOrder(order);
 
 		// only remove the security from the watchlist, if the position is closed
 		if (!position.isOpen()) {
