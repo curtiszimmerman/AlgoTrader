@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Strategy;
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.WatchListItem;
 import com.algoTrader.entity.WatchListItemImpl;
 import com.algoTrader.entity.marketData.Bar;
@@ -18,6 +19,7 @@ import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.BarVO;
 import com.algoTrader.vo.RawTickVO;
+import com.algoTrader.vo.SubscribeTickEvent;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
@@ -54,7 +56,16 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 			List<Security> securities = getSecurityDao().findSecuritiesOnWatchlist();
 			for (Security security : securities) {
-				putOnExternalWatchlist(security);
+
+				int tickerId = putOnExternalWatchlist(security);
+
+				SubscribeTickEvent subscribeTickEvent = new SubscribeTickEvent();
+				Tick tick = Tick.Factory.newInstance();
+				tick.setSecurity(security);
+				subscribeTickEvent.setTick(tick);
+				subscribeTickEvent.setTickerId(tickerId);
+
+				getRuleService().sendEvent(StrategyImpl.BASE, subscribeTickEvent);
 			}
 		}
 	}
@@ -72,7 +83,16 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 			// only put on external watchlist if nobody was watching this security so far
 			if (security.getWatchListItems().size() == 0) {
-				putOnExternalWatchlist(security);
+
+				int tickerId = putOnExternalWatchlist(security);
+
+				SubscribeTickEvent subscribeTickEvent = new SubscribeTickEvent();
+				Tick tick = Tick.Factory.newInstance();
+				tick.setSecurity(security);
+				subscribeTickEvent.setTick(tick);
+				subscribeTickEvent.setTickerId(tickerId);
+
+				getRuleService().sendEvent(StrategyImpl.BASE, subscribeTickEvent);
 			}
 
 			// update links

@@ -1,54 +1,75 @@
 module base;
 
-@Name('SET_MARGINS')
-@Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
-select 
-	* 
-from 
-	pattern[every timer:at (0, 7, *, *, 1:5)];
+// ----------------------------- MARKET DATA -----------------------------	
 	
-@Name('PROPAGATE_TICKS')
+@Name('TICK_WINDOW')
+create window
+     TickWindow.std:groupwin(security.id).std:lastevent() 
+as
+     select *,
+     0 as tickerId
+from
+     com.algoTrader.entity.marketData.Tick;
+     
+@Name('SUBSCRIBE_TICK')
+insert into
+     TickWindow
+select
+     tickerId,
+     tick.*
+from
+     SubscribeTickEvent;
+ 
+@Name('UNSUBSCRIBE_TICK')
+on
+     UnsubscribeTickEvent as unsubscribeEvent
+delete from
+     TickWindow as tickWindow
+where
+     tickWindow.security.id = unsubscribeEvent.tickerId;
+
+@Name('RETRIEVE_TICK')
+on
+     TickWindow
+insert into
+	Tick     
+select
+     current_timestamp.toDate() as dateTime,
+     tickWindow.last as last,
+     tickWindow.lastDateTime as lastDateTime,
+     tickWindow.vol as vol,
+     tickWindow.volBid as volBid,
+     tickWindow.volAsk as volAsk,
+     tickWindow.bid as bid,
+     tickWindow.ask as ask,
+     tickWindow.openIntrest as openIntrest,
+     tickWindow.settlement as settlement,
+     tickWindow.security as security
+from
+     TickWindow as tickWindow
+where
+     tickWindow.bid != null
+and     
+     tickWindow.ask != null;
+	
+@Name('PROPAGATE_MARKET_DATA_EVENTS')
 @Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
 select 
 	*
 from
 	com.algoTrader.entity.marketData.MarketDataEvent;	
 
-@Name('CREATE_PORTFOLIO_VALUE')
-@Tag(name='subscriber', value='com.algoTrader.subscriber.PrintPortfolioValueSubscriber')
-insert into 
-	Portfolio
-select 
-	current_timestamp() as timestamp,
-	LookupUtil.getPortfolioValue() as value,
-	cashTransaction
-from 
-	pattern[every(timer:at (0, 10:18, *, *, 1:5) or cashTransaction=Transaction(type=TransactionType.CREDIT or type=TransactionType.DEBIT or type=TransactionType.INTREST or type=TransactionType.FEES))]
-where 
-	LookupUtil.hasLastTicks();
-
-@Name('CREATE_MONTHLY_PERFORMANCE')
-@Priority(2)
-insert into 
-	MonthlyPerformance
-select 
-	current_timestamp().toDate() as date,
-	portfolio.value.netLiqValue / prior(1, portfolio.value.netLiqValue) - 1 as value
-from 
-	pattern[every timer:at (0, 0, 1, *, *) -> portfolio=Portfolio]
-having 
-	prior(1, portfolio.value.netLiqValue) != null and 
-	portfolio.value.netLiqValue != prior(1, portfolio.value.netLiqValue);
-
+// --------------------- CURRENT / LAST VALUES --------------------------------
+	
 @Name('CREATE_CURRENT_VALUE')
 @Priority(5)
 insert into
-      CurrentValue
+	CurrentValue
 select
-      coalesce(bid.security, trade.security, bar.security, tick.security) as security,
-      coalesce((bid.price + ask.price) / 2, trade.price, tick.currentValue, bar.close) as value
+	coalesce(bid.security, trade.security, bar.security, tick.security) as security,
+	coalesce((bid.price + ask.price) / 2, trade.price, tick.currentValue, bar.close) as value
 from
-      pattern [every ((bid=Bid and ask=Ask) or trade=Trade or bar=Bar or tick=Tick)];
+	pattern [every ((bid=Bid and ask=Ask) or trade=Trade or bar=Bar or tick=Tick)];
 
 @Name('GET_CURRENT_VALUE')
 @Priority(6)
@@ -97,24 +118,17 @@ select
 	trade.* as trade 
 from
 	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as trade;
+	
+// ----------------------------- PORTFOLIO MANAGEMENT -----------------------------
 /*
-@Name('CLOSE_POSITION')			// TODO - This is the quick and dirty version!
-@Priority(1)
-@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
-select
-	position.id
-from
-	MarketDataEvent as event,
-	method:LookupUtil.getPositions(event.security) as position
-where
-	position.quantity != 0
-and
-	position.exitValue != null
-and
-	((position.short and (event.security.currentValue >= position.exitValue))
-or
-	(position.long and (event.security.currentValue <= position.exitValue)));
+@Name('SET_MARGINS')
+@Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
+select 
+	* 
+from 
+	pattern[every timer:at (0, 7, *, *, 1:5)];
 */
+
 @Name('CLOSE_POSITION')
 @Priority(1)
 @Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
@@ -131,6 +145,34 @@ and
 	((position.short and (event.value >= position.exitValue))
 or
 	(position.long and (event.value <= position.exitValue)));
+	
+// ----------------------------- PERFORMANCE INDICATORS -----------------------------
+	
+@Name('CREATE_PORTFOLIO_VALUE')
+@Tag(name='subscriber', value='com.algoTrader.subscriber.PrintPortfolioValueSubscriber')
+insert into 
+	Portfolio
+select 
+	current_timestamp() as timestamp,
+	LookupUtil.getPortfolioValue() as value,
+	cashTransaction
+from 
+	pattern[every(timer:at (0, 10:18, *, *, 1:5) or cashTransaction=Transaction(type=TransactionType.CREDIT or type=TransactionType.DEBIT or type=TransactionType.INTREST or type=TransactionType.FEES))]
+where 
+	LookupUtil.hasLastTicks();
+
+@Name('CREATE_MONTHLY_PERFORMANCE')
+@Priority(2)
+insert into 
+	MonthlyPerformance
+select 
+	current_timestamp().toDate() as date,
+	portfolio.value.netLiqValue / prior(1, portfolio.value.netLiqValue) - 1 as value
+from 
+	pattern[every timer:at (0, 0, 1, *, *) -> portfolio=Portfolio]
+having 
+	prior(1, portfolio.value.netLiqValue) != null and 
+	portfolio.value.netLiqValue != prior(1, portfolio.value.netLiqValue);
 
 @Name('CREATE_PERFORMANCE_KEYS')
 insert into 
@@ -171,20 +213,3 @@ select
 	max(drawDown.period) as period
 from 
 	DrawDown as drawDown;
-
-@Name('CREATE_FILL')
-insert into
-      Fill
-select
-	  fill.*
-from 
-	pattern[every (genericOrder=GenericOrder -> (openOrder=OpenOrder(orderId = genericOrder.number) and execDetails=ExecDetails(execution.m_orderId = genericOrder.number)))], 
-	method:IBOrderUtil.getFill(genericOrder, openOrder, execDetails) as fill;
-
-@Name('CREATE_TRANSACTION')
-@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')
-select
-      engineStrategy.name as strategyName,
-      fill as fill
-from 
-      Fill as fill;

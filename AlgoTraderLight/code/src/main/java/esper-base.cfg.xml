@@ -21,6 +21,14 @@
 	<event-type name="ExecDetails" class="com.algoTrader.vo.ib.ExecDetails"/>
 	<event-type name="OpenOrder" class="com.algoTrader.vo.ib.OpenOrder"/>
 	
+	<event-type name="TickPrice" class="com.algoTrader.vo.ib.TickPrice"/>
+	<event-type name="TickGeneric" class="com.algoTrader.vo.ib.TickGeneric"/>
+	<event-type name="TickSize" class="com.algoTrader.vo.ib.TickSize"/>
+	<event-type name="TickString" class="com.algoTrader.vo.ib.TickString"/>
+	<event-type name="TickOptionComputation" class="com.algoTrader.vo.ib.TickOptionComputation"/>
+	<event-type name="SubscribeTickEvent" class="com.algoTrader.vo.SubscribeTickEvent"/>
+	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickEvent"/>
+	
 	<event-type name="Execution" class="com.ib.client.Execution">
 		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>
 	</event-type>
