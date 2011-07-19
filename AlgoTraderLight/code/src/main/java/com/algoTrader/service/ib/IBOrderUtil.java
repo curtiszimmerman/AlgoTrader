@@ -27,7 +27,7 @@ public class IBOrderUtil {
 		fill.setQuantity(quantity);
 		fill.setPrice(price);
 		fill.setCommission(commission);
-		fill.setOrder(order);
+		fill.setParentOrder(order);
 		return fill;
 	}
 }

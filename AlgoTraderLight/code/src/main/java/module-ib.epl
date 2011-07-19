@@ -87,11 +87,15 @@ and
 // ----------------------------- TRADES -----------------------------	
 
 @Name('CREATE_FILL')
-@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')
 insert into
-	Fill
+	FillImpl
 select
-	fill.*
+	fill.dateTime as dateTime,
+	fill.side as side,
+	fill.quantity as quantity,
+	fill.price as price,
+	fill.commission as commission,
+	fill.parentOrder as parentOrder
 from 
 	pattern[every (genericOrder=GenericOrder -> (openOrder=OpenOrder(orderId = genericOrder.number) and execDetails=ExecDetails(execution.m_orderId = genericOrder.number)))], 
 	method:IBOrderUtil.getFill(genericOrder, openOrder, execDetails) as fill;

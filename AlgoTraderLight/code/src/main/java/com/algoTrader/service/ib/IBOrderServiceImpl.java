@@ -2,7 +2,6 @@ package com.algoTrader.service.ib;
 
 import org.apache.log4j.Logger;
 
-import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.ConfigurationUtil;
@@ -40,8 +39,8 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 		int orderId = RequestIDGenerator.singleton().getNextOrderId();
 		order.setNumber(orderId);
 
-		// send the order into the engine to be correlated with fills
-		getRuleService().sendEvent(StrategyImpl.BASE, order);
+		// progapate the order to all corresponding esper engines
+		propagateOrder(order);
 
 		// place the order through IBClient
 		client.placeOrder(orderId, contract, ibOrder);

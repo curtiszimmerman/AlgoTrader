@@ -5,14 +5,22 @@
 
 	<event-type name="RawTick" class="com.algoTrader.vo.RawTickVO"/>
 	<event-type name="BarVO" class="com.algoTrader.vo.BarVO"/>
-	<event-type name="Tick" class="com.algoTrader.entity.marketData.TickImpl"/>
-	<event-type name="Bar" class="com.algoTrader.entity.marketData.BarImpl"/>
-	<event-type name="Bid" class="com.algoTrader.entity.marketData.BidImpl"/>
-	<event-type name="Ask" class="com.algoTrader.entity.marketData.AskImpl"/>
-	<event-type name="Trade" class="com.algoTrader.entity.marketData.TradeImpl"/>
+	
 	<event-type name="MarketDataEvent" class="com.algoTrader.entity.marketData.MarketDataEvent"/>
-	<event-type name="Transaction" class="com.algoTrader.entity.TransactionImpl"/>
-	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.OrderImpl"/>
+	<event-type name="Tick" class="com.algoTrader.entity.marketData.Tick"/>
+	<event-type name="TickImpl" class="com.algoTrader.entity.marketData.TickImpl"/>
+	<event-type name="Bar" class="com.algoTrader.entity.marketData.Bar"/>
+	<event-type name="Bid" class="com.algoTrader.entity.marketData.Bid"/>
+	<event-type name="Ask" class="com.algoTrader.entity.marketData.Ask"/>
+	<event-type name="Trade" class="com.algoTrader.entity.marketData.Trade"/>
+
+	<event-type name="SubscribeTickEvent" class="com.algoTrader.vo.SubscribeTickEvent"/>
+	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickEvent"/>
+
+	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
+	<event-type name="Fill" class="com.algoTrader.entity.trade.Fill"/>
+	<event-type name="FillImpl" class="com.algoTrader.entity.trade.FillImpl"/>
+	<event-type name="Transaction" class="com.algoTrader.entity.Transaction"/>
 	
 	<event-type name="MonthlyPerformance" class="com.algoTrader.vo.MonthlyPerformanceVO"/>
 	<event-type name="PerformanceKeys" class="com.algoTrader.vo.PerformanceKeysVO"/>	
@@ -26,8 +34,6 @@
 	<event-type name="TickSize" class="com.algoTrader.vo.ib.TickSize"/>
 	<event-type name="TickString" class="com.algoTrader.vo.ib.TickString"/>
 	<event-type name="TickOptionComputation" class="com.algoTrader.vo.ib.TickOptionComputation"/>
-	<event-type name="SubscribeTickEvent" class="com.algoTrader.vo.SubscribeTickEvent"/>
-	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickEvent"/>
 	
 	<event-type name="Execution" class="com.ib.client.Execution">
 		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>

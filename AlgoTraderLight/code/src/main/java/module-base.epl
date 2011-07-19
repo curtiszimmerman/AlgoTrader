@@ -4,60 +4,60 @@ module base;
 	
 @Name('TICK_WINDOW')
 create window
-     TickWindow.std:groupwin(security.id).std:lastevent() 
+	TickWindow.std:groupwin(security.id).std:lastevent() 
 as
-     select *,
-     0 as tickerId
+	select *,
+	0 as tickerId
 from
-     com.algoTrader.entity.marketData.Tick;
-     
+	Tick;
+	
 @Name('SUBSCRIBE_TICK')
 insert into
-     TickWindow
+	TickWindow
 select
-     tickerId,
-     tick.*
+	tickerId,
+	tick.*
 from
-     SubscribeTickEvent;
+	SubscribeTickEvent;
  
 @Name('UNSUBSCRIBE_TICK')
 on
-     UnsubscribeTickEvent as unsubscribeEvent
+	UnsubscribeTickEvent as unsubscribeEvent
 delete from
-     TickWindow as tickWindow
+	TickWindow as tickWindow
 where
-     tickWindow.security.id = unsubscribeEvent.tickerId;
+	tickWindow.security.id = unsubscribeEvent.tickerId;
 
 @Name('RETRIEVE_TICK')
 on
-     TickWindow
+	TickWindow
 insert into
-	Tick     
+	TickImpl  
 select
-     current_timestamp.toDate() as dateTime,
-     tickWindow.last as last,
-     tickWindow.lastDateTime as lastDateTime,
-     tickWindow.vol as vol,
-     tickWindow.volBid as volBid,
-     tickWindow.volAsk as volAsk,
-     tickWindow.bid as bid,
-     tickWindow.ask as ask,
-     tickWindow.openIntrest as openIntrest,
-     tickWindow.settlement as settlement,
-     tickWindow.security as security
+	current_timestamp.toDate() as dateTime,
+	tickWindow.last as last,
+	tickWindow.lastDateTime as lastDateTime,
+	tickWindow.vol as vol,
+	tickWindow.volBid as volBid,
+	tickWindow.volAsk as volAsk,
+	tickWindow.bid as bid,
+	tickWindow.ask as ask,
+	tickWindow.openIntrest as openIntrest,
+	tickWindow.settlement as settlement,
+	tickWindow.security as security
 from
-     TickWindow as tickWindow
+	TickWindow as tickWindow
 where
-     tickWindow.bid != null
-and     
-     tickWindow.ask != null;
+	tickWindow.bid != null
+and	
+	tickWindow.ask != null;
 	
 @Name('PROPAGATE_MARKET_DATA_EVENTS')
 @Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
 select 
 	*
 from
-	com.algoTrader.entity.marketData.MarketDataEvent;	
+	MarketDataEvent;	
 
 // --------------------- CURRENT / LAST VALUES --------------------------------
 	
@@ -119,7 +119,25 @@ select
 from
 	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as trade;
 	
+// ----------------------------- TRADES -----------------------------
+
+	
+@Name('PROPAGATE_FILL')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$PropagateFillSubscriber')
+select
+	*
+from
+	Fill;
+
+@Name('CREATE_TRANSACTION')
+@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')
+select
+	*
+from
+	Fill;
+
 // ----------------------------- PORTFOLIO MANAGEMENT -----------------------------
+
 /*
 @Name('SET_MARGINS')
 @Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')

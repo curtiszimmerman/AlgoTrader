@@ -37,7 +37,9 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 	protected void handleUnregisterStrategy(String strategyName) throws Exception {
 
 		try {
-			this.streamMap.get(strategyName).close();
+			if (this.streamMap.containsKey(strategyName)) {
+				this.streamMap.get(strategyName).close();
+			}
 		} catch (IOException e) {
 			logger.warn("stream not available anymore: " + strategyName);
 		} finally {

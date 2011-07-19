@@ -9,6 +9,7 @@ import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
 import com.algoTrader.entity.PositionImpl;
 import com.algoTrader.entity.Strategy;
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.Transaction;
 import com.algoTrader.entity.TransactionImpl;
 import com.algoTrader.entity.security.Security;
@@ -23,8 +24,8 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 	protected void handleCreateTransaction(Fill fill) throws Exception {
 
-		Strategy strategy = fill.getOrder().getStrategy();
-		Security security = fill.getOrder().getSecurity();
+		Strategy strategy = fill.getParentOrder().getStrategy();
+		Security security = fill.getParentOrder().getSecurity();
 
 		// lock and initialize the security & strategy
 		Session session = this.getSessionFactory().getCurrentSession();
@@ -89,10 +90,22 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		getStrategyDao().update(strategy);
 		getSecurityDao().update(security);
 
+		// progapate the order to all corresponding esper engines
+		propagateTransaction(transaction);
+
 		String logMessage = "executed transaction type: " + transactionType + " quantity: " + transaction.getQuantity() + " of " + security.getSymbol()
 				+ " price: " + transaction.getPrice() + " commission: " + transaction.getCommission();
 
 		logger.info(logMessage);
+	}
+
+	protected void handlePropagateTransaction(Transaction transaction) {
+
+		// send the transaction into the base engine
+		getRuleService().sendEvent(StrategyImpl.BASE, transaction);
+
+		// also send the transaction to the corresponding strategy
+		getRuleService().sendEvent(transaction.getStrategy().getName(), transaction);
 	}
 
 	public static class CreateTransactionSubscriber {

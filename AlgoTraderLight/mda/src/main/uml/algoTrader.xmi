@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Mon Jul 18 15:34:18 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Tue Jul 19 15:35:12 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -771,6 +771,20 @@
 														</UML:Parameter>
 													</UML:BehavioralFeature.parameter>
 												</UML:Operation>
+												<UML:Operation xmi.id='_9_5_1_8b60294_1311070820268_618887_1652' name='propagateTransaction' visibility='public'>
+													<UML:BehavioralFeature.parameter>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070858557_741037_1656' name='transaction' type='_9_5_1_8b60294_1303211365792_735380_6909'/>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070820268_747542_1651' kind='return'>
+															<UML:Parameter.type>
+																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_324247_52'>
+																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																		<referentPath xmi.value='datatype::void'/>
+																	</XMI.extension>
+																</UML:Classifier>
+															</UML:Parameter.type>
+														</UML:Parameter>
+													</UML:BehavioralFeature.parameter>
+												</UML:Operation>
 											</UML:Classifier.feature>
 										</UML:Class>
 										<UML:Package xmi.id='_9_5_1_8b60294_1303211365814_22990_7161' name='ib'>
@@ -1518,6 +1532,34 @@
 																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_324247_52'>
 																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
 																		<referentPath xmi.value='datatype::void'/>
+																	</XMI.extension>
+																</UML:Classifier>
+															</UML:Parameter.type>
+														</UML:Parameter>
+													</UML:BehavioralFeature.parameter>
+												</UML:Operation>
+												<UML:Operation xmi.id='_9_5_1_8b60294_1311070024242_132802_1603' name='propagateOrder' visibility='public'>
+													<UML:BehavioralFeature.parameter>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070035714_501278_1609' name='order' type='_9_5_1_8b60294_1303211365812_71670_7101'/>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070035714_876057_1610' kind='return'>
+															<UML:Parameter.type>
+																<UML:Classifier href='UML_Standard_Profile.xml|eee_1045467100323_249638_60'>
+																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																		<referentPath xmi.value='UML Standard Profile::void'/>
+																	</XMI.extension>
+																</UML:Classifier>
+															</UML:Parameter.type>
+														</UML:Parameter>
+													</UML:BehavioralFeature.parameter>
+												</UML:Operation>
+												<UML:Operation xmi.id='_9_5_1_8b60294_1311070064328_255599_1643' name='propagateFill' visibility='public'>
+													<UML:BehavioralFeature.parameter>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070075653_432994_1649' name='fill' type='_9_5_1_8b60294_1303211365812_981471_7087'/>
+														<UML:Parameter xmi.id='_9_5_1_8b60294_1311070075653_129489_1650' kind='return'>
+															<UML:Parameter.type>
+																<UML:Classifier href='UML_Standard_Profile.xml|eee_1045467100323_249638_60'>
+																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																		<referentPath xmi.value='UML Standard Profile::void'/>
 																	</XMI.extension>
 																</UML:Classifier>
 															</UML:Parameter.type>
@@ -2597,6 +2639,46 @@
 												</UML:Class>
 												<UML:Generalization xmi.id='_9_5_1_8b60294_1310038596384_336961_382' child='_9_5_1_8b60294_1310038561348_899853_350' parent='_9_5_1_8b60294_1303211365819_25621_7298'/>
 												<UML:Generalization xmi.id='_9_5_1_8b60294_1310038600055_504327_393' child='_9_5_1_8b60294_1310038570799_535725_366' parent='_9_5_1_8b60294_1303211365819_12442_7325'/>
+												<UML:Class xmi.id='_9_5_1_8b60294_1310577831560_819211_13' name='UnsubscribeTickEvent'>
+													<UML:ModelElement.stereotype>
+														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='andromda-common::ValueObject'/>
+															</XMI.extension>
+														</UML:Stereotype>
+													</UML:ModelElement.stereotype>
+													<UML:Classifier.feature>
+														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577831560_407817_12' name='tickerId' visibility='public'>
+															<UML:StructuralFeature.type>
+																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
+																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																		<referentPath xmi.value='datatype::int'/>
+																	</XMI.extension>
+																</UML:Classifier>
+															</UML:StructuralFeature.type>
+														</UML:Attribute>
+													</UML:Classifier.feature>
+												</UML:Class>
+												<UML:Class xmi.id='_9_5_1_8b60294_1310577840020_850498_18' name='UnsubscribeTickEvent1'>
+													<UML:ModelElement.stereotype>
+														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='andromda-common::ValueObject'/>
+															</XMI.extension>
+														</UML:Stereotype>
+													</UML:ModelElement.stereotype>
+													<UML:Classifier.feature>
+														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577840020_837436_17' name='tickerId' visibility='public'>
+															<UML:StructuralFeature.type>
+																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
+																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																		<referentPath xmi.value='datatype::int'/>
+																	</XMI.extension>
+																</UML:Classifier>
+															</UML:StructuralFeature.type>
+														</UML:Attribute>
+													</UML:Classifier.feature>
+												</UML:Class>
 												<UML:Class xmi.id='_9_5_1_8b60294_1310577831559_588215_11' name='SubscribeTickEvent'>
 													<UML:ModelElement.stereotype>
 														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
@@ -2618,26 +2700,6 @@
 														</UML:Attribute>
 													</UML:Classifier.feature>
 												</UML:Class>
-												<UML:Class xmi.id='_9_5_1_8b60294_1310577831560_819211_13' name='UnsubscribeTickEvent'>
-													<UML:ModelElement.stereotype>
-														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
-															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
-																<referentPath xmi.value='andromda-common::ValueObject'/>
-															</XMI.extension>
-														</UML:Stereotype>
-													</UML:ModelElement.stereotype>
-													<UML:Classifier.feature>
-														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577831560_407817_12' name='tickerId' visibility='public'>
-															<UML:StructuralFeature.type>
-																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
-																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
-																		<referentPath xmi.value='datatype::int'/>
-																	</XMI.extension>
-																</UML:Classifier>
-															</UML:StructuralFeature.type>
-														</UML:Attribute>
-													</UML:Classifier.feature>
-												</UML:Class>
 												<UML:Class xmi.id='_9_5_1_8b60294_1310577840019_890106_16' name='SubscribeTickEvent1'>
 													<UML:ModelElement.stereotype>
 														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
@@ -2649,26 +2711,6 @@
 													<UML:Classifier.feature>
 														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577840019_216004_14' name='tick' visibility='public' type='_9_5_1_8b60294_1303211365812_82578_7076'/>
 														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577840019_267418_15' name='tickerId' visibility='public'>
-															<UML:StructuralFeature.type>
-																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
-																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
-																		<referentPath xmi.value='datatype::int'/>
-																	</XMI.extension>
-																</UML:Classifier>
-															</UML:StructuralFeature.type>
-														</UML:Attribute>
-													</UML:Classifier.feature>
-												</UML:Class>
-												<UML:Class xmi.id='_9_5_1_8b60294_1310577840020_850498_18' name='UnsubscribeTickEvent1'>
-													<UML:ModelElement.stereotype>
-														<UML:Stereotype href='andromda-profile-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119373197267_59537_10'>
-															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
-																<referentPath xmi.value='andromda-common::ValueObject'/>
-															</XMI.extension>
-														</UML:Stereotype>
-													</UML:ModelElement.stereotype>
-													<UML:Classifier.feature>
-														<UML:Attribute xmi.id='_9_5_1_8b60294_1310577840020_837436_17' name='tickerId' visibility='public'>
 															<UML:StructuralFeature.type>
 																<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
 																	<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -4732,8 +4774,15 @@
 												</UML:Stereotype>
 											</UML:ModelElement.stereotype>
 											<UML:Classifier.feature>
-												<UML:Attribute xmi.id='_9_5_1_8b60294_1310577855963_432002_28' name='tick' visibility='public' type='_9_5_1_8b60294_1303211365812_82578_7076'/>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1310577855963_432002_28' name='tick' visibility='public' type='_9_5_1_8b60294_1303211365812_82578_7076'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1311077227573_703887_1754'/>
+													</UML:Attribute.initialValue>
+												</UML:Attribute>
 												<UML:Attribute xmi.id='_9_5_1_8b60294_1310577855963_722513_29' name='tickerId' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1311077227573_875596_1755'/>
+													</UML:Attribute.initialValue>
 													<UML:StructuralFeature.type>
 														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_213222_11'>
 															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -5062,28 +5111,6 @@ strategy = :strategy</UML:TaggedValue.dataValue>
 												</UML:AssociationEnd>
 											</UML:Association.connection>
 										</UML:Association>
-										<UML:Association xmi.id='_9_5_1_8b60294_1303211365791_360161_6887'>
-											<UML:Association.connection>
-												<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303211365791_911878_6885' participant='_9_5_1_8b60294_1303211365812_981471_7087'>
-													<UML:AssociationEnd.multiplicity>
-														<UML:Multiplicity xmi.id='_9_5_1_8b60294_1303211529963_20867_7544'>
-															<UML:Multiplicity.range>
-																<UML:MultiplicityRange xmi.id='_9_5_1_8b60294_1303211529963_290392_7545' lower='-1' upper='-1'/>
-															</UML:Multiplicity.range>
-														</UML:Multiplicity>
-													</UML:AssociationEnd.multiplicity>
-												</UML:AssociationEnd>
-												<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303211365791_809258_6886' visibility='public' isNavigable='true' participant='_9_5_1_8b60294_1303211365793_780102_6946'>
-													<UML:AssociationEnd.multiplicity>
-														<UML:Multiplicity xmi.id='_9_5_1_8b60294_1303211529963_617723_7546'>
-															<UML:Multiplicity.range>
-																<UML:MultiplicityRange xmi.id='_9_5_1_8b60294_1303211529963_32838_7547' lower='1' upper='1'/>
-															</UML:Multiplicity.range>
-														</UML:Multiplicity>
-													</UML:AssociationEnd.multiplicity>
-												</UML:AssociationEnd>
-											</UML:Association.connection>
-										</UML:Association>
 										<UML:Package xmi.id='_9_5_1_8b60294_1303211365791_116500_6888' name='trade'>
 											<UML:Namespace.ownedElement>
 												<UML:Class xmi.id='_9_5_1_8b60294_1303211365812_981471_7087' name='Fill'>
@@ -5324,7 +5351,7 @@ strategy = :strategy</UML:TaggedValue.dataValue>
 												</UML:Class>
 												<UML:Association xmi.id='_9_5_1_8b60294_1303224798370_518032_9367'>
 													<UML:Association.connection>
-														<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303224798370_997692_9365' visibility='public' isNavigable='true' participant='_9_5_1_8b60294_1303211365812_981471_7087'>
+														<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303224798370_997692_9365' participant='_9_5_1_8b60294_1303211365812_981471_7087'>
 															<UML:AssociationEnd.multiplicity>
 																<UML:Multiplicity xmi.id='_9_5_1_8b60294_1303224815790_821888_9407'>
 																	<UML:Multiplicity.range>
@@ -5333,7 +5360,7 @@ strategy = :strategy</UML:TaggedValue.dataValue>
 																</UML:Multiplicity>
 															</UML:AssociationEnd.multiplicity>
 														</UML:AssociationEnd>
-														<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303224798370_238597_9366' visibility='public' isNavigable='true' participant='_9_5_1_8b60294_1303211365812_71670_7101'>
+														<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1303224798370_238597_9366' name='parentOrder' visibility='public' isNavigable='true' participant='_9_5_1_8b60294_1303211365812_71670_7101'>
 															<UML:AssociationEnd.multiplicity>
 																<UML:Multiplicity xmi.id='_9_5_1_8b60294_1303224815790_751767_9409'>
 																	<UML:Multiplicity.range>
@@ -5428,6 +5455,15 @@ strategy = :strategy</UML:TaggedValue.dataValue>
 													</UML:Classifier.feature>
 												</UML:Class>
 												<UML:Generalization xmi.id='_9_5_1_8b60294_1308559329469_441407_256' child='_9_5_1_8b60294_1308559274917_248699_238' parent='_9_5_1_8b60294_1303211365812_71670_7101'/>
+												<UML:Abstraction xmi.id='_9_5_1_8b60294_1310907822674_588403_1128' client='_9_5_1_8b60294_1303211365812_71670_7101' supplier='_9_5_1_8b60294_1310907562166_770539_390'>
+													<UML:ModelElement.stereotype>
+														<UML:Stereotype href='UML_Standard_Profile.xml|magicdraw_1046861421226_425458_8'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='UML Standard Profile::realize'/>
+															</XMI.extension>
+														</UML:Stereotype>
+													</UML:ModelElement.stereotype>
+												</UML:Abstraction>
 												<UML:Association xmi.id='_9_5_1_8b60294_1308727836392_634380_2'>
 													<UML:Association.connection>
 														<UML:AssociationEnd xmi.id='_9_5_1_8b60294_1308727836392_84191_0' name='childOrders' visibility='public' isNavigable='true' participant='_9_5_1_8b60294_1303211365812_71670_7101'>
@@ -5450,15 +5486,6 @@ strategy = :strategy</UML:TaggedValue.dataValue>
 														</UML:AssociationEnd>
 													</UML:Association.connection>
 												</UML:Association>
-												<UML:Abstraction xmi.id='_9_5_1_8b60294_1310907822674_588403_1128' client='_9_5_1_8b60294_1303211365812_71670_7101' supplier='_9_5_1_8b60294_1310907562166_770539_390'>
-													<UML:ModelElement.stereotype>
-														<UML:Stereotype href='UML_Standard_Profile.xml|magicdraw_1046861421226_425458_8'>
-															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
-																<referentPath xmi.value='UML Standard Profile::realize'/>
-															</XMI.extension>
-														</UML:Stereotype>
-													</UML:ModelElement.stereotype>
-												</UML:Abstraction>
 											</UML:Namespace.ownedElement>
 										</UML:Package>
 										<UML:Package xmi.id='_9_5_1_8b60294_1303211365791_298070_6889' name='marketData'>
@@ -9167,28 +9194,28 @@ order by s.id</UML:TaggedValue.dataValue>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303225482112_285171_9531'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303224798370_997692_9365'/>
-									<geometry>755, 270, 10, 10</geometry>
+									<geometry>750, 260, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_447172_9532'>
 											<visible xmi.value='false'/>
-											<geometry>740, 240, 30, 15</geometry>
+											<geometry>735, 230, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_834908_9534'>
-											<geometry>725, 235, 30, 15</geometry>
+											<geometry>720, 225, 30, 15</geometry>
 											<text>*</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_541419_9536'>
 											<visible xmi.value='false'/>
-											<geometry>740, 240, 30, 15</geometry>
+											<geometry>735, 230, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303225482112_914138_9538'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>745, 265, 30, 15</geometry>
+											<geometry>740, 255, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_294208_9541'>
 											<visible xmi.value='false'/>
-											<geometry>740, 240, 30, 15</geometry>
+											<geometry>735, 230, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -9204,28 +9231,28 @@ order by s.id</UML:TaggedValue.dataValue>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303225482112_942119_9545'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303224798370_238597_9366'/>
-									<geometry>755, 241, 10, 10</geometry>
+									<geometry>750, 241, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_85144_9546'>
-											<visible xmi.value='false'/>
-											<geometry>740, 241, 30, 15</geometry>
+											<geometry>720, 261, 73, 15</geometry>
+											<text>+parentOrder</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_115760_9548'>
-											<geometry>725, 241, 30, 15</geometry>
+											<geometry>720, 241, 30, 15</geometry>
 											<text>1</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_276701_9550'>
 											<visible xmi.value='false'/>
-											<geometry>740, 241, 30, 15</geometry>
+											<geometry>735, 241, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303225482112_264003_9552'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>740, 281, 30, 15</geometry>
+											<geometry>735, 281, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303225482112_587593_9555'>
 											<visible xmi.value='false'/>
-											<geometry>740, 241, 30, 15</geometry>
+											<geometry>735, 241, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -10063,11 +10090,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					</properties>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 1, 1432, 915</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='false'/>
-					<active xmi.value='false'/>
+					<maximized xmi.value='true'/>
+					<active xmi.value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530025_290053_7931'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365812_71670_7101'/>
@@ -10347,142 +10374,29 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='false'/>
 								</mdElement>
 							</properties>
-							<geometry>530, 70, 63, 72</geometry>
-						</mdElement>
-						<mdElement elementClass='AssociationView' xmi.id='_9_5_1_8b60294_1303211530030_226010_7960'>
-							<elementID xmi.idref='_9_5_1_8b60294_1303211365791_360161_6887'/>
-							<linkFirstEndID xmi.idref='_9_5_1_8b60294_1303211530029_483782_7958'/>
-							<linkSecondEndID xmi.idref='_9_5_1_8b60294_1303211530030_721337_7959'/>
-							<geometry>665, 190; 665, 100; 578, 100; </geometry>
-							<linkNameID xmi.idref='_9_5_1_8b60294_1303211530030_396685_7961'/>
-							<nameVisible xmi.value='true'/>
-							<mdOwnedViews>
-								<mdElement elementClass='AssociationTextBoxView' xmi.id='_9_5_1_8b60294_1303211530030_396685_7961'>
-									<visible xmi.value='false'/>
-									<geometry>643, 87, 45, 15</geometry>
-								</mdElement>
-								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530030_491338_7962'>
-									<editable xmi.value='false'/>
-									<visible xmi.value='false'/>
-									<geometry>650, 117, 30, 15</geometry>
-								</mdElement>
-								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530030_145603_7963'>
-									<editable xmi.value='false'/>
-									<visible xmi.value='false'/>
-									<geometry>650, 123, 30, 15</geometry>
-									<text>&lt;html&gt;
-&lt;body&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</text>
-								</mdElement>
-								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_234638_7964'>
-									<editable xmi.value='false'/>
-									<visible xmi.value='false'/>
-									<geometry>650, 72, 30, 15</geometry>
-								</mdElement>
-								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303211530031_653736_7965'>
-									<elementID xmi.idref='_9_5_1_8b60294_1303211365791_911878_6885'/>
-									<geometry>665, 190, 10, 10</geometry>
-									<mdOwnedViews>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_717001_7966'>
-											<geometry>645, 175, 30, 15</geometry>
-											<text>*</text>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_924884_7967'>
-											<visible xmi.value='false'/>
-											<geometry>640, 140, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_471711_7968'>
-											<visible xmi.value='false'/>
-											<geometry>640, 140, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530031_558463_7969'>
-											<editable xmi.value='false'/>
-											<visible xmi.value='false'/>
-											<geometry>640, 160, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_432111_7970'>
-											<visible xmi.value='false'/>
-											<geometry>640, 140, 30, 15</geometry>
-											<text>&lt;html&gt;
-&lt;body&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</text>
-										</mdElement>
-									</mdOwnedViews>
-									<roleNameID xmi.idref='_9_5_1_8b60294_1303211530031_471711_7968'/>
-									<roleMultiplicityID xmi.idref='_9_5_1_8b60294_1303211530031_717001_7966'/>
-									<roleConstraintsID xmi.idref='_9_5_1_8b60294_1303211530031_924884_7967'/>
-									<roleStereotypeID xmi.idref='_9_5_1_8b60294_1303211530031_558463_7969'/>
-									<roleTaggedValuesID xmi.idref='_9_5_1_8b60294_1303211530031_432111_7970'/>
-								</mdElement>
-								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303211530031_297835_7971'>
-									<elementID xmi.idref='_9_5_1_8b60294_1303211365791_809258_6886'/>
-									<geometry>578, 100, 10, 10</geometry>
-									<mdOwnedViews>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_524256_7972'>
-											<geometry>583, 85, 30, 15</geometry>
-											<text>1</text>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_620150_7973'>
-											<visible xmi.value='false'/>
-											<geometry>553, 100, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_973987_7974'>
-											<visible xmi.value='false'/>
-											<geometry>553, 100, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530031_66133_7975'>
-											<editable xmi.value='false'/>
-											<visible xmi.value='false'/>
-											<geometry>553, 120, 30, 15</geometry>
-										</mdElement>
-										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530031_162949_7976'>
-											<visible xmi.value='false'/>
-											<geometry>553, 100, 30, 15</geometry>
-											<text>&lt;html&gt;
-&lt;body&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</text>
-										</mdElement>
-									</mdOwnedViews>
-									<roleNameID xmi.idref='_9_5_1_8b60294_1303211530031_973987_7974'/>
-									<roleMultiplicityID xmi.idref='_9_5_1_8b60294_1303211530031_524256_7972'/>
-									<roleConstraintsID xmi.idref='_9_5_1_8b60294_1303211530031_620150_7973'/>
-									<roleStereotypeID xmi.idref='_9_5_1_8b60294_1303211530031_66133_7975'/>
-									<roleTaggedValuesID xmi.idref='_9_5_1_8b60294_1303211530031_162949_7976'/>
-								</mdElement>
-							</mdOwnedViews>
-							<linkConstraintID xmi.idref='_9_5_1_8b60294_1303211530031_234638_7964'/>
-							<linkStereotypeID xmi.idref='_9_5_1_8b60294_1303211530030_491338_7962'/>
-							<linkTaggedValuesID xmi.idref='_9_5_1_8b60294_1303211530030_145603_7963'/>
-							<associationFirstEndID xmi.idref='_9_5_1_8b60294_1303211530031_653736_7965'/>
-							<associationSecondEndID xmi.idref='_9_5_1_8b60294_1303211530031_297835_7971'/>
+							<geometry>400, 50, 63, 72</geometry>
 						</mdElement>
 						<mdElement elementClass='AssociationView' xmi.id='_9_5_1_8b60294_1303211530032_857989_7977'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365787_123920_6815'/>
 							<linkFirstEndID xmi.idref='_9_5_1_8b60294_1303211530025_290053_7931'/>
 							<linkSecondEndID xmi.idref='_9_5_1_8b60294_1303211530030_721337_7959'/>
-							<geometry>430, 180; 430, 100; 545, 100; </geometry>
+							<geometry>430, 180; 430, 122; </geometry>
 							<linkNameID xmi.idref='_9_5_1_8b60294_1303211530032_412555_7978'/>
 							<nameVisible xmi.value='true'/>
 							<mdOwnedViews>
 								<mdElement elementClass='AssociationTextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_412555_7978'>
 									<visible xmi.value='false'/>
-									<geometry>425, 85, 45, 15</geometry>
+									<geometry>400, 144, 45, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530032_360619_7979'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>432, 115, 30, 15</geometry>
+									<geometry>432, 156, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_790846_7980'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>416, 110, 30, 15</geometry>
+									<geometry>416, 154, 30, 15</geometry>
 									<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -10492,32 +10406,32 @@ order by s.id</UML:TaggedValue.dataValue>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_856634_7981'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>432, 70, 30, 15</geometry>
+									<geometry>392, 144, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303211530032_277035_7982'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303211365787_174054_6813'/>
-									<geometry>430, 180, 10, 10</geometry>
+									<geometry>425, 170, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_445798_7983'>
-											<geometry>405, 155, 30, 15</geometry>
+											<geometry>400, 145, 30, 15</geometry>
 											<text>*</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_125646_7984'>
 											<visible xmi.value='false'/>
-											<geometry>400, 120, 30, 15</geometry>
+											<geometry>395, 110, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_176778_7985'>
 											<visible xmi.value='false'/>
-											<geometry>400, 120, 30, 15</geometry>
+											<geometry>395, 110, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530032_430110_7986'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>405, 145, 30, 15</geometry>
+											<geometry>400, 135, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530032_571278_7987'>
 											<visible xmi.value='false'/>
-											<geometry>400, 120, 30, 15</geometry>
+											<geometry>395, 110, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -10533,28 +10447,28 @@ order by s.id</UML:TaggedValue.dataValue>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303211530032_969023_7988'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303211365787_110282_6814'/>
-									<geometry>545, 100, 10, 10</geometry>
+									<geometry>425, 122, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530033_821224_7989'>
-											<geometry>505, 85, 30, 15</geometry>
+											<geometry>385, 107, 30, 15</geometry>
 											<text>1</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530033_842055_7990'>
 											<visible xmi.value='false'/>
-											<geometry>510, 95, 30, 15</geometry>
+											<geometry>390, 117, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530033_207820_7991'>
 											<visible xmi.value='false'/>
-											<geometry>510, 95, 30, 15</geometry>
+											<geometry>390, 117, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530033_972245_7992'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>510, 135, 30, 15</geometry>
+											<geometry>390, 157, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530033_801654_7993'>
 											<visible xmi.value='false'/>
-											<geometry>510, 95, 30, 15</geometry>
+											<geometry>390, 117, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -10860,12 +10774,12 @@ order by s.id</UML:TaggedValue.dataValue>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_384406_9369'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>524, 245, 30, 15</geometry>
+									<geometry>524, 260, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303224798371_564685_9371'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>539, 290, 30, 15</geometry>
+									<geometry>524, 290, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_758499_9374'>
 									<editable xmi.value='false'/>
@@ -10879,28 +10793,36 @@ order by s.id</UML:TaggedValue.dataValue>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303224798371_839065_9376'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303224798370_997692_9365'/>
-									<geometry>620, 275, 10, 10</geometry>
+									<properties>
+										<mdElement elementClass='BooleanProperty'>
+											<propertyID>SHOW_ROLE_MULTIPLICITY</propertyID>
+											<propertyDescriptionID>SHOW_ROLE_MULTIPLICITY_DESCRIPTION</propertyDescriptionID>
+											<value xmi.value='false'/>
+										</mdElement>
+									</properties>
+									<geometry>610, 270, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_666515_9377'>
 											<visible xmi.value='false'/>
-											<geometry>570, 250, 30, 15</geometry>
+											<geometry>560, 245, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_374465_9379'>
-											<geometry>575, 255, 30, 15</geometry>
+											<visible xmi.value='false'/>
+											<geometry>585, 260, 30, 15</geometry>
 											<text>*</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_937123_9381'>
 											<visible xmi.value='false'/>
-											<geometry>570, 250, 30, 15</geometry>
+											<geometry>560, 245, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303224798371_109959_9383'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>570, 270, 30, 15</geometry>
+											<geometry>560, 265, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_791974_9386'>
 											<visible xmi.value='false'/>
-											<geometry>570, 250, 30, 15</geometry>
+											<geometry>560, 245, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -10916,28 +10838,28 @@ order by s.id</UML:TaggedValue.dataValue>
 								</mdElement>
 								<mdElement elementClass='RoleView' xmi.id='_9_5_1_8b60294_1303224798371_664790_9390'>
 									<elementID xmi.idref='_9_5_1_8b60294_1303224798370_238597_9366'/>
-									<geometry>458, 275, 10, 10</geometry>
+									<geometry>458, 270, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_637306_9391'>
-											<visible xmi.value='false'/>
-											<geometry>458, 250, 30, 15</geometry>
+											<geometry>463, 280, 73, 15</geometry>
+											<text>+parentOrder</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_866539_9393'>
-											<geometry>463, 255, 30, 15</geometry>
+											<geometry>463, 260, 30, 15</geometry>
 											<text>1</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_622099_9395'>
 											<visible xmi.value='false'/>
-											<geometry>458, 250, 30, 15</geometry>
+											<geometry>458, 245, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303224798371_751670_9397'>
 											<editable xmi.value='false'/>
 											<visible xmi.value='false'/>
-											<geometry>458, 270, 30, 15</geometry>
+											<geometry>458, 265, 30, 15</geometry>
 										</mdElement>
 										<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303224798371_578538_9400'>
 											<visible xmi.value='false'/>
-											<geometry>458, 250, 30, 15</geometry>
+											<geometry>458, 245, 30, 15</geometry>
 											<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -11331,11 +11253,11 @@ order by s.id</UML:TaggedValue.dataValue>
 					<elementID xmi.idref='_9_5_1_8b60294_1303211365769_197690_6779'/>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 0, 1432, 932</diagramWindowBounds>
+					<diagramWindowBounds>0, 1, 1432, 931</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
-					<diagramScrollPositionY xmi.value='10'/>
-					<maximized xmi.value='true'/>
-					<active xmi.value='true'/>
+					<diagramScrollPositionY xmi.value='30'/>
+					<maximized xmi.value='false'/>
+					<active xmi.value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530040_355465_8046'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_839731_7426'/>
@@ -11389,7 +11311,7 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>10, 220, 791, 96</geometry>
+							<geometry>10, 220, 791, 111</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530041_983333_8049'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365816_473928_7196'/>
@@ -11407,7 +11329,7 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>10, 320, 871, 141</geometry>
+							<geometry>10, 340, 871, 141</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530041_137370_8050'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365818_601287_7288'/>
@@ -11443,7 +11365,7 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>10, 570, 691, 160</geometry>
+							<geometry>10, 590, 691, 160</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530042_340198_8052'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365814_103066_7160'/>
@@ -11461,11 +11383,11 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>10, 480, 799, 66</geometry>
+							<geometry>10, 500, 799, 81</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1310916728027_418688_1210'>
 							<elementID xmi.idref='_9_5_1_8b60294_1310916722137_741155_1179'/>
-							<geometry>10, 750, 136, 111</geometry>
+							<geometry>10, 770, 136, 111</geometry>
 						</mdElement>
 					</mdOwnedViews>
 				</mdElement>
@@ -15225,7 +15147,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<diagramOpened xmi.value='true'/>
 					<diagramWindowBounds>0, 1, 1416, 913</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
-					<diagramScrollPositionY xmi.value='0'/>
+					<diagramScrollPositionY xmi.value='20'/>
 					<maximized xmi.value='false'/>
 					<active xmi.value='false'/>
 					<mdOwnedViews>
@@ -15277,29 +15199,29 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>110, 90, 124, 81</geometry>
+							<geometry>110, 90, 124, 111</geometry>
 						</mdElement>
 						<mdElement elementClass='GeneralizationView' xmi.id='_9_5_1_8b60294_1303211530012_424440_7829'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365782_627117_6790'/>
 							<linkFirstEndID xmi.idref='_9_5_1_8b60294_1303211530012_559308_7828'/>
 							<linkSecondEndID xmi.idref='_9_5_1_8b60294_1303211530011_51767_7827'/>
-							<geometry>185, 171; 185, 340; </geometry>
+							<geometry>185, 201; 185, 340; </geometry>
 							<linkNameID xmi.idref='_9_5_1_8b60294_1303211530013_916209_7830'/>
 							<nameVisible xmi.value='true'/>
 							<mdOwnedViews>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530013_916209_7830'>
 									<visible xmi.value='false'/>
-									<geometry>170, 240, 30, 15</geometry>
+									<geometry>170, 256, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1303211530013_713672_7831'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>170, 273, 30, 15</geometry>
+									<geometry>170, 283, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530013_319631_7832'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>170, 291, 30, 15</geometry>
+									<geometry>170, 299, 30, 15</geometry>
 									<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -15309,7 +15231,7 @@ order by s.id</UML:TaggedValue.dataValue>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1303211530013_246929_7833'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>170, 240, 30, 15</geometry>
+									<geometry>170, 256, 30, 15</geometry>
 								</mdElement>
 							</mdOwnedViews>
 							<linkConstraintID xmi.idref='_9_5_1_8b60294_1303211530013_246929_7833'/>
@@ -16859,7 +16781,7 @@ order by s.id</UML:TaggedValue.dataValue>
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>100, 50, 124, 81</geometry>
+							<geometry>100, 50, 124, 111</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1310038561349_29221_351'>
 							<elementID xmi.idref='_9_5_1_8b60294_1310038561348_899853_350'/>
@@ -16873,28 +16795,28 @@ order by s.id</UML:TaggedValue.dataValue>
 							<elementID xmi.idref='_9_5_1_8b60294_1310038596384_336961_382'/>
 							<linkFirstEndID xmi.idref='_9_5_1_8b60294_1310037663693_953623_301'/>
 							<linkSecondEndID xmi.idref='_9_5_1_8b60294_1310038561349_29221_351'/>
-							<geometry>164, 131; 164, 300; </geometry>
+							<geometry>164, 161; 164, 300; </geometry>
 							<linkNameID xmi.idref='_9_5_1_8b60294_1310038596385_976725_384'/>
 							<nameVisible xmi.value='true'/>
 							<mdOwnedViews>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1310038596385_976725_384'>
 									<visible xmi.value='false'/>
-									<geometry>149, 200, 30, 15</geometry>
+									<geometry>149, 216, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1310038596386_138461_386'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>149, 200, 30, 15</geometry>
+									<geometry>149, 216, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxWithIconView' xmi.id='_9_5_1_8b60294_1310038596386_13217_388'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>149, 233, 30, 15</geometry>
+									<geometry>149, 243, 30, 15</geometry>
 								</mdElement>
 								<mdElement elementClass='TextBoxView' xmi.id='_9_5_1_8b60294_1310038596386_251096_391'>
 									<editable xmi.value='false'/>
 									<visible xmi.value='false'/>
-									<geometry>0, 121, 30, 15</geometry>
+									<geometry>0, 153, 30, 15</geometry>
 									<text>&lt;html&gt;
 &lt;body&gt;
 &lt;p&gt;&lt;/p&gt;
@@ -17125,7 +17047,7 @@ order by s.id</UML:TaggedValue.dataValue>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>7b 2c 1 75 7b 14 74 d 8 b 25 3f 8a 4c 95 22 c3 f9 17 9d 7b 3a 21 3d 92 8f 4f d1 6d fb f3 33 ef c4 d9 ee 34 b1 31 6e 25 53 90 42 ff 37 8e 19 5d 17 f4 48 b4 69 ca d5 33 eb a 43 34 85 2d bf 4 e8 fd 15 25 84 64 33 </value>
+						<value>7b 2c 1 75 7b 14 74 d 8 b 25 26 90 47 95 22 c3 f9 17 9d 7a 3a 21 3d 92 8f 4e d1 6d f1 f3 33 ef c4 d9 ee 34 b1 31 6e 25 53 90 42 ff 37 8e 19 5d 17 f4 48 b4 69 ca d5 33 eb a 43 34 85 2d bf 4 e8 fd 15 25 84 64 33 </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>

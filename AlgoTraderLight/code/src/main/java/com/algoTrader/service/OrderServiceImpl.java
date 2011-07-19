@@ -7,7 +7,9 @@ import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.proxy.HibernateProxy;
 
+import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Strategy;
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.entity.trade.Fill;
 import com.algoTrader.entity.trade.FillImpl;
@@ -103,9 +105,34 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 			fill.setCommission(new BigDecimal(0));
 		}
 
-		fill.setOrder(order);
+		fill.setParentOrder(order);
 
 		// create the transaction based on the fill
 		getTransactionService().createTransaction(fill);
+	}
+
+	@Override
+	protected void handlePropagateOrder(Order order) throws Exception {
+
+		// send the order into the base engine to be correlated with fills
+		getRuleService().sendEvent(StrategyImpl.BASE, order);
+
+		// also send the order to the strategy that placed the order
+		getRuleService().sendEvent(order.getStrategy().getName(), order);
+	}
+
+	@Override
+	protected void handlePropagateFill(Fill fill) throws Exception {
+
+		// send the fill to the strategy that placed the corresponding order
+		getRuleService().sendEvent(fill.getParentOrder().getStrategy().getName(), fill);
+	}
+
+	public static class PropagateFillSubscriber {
+
+		public void update(Fill fill) {
+
+			ServiceLocator.serverInstance().getOrderService().propagateFill(fill);
+		}
 	}
 }
