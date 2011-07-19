@@ -444,7 +444,7 @@ COMMIT;
 #
 
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
-  (0,'BASE','BASE',True,0,'base');
+  (0,'BASE','BASE',True,0,'base,ib');
 UPDATE `strategy` SET `id`=0 WHERE `id`=LAST_INSERT_ID();
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
   (1,'MOV','MOV',True,1,'mov-main');
