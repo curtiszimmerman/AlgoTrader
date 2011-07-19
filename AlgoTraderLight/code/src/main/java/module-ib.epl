@@ -1,0 +1,97 @@
+// ----------------------------- MARKET DATA -----------------------------	
+
+@Name('UPDATE_TICK_WINDOW_BID')
+on
+	TickPrice as tickPrice
+update
+	TickWindow as tickWindow
+set
+	tickWindow.bid = RoundUtil.getBigDecimal(tickPrice.price)
+where
+	tickPrice.field = 1 
+and
+	tickWindow.tickerId = tickPrice.tickerId;
+	
+@Name('UPDATE_TICK_WINDOW_ASK')
+on
+	TickPrice as tickPrice
+update
+	TickWindow as tickWindow
+set
+	tickWindow.ask = RoundUtil.getBigDecimal(tickPrice.price)
+where
+	tickPrice.field = 2 
+and
+	tickWindow.tickerId = tickPrice.tickerId;
+
+@Name('UPDATE_TICK_WINDOW_LAST')
+on
+	TickPrice as tickPrice
+update
+	TickWindow as tickWindow
+set
+	tickWindow.last = RoundUtil.getBigDecimal(tickPrice.price)
+where
+	tickPrice.field = 4 
+and
+	tickWindow.tickerId = tickPrice.tickerId;
+
+@Name('UPDATE_TICK_WINDOW_VOLASK')
+on
+	TickSize as tickSize
+update
+	TickWindow as tickWindow
+set
+	tickWindow.volAsk = tickSize.size
+where
+	tickSize.field = 3 
+and
+	tickWindow.tickerId = tickSize.tickerId;
+
+@Name('UPDATE_TICK_WINDOW_VOLBID')
+on
+	TickSize as tickSize
+update
+	TickWindow as tickWindow
+set
+	tickWindow.volBid = tickSize.size
+where
+	tickSize.field = 0 
+and
+	tickWindow.tickerId = tickSize.tickerId;
+	
+@Name('UPDATE_TICK_WINDOW_VOL')
+on
+	TickSize as tickSize
+update
+	TickWindow as tickWindow
+set
+	tickWindow.vol = tickSize.size
+where
+	tickSize.field = 8 
+and
+	tickWindow.tickerId = tickSize.tickerId;
+
+@Name('UPDATE_TICK_WINDOW_OPEN_INTEREST')
+on
+	TickSize as tickSize
+update
+	TickWindow as tickWindow
+set
+	tickWindow.openIntrest = tickSize.size
+where
+	tickSize.field = 22 
+and
+	tickWindow.tickerId = tickSize.tickerId;
+
+// ----------------------------- TRADES -----------------------------	
+
+@Name('CREATE_FILL')
+@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')
+insert into
+	Fill
+select
+	fill.*
+from 
+	pattern[every (genericOrder=GenericOrder -> (openOrder=OpenOrder(orderId = genericOrder.number) and execDetails=ExecDetails(execution.m_orderId = genericOrder.number)))], 
+	method:IBOrderUtil.getFill(genericOrder, openOrder, execDetails) as fill;
