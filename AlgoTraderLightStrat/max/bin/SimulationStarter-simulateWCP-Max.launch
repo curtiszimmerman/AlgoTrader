@@ -19,6 +19,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="simulateWithCurrentParams"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="algotraderlight-max"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dsimulation=true &#13;&#10;-DdataSource.dataSet=1hour&#13;&#10;-DdataSource.dataSetType=BAR&#13;&#10;-DdataSource.url=jdbc:mysql://127.0.0.1:3306/AlgoTraderLight"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dsimulation=true &#13;&#10;-DdataSource.dataSet=1hour&#13;&#10;-DdataSource.dataSetType=BAR"/>
 <stringAttribute key="org.eclipse.tptp.platform.jvmti.client.ATTR_FILTERSET_ID" value="org.eclipse.hyades.trace.ui.filterSet.default"/>
 </launchConfiguration>
