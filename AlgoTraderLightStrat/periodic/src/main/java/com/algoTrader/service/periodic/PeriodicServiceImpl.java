@@ -16,7 +16,7 @@ import com.algoTrader.util.MyLogger;
 public class PeriodicServiceImpl {
 
 	private static Logger logger = MyLogger.getLogger(PeriodicServiceImpl.class.getName());
-	private static String underlayingIsin = ConfigurationUtil.getStrategyConfig("MOV").getString("underlayingIsin");
+	private static String underlayingIsin = ConfigurationUtil.getStrategyConfig("PERIODIC").getString("underlayingIsin");
 
 	private LookupService lookupService;
 	private OrderService orderService;
@@ -29,7 +29,7 @@ public class PeriodicServiceImpl {
 
 	public void createOrder(int quantity) {
 
-		Strategy strategy = this.lookupService.getStrategyByNameFetched("MOV");
+		Strategy strategy = this.lookupService.getStrategyByNameFetched("PERIODIC");
 		Security security = this.lookupService.getSecurityByIsin(underlayingIsin);
 
 		Order order = new MarketOrderImpl();
@@ -50,7 +50,7 @@ public class PeriodicServiceImpl {
 			long startTime = System.currentTimeMillis();
 			logger.debug("createOrder start");
 	
-			PeriodicServiceImpl movService = (PeriodicServiceImpl) ServiceLocator.commonInstance().getService("movService");
+			PeriodicServiceImpl movService = (PeriodicServiceImpl) ServiceLocator.commonInstance().getService("periodicService");
 			movService.createOrder(quantity);
 	
 			logger.debug("createOrder end (" + (System.currentTimeMillis() - startTime) + "ms execution)");

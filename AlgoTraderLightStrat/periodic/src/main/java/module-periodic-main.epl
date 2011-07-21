@@ -1,13 +1,13 @@
 module movMain;
 
 @Name('CREATE_BUY_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$CreateOrderSubscriber')
+@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateOrderSubscriber')
 select
 10 as quantity
 from pattern [every timer:interval(20 sec)];
 
 @Name('CREATE_SELL_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$CreateOrderSubscriber')
+@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateOrderSubscriber')
 select
 -10 as quantity
 from pattern [every timer:interval(20 sec)] output every 10 sec;

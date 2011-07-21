@@ -27,7 +27,7 @@ public class PeriodicStarter {
 		ruleService.setInternalClock(strategyName, true);
 		
 		//activate the rest of the rules
-		ruleService.deployModule(strategyName, "mov-main");
+		ruleService.deployModule(strategyName, "periodic-main");
 
 		// register the strategy with BASE so we can receive events
 		strategyService.registerStrategy(strategyName);

@@ -28,7 +28,7 @@
 	<plugin-loader name="EsperIOSocketAdapter" class-name="com.espertech.esperio.socket.EsperIOSocketAdapterPlugin">
 		<config-xml>	
 			<esperio-socket-configuration>
-				<socket name="mov-socket" port="1101" data="object"/>
+				<socket name="mov-socket" port="1103" data="object"/>
 			</esperio-socket-configuration>
 		</config-xml>
 	</plugin-loader>	
