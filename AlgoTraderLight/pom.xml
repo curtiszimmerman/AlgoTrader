@@ -281,6 +281,7 @@
         -->
     	<module>mda</module>
     	<module>code</module>
+    	<module>crud</module>
     </modules>
     <properties>
         <andromda.version>3.4-SNAPSHOT</andromda.version>
