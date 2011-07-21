@@ -220,6 +220,7 @@
 
 	<!-- ========================= End of CLIENT SERVICE DEFINITIONS ========================= -->
 	
+#*	
 	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
 		<property name="beans">
 			<map>
@@ -255,5 +256,6 @@
     </bean>	
     
     <context:load-time-weaver/>	
+*#
 	
 </beans>
