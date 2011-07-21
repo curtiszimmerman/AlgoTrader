@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.espertech.com/schema/esper"
+    xsi:schemaLocation="http://www.espertech.com/schema/esper http://www.espertech.com/schema/esper/esper-configuration-3-0.xsd">
+
+	<event-type name="Tick" class="com.algoTrader.entity.marketData.Tick"/>
+	<event-type name="Bar" class="com.algoTrader.entity.marketData.Bar"/>
+	<event-type name="Transaction" class="com.algoTrader.entity.Transaction"/>
+	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
+	<event-type name="Fill" class="com.algoTrader.entity.trade.Fill"/>	
+
+	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
+	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
+	<auto-import import-name="com.algoTrader.service.mov.MovUtil"/>
+
+	<auto-import import-name="java.lang.*"/>
+	<auto-import import-name="java.math.*"/>
+	<auto-import import-name="java.text.*"/>
+	<auto-import import-name="java.util.*"/>
+	
+	<plugin-aggregation-function name="talib" function-class="com.algoTrader.util.GenericTALibFunction"/>				
+
+	<variable name="simulation" type="boolean"/>
+	
+	<variable name="engineStrategy" type="com.algoTrader.entity.Strategy"/>
+	<variable name="underlayingIsin" type="String"/>
+
+	<plugin-loader name="EsperIOSocketAdapter" class-name="com.espertech.esperio.socket.EsperIOSocketAdapterPlugin">
+		<config-xml>	
+			<esperio-socket-configuration>
+				<socket name="mov-socket" port="1101" data="object"/>
+			</esperio-socket-configuration>
+		</config-xml>
+	</plugin-loader>	
+	
+	<engine-settings>
+		<defaults>
+			<threading>
+				<internal-timer enabled="false" msec-resolution="100"/>
+			</threading>			
+			<expression udf-cache="false"/>
+			<execution prioritized="true"/>			
+		</defaults>
+	</engine-settings>
+
+</esper-configuration>

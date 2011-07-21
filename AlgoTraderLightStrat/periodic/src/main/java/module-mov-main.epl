@@ -1,0 +1,22 @@
+module movMain;
+
+@Name('CREATE_BUY_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$CreateOrderSubscriber')
+select
+10 as quantity
+from pattern [every timer:interval(20 sec)];
+
+@Name('CREATE_SELL_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$CreateOrderSubscriber')
+select
+-10 as quantity
+from pattern [every timer:interval(20 sec)] output every 10 sec;
+
+@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+select 'Order', * from GenericOrder;
+
+@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+select 'Fill', * from Fill;
+
+@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+select 'Transaction', * from Transaction;
