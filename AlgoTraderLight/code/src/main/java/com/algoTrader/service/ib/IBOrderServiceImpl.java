@@ -2,6 +2,7 @@ package com.algoTrader.service.ib;
 
 import org.apache.log4j.Logger;
 
+import com.algoTrader.entity.trade.LimitOrderInterface;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.ConfigurationUtil;
@@ -36,6 +37,11 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 		ibOrder.m_orderType = IBUtil.getIBOrderType(order);
 		ibOrder.m_transmit = true;
 
+		//set the limit price if order is a limit order or stop limit order
+		if (order instanceof LimitOrderInterface) {
+	        ibOrder.m_lmtPrice = ((LimitOrderInterface)order).getLimit().doubleValue();
+		}
+		
 		int orderId = RequestIDGenerator.singleton().getNextOrderId();
 		order.setNumber(orderId);
 
