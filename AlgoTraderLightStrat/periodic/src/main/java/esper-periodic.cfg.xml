@@ -5,8 +5,10 @@
 
 	<event-type name="Tick" class="com.algoTrader.entity.marketData.Tick"/>
 	<event-type name="Bar" class="com.algoTrader.entity.marketData.Bar"/>
+	
 	<event-type name="Transaction" class="com.algoTrader.entity.Transaction"/>
 	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
+	<event-type name="OrderStatus" class="com.algoTrader.entity.trade.OrderStatus"/>
 	<event-type name="Fill" class="com.algoTrader.entity.trade.Fill"/>	
 
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
