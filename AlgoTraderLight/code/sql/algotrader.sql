@@ -335,22 +335,22 @@ CREATE TABLE `watch_list_item` (
 #
 
 INSERT INTO `security_family` (`id`, `NAME`, `MARKET`, `CURRENCY`, `CONTRACT_SIZE`, `TICK_SIZE`, `COMMISSION`, `MARKET_OPEN`, `MARKET_CLOSE`, `TRADEABLE`, `EXPIRABLE`, `UNDERLAYING_FK`) VALUES 
-  (1,'SMI','SOFFEX','CHF',1,0.1,NULL,'1899-12-30','17:20:00',False,False,NULL),
-  (4,'ESTX50','DTB','EUR',1,0.01,NULL,'1899-12-30','23:59:59',False,False,NULL),
-  (8,'CHF FOREX','IDEALPRO','CHF',1,5E-5,0,'1899-12-30','23:59:59',True,False,NULL),
-  (9,'USD FOREX','IDEALPRO','USD',1,5E-5,0,'1899-12-30','23:59:59',True,False,NULL),
-  (10,'GOOG','SMART','USD',1,0.1,0,'1899-12-30','23:59:59',True,False,NULL),
-  (11,'IBM','SMART','USD',1,0.1,0,'1899-12-30','23:59:59',True,False,NULL),
-  (12,'AAPL','SMART','USD',1,0.1,0,'1899-12-30','23:59:59',True,False,NULL),
-  (13,'SPX','CBOE','USD',1,0.1,NULL,'1899-12-30','23:59:59',False,False,NULL),
-  (14,'SPY','SMART','USD',1,0.1,0,'1899-12-30','23:59:59',True,False,15),
-  (15,'GLD','SMART','USD',1,0.1,0,'1899-12-30','23:59:59',True,False,NULL),
-  (16,'ES','GLOBEX','USD',0,0.1,NULL,'1899-12-30','23:59:59',False,False,15),
-  (17,'YM','ECBOT','USD',1,1,NULL,'1899-12-30','23:59:59',False,False,NULL),
-  (18,'NQ','GLOBEX','USD',1,0.1,NULL,'1899-12-30','23:59:59',False,False,NULL),
-  (19,'FES','GLOBEX','USD',50,0.25,0,'1899-12-30','23:59:59',True,True,18),
-  (20,'FYM','ECBOT','USD',5,1,0,'1899-12-30','23:59:59',True,True,19),
-  (21,'FNQ','GLOBEX','USD',20,0.25,0,'1899-12-30','23:59:59',True,True,21);
+  (1,'SMI','SOFFEX','CHF',1,0.1,NULL,'00:00:00','23:59:59',False,False,NULL),
+  (4,'ESTX50','DTB','EUR',1,0.01,NULL,'00:00:00','23:59:59',False,False,NULL),
+  (8,'CHF FOREX','IDEALPRO','CHF',1,5E-5,0,'00:00:00','23:59:59',True,False,NULL),
+  (9,'USD FOREX','IDEALPRO','USD',1,5E-5,0,'00:00:00','23:59:59',True,False,NULL),
+  (10,'GOOG','SMART','USD',1,0.1,0,'00:00:00','23:59:59',True,False,NULL),
+  (11,'IBM','SMART','USD',1,0.1,0,'00:00:00','23:59:59',True,False,NULL),
+  (12,'AAPL','SMART','USD',1,0.1,0,'00:00:00','23:59:59',True,False,NULL),
+  (13,'SPX','CBOE','USD',1,0.1,NULL,'00:00:00','23:59:59',False,False,NULL),
+  (14,'SPY','SMART','USD',1,0.1,0,'00:00:00','23:59:59',True,False,15),
+  (15,'GLD','SMART','USD',1,0.1,0,'00:00:00','23:59:59',True,False,NULL),
+  (16,'ES','GLOBEX','USD',0,0.1,NULL,'00:00:00','23:59:59',False,False,15),
+  (17,'YM','ECBOT','USD',1,1,NULL,'00:00:00','23:59:59',False,False,NULL),
+  (18,'NQ','GLOBEX','USD',1,0.1,NULL,'00:00:00','23:59:59',False,False,NULL),
+  (19,'FES','GLOBEX','USD',50,0.25,0,'00:00:00','23:59:59',True,True,18),
+  (20,'FYM','ECBOT','USD',5,1,0,'00:00:00','23:59:59',True,True,19),
+  (21,'FNQ','GLOBEX','USD',20,0.25,0,'00:00:00','23:59:59',True,True,21);
 
 COMMIT;
 
