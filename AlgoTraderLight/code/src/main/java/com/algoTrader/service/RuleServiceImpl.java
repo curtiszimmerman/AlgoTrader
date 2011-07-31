@@ -21,6 +21,7 @@ import com.espertech.esper.adapter.InputAdapter;
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.ConfigurationVariable;
 import com.espertech.esper.client.EPAdministrator;
+import com.espertech.esper.client.EPOnDemandQueryResult;
 import com.espertech.esper.client.EPPreparedStatementImpl;
 import com.espertech.esper.client.EPRuntime;
 import com.espertech.esper.client.EPServiceProvider;
@@ -321,6 +322,17 @@ public class RuleServiceImpl extends RuleServiceBase {
 			}
 		}
 		return list;
+	}
+
+	protected List<Object> handleExecuteQuery(String strategyName, String query) {
+
+		List<Object> objects = new ArrayList<Object>();
+		EPOnDemandQueryResult result = getServiceProvider(strategyName).getEPRuntime().executeQuery(query);
+		for (EventBean row : result.getArray()) {
+			Object object = row.getUnderlying();
+			objects.add(object);
+		}
+		return objects;
 	}
 
 	protected void handleSetInternalClock(String strategyName, boolean internal) {

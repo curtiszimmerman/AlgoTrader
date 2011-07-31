@@ -26,7 +26,7 @@ on
 delete from
 	TickWindow as tickWindow
 where
-	tickWindow.security.id = unsubscribeEvent.tickerId;
+	tickWindow.security.id = unsubscribeEvent.securityId;
 
 @Name('RETRIEVE_TICK')
 on
