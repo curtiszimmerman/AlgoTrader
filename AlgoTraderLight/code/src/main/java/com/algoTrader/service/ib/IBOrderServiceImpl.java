@@ -50,5 +50,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 
 		// place the order through IBClient
 		client.placeOrder(orderId, contract, ibOrder);
+
+		logger.info("placed order: " + order);
 	}
 }

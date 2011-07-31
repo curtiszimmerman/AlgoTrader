@@ -9,7 +9,6 @@ import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.Position;
 import com.algoTrader.entity.PositionImpl;
 import com.algoTrader.entity.Strategy;
-import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.Transaction;
 import com.algoTrader.entity.TransactionImpl;
 import com.algoTrader.entity.security.Security;
@@ -101,11 +100,15 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 
 	protected void handlePropagateTransaction(Transaction transaction) {
 
-		// send the transaction into the base engine
-		getRuleService().sendEvent(StrategyImpl.BASE, transaction);
-
 		// also send the transaction to the corresponding strategy
 		getRuleService().sendEvent(transaction.getStrategy().getName(), transaction);
+	}
+
+	@Override
+	protected void handlePropagateFill(Fill fill) throws Exception {
+	
+		// send the fill to the strategy that placed the corresponding order
+		getRuleService().sendEvent(fill.getParentOrder().getStrategy().getName(), fill);
 	}
 
 	public static class CreateTransactionSubscriber {
@@ -120,5 +123,13 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 			logger.info("createTransaction end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
 		}
 
+	}
+
+	public static class PropagateFillSubscriber {
+
+		public void update(Fill fill) {
+
+			ServiceLocator.serverInstance().getTransactionService().propagateFill(fill);
+		}
 	}
 }

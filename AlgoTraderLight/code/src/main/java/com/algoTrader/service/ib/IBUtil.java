@@ -1,6 +1,8 @@
 package com.algoTrader.service.ib;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
 
@@ -18,7 +20,8 @@ import com.ib.client.Contract;
 
 public class IBUtil {
 
-	private static SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+	private static SimpleDateFormat expiryFormat = new SimpleDateFormat("yyyyMMdd");
+	private static SimpleDateFormat executionFormat = new SimpleDateFormat("yyyyMMdd  HH:mm:ss");
 
 	public static Contract getContract(Security security) throws Exception {
 
@@ -38,9 +41,9 @@ public class IBUtil {
 
 			if (security.getSecurityFamily().getMarket().equals(Market.SOFFEX)) {
 				// IB expiration is one day before effective expiration for SOFFEX options
-				contract.m_expiry = format.format(DateUtils.addDays(stockOption.getExpiration(), -1));
+				contract.m_expiry = expiryFormat.format(DateUtils.addDays(stockOption.getExpiration(), -1));
 			} else {
-				contract.m_expiry = format.format(stockOption.getExpiration());
+				contract.m_expiry = expiryFormat.format(stockOption.getExpiration());
 			}
 		} else if (security instanceof Future) {
 
@@ -50,7 +53,7 @@ public class IBUtil {
 			contract.m_secType = "FUT";
 			contract.m_exchange = IBMarketConverter.marketToString(future.getSecurityFamily().getMarket());
 			contract.m_currency = future.getSecurityFamily().getCurrency().toString();
-			contract.m_expiry = format.format(future.getExpiration());
+			contract.m_expiry = expiryFormat.format(future.getExpiration());
 
 		} else if (security instanceof Forex) {
 
@@ -92,5 +95,10 @@ public class IBUtil {
 		} else {
 			return "";
 		}
+	}
+
+	public static Date getExecutionDateTime(String input) throws ParseException {
+
+		return executionFormat.parse(input);
 	}
 }

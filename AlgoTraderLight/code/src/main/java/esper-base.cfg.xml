@@ -18,6 +18,8 @@
 	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickEvent"/>
 
 	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
+	<event-type name="OrderStatus" class="com.algoTrader.entity.trade.OrderStatus"/>
+	<event-type name="OrderStatusImpl" class="com.algoTrader.entity.trade.OrderStatusImpl"/>
 	<event-type name="Fill" class="com.algoTrader.entity.trade.Fill"/>
 	<event-type name="FillImpl" class="com.algoTrader.entity.trade.FillImpl"/>
 	<event-type name="Transaction" class="com.algoTrader.entity.Transaction"/>
@@ -26,25 +28,38 @@
 	<event-type name="PerformanceKeys" class="com.algoTrader.vo.PerformanceKeysVO"/>	
 	<event-type name="MaxDrawDown" class="com.algoTrader.vo.MaxDrawDownVO"/>
 	
-	<event-type name="ExecDetails" class="com.algoTrader.vo.ib.ExecDetails"/>
-	<event-type name="OpenOrder" class="com.algoTrader.vo.ib.OpenOrder"/>
+	<!--  IB Event Types -->
 	
-	<event-type name="TickPrice" class="com.algoTrader.vo.ib.TickPrice"/>
-	<event-type name="TickGeneric" class="com.algoTrader.vo.ib.TickGeneric"/>
-	<event-type name="TickSize" class="com.algoTrader.vo.ib.TickSize"/>
-	<event-type name="TickString" class="com.algoTrader.vo.ib.TickString"/>
-	<event-type name="TickOptionComputation" class="com.algoTrader.vo.ib.TickOptionComputation"/>
+	<event-type name="IBExecDetails" class="com.algoTrader.vo.ib.ExecDetails"/>
+	<event-type name="IBOpenOrder" class="com.algoTrader.vo.ib.OpenOrder"/>
+	<event-type name="IBOrderStatus" class="com.algoTrader.vo.ib.OrderStatus"/>
 	
-	<event-type name="Execution" class="com.ib.client.Execution">
+	<event-type name="IBTickPrice" class="com.algoTrader.vo.ib.TickPrice"/>
+	<event-type name="IBTickGeneric" class="com.algoTrader.vo.ib.TickGeneric"/>
+	<event-type name="IBTickSize" class="com.algoTrader.vo.ib.TickSize"/>
+	<event-type name="IBTickString" class="com.algoTrader.vo.ib.TickString"/>
+	<event-type name="IBTickOptionComputation" class="com.algoTrader.vo.ib.TickOptionComputation"/>
+	
+	<event-type name="IBExecution" class="com.ib.client.Execution">
+		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>
+	</event-type>
+
+	<event-type name="IBOrder" class="com.ib.client.Order">
+		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>
+	</event-type>
+		
+	<event-type name="IBOrderState" class="com.ib.client.OrderState">
 		<legacy-type accessor-style="public" code-generation="disabled" property-resolution-style="case_sensitive"/>
 	</event-type>
 		
 	<auto-import import-name="com.algoTrader.enumeration.TransactionType"/>
+	<auto-import import-name="com.algoTrader.enumeration.Side"/>
+	<auto-import import-name="com.algoTrader.enumeration.Status"/>
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.util.DrawDownUtil"/>
 	<auto-import import-name="com.algoTrader.util.DateUtil"/>
-	<auto-import import-name="com.algoTrader.service.ib.IBOrderUtil"/>
+	<auto-import import-name="com.algoTrader.service.ib.IBUtil"/>
 
 	<auto-import import-name="java.lang.*"/>
 	<auto-import import-name="java.math.*"/>

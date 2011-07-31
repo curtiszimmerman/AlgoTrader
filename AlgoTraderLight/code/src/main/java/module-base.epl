@@ -121,9 +121,15 @@ from
 	
 // ----------------------------- TRADES -----------------------------
 
+@Name('PROPAGATE_ORDER_STATUS')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$PropagateOrderStatusSubscriber')
+select
+	*
+from
+	OrderStatus;
 	
 @Name('PROPAGATE_FILL')
-@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$PropagateFillSubscriber')
+@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$PropagateFillSubscriber')
 select
 	*
 from

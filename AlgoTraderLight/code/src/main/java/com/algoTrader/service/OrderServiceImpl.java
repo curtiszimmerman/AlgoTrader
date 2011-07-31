@@ -16,6 +16,7 @@ import com.algoTrader.entity.trade.FillImpl;
 import com.algoTrader.entity.trade.LimitOrderInterface;
 import com.algoTrader.entity.trade.MarketOrder;
 import com.algoTrader.entity.trade.Order;
+import com.algoTrader.entity.trade.OrderStatus;
 import com.algoTrader.enumeration.Side;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.DateUtil;
@@ -122,17 +123,17 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 	}
 
 	@Override
-	protected void handlePropagateFill(Fill fill) throws Exception {
+	protected void handlePropagateOrderStatus(OrderStatus orderStatus) throws Exception {
 
 		// send the fill to the strategy that placed the corresponding order
-		getRuleService().sendEvent(fill.getParentOrder().getStrategy().getName(), fill);
+		getRuleService().sendEvent(orderStatus.getParentOrder().getStrategy().getName(), orderStatus);
 	}
 
-	public static class PropagateFillSubscriber {
+	public static class PropagateOrderStatusSubscriber {
 
-		public void update(Fill fill) {
+		public void update(OrderStatus orderStatus) {
 
-			ServiceLocator.serverInstance().getOrderService().propagateFill(fill);
+			ServiceLocator.serverInstance().getOrderService().propagateOrderStatus(orderStatus);
 		}
 	}
 }
