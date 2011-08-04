@@ -113,6 +113,18 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 	}
 
 	@Override
+	protected void handleCancelOrder(int orderId) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void handleModifyOrder(int orderId, Order order) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	protected void handlePropagateOrder(Order order) throws Exception {
 
 		// send the order into the base engine to be correlated with fills
