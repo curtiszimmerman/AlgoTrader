@@ -20,6 +20,7 @@ import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.BarVO;
 import com.algoTrader.vo.RawTickVO;
 import com.algoTrader.vo.SubscribeTickEvent;
+import com.algoTrader.vo.UnsubscribeTickEvent;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
@@ -126,6 +127,10 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 		if (watchListItem != null && !watchListItem.isPersistent()) {
 
+			UnsubscribeTickEvent unsubscribeTickEvent = new UnsubscribeTickEvent();
+			unsubscribeTickEvent.setSecurityId(security.getId());
+			getRuleService().sendEvent(StrategyImpl.BASE, unsubscribeTickEvent);
+			
 			// update links
 			security.getWatchListItems().remove(watchListItem);
 			getSecurityDao().update(security);

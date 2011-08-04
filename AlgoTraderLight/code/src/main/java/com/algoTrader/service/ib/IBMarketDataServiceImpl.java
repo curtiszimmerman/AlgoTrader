@@ -1,9 +1,15 @@
 package com.algoTrader.service.ib;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
+import com.algoTrader.ServiceLocator;
+import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.enumeration.ConnectionState;
+import com.algoTrader.service.RuleService;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.ib.client.Contract;
@@ -49,7 +55,14 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 			return;
 		}
 
-		int tickerId = security.getId();
-		client.cancelMktData(tickerId);
+		RuleService ruleService = ServiceLocator.serverInstance().getRuleService();
+        List<Map> events = ruleService.executeQuery(StrategyImpl.BASE, "select tickerId from TickWindow where security.id = " + security.getId());
+        
+        for (Map event : events) {
+            Integer tickerId = (Integer) event.get("tickerId");
+            client.cancelMktData(tickerId);
+        }
+		
+		logger.debug("cancelled market data for : " + security.getSymbol());
 	}
 }
