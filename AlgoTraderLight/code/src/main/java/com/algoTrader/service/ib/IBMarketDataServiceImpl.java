@@ -5,11 +5,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.security.Security;
 import com.algoTrader.enumeration.ConnectionState;
-import com.algoTrader.service.RuleService;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.ib.client.Contract;
@@ -30,7 +28,7 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 	@Override
 	protected int handlePutOnExternalWatchlist(Security security) throws Exception {
 
-		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED) 
+		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED)
 				&& !client.getIbAdapter().getState().equals(ConnectionState.READY)) {
 			logger.error("IB is not connected");
 			return 0;
@@ -46,23 +44,24 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 		return tickerId;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void handleRemoveFromExternalWatchlist(Security security) throws Exception {
 
-		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED) 
+		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED)
 				&& !client.getIbAdapter().getState().equals(ConnectionState.READY)) {
 			logger.error("IB is not connected");
 			return;
 		}
 
-		RuleService ruleService = ServiceLocator.serverInstance().getRuleService();
-        List<Map> events = ruleService.executeQuery(StrategyImpl.BASE, "select tickerId from TickWindow where security.id = " + security.getId());
+		List<Map> events = getRuleService().executeQuery(StrategyImpl.BASE, "select tickerId from TickWindow where security.id = " + security.getId());
         
-        for (Map event : events) {
-            Integer tickerId = (Integer) event.get("tickerId");
+		if (events.size() == 0) {
+			Integer tickerId = (Integer) events.get(0).get("tickerId");
             client.cancelMktData(tickerId);
+			logger.debug("cancelled market data for : " + security.getSymbol());
+		} else {
+			throw new IBMarketDataServiceException("tickerId for security " + security + " was not found");
         }
-		
-		logger.debug("cancelled market data for : " + security.getSymbol());
 	}
 }

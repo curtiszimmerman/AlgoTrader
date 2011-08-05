@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import com.algoTrader.entity.trade.LimitOrderInterface;
 import com.algoTrader.entity.trade.Order;
-import com.algoTrader.entity.trade.OrderStatus;
 import com.algoTrader.entity.trade.StopOrderInterface;
 import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.ConfigurationUtil;
@@ -16,8 +15,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	private static IBClient client;
 	private static Logger logger = MyLogger.getLogger(IBOrderServiceImpl.class.getName());
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
-	private static final int INITIAL_ORDER = -1;
-	
+
 	public IBOrderServiceImpl() {
 		super();
 		if (!simulation) {
@@ -26,71 +24,65 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	}
 
 	protected void handleSendExternalOrder(Order order) throws Exception {
-	    genericSendOrder(order, INITIAL_ORDER);
+
+		int orderId = RequestIDGenerator.singleton().getNextOrderId();
+		sendOrModifyOrder(orderId, order);
 	}
 
-    @Override
-    protected void handlePropagateOrderStatus(OrderStatus orderStatus) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    /**
-     * helper method to be used in both sendorder and modifyorder. If the id passed in is INITIAL_ORDER = -1, then 
-     * this means there is no orderid so it initializes a new one.
-     * @throws Exception 
-     */
-    private void genericSendOrder(Order order, int orderIdInput) throws Exception
-    {
-        if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
-            logger.error("transaction cannot be executed, because IB is not connected");
-            return;
-        }
+	@Override
+	protected void handleModifyExternalOrder(int orderId, Order order) throws Exception {
 
-        Contract contract = IBUtil.getContract(order.getSecurity());
+		sendOrModifyOrder(orderId, order);
+	}
 
-        com.ib.client.Order ibOrder = new com.ib.client.Order();
-        ibOrder.m_action = order.getSide().getValue();
-        ibOrder.m_totalQuantity = (int) order.getQuantity();
-        ibOrder.m_orderType = IBUtil.getIBOrderType(order);
-        ibOrder.m_transmit = true;
+	@Override
+	protected void handleCancelExternalOrder(int orderId) throws Exception {
+	
+		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
+			logger.error("transaction cannot be executed, because IB is not connected");
+			return;
+		}
+	
+		client.cancelOrder(orderId);
+	}
 
-        //set the limit price if order is a limit order or stop limit order
-        if (order instanceof LimitOrderInterface) {
-            ibOrder.m_lmtPrice = ((LimitOrderInterface)order).getLimit().doubleValue();
-        }
-        
-        //set the stop price if order is a stop order or stop limit order
-        if (order instanceof StopOrderInterface) {
-            ibOrder.m_auxPrice = ((StopOrderInterface)order).getStop().doubleValue();
-        }
-        
-        int orderId;
-        if (orderIdInput == INITIAL_ORDER) {
-            orderId = RequestIDGenerator.singleton().getNextOrderId();
-        } else {
-            orderId = orderIdInput;
-        }
-          
-        order.setNumber(orderId);
+	/**
+	 * helper method to be used in both sendorder and modifyorder.
+	 * @throws Exception
+	 */
+	private void sendOrModifyOrder(int orderId, Order order) throws Exception {
 
-        // progapate the order to all corresponding esper engines
-        propagateOrder(order);
+		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
+			logger.error("transaction cannot be executed, because IB is not connected");
+			return;
+		}
 
-        // place the order through IBClient
-        client.placeOrder(orderId, contract, ibOrder);
-        
-        logger.info("placed order: " + order);
-    }
-    
-    @Override
-    protected void handleCancelExternalOrder(int orderId) throws Exception {
-        client.cancelOrder(orderId);
-    }
+		Contract contract = IBUtil.getContract(order.getSecurity());
 
-    @Override
-    protected void handleModifyExternalOrder(int orderId, Order order) throws Exception {
-        genericSendOrder(order, orderId);
-    }
-    
+		com.ib.client.Order ibOrder = new com.ib.client.Order();
+		ibOrder.m_action = order.getSide().getValue();
+		ibOrder.m_totalQuantity = (int) order.getQuantity();
+		ibOrder.m_orderType = IBUtil.getIBOrderType(order);
+		ibOrder.m_transmit = true;
+
+		//set the limit price if order is a limit order or stop limit order
+		if (order instanceof LimitOrderInterface) {
+			ibOrder.m_lmtPrice = ((LimitOrderInterface) order).getLimit().doubleValue();
+		}
+
+		//set the stop price if order is a stop order or stop limit order
+		if (order instanceof StopOrderInterface) {
+			ibOrder.m_auxPrice = ((StopOrderInterface) order).getStop().doubleValue();
+		}
+
+		order.setNumber(orderId);
+
+		// progapate the order to all corresponding esper engines
+		propagateOrder(order);
+
+		// place the order through IBClient
+		client.placeOrder(orderId, contract, ibOrder);
+
+		logger.info("placed order: " + order);
+	}
 }
