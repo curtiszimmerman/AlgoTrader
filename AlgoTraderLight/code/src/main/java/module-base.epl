@@ -32,7 +32,7 @@ where
 on
 	TickWindow
 insert into
-	TickImpl  
+	Tick
 select
 	current_timestamp.toDate() as dateTime,
 	tickWindow.last as last,

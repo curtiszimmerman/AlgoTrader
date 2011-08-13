@@ -88,7 +88,7 @@ and
 
 @Name('CREATE_FILL')
 insert into
-	FillImpl
+	Fill
 select
 	IBUtil.getExecutionDateTime(execDetails.execution.m_time) as dateTime,
 	Side.valueOf(openOrder.`order`.m_action) as side,
@@ -111,7 +111,7 @@ from
 
 @Name('CREATE_ORDER_STATUS')
 insert into
-	OrderStatusImpl
+	OrderStatus
 select
 	case
 		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit') and orderStatus.filled = 0 then Status.SUBMITTED
