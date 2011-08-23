@@ -8,7 +8,7 @@ update
 set
 	tickWindow.bid = RoundUtil.getBigDecimal(tickPrice.price)
 where
-	tickPrice.field = 1 
+	tickPrice.field = TickType.BID 
 and
 	tickWindow.tickerId = tickPrice.tickerId;
 	
@@ -20,7 +20,7 @@ update
 set
 	tickWindow.ask = RoundUtil.getBigDecimal(tickPrice.price)
 where
-	tickPrice.field = 2 
+	tickPrice.field = TickType.ASK 
 and
 	tickWindow.tickerId = tickPrice.tickerId;
 
@@ -32,11 +32,23 @@ update
 set
 	tickWindow.last = RoundUtil.getBigDecimal(tickPrice.price)
 where
-	tickPrice.field = 4 
+	tickPrice.field = TickType.`LAST` 
 and
 	tickWindow.tickerId = tickPrice.tickerId;
 
-@Name('UPDATE_TICK_WINDOW_VOLASK')
+@Name('UPDATE_TICK_WINDOW_CLOSE')
+on
+	IBTickPrice as tickPrice
+update
+	TickWindow as tickWindow
+set
+	tickWindow.settlement = RoundUtil.getBigDecimal(tickPrice.price)
+where
+	tickPrice.field = TickType.CLOSE 
+and
+	tickWindow.tickerId = tickPrice.tickerId;
+	
+@Name('UPDATE_TICK_WINDOW_VOL_ASK')
 on
 	IBTickSize as tickSize
 update
@@ -44,11 +56,11 @@ update
 set
 	tickWindow.volAsk = tickSize.size
 where
-	tickSize.field = 3 
+	tickSize.field = TickType.ASK_SIZE 
 and
 	tickWindow.tickerId = tickSize.tickerId;
 
-@Name('UPDATE_TICK_WINDOW_VOLBID')
+@Name('UPDATE_TICK_WINDOW_VOL_BID')
 on
 	IBTickSize as tickSize
 update
@@ -56,7 +68,7 @@ update
 set
 	tickWindow.volBid = tickSize.size
 where
-	tickSize.field = 0 
+	tickSize.field = TickType.BID_SIZE 
 and
 	tickWindow.tickerId = tickSize.tickerId;
 	
@@ -68,7 +80,7 @@ update
 set
 	tickWindow.vol = tickSize.size
 where
-	tickSize.field = 8 
+	tickSize.field = TickType.VOLUME 
 and
 	tickWindow.tickerId = tickSize.tickerId;
 
@@ -80,10 +92,22 @@ update
 set
 	tickWindow.openIntrest = tickSize.size
 where
-	tickSize.field = 22 
+	(tickSize.field = TickType.OPTION_CALL_OPEN_INTEREST or tickSize.field = TickType.OPTION_PUT_OPEN_INTEREST) 
 and
 	tickWindow.tickerId = tickSize.tickerId;
 
+@Name('UPDATE_TICK_LAST_TIMESTAMP')
+on
+	IBTickString as tickString
+update
+	TickWindow as tickWindow
+set
+	tickWindow.lastDateTime = IBUtil.getLastDateTime(tickString.value)
+where
+	tickString.field = TickType.LAST_TIMESTAMP 
+and
+	tickWindow.tickerId = tickString.tickerId;
+	
 // ----------------------------- TRADES -----------------------------	
 
 @Name('CREATE_FILL')

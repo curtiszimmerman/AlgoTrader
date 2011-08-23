@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.DisposableBean;
 
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.entity.security.Security;
@@ -12,7 +13,7 @@ import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
 import com.ib.client.Contract;
 
-public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
+public class IBMarketDataServiceImpl extends IBMarketDataServiceBase implements DisposableBean {
 
 	private static Logger logger = MyLogger.getLogger(IBMarketDataServiceImpl.class.getName());
 
@@ -20,20 +21,28 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
 	public IBMarketDataServiceImpl() {
+
 		if (!simulation) {
 			client = IBClient.getInstance();
 		}
 	}
 
 	@Override
+	protected void handleInitWatchlist() {
+
+		super.handleInitWatchlist();
+
+		client.getIbAdapter().setState(ConnectionState.SUBSCRIBED);
+		client.getIbAdapter().setRequested(true);
+	}
+
+	@Override
 	protected int handlePutOnExternalWatchlist(Security security) throws Exception {
 
-		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED)
-				&& !client.getIbAdapter().getState().equals(ConnectionState.READY)) {
-			logger.error("IB is not connected");
-			return 0;
+		if (!client.getIbAdapter().getState().equals(ConnectionState.READY) && !client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED)) {
+			throw new IBMarketDataServiceException("IB is not ready for market data subscription on " + security.getSymbol());
 		}
-		
+
 		Contract contract = IBUtil.getContract(security);
 		int tickerId = RequestIDGenerator.singleton().getNextRequestId();
 
@@ -48,12 +57,11 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 	@Override
 	protected void handleRemoveFromExternalWatchlist(Security security) throws Exception {
 
-		if (!client.getIbAdapter().getState().equals(ConnectionState.CONNECTED)
-				&& !client.getIbAdapter().getState().equals(ConnectionState.READY)) {
-			logger.error("IB is not connected");
-			return;
+		if (!client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED)) {
+			throw new IBMarketDataServiceException("IB ist not subscribed, security cannot be unsubscribed " + security.getSymbol());
 		}
 
+		// get the tickerId by querying the TickWindow
 		List<Map> events = getRuleService().executeQuery(StrategyImpl.BASE, "select tickerId from TickWindow where security.id = " + security.getId());
         
 		if (events.size() == 0) {
@@ -63,5 +71,13 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase {
 		} else {
 			throw new IBMarketDataServiceException("tickerId for security " + security + " was not found");
         }
+	}
+
+	@Override
+	public void destroy() throws Exception {
+
+		if (client != null && client.isConnected()) {
+			client.disconnect();
+		}
 	}
 }

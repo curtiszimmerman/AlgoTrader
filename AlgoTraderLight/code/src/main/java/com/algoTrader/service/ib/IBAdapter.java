@@ -50,26 +50,140 @@ import com.ib.client.UnderComp;
 
 public final class IBAdapter implements EWrapper {
 
-	private static final String CONNECTION_STATE = "connectionState: ";
-
 	private static Logger logger = MyLogger.getLogger(IBAdapter.class.getName());
 	private static IBAdapter ibAdapter;
 
 	private boolean requested;
-	private ConnectionState state = ConnectionState.DISCONNECTED;
-	private int clientId;
+	private ConnectionState state;
 
 	private IBAdapter(int clientId) {
-		this.clientId = clientId;
+
+		setState(ConnectionState.DISCONNECTED);
 	}
 
 	public static IBAdapter getInstance(int clientId) {
+
 		if (ibAdapter == null) {
-			return new IBAdapter(clientId);
-		} else {
-			return ibAdapter;
+			ibAdapter = new IBAdapter(clientId);
+		}
+
+		return ibAdapter;
+	}
+
+	@Override
+	public void connectionClosed() {
+
+		setState(ConnectionState.DISCONNECTED);
+
+		//if connection gets closed, try to reconnect
+		IBClient.getInstance().connect();
+		logger.debug(EWrapperMsgGenerator.connectionClosed());
+	}
+
+	@Override
+	public void error(final Exception e) {
+
+		// we get EOFException and SocketException when TWS is closed
+		if (!(e instanceof EOFException || e instanceof SocketException)) {
+			logger.error("ib error", e);
 		}
 	}
+
+	@Override
+	public void error(final int id, final int code, final String errorMsg) {
+
+		String message = "id: " + id + " code: " + code + " " + errorMsg.replaceAll("\n", " ");
+		if (code < 1000) {
+			logger.error(message, new RuntimeException(message));
+		} else {
+			logger.info(message);
+		}
+	
+		if (code == 502) {
+	
+			// Couldn't connect to TWS
+			setState(ConnectionState.DISCONNECTED);
+	
+		} else if (code == 1100) {
+	
+			// Connectivity between IB and TWS has been lost.
+			setState(ConnectionState.CONNECTED);
+	
+		} else if (code == 1101) {
+	
+			// Connectivity between IB and TWS has been restored data lost.
+			setRequested(false);
+			setState(ConnectionState.READY);
+			ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+	
+		} else if (code == 1102) {
+	
+			// Connectivity between IB and TWS has been restored data maintained.
+			if (isRequested()) {
+				setState(ConnectionState.SUBSCRIBED);
+			} else {
+				setState(ConnectionState.READY);
+				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+			}
+	
+		} else if (code == 2110) {
+	
+			// Connectivity between TWS and server is broken. It will be restored automatically.
+			setState(ConnectionState.CONNECTED);
+	
+		} else if (code == 2104) {
+	
+			// A market data farm is connected.
+			if (isRequested()) {
+				setState(ConnectionState.SUBSCRIBED);
+			} else {
+				setState(ConnectionState.READY);
+				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+			}
+		}
+	}
+
+	@Override
+	public void error(final String str) {
+
+		logger.error(str, new RuntimeException(str));
+	}
+
+	@Override
+	public synchronized void nextValidId(final int orderId) {
+
+		RequestIDGenerator.singleton().initializeOrderId(orderId);
+		logger.debug(EWrapperMsgGenerator.nextValidId(orderId));
+	}
+
+	public boolean isRequested() {
+		return this.requested;
+	}
+
+	public void setRequested(boolean requested) {
+
+		if (this.requested != requested) {
+			logger.debug("requested: " + requested);
+		}
+
+		this.requested = requested;
+	}
+
+	public ConnectionState getState() {
+		return this.state;
+	}
+
+	public void setState(ConnectionState state) {
+
+		if (this.state != state) {
+			logger.debug("connectionState: " + state);
+		}
+
+		this.state = state;
+
+	}
+
+	// Override EWrapper methos
 
 	@Override
 	public void accountDownloadEnd(final String accountName) {
@@ -83,14 +197,6 @@ public final class IBAdapter implements EWrapper {
 		final ContractDetailsCommon o = new ContractDetailsCommon(reqId, contractDetails);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.debug(EWrapperMsgGenerator.bondContractDetails(reqId, contractDetails));
-	}
-
-	@Override
-	public void connectionClosed() {
-		//if connection gets closed, try to reconnect
-		IBClient client = IBClient.getInstance();
-		client.connect();
-		logger.debug(EWrapperMsgGenerator.connectionClosed());
 	}
 
 	@Override
@@ -122,79 +228,9 @@ public final class IBAdapter implements EWrapper {
 	}
 
 	@Override
-	public void error(final Exception e) {
-		// we get EOFException and SocketException when TWS is closed
-		if (!(e instanceof EOFException || e instanceof SocketException)) {
-			logger.error("ib error", e);
-		}
-	}
-
-	@Override
-	public void error(final int id, final int code, final String errorMsg) {
-		String message = "client: " + this.clientId + " id: " + id + " code: " + code + " " + errorMsg.replaceAll("\n", " ");
-		if (code < 1000) {
-			logger.error(message, new RuntimeException(message));
-		} else {
-			logger.info(message);
-		}
-
-		if (code == 502) {
-
-			// Couldn't connect to TWS
-			this.state = ConnectionState.DISCONNECTED;
-			logger.info(CONNECTION_STATE + this.state);
-
-		} else if (code == 1100) {
-
-			// Connectivity between IB and TWS has been lost.
-			this.state = ConnectionState.CONNECTED;
-			logger.info(CONNECTION_STATE + this.state);
-
-		} else if (code == 1101) {
-
-			// Connectivity between IB and TWS has been restored data lost.
-			this.requested = false;
-			this.state = ConnectionState.READY;
-			logger.info(CONNECTION_STATE + this.state);
-
-		} else if (code == 1102) {
-
-			// Connectivity between IB and TWS has been restored data maintained.
-			if (this.requested) {
-				this.state = ConnectionState.SUBSCRIBED;
-			} else {
-				this.state = ConnectionState.READY;
-			}
-			logger.info(CONNECTION_STATE + this.state);
-
-		} else if (code == 2110) {
-
-			// Connectivity between TWS and server is broken. It will be restored automatically.
-			this.state = ConnectionState.CONNECTED;
-			logger.info(CONNECTION_STATE + this.state);
-
-		} else if (code == 2104) {
-
-			// A market data farm is connected.
-			if (this.requested) {
-				this.state = ConnectionState.SUBSCRIBED;
-			} else {
-				this.state = ConnectionState.READY;
-			}
-			logger.info(CONNECTION_STATE + this.state);
-		}
-	}
-
-	@Override
-	public void error(final String str) {
-		logger.error(str, new RuntimeException(str));
-	}
-
-	@Override
 	public void execDetails(final int reqId, final Contract contract, final Execution execution) {
 		final ExecDetails o = new ExecDetails(reqId, contract, execution);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-
 		logger.debug(EWrapperMsgGenerator.execDetails(reqId, contract, execution));
 	}
 
@@ -225,15 +261,6 @@ public final class IBAdapter implements EWrapper {
 		final ManagedAccounts o = new ManagedAccounts(accountsList);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.debug(EWrapperMsgGenerator.managedAccounts(accountsList));
-	}
-
-	@Override
-	public synchronized void nextValidId(final int orderId) {
-		RequestIDGenerator.singleton().initializeOrderId(orderId);
-		//IBAdapter.orderId = orderId;
-		//final NextValidId o = new NextValidId(orderId);
-		//ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE,o);
-		logger.debug(EWrapperMsgGenerator.nextValidId(orderId));
 	}
 
 	@Override
@@ -390,21 +417,5 @@ public final class IBAdapter implements EWrapper {
 		final UpdatePortfolio o = new UpdatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
 		logger.debug(EWrapperMsgGenerator.updatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName));
-	}
-
-	public boolean isRequested() {
-		return this.requested;
-	}
-
-	public void setRequested(boolean requested) {
-		this.requested = requested;
-	}
-
-	public ConnectionState getState() {
-		return this.state;
-	}
-
-	public void setState(ConnectionState state) {
-		this.state = state;
 	}
 }

@@ -101,4 +101,9 @@ public class IBUtil {
 
 		return executionFormat.parse(input);
 	}
+
+	public static Date getLastDateTime(String input) {
+
+		return new Date(Long.parseLong(input + "000"));
+	}
 }
