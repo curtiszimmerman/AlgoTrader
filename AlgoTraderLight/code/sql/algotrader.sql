@@ -2,18 +2,18 @@
 # ---------------------------------------
 # Host     : localhost
 # Port     : 3306
-# Database : algotrader
+# Database : AlgoTrader
 
 
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP DATABASE IF EXISTS `algotrader`;
+DROP DATABASE IF EXISTS `AlgoTrader`;
 
-CREATE DATABASE `algotrader`
+CREATE DATABASE `AlgoTrader`
     CHARACTER SET 'latin1'
     COLLATE 'latin1_swedish_ci';
 
-USE `algotrader`;
+USE `AlgoTrader`;
 #
 # Structure for the `security_family` table : 
 #
