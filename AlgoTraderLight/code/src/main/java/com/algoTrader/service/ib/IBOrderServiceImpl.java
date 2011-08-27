@@ -25,34 +25,34 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 
 	protected void handleSendExternalOrder(Order order) throws Exception {
 
-		int orderId = RequestIDGenerator.singleton().getNextOrderId();
-		sendOrModifyOrder(orderId, order);
+		int orderNumber = RequestIDGenerator.singleton().getNextOrderId();
+		sendOrModifyOrder(orderNumber, order);
 	}
 
 	@Override
-	protected void handleModifyExternalOrder(int orderId, Order order) throws Exception {
+	protected void handleModifyExternalOrder(int orderNumber, Order order) throws Exception {
 
-		sendOrModifyOrder(orderId, order);
+		sendOrModifyOrder(orderNumber, order);
 	}
 
 	@Override
-	protected void handleCancelExternalOrder(int orderId) throws Exception {
+	protected void handleCancelExternalOrder(int orderNumber) throws Exception {
 	
-		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
+		if (!(client.getIbAdapter().getState().equals(ConnectionState.READY) || client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED))) {
 			logger.error("transaction cannot be executed, because IB is not connected");
 			return;
 		}
 	
-		client.cancelOrder(orderId);
+		client.cancelOrder(orderNumber);
 	}
 
 	/**
 	 * helper method to be used in both sendorder and modifyorder.
 	 * @throws Exception
 	 */
-	private void sendOrModifyOrder(int orderId, Order order) throws Exception {
+	private void sendOrModifyOrder(int orderNumber, Order order) throws Exception {
 
-		if (!client.getIbAdapter().getState().equals(ConnectionState.READY)) {
+		if (!(client.getIbAdapter().getState().equals(ConnectionState.READY) || client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED))) {
 			logger.error("transaction cannot be executed, because IB is not connected");
 			return;
 		}
@@ -75,13 +75,13 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 			ibOrder.m_auxPrice = ((StopOrderInterface) order).getStop().doubleValue();
 		}
 
-		order.setNumber(orderId);
+		order.setNumber(orderNumber);
 
 		// progapate the order to all corresponding esper engines
 		propagateOrder(order);
 
 		// place the order through IBClient
-		client.placeOrder(orderId, contract, ibOrder);
+		client.placeOrder(orderNumber, contract, ibOrder);
 
 		logger.info("placed order: " + order);
 	}

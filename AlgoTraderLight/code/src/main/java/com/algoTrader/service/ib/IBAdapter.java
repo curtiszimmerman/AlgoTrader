@@ -93,21 +93,43 @@ public final class IBAdapter implements EWrapper {
 	public void error(final int id, final int code, final String errorMsg) {
 
 		String message = "id: " + id + " code: " + code + " " + errorMsg.replaceAll("\n", " ");
-		if (code < 1000) {
-			logger.error(message, new RuntimeException(message));
-		} else {
-			logger.info(message);
-		}
-	
-		if (code == 502) {
+
+		if (code == 202) {
+
+			// Order cancelled
+			// do nothing, since we cancelled the order ourself
+			logger.debug(message);
+
+		} else if (code == 201) {
+
+			// Order rejected - reason:To late to replace order
+			// do nothing, we modified the price too late
+			logger.debug(message);
+
+		} else if (code == 399) {
+
+			// Order Message: Warning: Your order size is below the EUR 20000 IdealPro minimum and will be routed as an odd lot order.
+			// do nothing, this is ok for small FX Orders
+			logger.debug(message);
+
+		} else if (code == 434) {
+
+			// The order size cannot be zero
+			// This happens in a closing order using PctChange where the percentage is
+			// small enough to round to zero for each individual client account
+			logger.debug(message);
+
+		} else if (code == 502) {
 	
 			// Couldn't connect to TWS
 			setState(ConnectionState.DISCONNECTED);
+			logger.info(message);
 	
 		} else if (code == 1100) {
 	
 			// Connectivity between IB and TWS has been lost.
 			setState(ConnectionState.CONNECTED);
+			logger.info(message);
 	
 		} else if (code == 1101) {
 	
@@ -115,6 +137,7 @@ public final class IBAdapter implements EWrapper {
 			setRequested(false);
 			setState(ConnectionState.READY);
 			ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+			logger.info(message);
 	
 		} else if (code == 1102) {
 	
@@ -125,11 +148,13 @@ public final class IBAdapter implements EWrapper {
 				setState(ConnectionState.READY);
 				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
 			}
+			logger.info(message);
 	
 		} else if (code == 2110) {
 	
 			// Connectivity between TWS and server is broken. It will be restored automatically.
 			setState(ConnectionState.CONNECTED);
+			logger.info(message);
 	
 		} else if (code == 2104) {
 	
@@ -139,6 +164,14 @@ public final class IBAdapter implements EWrapper {
 			} else {
 				setState(ConnectionState.READY);
 				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+			}
+			logger.info(message);
+
+		} else {
+			if (code < 1000) {
+				logger.error(message, new RuntimeException(message));
+			} else {
+				logger.info(message);
 			}
 		}
 	}

@@ -113,15 +113,15 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 	}
 
 	@Override
-	protected void handleCancelOrder(int orderId) throws Exception {
-		// TODO Auto-generated method stub
+	protected void handleCancelOrder(int orderNumber) throws Exception {
 
+		cancelExternalOrder(orderNumber);
 	}
 
 	@Override
-	protected void handleModifyOrder(int orderId, Order order) throws Exception {
-		// TODO Auto-generated method stub
+	protected void handleModifyOrder(int orderNumber, Order order) throws Exception {
 
+		modifyExternalOrder(orderNumber, order);
 	}
 
 	@Override
@@ -145,7 +145,15 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 
 		public void update(OrderStatus orderStatus) {
 
-			ServiceLocator.serverInstance().getOrderService().propagateOrderStatus(orderStatus);
+			ServiceLocator.commonInstance().getOrderService().propagateOrderStatus(orderStatus);
+		}
+	}
+
+	public static class CancleOrderSubscriber {
+
+		public void update(int orderNumber) {
+
+			ServiceLocator.commonInstance().getOrderService().cancelOrder(orderNumber);
 		}
 	}
 }

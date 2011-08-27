@@ -138,8 +138,8 @@ insert into
 	OrderStatus
 select
 	case
-		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit') and orderStatus.filled = 0 then Status.SUBMITTED
-		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit') and orderStatus.filled > 0 then Status.PARTIALLY_EXECUTED
+		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit' or orderStatus.status = 'PendingCancel') and orderStatus.filled = 0 then Status.SUBMITTED
+		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit' or orderStatus.status = 'PendingCancel') and orderStatus.filled > 0 then Status.PARTIALLY_EXECUTED
 		when orderStatus.status = 'Filled' then Status.EXECUTED
 		when orderStatus.status = 'Cancelled' then Status.CANCELED
 	end as status,
