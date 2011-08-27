@@ -4,13 +4,22 @@ module movMain;
 @Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateOrderSubscriber')
 select
 1000 as quantity
-from pattern [every timer:interval(20 sec)];
+from pattern [timer:interval(2 sec)];
 
+/*
 @Name('CREATE_SELL_ORDER')
 @Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateOrderSubscriber')
 select
 -1000 as quantity
 from pattern [every timer:interval(20 sec)] output every 10 sec;
+*/
+
+@Name('CANCEL_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
+select
+genericOrder.number as orderNumer
+from pattern [every genericOrder=GenericOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED))];
+
 
 @Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
 select 'Order' as eventType, * from GenericOrder;

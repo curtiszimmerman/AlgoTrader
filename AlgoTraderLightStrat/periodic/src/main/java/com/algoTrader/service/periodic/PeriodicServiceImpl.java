@@ -47,13 +47,8 @@ public class PeriodicServiceImpl {
 	
 		public void update(int quantity) {
 	
-			long startTime = System.currentTimeMillis();
-			logger.debug("createOrder start");
-	
 			PeriodicServiceImpl movService = (PeriodicServiceImpl) ServiceLocator.commonInstance().getService("periodicService");
 			movService.createOrder(quantity);
-	
-			logger.debug("createOrder end (" + (System.currentTimeMillis() - startTime) + "ms execution)");
 		}
 	}
 }
