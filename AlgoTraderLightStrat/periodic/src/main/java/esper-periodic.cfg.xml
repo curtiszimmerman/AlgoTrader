@@ -7,6 +7,8 @@
 	<event-type name="Bar" class="com.algoTrader.entity.marketData.Bar"/>	
 	<event-type name="Transaction" class="com.algoTrader.entity.Transaction"/>
 	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
+	<event-type name="MarketOrder" class="com.algoTrader.entity.trade.MarketOrder"/>
+	<event-type name="LimitOrder" class="com.algoTrader.entity.trade.LimitOrder"/>
 	<event-type name="OrderStatus" class="com.algoTrader.entity.trade.OrderStatus"/>
 	<event-type name="Fill" class="com.algoTrader.entity.trade.Fill"/>	
 
