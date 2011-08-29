@@ -129,6 +129,7 @@ from
 	OrderStatus;
 	
 @Name('PROPAGATE_FILL')
+@Priority(1)
 @Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$PropagateFillSubscriber')
 select
 	*

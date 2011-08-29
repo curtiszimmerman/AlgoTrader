@@ -122,16 +122,10 @@ select
 	RoundUtil.getBigDecimal(1.0) as commission,
 	genericOrder as parentOrder
 from 
-	pattern[
-		every genericOrder=GenericOrder 
-		-> (
-			every (
-				openOrder=IBOpenOrder(orderId = genericOrder.number) 
-				and execDetails=IBExecDetails(execution.m_orderId = genericOrder.number)
-			)
-			and not IBOrderStatus(orderId = genericOrder.number and (status = 'Filled' or  status = 'Cancelled'))
-		)
-	]; 
+	pattern[every genericOrder=GenericOrder 
+			-> (every (openOrder=IBOpenOrder(orderId = genericOrder.number) and execDetails=IBExecDetails(execution.m_orderId = genericOrder.number))
+				and not IBOrderStatus(orderId = genericOrder.number and (status = 'Filled' or  status = 'Cancelled'))
+				and not GenericOrder(number = genericOrder.number))]; 
 
 @Name('CREATE_ORDER_STATUS')
 insert into
@@ -147,7 +141,9 @@ select
 	orderStatus.remaining as remainingQuantity,
 	genericOrder as parentOrder
 from 
-	pattern[every genericOrder=GenericOrder -> every (orderStatus=IBOrderStatus(orderId = genericOrder.number))]
+	pattern[every genericOrder=GenericOrder 
+			-> (every (orderStatus=IBOrderStatus(orderId = genericOrder.number)) 
+			and not GenericOrder(number = genericOrder.number))]
 where
 	prior(1, orderStatus) = null
 or	
