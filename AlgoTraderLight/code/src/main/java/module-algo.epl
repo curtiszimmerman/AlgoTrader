@@ -1,0 +1,21 @@
+// ------------------------------ stepping limit algo ---------------------------------------
+
+@Name('MODIFY_STEPPING_LIMIT_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
+select
+	OrderUtil.modifyOrderLimit(currentOrder, currentOrder.`limit` + currentOrder.increment) 
+from pattern [
+	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder  
+		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))]
+where
+	currentOrder.`limit` + currentOrder.increment <= currentOrder.maxLimit;
+	
+@Name('CANCEL_STEPPING_LIMIT_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
+select
+	currentOrder.number
+from pattern [
+	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder 
+		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))]
+where
+	currentOrder.`limit` + currentOrder.increment > currentOrder.maxLimit;

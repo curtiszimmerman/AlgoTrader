@@ -62,6 +62,8 @@
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.util.DrawDownUtil"/>
 	<auto-import import-name="com.algoTrader.util.DateUtil"/>
+	<auto-import import-name="com.algoTrader.util.OrderUtil"/>
+
 	<auto-import import-name="com.algoTrader.service.ib.IBUtil"/>
 	<auto-import import-name="com.ib.client.TickType"/>
 

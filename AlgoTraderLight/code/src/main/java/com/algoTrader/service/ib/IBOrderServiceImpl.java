@@ -26,13 +26,14 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	protected void handleSendExternalOrder(Order order) throws Exception {
 
 		int orderNumber = RequestIDGenerator.singleton().getNextOrderId();
-		sendOrModifyOrder(orderNumber, order);
+		order.setNumber(orderNumber);
+		sendOrModifyOrder(order);
 	}
 
 	@Override
-	protected void handleModifyExternalOrder(int orderNumber, Order order) throws Exception {
+	protected void handleModifyExternalOrder(Order order) throws Exception {
 
-		sendOrModifyOrder(orderNumber, order);
+		sendOrModifyOrder(order);
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	 * helper method to be used in both sendorder and modifyorder.
 	 * @throws Exception
 	 */
-	private void sendOrModifyOrder(int orderNumber, Order order) throws Exception {
+	private void sendOrModifyOrder(Order order) throws Exception {
 
 		if (!(client.getIbAdapter().getState().equals(ConnectionState.READY) || client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED))) {
 			logger.error("transaction cannot be executed, because IB is not connected");
@@ -75,13 +76,11 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 			ibOrder.m_auxPrice = ((StopOrderInterface) order).getStop().doubleValue();
 		}
 
-		order.setNumber(orderNumber);
-
 		// progapate the order to all corresponding esper engines
 		propagateOrder(order);
 
 		// place the order through IBClient
-		client.placeOrder(orderNumber, contract, ibOrder);
+		client.placeOrder(order.getNumber(), contract, ibOrder);
 
 		logger.info("placed order: " + order);
 	}

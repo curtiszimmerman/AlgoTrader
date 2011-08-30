@@ -119,9 +119,9 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 	}
 
 	@Override
-	protected void handleModifyOrder(int orderNumber, Order order) throws Exception {
+	protected void handleModifyOrder(Order order) throws Exception {
 
-		modifyExternalOrder(orderNumber, order);
+		modifyExternalOrder(order);
 	}
 
 	@Override
@@ -154,6 +154,14 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		public void update(int orderNumber) {
 
 			ServiceLocator.commonInstance().getOrderService().cancelOrder(orderNumber);
+		}
+	}
+
+	public static class ModifyOrderSubscriber {
+
+		public void update(Order order) {
+
+			ServiceLocator.commonInstance().getOrderService().modifyOrder(order);
 		}
 	}
 }
