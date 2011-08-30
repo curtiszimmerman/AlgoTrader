@@ -28,12 +28,12 @@ from pattern [timer:interval(2 sec)];
 @Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
 select
 marketOrder.number as orderNumer
-from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED))];
+from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
 */
 
 // ------------------ limit order and corresponding order modification ---------
 
-
+/*
 @Name('CREATE_LIMIT_ORDER')
 @Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateLimitOrderSubscriber')
 select
@@ -43,12 +43,23 @@ from pattern [tick=Tick]
 where tick.security.symbol = 'GOOG';
 
 @Name('MODIFY_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$ModifyLimitOrderSubscriber')
-select
-limitOrder,
-limitOrder.`limit` + 0.1
-from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED))];
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
+select 
+OrderUtil.modifyOrderLimit(limitOrder, limitOrder.`limit` + 0.1) 
+from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
+*/
 
+// ------------------ stepping limit order ---------
+
+@Name('CREATE_STEPPING_LIMIT_ORDER')
+@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateSteppingLimitOrderSubscriber')
+select
+1000 as quantity,
+tick.bid as lmt,
+tick.ask as maxLimit,
+(tick.ask - tick.bid) / 10 as increment
+from pattern [tick=Tick]
+where tick.security.symbol = 'GOOG';
 
 // -------------------- debug statements -----------------------------------------
 
