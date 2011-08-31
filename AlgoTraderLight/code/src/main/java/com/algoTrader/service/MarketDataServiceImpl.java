@@ -49,8 +49,8 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {
 	
 		// marketDataEvent.toString is expensive, so only log if debug is anabled
-		if (!logger.getParent().getLevel().isGreaterOrEqual(Level.INFO)) {
-			logger.debug(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
+		if (!logger.getParent().getLevel().isGreaterOrEqual(Level.DEBUG)) {
+			logger.trace(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
 		}
 	
 		Security security = marketDataEvent.getSecurity();
@@ -62,6 +62,28 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 		for (WatchListItem watchListItem : security.getWatchListItems()) {
 			getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
+		}
+	}
+
+
+	protected void handlePersistTick(Tick tick) throws IOException {
+	
+		Security security = tick.getSecurity();
+	
+		// retrieve ticks only between marketOpen & close
+		if (DateUtil.compareToTime(security.getSecurityFamily().getMarketOpen()) >= 0
+				&& DateUtil.compareToTime(security.getSecurityFamily().getMarketClose()) <= 0) {
+	
+			// write the tick to file
+			CsvTickWriter csvWriter = this.csvWriters.get(security);
+			if (csvWriter == null) {
+				csvWriter = new CsvTickWriter(security.getIsin());
+				this.csvWriters.put(security, csvWriter);
+			}
+			csvWriter.write(tick);
+	
+			// write the tick to the DB (even if not valid)
+			getTickDao().create(tick);
 		}
 	}
 
@@ -170,32 +192,19 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 		}
 	}
 
-	protected void handlePersistTick(Tick tick) throws IOException {
-
-		Security security = tick.getSecurity();
-
-		// retrieve ticks only between marketOpen & close
-		if (DateUtil.compareToTime(security.getSecurityFamily().getMarketOpen()) >= 0
-				&& DateUtil.compareToTime(security.getSecurityFamily().getMarketClose()) <= 0) {
-
-			// write the tick to file
-			CsvTickWriter csvWriter = this.csvWriters.get(security);
-			if (csvWriter == null) {
-				csvWriter = new CsvTickWriter(security.getIsin());
-				this.csvWriters.put(security, csvWriter);
-			}
-			csvWriter.write(tick);
-
-			// write the tick to the DB (even if not valid)
-			getTickDao().create(tick);
-		}
-	}
-
 	public static class PropagateTickSubscriber {
 
 		public void update(MarketDataEvent marketDataEvent) {
 
 			ServiceLocator.serverInstance().getMarketDataService().propagateMarketDataEvent(marketDataEvent);
+		}
+	}
+
+	public static class PersistTickSubscriber {
+
+		public void update(Tick tick) {
+
+			ServiceLocator.serverInstance().getMarketDataService().persistTick(tick);
 		}
 	}
 }

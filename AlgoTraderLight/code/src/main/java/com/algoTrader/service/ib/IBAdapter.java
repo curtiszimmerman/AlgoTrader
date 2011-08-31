@@ -94,85 +94,100 @@ public final class IBAdapter implements EWrapper {
 
 		String message = "id: " + id + " code: " + code + " " + errorMsg.replaceAll("\n", " ");
 
-		if (code == 202) {
+		switch (code) {
 
-			// Order cancelled
-			// do nothing, since we cancelled the order ourself
-			logger.debug(message);
+		// order related error messages will usually come along with a orderStatus=Inactive
+		// which will lead to a cancellation of the GenericOrder. If there is no orderStatus=Inactive
+		// coming along, the GenericOrder has to be cancelled by us (potenially creating a "fake" OrderStatus)
+			case 201:
+	
+				// Order rejected - reason:
+				// cancel the order
+				logger.error(message);
+				break;
+	
+			case 202:
+	
+				// Order cancelled
+				// do nothing, since we cancelled the order ourself
+				logger.debug(message);
+				break;
+	
+			case 399:
+	
+				// Order Message: Warning: Your order size is below the EUR 20000 IdealPro minimum and will be routed as an odd lot order.
+				// do nothing, this is ok for small FX Orders
+				logger.debug(message);
+				break;
+	
+			case 434:
+	
+				// The order size cannot be zero
+				// This happens in a closing order using PctChange where the percentage is
+				// small enough to round to zero for each individual client account
+				logger.debug(message);
+				break;
+	
+			case 502:
 
-		} else if (code == 201) {
-
-			// Order rejected - reason:To late to replace order
-			// do nothing, we modified the price too late
-			logger.debug(message);
-
-		} else if (code == 399) {
-
-			// Order Message: Warning: Your order size is below the EUR 20000 IdealPro minimum and will be routed as an odd lot order.
-			// do nothing, this is ok for small FX Orders
-			logger.debug(message);
-
-		} else if (code == 434) {
-
-			// The order size cannot be zero
-			// This happens in a closing order using PctChange where the percentage is
-			// small enough to round to zero for each individual client account
-			logger.debug(message);
-
-		} else if (code == 502) {
-	
-			// Couldn't connect to TWS
-			setState(ConnectionState.DISCONNECTED);
-			logger.info(message);
-	
-		} else if (code == 1100) {
-	
-			// Connectivity between IB and TWS has been lost.
-			setState(ConnectionState.CONNECTED);
-			logger.info(message);
-	
-		} else if (code == 1101) {
-	
-			// Connectivity between IB and TWS has been restored data lost.
-			setRequested(false);
-			setState(ConnectionState.READY);
-			ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-			logger.info(message);
-	
-		} else if (code == 1102) {
-	
-			// Connectivity between IB and TWS has been restored data maintained.
-			if (isRequested()) {
-				setState(ConnectionState.SUBSCRIBED);
-			} else {
-				setState(ConnectionState.READY);
-				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-			}
-			logger.info(message);
-	
-		} else if (code == 2110) {
-	
-			// Connectivity between TWS and server is broken. It will be restored automatically.
-			setState(ConnectionState.CONNECTED);
-			logger.info(message);
-	
-		} else if (code == 2104) {
-	
-			// A market data farm is connected.
-			if (isRequested()) {
-				setState(ConnectionState.SUBSCRIBED);
-			} else {
-				setState(ConnectionState.READY);
-				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-			}
-			logger.info(message);
-
-		} else {
-			if (code < 1000) {
-				logger.error(message, new RuntimeException(message));
-			} else {
+				// Couldn't connect to TWS
+				setState(ConnectionState.DISCONNECTED);
 				logger.info(message);
-			}
+				break;
+
+			case 1100:
+
+				// Connectivity between IB and TWS has becase te(ConnectionState.CONNECTED);
+				logger.info(message);
+				break;
+
+			case 1101:
+
+				// Connectivity between IB and TWS has been restored data lost.
+				setRequested(false);
+				setState(ConnectionState.READY);
+				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+				logger.info(message);
+				break;
+
+			case 1102:
+
+				// Connectivity between IB and TWS has been restored data maintained.
+				if (isRequested()) {
+					setState(ConnectionState.SUBSCRIBED);
+				} else {
+					setState(ConnectionState.READY);
+					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+				}
+				logger.info(message);
+				break;
+
+			case 2110:
+
+				// Connectivity between TWS and server is broken. It will be restored automatically.
+				setState(ConnectionState.CONNECTED);
+				logger.info(message);
+				break;
+
+			case 2104:
+
+				// A market data farm is connected.
+				if (isRequested()) {
+					setState(ConnectionState.SUBSCRIBED);
+				} else {
+					setState(ConnectionState.READY);
+					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+				}
+				logger.info(message);
+				break;
+
+			default:
+				if (code < 1000) {
+					logger.error(message);
+				} else {
+					logger.info(message);
+				}
+				break;
 		}
 	}
 
@@ -384,14 +399,14 @@ public final class IBAdapter implements EWrapper {
 	public void tickPrice(final int tickerId, final int field, final double price, final int canAutoExecute) {
 		final TickPrice o = new TickPrice(tickerId, field, price, canAutoExecute);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickPrice(tickerId, field, price, canAutoExecute));
+		logger.trace(EWrapperMsgGenerator.tickPrice(tickerId, field, price, canAutoExecute));
 	}
 
 	@Override
 	public void tickSize(final int tickerId, final int field, final int size) {
 		final TickSize o = new TickSize(tickerId, field, size);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickSize(tickerId, field, size));
+		logger.trace(EWrapperMsgGenerator.tickSize(tickerId, field, size));
 	}
 
 	@Override
@@ -405,7 +420,7 @@ public final class IBAdapter implements EWrapper {
 	public void tickString(final int tickerId, final int tickType, final String value) {
 		final TickString o = new TickString(tickerId, tickType, value);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickString(tickerId, tickType, value));
+		logger.trace(EWrapperMsgGenerator.tickString(tickerId, tickType, value));
 	}
 
 	@Override

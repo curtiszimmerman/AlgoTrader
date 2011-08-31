@@ -16,7 +16,7 @@
 <!--			<param name="ConversionPattern" value="%m" />-->
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMin" value="TRACE" />
 			<param name="LevelMax" value="WARN" />
 		</filter>
 	</appender>
@@ -92,7 +92,7 @@
 	</logger>
 
 	<root>
-		<level value="info" />
+		<level value="debug" />
 		<!-- <appender-ref ref="FILE"/> -->
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="STDERR"/>

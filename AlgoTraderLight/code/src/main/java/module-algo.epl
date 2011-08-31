@@ -3,12 +3,17 @@
 @Name('MODIFY_STEPPING_LIMIT_ORDER')
 @Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
 select
-	OrderUtil.modifyOrderLimit(currentOrder, currentOrder.`limit` + currentOrder.increment) 
+	case
+		when currentOrder.side = Side.BUY then OrderUtil.modifyOrderLimit(currentOrder, currentOrder.`limit` + currentOrder.increment)
+		when currentOrder.side = Side.SELL then OrderUtil.modifyOrderLimit(currentOrder, currentOrder.`limit` - currentOrder.increment)
+	end
 from pattern [
 	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder  
-		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))]
+		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
 where
-	currentOrder.`limit` + currentOrder.increment <= currentOrder.maxLimit;
+	(currentOrder.side = Side.BUY and currentOrder.`limit` + currentOrder.increment <= currentOrder.maxLimit)
+or
+	(currentOrder.side = Side.SELL and currentOrder.`limit` - currentOrder.increment >= currentOrder.maxLimit);
 	
 @Name('CANCEL_STEPPING_LIMIT_ORDER')
 @Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
@@ -16,6 +21,8 @@ select
 	currentOrder.number
 from pattern [
 	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder 
-		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))]
+		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
 where
-	currentOrder.`limit` + currentOrder.increment > currentOrder.maxLimit;
+	(currentOrder.side = Side.BUY and currentOrder.`limit` + currentOrder.increment > currentOrder.maxLimit)
+or
+	(currentOrder.side = Side.SELL and currentOrder.`limit` - currentOrder.increment < currentOrder.maxLimit);

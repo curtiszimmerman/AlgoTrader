@@ -30,7 +30,7 @@ where
 
 @Name('RETRIEVE_TICK')
 on
-	TickWindow
+	TickWindow as trigger
 insert into
 	Tick
 select
@@ -48,9 +48,9 @@ select
 from
 	TickWindow as tickWindow
 where
-	tickWindow.bid != null
+	trigger.security.id = tickWindow.security.id
 and	
-	tickWindow.ask != null;
+	MarketDataUtil.isTickValid(tickWindow);
 	
 @Name('PROPAGATE_MARKET_DATA_EVENTS')
 @Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
@@ -58,6 +58,14 @@ select
 	*
 from
 	MarketDataEvent;	
+	
+@Name('PERSIST_TICKS')
+@Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PersistTickSubscriber')
+select 
+      tick
+from pattern
+	[every-distinct(tick.security.id, 1 minute) tick=Tick];
+	
 
 // --------------------- CURRENT / LAST VALUES --------------------------------
 	
