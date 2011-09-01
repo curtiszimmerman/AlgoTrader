@@ -23,7 +23,7 @@ public class IBUtil {
 	private static SimpleDateFormat expiryFormat = new SimpleDateFormat("yyyyMMdd");
 	private static SimpleDateFormat executionFormat = new SimpleDateFormat("yyyyMMdd  HH:mm:ss");
 
-	public static Contract getContract(Security security) throws Exception {
+	public static Contract getContract(Security security) {
 
 		Contract contract = new Contract();
 
@@ -78,8 +78,6 @@ public class IBUtil {
 			contract.m_secType = "IND";
 			contract.m_exchange = IBMarketConverter.marketToString(security.getSecurityFamily().getMarket());
 
-		} else {
-			throw new Exception("Security not found in database. Security " + security.toString());
 		}
 
 		return contract;

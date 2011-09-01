@@ -25,8 +25,8 @@ import com.algoTrader.util.MyLogger;
 import com.algoTrader.util.io.CsvTickWriter;
 import com.algoTrader.vo.BarVO;
 import com.algoTrader.vo.RawTickVO;
-import com.algoTrader.vo.SubscribeTickEvent;
-import com.algoTrader.vo.UnsubscribeTickEvent;
+import com.algoTrader.vo.SubscribeTickVO;
+import com.algoTrader.vo.UnsubscribeTickVO;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
@@ -148,7 +148,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			Tick tick = Tick.Factory.newInstance();
 			tick.setSecurity(security);
 
-			SubscribeTickEvent subscribeTickEvent = new SubscribeTickEvent();
+			SubscribeTickVO subscribeTickEvent = new SubscribeTickVO();
 			subscribeTickEvent.setTick(tick);
 			subscribeTickEvent.setTickerId(tickerId);
 
@@ -170,7 +170,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 		if (watchListItem != null && !watchListItem.isPersistent()) {
 
-			UnsubscribeTickEvent unsubscribeTickEvent = new UnsubscribeTickEvent();
+			UnsubscribeTickVO unsubscribeTickEvent = new UnsubscribeTickVO();
 			unsubscribeTickEvent.setSecurityId(security.getId());
 			getRuleService().sendEvent(StrategyImpl.BASE, unsubscribeTickEvent);
 			

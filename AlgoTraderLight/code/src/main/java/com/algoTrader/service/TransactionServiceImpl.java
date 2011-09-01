@@ -42,11 +42,11 @@ public class TransactionServiceImpl extends TransactionServiceBase {
 		transaction.setPrice(fill.getPrice());
 		transaction.setType(transactionType);
 		transaction.setSecurity(security);
+		transaction.setStrategy(strategy);
 		transaction.setCurrency(security.getSecurityFamily().getCurrency());
 		transaction.setCommission(fill.getCommission());
 
 		// Strategy
-		transaction.setStrategy(strategy);
 		strategy.getTransactions().add(transaction);
 
 		// Position

@@ -26,8 +26,8 @@
 	<event-type name="RawTick" class="com.algoTrader.vo.RawTickVO"/>
 	<event-type name="BarVO" class="com.algoTrader.vo.BarVO"/>
 
-	<event-type name="SubscribeTickEvent" class="com.algoTrader.vo.SubscribeTickEvent"/>
-	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickEvent"/>
+	<event-type name="SubscribeTickEvent" class="com.algoTrader.vo.SubscribeTickVO"/>
+	<event-type name="UnsubscribeTickEvent" class="com.algoTrader.vo.UnsubscribeTickVO"/>
 	
 	<event-type name="MonthlyPerformance" class="com.algoTrader.vo.MonthlyPerformanceVO"/>
 	<event-type name="PerformanceKeys" class="com.algoTrader.vo.PerformanceKeysVO"/>	
