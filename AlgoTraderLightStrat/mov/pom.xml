@@ -9,6 +9,20 @@
   <artifactId>algotraderlight-mov</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>AlgoTrader Moving Average Example Strategy</name>
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-assembly-plugin</artifactId>
+  			<version>2.2.1</version>
+			<configuration>
+	          <descriptors>
+    	        <descriptor>assembly-all.xml</descriptor>
+        	  </descriptors>
+			</configuration>
+  		</plugin>
+  	</plugins>
+  </build>  
   <dependencies>
   	<dependency>
   		<groupId>algotraderlight</groupId>
