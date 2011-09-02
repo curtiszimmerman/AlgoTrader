@@ -44,7 +44,7 @@ public class PeriodicServiceImpl {
 		order.setQuantity(Math.abs(quantity));
 		order.setSide(quantity > 0 ? Side.BUY : Side.SELL);
 
-		logger.info("placed market order for quantity: " + quantity);
+		logger.info("placed " + order);
 
 		this.orderService.sendOrder(order);
 	}
@@ -61,7 +61,7 @@ public class PeriodicServiceImpl {
 		order.setSide(quantity > 0 ? Side.BUY : Side.SELL);
 		order.setLimit(limit.setScale(2, BigDecimal.ROUND_HALF_UP));
 
-		logger.info("placed limit order with limit: " + order.getLimit());
+		logger.info("placed " + order);
 
 		this.orderService.sendOrder(order);
 	}
@@ -80,7 +80,7 @@ public class PeriodicServiceImpl {
 		order.setMaxLimit(maxLimit.setScale(2, BigDecimal.ROUND_HALF_UP));
 		order.setIncrement(increment.setScale(2, BigDecimal.ROUND_HALF_UP));
 
-		logger.info("placed stepping limit order with limit: " + order.getLimit() + " maximit: " + order.getMaxLimit() + " increment: " + order.getIncrement());
+		logger.info("placed " + order);
 
 		this.orderService.sendOrder(order);
 	}
