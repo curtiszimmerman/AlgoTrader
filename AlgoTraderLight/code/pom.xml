@@ -92,6 +92,7 @@
 			<version>9.6.3</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ibclient-9.6.3.jar</systemPath>
+			<optional>true</optional>
 		</dependency><dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -174,12 +175,14 @@
 			<version>1.52</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/SuperCSV-1.52.jar</systemPath>
+			<optional>true</optional>
 		</dependency><dependency>
 			<groupId>org.ta-lib</groupId>
 			<artifactId>ta-lib</artifactId>
 			<version>0.4.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ta-lib-0.4.0.jar</systemPath>
+			<optional>true</optional>
 </dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
