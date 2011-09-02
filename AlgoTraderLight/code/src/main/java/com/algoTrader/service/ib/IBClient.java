@@ -62,7 +62,7 @@ public final class IBClient extends EClientSocket {
 			sleep();
 		}
 
-		eConnect(null, port, clientId);
+		eConnect(host, port, clientId);
 
 		if (isConnected()) {
 			this.getIbAdapter().setState(ConnectionState.CONNECTED);
