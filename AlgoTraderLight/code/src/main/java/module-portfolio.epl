@@ -1,0 +1,26 @@
+
+/*
+@Name('SET_MARGINS')
+@Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
+select 
+	* 
+from 
+	pattern[every timer:at (0, 7, *, *, 1:5)];
+*/
+
+@Name('CLOSE_POSITION')
+@Priority(1)
+@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
+select
+	position.id
+from
+	CurrentValue as event,
+	method:LookupUtil.getPositions(event.security) as position
+where
+	position.quantity != 0
+and
+	position.exitValue != null
+and
+	((position.short and (event.value >= position.exitValue))
+or
+	(position.long and (event.value <= position.exitValue)));

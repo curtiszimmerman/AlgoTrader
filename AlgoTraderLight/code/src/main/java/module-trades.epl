@@ -1,0 +1,21 @@
+@Name('PROPAGATE_ORDER_STATUS')
+@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$PropagateOrderStatusSubscriber')
+select
+	*
+from
+	OrderStatus;
+	
+@Name('PROPAGATE_FILL')
+@Priority(1)
+@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$PropagateFillSubscriber')
+select
+	*
+from
+	Fill;
+
+@Name('CREATE_TRANSACTION')
+@Tag(name='subscriber', value='com.algoTrader.service.TransactionServiceImpl$CreateTransactionSubscriber')
+select
+	*
+from
+	Fill;

@@ -1,5 +1,3 @@
-// ----------------------------- MARKET DATA -----------------------------	
-
 @Name('UPDATE_TICK_WINDOW_BID')
 on
 	IBTickPrice as tickPrice

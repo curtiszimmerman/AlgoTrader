@@ -186,7 +186,7 @@ CREATE TABLE `strategy` (
   `FAMILY` varchar(20) NOT NULL,
   `AUTO_ACTIVATE` bit(1) NOT NULL,
   `ALLOCATION` double(15,3) NOT NULL,
-  `MODULES` varchar(50) NOT NULL,
+  `MODULES` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `NAME` (`NAME`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -444,7 +444,7 @@ COMMIT;
 #
 
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
-  (0,'BASE','BASE',True,0,'base,ib,algo');
+  (0,'BASE','BASE',True,0,'market-data,current-values,trades,portfolio,performance,ib,algo');
 UPDATE `strategy` SET `id`=0 WHERE `id`=LAST_INSERT_ID();
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
   (1,'MOV','MOV',True,1,'mov-main'),

@@ -1,0 +1,57 @@
+@Name('CREATE_CURRENT_VALUE')
+@Priority(5)
+insert into
+	CurrentValue
+select
+	coalesce(bid.security, trade.security, bar.security, tick.security) as security,
+	coalesce((bid.price + ask.price) / 2, trade.price, tick.currentValue, bar.close) as value
+from
+	pattern [every ((bid=Bid and ask=Ask) or trade=Trade or bar=Bar or tick=Tick)];
+
+@Name('GET_CURRENT_VALUE')
+@Priority(6)
+select 
+	value.security.id as securityId, 
+	value.* as value 
+from 
+	CurrentValue.std:groupwin(security.id).win:time(7 days).win:length(1) as value;
+
+@Name('GET_LAST_TICK')
+@Priority(6)
+select 
+	tick.security.id as securityId, 
+	tick.* as tick 
+from 
+	Tick.std:groupwin(security.id).win:time(7 days).win:length(1) as tick;
+
+@Name('GET_LAST_BAR')
+@Priority(6)
+select
+	bar.security.id as securityId,
+	bar.* as bar 
+from
+	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as bar;
+
+@Name('GET_LAST_BID')
+@Priority(6)
+select
+	bid.security.id as securityId,
+	bid.* as bid 
+from
+	Bid.std:groupwin(security.id).win:time(7 days).win:length(1) as bid;
+
+@Name('GET_LAST_ASK')
+@Priority(6)
+select
+	ask.security.id as securityId,
+	ask.* as ask 
+from
+	Ask.std:groupwin(security.id).win:time(7 days).win:length(1) as ask;
+
+@Name('GET_LAST_TRADE')
+@Priority(6)
+select
+	trade.security.id as securityId,
+	trade.* as trade 
+from
+	Bar.std:groupwin(security.id).win:time(7 days).win:length(1) as trade;
