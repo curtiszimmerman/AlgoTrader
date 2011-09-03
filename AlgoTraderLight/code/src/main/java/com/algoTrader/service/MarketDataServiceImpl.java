@@ -96,7 +96,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 	protected void handleInitWatchlist() {
 	
-		List<Security> securities = getSecurityDao().findSecuritiesOnWatchlist();
+		List<Security> securities = getSecurityDao().findSecuritiesOnActiveWatchlist();
 
 		for (Security security : securities) {
 			putOnWatchlist(security);
