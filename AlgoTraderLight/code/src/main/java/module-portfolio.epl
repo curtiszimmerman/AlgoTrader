@@ -1,7 +1,7 @@
 
 /*
 @Name('SET_MARGINS')
-@Tag(name='listeners', value='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
+@Listeners(classNames='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
 select 
 	* 
 from 
@@ -10,7 +10,7 @@ from
 
 @Name('CLOSE_POSITION')
 @Priority(1)
-@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
+@Subscriber(className='com.algoTrader.service.PositionServiceImpl$ClosePositionSubscriber')
 select
 	position.id
 from

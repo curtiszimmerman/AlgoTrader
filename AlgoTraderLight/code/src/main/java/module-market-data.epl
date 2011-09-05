@@ -49,14 +49,14 @@ and
 	MarketDataUtil.isTickValid(tickWindow);
 	
 @Name('PROPAGATE_MARKET_DATA_EVENTS')
-@Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
+@Subscriber(className='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
 select 
 	*
 from
 	MarketDataEvent;	
 	
 @Name('PERSIST_TICKS')
-@Tag(name='subscriber', value='com.algoTrader.service.MarketDataServiceImpl$PersistTickSubscriber')
+@Subscriber(className='com.algoTrader.service.MarketDataServiceImpl$PersistTickSubscriber')
 select 
       tick
 from pattern

@@ -17,7 +17,7 @@ import java.util.TreeSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.algoTrader.util.io.CustomSender;
+import com.algoTrader.esper.io.CustomSender;
 import com.espertech.esper.adapter.AdapterState;
 import com.espertech.esper.adapter.AdapterStateManager;
 import com.espertech.esper.client.EPException;

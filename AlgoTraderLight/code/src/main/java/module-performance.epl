@@ -1,5 +1,5 @@
 @Name('CREATE_PORTFOLIO_VALUE')
-@Tag(name='subscriber', value='com.algoTrader.subscriber.PrintPortfolioValueSubscriber')
+@Subscriber(className='com.algoTrader.esper.subscriber.PrintPortfolioValueSubscriber')
 insert into 
 	Portfolio
 select 

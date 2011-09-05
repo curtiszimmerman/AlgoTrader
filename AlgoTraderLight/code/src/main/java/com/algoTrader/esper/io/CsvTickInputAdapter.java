@@ -1,30 +1,29 @@
-package com.algoTrader.util.io;
+package com.algoTrader.esper.io;
 
-import com.algoTrader.vo.BarVO;
+import com.algoTrader.vo.RawTickVO;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esperio.SendableBeanEvent;
 import com.espertech.esperio.SendableEvent;
 import com.espertech.esperio.csv.CSVInputAdapter;
 
-public class CsvBarInputAdapter extends CSVInputAdapter {
+public class CsvTickInputAdapter extends CSVInputAdapter {
 
-	private CsvBarInputAdapterSpec spec;
+	private CsvTickInputAdapterSpec spec;
 
-	public CsvBarInputAdapter(EPServiceProvider epService, CsvBarInputAdapterSpec spec) {
+	public CsvTickInputAdapter(EPServiceProvider epService, CsvTickInputAdapterSpec spec) {
 
 		super(epService, spec);
 		this.spec = spec;
 	}
 
 	public SendableEvent read() {
-
 		SendableBeanEvent event = (SendableBeanEvent) super.read();
 
-		if (event != null && event.getBeanToSend() instanceof BarVO) {
+		if (event != null && event.getBeanToSend() instanceof RawTickVO) {
 
-			BarVO bar = (BarVO) event.getBeanToSend();
+			RawTickVO tick = (RawTickVO) event.getBeanToSend();
 			String isin = this.spec.getFile().getName().split("\\.")[0];
-			bar.setIsin(isin);
+			tick.setIsin(isin);
 		}
 		return event;
 	}

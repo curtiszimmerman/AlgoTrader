@@ -1,4 +1,4 @@
-package com.algoTrader.subscriber;
+package com.algoTrader.esper.subscriber;
 
 import java.util.Map;
 

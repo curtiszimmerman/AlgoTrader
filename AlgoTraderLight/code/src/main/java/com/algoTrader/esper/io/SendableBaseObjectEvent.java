@@ -1,4 +1,4 @@
-package com.algoTrader.util.io;
+package com.algoTrader.esper.io;
 
 import com.algoTrader.BaseObject;
 import com.espertech.esper.schedule.ScheduleSlot;

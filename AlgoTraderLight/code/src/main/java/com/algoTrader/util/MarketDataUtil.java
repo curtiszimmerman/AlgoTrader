@@ -73,9 +73,6 @@ public class MarketDataUtil {
 			if (tick.getLastDateTime() == null) {
 				return false;
 			}
-			if (tick.getSettlement() == null) {
-				return false;
-			}
 		}
 
 		// check these fields for all security-types

@@ -1,7 +1,7 @@
 // ------------------------------ stepping limit algo ---------------------------------------
 
 @Name('MODIFY_STEPPING_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
 select
 	case
 		when currentOrder.side = Side.BUY then OrderUtil.modifyOrderLimit(currentOrder, currentOrder.`limit` + currentOrder.increment)
@@ -16,7 +16,7 @@ or
 	(currentOrder.side = Side.SELL and currentOrder.`limit` - currentOrder.increment >= currentOrder.maxLimit);
 	
 @Name('CANCEL_STEPPING_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
 select
 	currentOrder.number
 from pattern [

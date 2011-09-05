@@ -65,6 +65,7 @@
 	<auto-import import-name="com.algoTrader.util.DateUtil"/>
 	<auto-import import-name="com.algoTrader.util.MarketDataUtil"/>
 	<auto-import import-name="com.algoTrader.util.OrderUtil"/>
+	<auto-import import-name="com.algoTrader.esper.annotation.*"/>
 
 	<auto-import import-name="com.algoTrader.service.ib.IBUtil"/>
 	<auto-import import-name="com.ib.client.TickType"/>
