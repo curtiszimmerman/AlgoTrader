@@ -2,7 +2,7 @@ module movMain;
 
 @Name('CREATE_EXIT_VALUE')
 @Priority(4)
-@Tag(name='subscriber', value='com.algoTrader.service.PositionServiceImpl$SetExitValueSubscriber')
+@Subscriber(className='com.algoTrader.service.PositionServiceImpl$SetExitValueSubscriber')
 select position.id as positionId,
 exitValue.value as value
 from Tick as tick,
@@ -26,7 +26,7 @@ from Tick(security.isin = underlayingIsin);
 //where stat2.datapoints = movLengthSlow;
 
 @Name('OPEN_POSITION')
-@Tag(name='subscriber', value='com.algoTrader.service.mov.MovServiceImpl$OpenPositionSubscriber')
+@Subscriber(className='com.algoTrader.service.mov.MovServiceImpl$OpenPositionSubscriber')
 select
 engineStrategy.name as strategyName, 
 indexTick.security.id as underlayingid,

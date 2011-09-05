@@ -7,7 +7,7 @@ select talib("movingAverage", currentValueDouble, movLengthFast, "Ema") - talib(
 from Bar(security.isin = underlayingIsin);
 
 @Name('OPEN_LONG')
-@Tag(name='subscriber', value='com.algoTrader.service.max.MaxServiceImpl$OpenLongSubscriber')
+@Subscriber(className='com.algoTrader.service.max.MaxServiceImpl$OpenLongSubscriber')
 select
 engineStrategy.name as strategyName, 
 indexTick.security.id as underlayingid,
@@ -17,7 +17,7 @@ where indicator.value > 0
 and prior(1, indicator.value) <= 0;
 
 @Name('OPEN_SHORT')
-@Tag(name='subscriber', value='com.algoTrader.service.max.MaxServiceImpl$OpenShortSubscriber')
+@Subscriber(className='com.algoTrader.service.max.MaxServiceImpl$OpenShortSubscriber')
 select
 engineStrategy.name as strategyName, 
 indexTick.security.id as underlayingid,

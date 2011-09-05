@@ -3,13 +3,13 @@ module movMain;
 // --------------------- periodic trades every 10 seconds -------------------------
 /*
 @Name('CREATE_BUY_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
 select
 1000 as quantity
 from pattern [timer:interval(20 sec)];
 
 @Name('CREATE_SELL_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
 select
 -1000 as quantity
 from pattern [every timer:interval(20 sec)] output every 10 sec;
@@ -19,13 +19,13 @@ from pattern [every timer:interval(20 sec)] output every 10 sec;
 
 /*
 @Name('CREATE_MARKET_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
 select
 1000 as quantity
 from pattern [timer:interval(2 sec)];
 
 @Name('CANCEL_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
 select
 marketOrder.number as orderNumer
 from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
@@ -35,7 +35,7 @@ from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not Or
 
 /*
 @Name('CREATE_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateLimitOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateLimitOrderSubscriber')
 select
 1000 as quantity,
 tick.bid
@@ -43,7 +43,7 @@ from pattern [tick=Tick]
 where tick.security.symbol = 'GOOG';
 
 @Name('MODIFY_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
 select 
 OrderUtil.modifyOrderLimit(limitOrder, limitOrder.`limit` + 0.1) 
 from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
@@ -52,7 +52,7 @@ from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not Orde
 // ------------------ stepping limit order ---------
 
 @Name('CREATE_STEPPING_LIMIT_ORDER')
-@Tag(name='subscriber', value='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateSteppingLimitOrderSubscriber')
+@Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateSteppingLimitOrderSubscriber')
 select
 1000 as quantity,
 tick.bid as lmt,
@@ -63,14 +63,14 @@ where tick.security.symbol = 'GOOG';
 
 // -------------------- debug statements -----------------------------------------
 
-@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+@Subscriber(className='com.algoTrader.esper.subscriber.TestSubscriber')
 select 'Order' as eventType, * from GenericOrder;
 
-@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+@Subscriber(className='com.algoTrader.esper.subscriber.TestSubscriber')
 select 'OrderStatus' as eventType, * from OrderStatus;
 
-@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+@Subscriber(className='com.algoTrader.esper.subscriber.TestSubscriber')
 select 'Fill' as eventType, * from Fill;
 
-@Tag(name='subscriber', value='com.algoTrader.subscriber.TestSubscriber')
+@Subscriber(className='com.algoTrader.esper.subscriber.TestSubscriber')
 select 'Transaction' as eventType, * from Transaction;

@@ -7,13 +7,14 @@
 
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
+	<auto-import import-name="com.algoTrader.esper.annotation.*"/>	
 
 	<auto-import import-name="java.lang.*"/>
 	<auto-import import-name="java.math.*"/>
 	<auto-import import-name="java.text.*"/>
 	<auto-import import-name="java.util.*"/>
 	
-	<plugin-aggregation-function name="talib" function-class="com.algoTrader.util.GenericTALibFunction"/>				
+	<plugin-aggregation-function name="talib" function-class="com.algoTrader.esper.aggregation.GenericTALibFunction"/>				
 
 	<variable name="simulation" type="boolean"/>
 	<variable name="simulation_eventsPerDay" type="long"/>	
