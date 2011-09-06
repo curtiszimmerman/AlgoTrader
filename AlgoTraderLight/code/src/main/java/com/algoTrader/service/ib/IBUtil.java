@@ -14,6 +14,7 @@ import com.algoTrader.entity.security.Stock;
 import com.algoTrader.entity.security.StockOption;
 import com.algoTrader.entity.trade.LimitOrder;
 import com.algoTrader.entity.trade.MarketOrder;
+import com.algoTrader.entity.trade.StopOrder;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.enumeration.Market;
 import com.ib.client.Contract;
@@ -87,6 +88,9 @@ public class IBUtil {
 
 		if (order instanceof MarketOrder) {
 			return "MKT";
+		}
+		if (order instanceof StopOrder) {
+			return "STP";
 		}
 		if (order instanceof LimitOrder) {
 			return "LMT";
