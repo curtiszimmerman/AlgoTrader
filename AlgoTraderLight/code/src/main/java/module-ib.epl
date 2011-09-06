@@ -1,4 +1,5 @@
 @Name('UPDATE_TICK_WINDOW_BID')
+@RunTimeOnly()
 on
 	IBTickPrice as tickPrice
 update
@@ -11,6 +12,7 @@ and
 	tickWindow.tickerId = tickPrice.tickerId;
 	
 @Name('UPDATE_TICK_WINDOW_ASK')
+@RunTimeOnly()
 on
 	IBTickPrice as tickPrice
 update
@@ -23,6 +25,7 @@ and
 	tickWindow.tickerId = tickPrice.tickerId;
 
 @Name('UPDATE_TICK_WINDOW_LAST')
+@RunTimeOnly()
 on
 	IBTickPrice as tickPrice
 update
@@ -35,6 +38,7 @@ and
 	tickWindow.tickerId = tickPrice.tickerId;
 
 @Name('UPDATE_TICK_WINDOW_CLOSE')
+@RunTimeOnly()
 on
 	IBTickPrice as tickPrice
 update
@@ -47,6 +51,7 @@ and
 	tickWindow.tickerId = tickPrice.tickerId;
 	
 @Name('UPDATE_TICK_WINDOW_VOL_ASK')
+@RunTimeOnly()
 on
 	IBTickSize as tickSize
 update
@@ -59,6 +64,7 @@ and
 	tickWindow.tickerId = tickSize.tickerId;
 
 @Name('UPDATE_TICK_WINDOW_VOL_BID')
+@RunTimeOnly()
 on
 	IBTickSize as tickSize
 update
@@ -71,6 +77,7 @@ and
 	tickWindow.tickerId = tickSize.tickerId;
 	
 @Name('UPDATE_TICK_WINDOW_VOL')
+@RunTimeOnly()
 on
 	IBTickSize as tickSize
 update
@@ -83,6 +90,7 @@ and
 	tickWindow.tickerId = tickSize.tickerId;
 
 @Name('UPDATE_TICK_WINDOW_OPEN_INTEREST')
+@RunTimeOnly()
 on
 	IBTickSize as tickSize
 update
@@ -95,6 +103,7 @@ and
 	tickWindow.tickerId = tickSize.tickerId;
 
 @Name('UPDATE_TICK_LAST_TIMESTAMP')
+@RunTimeOnly()
 on
 	IBTickString as tickString
 update
@@ -109,6 +118,7 @@ and
 // ----------------------------- TRADES -----------------------------	
 
 @Name('CREATE_FILL')
+@RunTimeOnly()
 insert into
 	Fill
 select
@@ -126,6 +136,7 @@ from
 				and not GenericOrder(number = genericOrder.number))]; 
 
 @Name('CREATE_ORDER_STATUS')
+@RunTimeOnly()
 insert into
 	OrderStatus
 select

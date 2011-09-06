@@ -1,12 +1,9 @@
-
-/*
 @Name('SET_MARGINS')
-@Listeners(classNames='com.algoTrader.service.PositionServiceImpl$SetMarginsListener')
+@Listeners(classNames={'com.algoTrader.service.PositionServiceImpl$SetMarginsListener'})
 select 
 	* 
 from 
 	pattern[every timer:at (0, 7, *, *, 1:5)];
-*/
 
 @Name('CLOSE_POSITION')
 @Priority(1)

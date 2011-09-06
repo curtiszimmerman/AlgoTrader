@@ -12,6 +12,7 @@ where
 	LookupUtil.hasLastTicks();
 
 @Name('CREATE_MONTHLY_PERFORMANCE')
+@SimulationOnly()
 @Priority(2)
 insert into 
 	MonthlyPerformance
@@ -25,6 +26,7 @@ having
 	portfolio.value.netLiqValue != prior(1, portfolio.value.netLiqValue);
 
 @Name('CREATE_PERFORMANCE_KEYS')
+@SimulationOnly()
 insert into 
 	PerformanceKeys
 select 
@@ -38,12 +40,14 @@ from
 	MonthlyPerformance.win:keepall().stat:uni(value) as uni;
 
 @Name('KEEP_MONTHLY_PERFORMANCE')
+@SimulationOnly()
 select 
 	*
 from 
 	MonthlyPerformance.win:keepall();
 
 @Name('CREATE_DRAW_DOWN')
+@SimulationOnly()
 insert into 
 	DrawDown
 select 
@@ -56,6 +60,7 @@ from
 	Portfolio as portfolio;
 
 @Name('CREATE_MAX_DRAW_DOWN')
+@SimulationOnly()
 insert into 
 	MaxDrawDown
 select 
