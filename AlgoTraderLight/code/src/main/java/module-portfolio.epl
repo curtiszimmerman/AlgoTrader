@@ -16,7 +16,7 @@ from
 where
 	position.quantity != 0
 and
-	position.exitValue != null
+	position.exitValue is not null
 and
 	((position.short and (event.value >= position.exitValue))
 or

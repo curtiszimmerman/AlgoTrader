@@ -1,4 +1,3 @@
-// line 172 & 193: add UNIVARIATE_STATISTICS__GEOMAVERAGE
 /**************************************************************************************
  * Copyright (C) 2008 EsperTech, Inc. All rights reserved.                            *
  * http://esper.codehaus.org                                                          *
@@ -26,9 +25,8 @@ import com.espertech.esper.view.ViewFieldEnum;
 import com.espertech.esper.view.ViewSupport;
 
 /**
- * View for computing statistics, which the view exposes via fields representing
- * the sum, count, standard deviation for sample and for population and
- * variance.
+ * View for computing statistics, which the view exposes via fields representing the sum, count, standard deviation
+ * for sample and for population and variance.
  */
 public final class UnivariateStatisticsView extends ViewSupport implements CloneableView {
 	private final StatementContext statementContext;
@@ -43,14 +41,10 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 	private Object[] lastValuesEventNew;
 
 	/**
-	 * Constructor requires the name of the field to use in the parent view to
-	 * compute the statistics.
-	 * 
-	 * @param fieldExpression
-	 *            is the expression to use to get numeric data points for this
-	 *            view to compute the statistics on.
-	 * @param statementContext
-	 *            contains required view services
+	 * Constructor requires the name of the field to use in the parent view to compute the statistics.
+	 * @param fieldExpression is the expression to use to get numeric data points for this view to
+	 * compute the statistics on.
+	 * @param statementContext contains required view services
 	 */
 	public UnivariateStatisticsView(StatementContext statementContext, ExprNode fieldExpression, EventType eventType, StatViewAdditionalProps additionalProps) {
 		this.statementContext = statementContext;
@@ -60,26 +54,25 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 		this.additionalProps = additionalProps;
 	}
 
-    public View cloneView(StatementContext statementContext) {
+	public View cloneView(StatementContext statementContext) {
 		return new UnivariateStatisticsView(statementContext, this.fieldExpression, this.eventType, this.additionalProps);
 	}
 
     /**
 	 * Returns field name of the field to report statistics on.
-	 * 
 	 * @return field name
 	 */
 	public final ExprNode getFieldExpression() {
 		return this.fieldExpression;
 	}
 
-    public final void update(EventBean[] newData, EventBean[] oldData) {
-		// If we have child views, keep a reference to the old values, so we can
-		// update them as old data event.
+	public final void update(EventBean[] newData, EventBean[] oldData) {
+		// If we have child views, keep a reference to the old values, so we can update them as old data event.
 		EventBean oldDataMap = null;
 		if (this.lastNewEvent == null) {
 			if (this.hasViews()) {
-				oldDataMap = populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType, this.additionalProps, this.lastValuesEventNew);
+				oldDataMap = populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType, this.additionalProps,
+						this.lastValuesEventNew);
 			}
 		}
 
@@ -118,32 +111,34 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 
         // If there are child view, call update method
 		if (this.hasViews()) {
-			EventBean newDataMap = populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType, this.additionalProps, this.lastValuesEventNew);
+			EventBean newDataMap = populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType, this.additionalProps,
+					this.lastValuesEventNew);
 
-            if (this.lastNewEvent == null) {
+			if (this.lastNewEvent == null) {
 				updateChildren(new EventBean[] { newDataMap }, new EventBean[] { oldDataMap });
 			} else {
 				updateChildren(new EventBean[] { newDataMap }, new EventBean[] { this.lastNewEvent });
 			}
 
-            this.lastNewEvent = newDataMap;
+			this.lastNewEvent = newDataMap;
 		}
 	}
 
-    public final EventType getEventType() {
+	public final EventType getEventType() {
 		return this.eventType;
 	}
 
-    public final Iterator<EventBean> iterator() {
-		return new SingleEventIterator(populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType, this.additionalProps, this.lastValuesEventNew));
+	public final Iterator<EventBean> iterator() {
+		return new SingleEventIterator(populateMap(this.baseStatisticsBean, this.statementContext.getEventAdapterService(), this.eventType,
+				this.additionalProps, this.lastValuesEventNew));
 	}
 
-    public final String toString() {
+	public final String toString() {
 		return this.getClass().getName() + " fieldExpression=" + this.fieldExpression;
 	}
 
-    public static EventBean populateMap(BaseStatisticsBean baseStatisticsBean, EventAdapterService eventAdapterService, EventType eventType, StatViewAdditionalProps additionalProps,
-			Object[] lastNewValues) {
+	public static EventBean populateMap(BaseStatisticsBean baseStatisticsBean, EventAdapterService eventAdapterService, EventType eventType,
+			StatViewAdditionalProps additionalProps, Object[] lastNewValues) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__DATAPOINTS.getName(), baseStatisticsBean.getN());
 		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__TOTAL.getName(), baseStatisticsBean.getXSum());
@@ -151,7 +146,7 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__STDDEVPA.getName(), baseStatisticsBean.getXStandardDeviationPop());
 		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__VARIANCE.getName(), baseStatisticsBean.getXVariance());
 		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__AVERAGE.getName(), baseStatisticsBean.getXAverage());
-		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__GEOMAVERAGE.getName(), baseStatisticsBean.getProdX());
+		result.put(ViewFieldEnum.UNIVARIATE_STATISTICS__GEOMAVERAGE.getName(), baseStatisticsBean.getGeomAvgX());
 		if (additionalProps != null) {
 			additionalProps.addProperties(result, lastNewValues);
 		}
@@ -160,12 +155,10 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 
     /**
 	 * Creates the event type for this view.
-	 * 
-	 * @param statementContext
-	 *            is the event adapter service
+	 * @param statementContext is the event adapter service
 	 * @return event type of view
 	 */
-	public static EventType createEventType(StatementContext statementContext, StatViewAdditionalProps additionalProps) {
+	public static EventType createEventType(StatementContext statementContext, StatViewAdditionalProps additionalProps, int streamNum) {
 		Map<String, Object> eventTypeMap = new HashMap<String, Object>();
 		eventTypeMap.put(ViewFieldEnum.UNIVARIATE_STATISTICS__DATAPOINTS.getName(), Long.class);
 		eventTypeMap.put(ViewFieldEnum.UNIVARIATE_STATISTICS__TOTAL.getName(), Double.class);
@@ -174,10 +167,10 @@ public final class UnivariateStatisticsView extends ViewSupport implements Clone
 		eventTypeMap.put(ViewFieldEnum.UNIVARIATE_STATISTICS__VARIANCE.getName(), Double.class);
 		eventTypeMap.put(ViewFieldEnum.UNIVARIATE_STATISTICS__AVERAGE.getName(), Double.class);
 		eventTypeMap.put(ViewFieldEnum.UNIVARIATE_STATISTICS__GEOMAVERAGE.getName(), double.class);
-		StatViewAdditionalProps
-				.addCheckDupProperties(eventTypeMap, additionalProps, ViewFieldEnum.UNIVARIATE_STATISTICS__DATAPOINTS, ViewFieldEnum.UNIVARIATE_STATISTICS__TOTAL,
-						ViewFieldEnum.UNIVARIATE_STATISTICS__STDDEV, ViewFieldEnum.UNIVARIATE_STATISTICS__STDDEVPA, ViewFieldEnum.UNIVARIATE_STATISTICS__VARIANCE,
-						ViewFieldEnum.UNIVARIATE_STATISTICS__AVERAGE);
-		return statementContext.getEventAdapterService().createAnonymousMapType(eventTypeMap);
+		StatViewAdditionalProps.addCheckDupProperties(eventTypeMap, additionalProps, ViewFieldEnum.UNIVARIATE_STATISTICS__DATAPOINTS,
+				ViewFieldEnum.UNIVARIATE_STATISTICS__TOTAL, ViewFieldEnum.UNIVARIATE_STATISTICS__STDDEV, ViewFieldEnum.UNIVARIATE_STATISTICS__STDDEVPA,
+				ViewFieldEnum.UNIVARIATE_STATISTICS__VARIANCE, ViewFieldEnum.UNIVARIATE_STATISTICS__AVERAGE);
+		String outputEventTypeName = statementContext.getStatementId() + "_statview_" + streamNum;
+		return statementContext.getEventAdapterService().createAnonymousMapType(outputEventTypeName, eventTypeMap);
 	}
 }

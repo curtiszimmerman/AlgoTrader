@@ -22,22 +22,23 @@ select
 from 
 	pattern[every timer:at (0, 0, 1, *, *) -> portfolio=Portfolio]
 having 
-	prior(1, portfolio.value.netLiqValue) != null and 
+	prior(1, portfolio.value.netLiqValue) is not null and 
 	portfolio.value.netLiqValue != prior(1, portfolio.value.netLiqValue);
 
 @Name('CREATE_PERFORMANCE_KEYS')
-@SimulationOnly()
+@SimulationOnly
 insert into 
 	PerformanceKeys
 select 
-	uni.datapoints as n, 
-	uni.geomaverage as avgM,
-	uni.stddev as stdM, 
-	Math.pow(1 + uni.geomaverage,12) - 1  as avgY,
-	uni.stddev * Math.sqrt(12) as stdY,
-	(Math.pow(1 + uni.geomaverage,12) - 1 - marketIntrest) / (uni.stddev * Math.sqrt(12)) as sharpRatio
+	perf.datapoints as n, 
+	perf.average as avgM,
+	perf.stddev as stdM, 
+	Math.pow(factor.geomaverage,12) - 1  as avgY,
+	perf.stddev * Math.sqrt(12) as stdY,
+	(Math.pow(factor.geomaverage,12) - 1 - marketIntrest) / (perf.stddev * Math.sqrt(12)) as sharpRatio
 from 
-	MonthlyPerformance.win:keepall().stat:uni(value) as uni;
+	MonthlyPerformance.win:keepall().stat:uni(value) as perf,
+	MonthlyPerformance.win:keepall().stat:uni(1 + value) as factor;
 
 @Name('KEEP_MONTHLY_PERFORMANCE')
 @SimulationOnly()

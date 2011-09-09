@@ -75,14 +75,14 @@
 		<dependency>
 			<groupId>com.espertech</groupId>
 			<artifactId>esper</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.espertech</groupId>
 			<artifactId>esperio-csv</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

@@ -154,7 +154,7 @@ from
 			-> (every (orderStatus=IBOrderStatus(orderId = genericOrder.number)) 
 				and not GenericOrder(number = genericOrder.number))]
 where
-	prior(1, orderStatus) = null
+	prior(1, orderStatus) is null
 or
 	orderStatus.orderId != prior(1, orderStatus.orderId)	
 or	
