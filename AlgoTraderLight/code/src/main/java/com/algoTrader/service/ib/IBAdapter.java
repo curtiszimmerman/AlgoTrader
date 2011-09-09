@@ -376,7 +376,7 @@ public final class IBAdapter implements EWrapper {
 		final TickEFP o = new TickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
 				dividendsToExpiry);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
+		logger.trace(EWrapperMsgGenerator.tickEFP(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureExpiry, dividendImpact,
 				dividendsToExpiry));
 	}
 
@@ -384,7 +384,7 @@ public final class IBAdapter implements EWrapper {
 	public void tickGeneric(final int tickerId, final int tickType, final double value) {
 		final TickGeneric o = new TickGeneric(tickerId, tickType, value);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickGeneric(tickerId, tickType, value));
+		logger.trace(EWrapperMsgGenerator.tickGeneric(tickerId, tickType, value));
 	}
 
 	@Override
@@ -392,7 +392,7 @@ public final class IBAdapter implements EWrapper {
 			final double pvDividend, final double gamma, final double vega, final double theta, final double undPrice) {
 		final TickOptionComputation o = new TickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice));
+		logger.trace(EWrapperMsgGenerator.tickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice));
 	}
 
 	@Override
@@ -413,7 +413,7 @@ public final class IBAdapter implements EWrapper {
 	public void tickSnapshotEnd(final int reqId) {
 		final TickSnapshotEnd o = new TickSnapshotEnd(reqId);
 		ServiceLocator.commonInstance().getRuleService().sendEvent(StrategyImpl.BASE, o);
-		logger.debug(EWrapperMsgGenerator.tickSnapshotEnd(reqId));
+		logger.trace(EWrapperMsgGenerator.tickSnapshotEnd(reqId));
 	}
 
 	@Override
