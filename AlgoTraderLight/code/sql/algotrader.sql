@@ -175,6 +175,38 @@ CREATE TABLE `intrest_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
+# Structure for the `market_data_event_definition` table : 
+#
+
+DROP TABLE IF EXISTS `market_data_event_definition`;
+
+CREATE TABLE `market_data_event_definition` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `DESCRIPTION` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `numeric_market_data_event` table : 
+#
+
+DROP TABLE IF EXISTS `numeric_market_data_event`;
+
+CREATE TABLE `numeric_market_data_event` (
+  `ID` int(11) NOT NULL,
+  `DATE_TIME` datetime NOT NULL,
+  `SECURITY_FK` int(11) NOT NULL,
+  `DEFINITION_FK` int(11) NOT NULL,
+  `VALUE` double NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `MARKET_DATA_EVENT_SECURITY_FKC8fff8d00a338fcb6` (`SECURITY_FK`),
+  KEY `GENERIC_MARKET_DATA_EVENT_DEFCa338fcb6` (`DEFINITION_FK`),
+  CONSTRAINT `GENERIC_MARKET_DATA_EVENT_DEFCa338fcb6` FOREIGN KEY (`DEFINITION_FK`) REFERENCES `market_data_event_definition` (`ID`),
+  CONSTRAINT `MARKET_DATA_EVENT_SECURITY_FKC8fff8d00a338fcb6` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
 # Structure for the `strategy` table : 
 #
 
@@ -211,7 +243,7 @@ CREATE TABLE `position` (
   KEY `POSITION_SECURITY_FKC` (`SECURITY_FK`),
   CONSTRAINT `POSITION_SECURITY_FKC` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`),
   CONSTRAINT `POSITION_STRATEGY_FKC` FOREIGN KEY (`STRATEGY_FK`) REFERENCES `strategy` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `stock` table : 
@@ -240,6 +272,25 @@ CREATE TABLE `stock_option` (
   PRIMARY KEY (`ID`),
   KEY `STOCK_OPTIONIFKC` (`ID`),
   CONSTRAINT `STOCK_OPTIONIFKC` FOREIGN KEY (`ID`) REFERENCES `security` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `textual_market_data_event` table : 
+#
+
+DROP TABLE IF EXISTS `textual_market_data_event`;
+
+CREATE TABLE `textual_market_data_event` (
+  `ID` int(11) NOT NULL,
+  `DATE_TIME` datetime NOT NULL,
+  `SECURITY_FK` int(11) NOT NULL,
+  `DEFINITION_FK` int(11) NOT NULL,
+  `VALUE` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `MARKET_DATA_EVENT_SECURITY_FKC8fff8d0031f2ff3c` (`SECURITY_FK`),
+  KEY `GENERIC_MARKET_DATA_EVENT_DEFC31f2ff3c` (`DEFINITION_FK`),
+  CONSTRAINT `GENERIC_MARKET_DATA_EVENT_DEFC31f2ff3c` FOREIGN KEY (`DEFINITION_FK`) REFERENCES `market_data_event_definition` (`ID`),
+  CONSTRAINT `MARKET_DATA_EVENT_SECURITY_FKC8fff8d0031f2ff3c` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -309,7 +360,7 @@ CREATE TABLE `transaction` (
   CONSTRAINT `TRANSACTION_POSITION_FKC` FOREIGN KEY (`POSITION_FK`) REFERENCES `position` (`id`),
   CONSTRAINT `TRANSACTION_SECURITY_FKC` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`),
   CONSTRAINT `TRANSACTION_STRATEGY_FKC` FOREIGN KEY (`STRATEGY_FK`) REFERENCES `strategy` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3591 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3969 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `watch_list_item` table : 
@@ -328,7 +379,7 @@ CREATE TABLE `watch_list_item` (
   KEY `WATCH_LIST_ITEM_STRATEGY_FKC` (`STRATEGY_FK`),
   CONSTRAINT `WATCH_LIST_ITEM_SECURITY_FKC` FOREIGN KEY (`SECURITY_FK`) REFERENCES `security` (`id`),
   CONSTRAINT `WATCH_LIST_ITEM_STRATEGY_FKC` FOREIGN KEY (`STRATEGY_FK`) REFERENCES `strategy` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 #
 # Data for the `security_family` table  (LIMIT 0,500)
