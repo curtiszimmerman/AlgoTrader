@@ -23,7 +23,7 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase implements 
 	public IBMarketDataServiceImpl() {
 
 		if (!simulation) {
-			client = IBClient.getInstance();
+			client = IBClient.getDefaultInstance();
 		}
 	}
 

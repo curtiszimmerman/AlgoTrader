@@ -27,7 +27,7 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	public IBOrderServiceImpl() {
 		super();
 		if (!simulation) {
-			client = IBClient.getInstance();
+			client = IBClient.getDefaultInstance();
 		}
 	}
 

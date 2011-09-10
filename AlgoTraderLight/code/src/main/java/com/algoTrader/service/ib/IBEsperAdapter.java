@@ -1,13 +1,9 @@
 package com.algoTrader.service.ib;
 
-import java.io.EOFException;
-import java.net.SocketException;
-
 import org.apache.log4j.Logger;
 
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.StrategyImpl;
-import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.MyLogger;
 import com.algoTrader.vo.ib.AccountDownloadEnd;
 import com.algoTrader.vo.ib.ContractDetailsCommon;
@@ -41,197 +37,31 @@ import com.algoTrader.vo.ib.UpdateNewsBulletin;
 import com.algoTrader.vo.ib.UpdatePortfolio;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
-import com.ib.client.EWrapper;
 import com.ib.client.EWrapperMsgGenerator;
 import com.ib.client.Execution;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 import com.ib.client.UnderComp;
 
-public final class IBAdapter implements EWrapper {
+public final class IBEsperAdapter extends IBDefaultAdapter {
 
-	private static Logger logger = MyLogger.getLogger(IBAdapter.class.getName());
-	private static IBAdapter ibAdapter;
+	private static Logger logger = MyLogger.getLogger(IBEsperAdapter.class.getName());
 
-	private boolean requested;
-	private ConnectionState state;
-
-	private IBAdapter(int clientId) {
-
-		setState(ConnectionState.DISCONNECTED);
-	}
-
-	public static IBAdapter getInstance(int clientId) {
-
-		if (ibAdapter == null) {
-			ibAdapter = new IBAdapter(clientId);
-		}
-
-		return ibAdapter;
+	public IBEsperAdapter(int clientId) {
+		super(clientId);
 	}
 
 	@Override
 	public void connectionClosed() {
 
-		setState(ConnectionState.DISCONNECTED);
+		super.connectionClosed();
 
 		//if connection gets closed, try to reconnect
-		IBClient.getInstance().connect();
+		IBClient.getDefaultInstance().connect();
 		logger.debug(EWrapperMsgGenerator.connectionClosed());
 	}
 
-	@Override
-	public void error(final Exception e) {
-
-		// we get EOFException and SocketException when TWS is closed
-		if (!(e instanceof EOFException || e instanceof SocketException)) {
-			logger.error("ib error", e);
-		}
-	}
-
-	@Override
-	public void error(final int id, final int code, final String errorMsg) {
-
-		String message = "id: " + id + " code: " + code + " " + errorMsg.replaceAll("\n", " ");
-
-		switch (code) {
-
-		// order related error messages will usually come along with a orderStatus=Inactive
-		// which will lead to a cancellation of the GenericOrder. If there is no orderStatus=Inactive
-		// coming along, the GenericOrder has to be cancelled by us (potenially creating a "fake" OrderStatus)
-			case 201:
-	
-				// Order rejected - reason:
-				// cancel the order
-				logger.error(message);
-				break;
-	
-			case 202:
-	
-				// Order cancelled
-				// do nothing, since we cancelled the order ourself
-				logger.debug(message);
-				break;
-	
-			case 399:
-	
-				// Order Message: Warning: Your order size is below the EUR 20000 IdealPro minimum and will be routed as an odd lot order.
-				// do nothing, this is ok for small FX Orders
-				logger.debug(message);
-				break;
-	
-			case 434:
-	
-				// The order size cannot be zero
-				// This happens in a closing order using PctChange where the percentage is
-				// small enough to round to zero for each individual client account
-				logger.debug(message);
-				break;
-	
-			case 502:
-
-				// Couldn't connect to TWS
-				setState(ConnectionState.DISCONNECTED);
-				logger.info(message);
-				break;
-
-			case 1100:
-
-				// Connectivity between IB and TWS has becase te(ConnectionState.CONNECTED);
-				logger.info(message);
-				break;
-
-			case 1101:
-
-				// Connectivity between IB and TWS has been restored data lost.
-				setRequested(false);
-				setState(ConnectionState.READY);
-				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-				logger.info(message);
-				break;
-
-			case 1102:
-
-				// Connectivity between IB and TWS has been restored data maintained.
-				if (isRequested()) {
-					setState(ConnectionState.SUBSCRIBED);
-				} else {
-					setState(ConnectionState.READY);
-					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-				}
-				logger.info(message);
-				break;
-
-			case 2110:
-
-				// Connectivity between TWS and server is broken. It will be restored automatically.
-				setState(ConnectionState.CONNECTED);
-				logger.info(message);
-				break;
-
-			case 2104:
-
-				// A market data farm is connected.
-				if (isRequested()) {
-					setState(ConnectionState.SUBSCRIBED);
-				} else {
-					setState(ConnectionState.READY);
-					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
-				}
-				logger.info(message);
-				break;
-
-			default:
-				if (code < 1000) {
-					logger.error(message);
-				} else {
-					logger.info(message);
-				}
-				break;
-		}
-	}
-
-	@Override
-	public void error(final String str) {
-
-		logger.error(str, new RuntimeException(str));
-	}
-
-	@Override
-	public synchronized void nextValidId(final int orderId) {
-
-		RequestIDGenerator.singleton().initializeOrderId(orderId);
-		logger.debug(EWrapperMsgGenerator.nextValidId(orderId));
-	}
-
-	public boolean isRequested() {
-		return this.requested;
-	}
-
-	public void setRequested(boolean requested) {
-
-		if (this.requested != requested) {
-			logger.debug("requested: " + requested);
-		}
-
-		this.requested = requested;
-	}
-
-	public ConnectionState getState() {
-		return this.state;
-	}
-
-	public void setState(ConnectionState state) {
-
-		if (this.state != state) {
-			logger.debug("connectionState: " + state);
-		}
-
-		this.state = state;
-
-	}
-
-	// Override EWrapper methos
+	// Override EWrapper methods (create events, send them into esper and log them)
 
 	@Override
 	public void accountDownloadEnd(final String accountName) {

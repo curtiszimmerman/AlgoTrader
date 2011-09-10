@@ -15,37 +15,40 @@ public final class IBClient extends EClientSocket {
 
 	private static Logger logger = MyLogger.getLogger(IBClient.class.getName());
 
-	private static int clientId = ConfigurationUtil.getBaseConfig().getInt("ib.clientId"); //0
-	private static long connectionTimeout = ConfigurationUtil.getBaseConfig().getInt("ib.connectionTimeout"); //10000;//
+	private static int defaultClientId = ConfigurationUtil.getBaseConfig().getInt("ib.defaultClientId"); //0
 	private static int port = ConfigurationUtil.getBaseConfig().getInt("ib.port"); //7496;//
 	private static String host = ConfigurationUtil.getBaseConfig().getString("ib.host"); // "127.0.0.1";
+	private static long connectionTimeout = ConfigurationUtil.getBaseConfig().getInt("ib.connectionTimeout"); //10000;//
 
-	private static IBClient ibClient;
+	private static IBClient instance;
 
-	private IBClient() {
+	private int clientId;
 
-		super(IBAdapter.getInstance(clientId));
+	public IBClient(int clientId, IBDefaultAdapter wrapper) {
+
+		super(wrapper);
+		this.clientId = clientId;
 	}
 
-	public static IBClient getInstance() {
+	public static IBClient getDefaultInstance() {
 
-		if (ibClient == null) {
+		if (instance == null) {
 
-			ibClient = new IBClient();
+			instance = new IBClient(defaultClientId, new IBEsperAdapter(defaultClientId));
 
 			// connect in a separate thread, because it might take a while
 			(new Thread() {
 				@Override
 				public void run() {
-					ibClient.connect();
+					instance.connect();
 				}
 			}).start();
 		}
-		return ibClient;
+		return instance;
 	}
 
-	public IBAdapter getIbAdapter() {
-		return (IBAdapter) super.wrapper();
+	public IBDefaultAdapter getIbAdapter() {
+		return (IBDefaultAdapter) super.wrapper();
 	}
 
 	public void connect() {
@@ -62,7 +65,7 @@ public final class IBClient extends EClientSocket {
 			sleep();
 		}
 
-		eConnect(host, port, clientId);
+		eConnect(host, port, this.clientId);
 
 		if (isConnected()) {
 			this.getIbAdapter().setState(ConnectionState.CONNECTED);
@@ -102,9 +105,5 @@ public final class IBClient extends EClientSocket {
 			logger.error("connection error", e);
 			return false;
 		}
-	}
-
-	public static int getClientid() {
-		return IBClient.clientId;
 	}
 }
