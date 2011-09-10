@@ -115,7 +115,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 	protected void handlePutOnWatchlist(Strategy strategy, Security security) throws Exception {
 
-		if (getWatchListItemDao().findByStrategyAndSecurity(strategy, security) == null) {
+		if (getWatchListItemDao().findByStrategyAndSecurity(strategy.getName(), security.getId()) == null) {
 
 			// only put on external watchlist if nobody was watching this security so far
 			if (security.getWatchListItems().size() == 0) {
@@ -166,7 +166,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
 	protected void handleRemoveFromWatchlist(Strategy strategy, Security security) throws Exception {
 
-		WatchListItem watchListItem = getWatchListItemDao().findByStrategyAndSecurity(strategy, security);
+		WatchListItem watchListItem = getWatchListItemDao().findByStrategyAndSecurity(strategy.getName(), security.getId());
 
 		if (watchListItem != null && !watchListItem.isPersistent()) {
 
