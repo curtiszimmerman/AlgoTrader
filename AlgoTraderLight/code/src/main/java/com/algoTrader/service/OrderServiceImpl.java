@@ -131,14 +131,18 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		getRuleService().sendEvent(StrategyImpl.BASE, order);
 
 		// also send the order to the strategy that placed the order
-		getRuleService().sendEvent(order.getStrategy().getName(), order);
+		if (!StrategyImpl.BASE.equals(order.getStrategy().getName())) {
+			getRuleService().sendEvent(order.getStrategy().getName(), order);
+		}
 	}
 
 	@Override
 	protected void handlePropagateOrderStatus(OrderStatus orderStatus) throws Exception {
 
 		// send the fill to the strategy that placed the corresponding order
-		getRuleService().sendEvent(orderStatus.getParentOrder().getStrategy().getName(), orderStatus);
+		if (!StrategyImpl.BASE.equals(orderStatus.getParentOrder().getStrategy().getName())) {
+			getRuleService().sendEvent(orderStatus.getParentOrder().getStrategy().getName(), orderStatus);
+		}
 	}
 
 	public static class PropagateOrderStatusSubscriber {
