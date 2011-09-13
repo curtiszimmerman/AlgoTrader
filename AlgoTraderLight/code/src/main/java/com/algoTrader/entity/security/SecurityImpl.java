@@ -19,7 +19,7 @@ import com.algoTrader.util.RoundUtil;
 import com.algoTrader.util.StrategyUtil;
 import com.espertech.esper.event.bean.BeanEventBean;
 
-public class SecurityImpl extends Security {
+public abstract class SecurityImpl extends Security {
 
 	private static final long serialVersionUID = -6631052475125813394L;
 	private static final String SECURITY_ID = "securityId";
@@ -204,7 +204,7 @@ public class SecurityImpl extends Security {
 	}
 
 	public String toString() {
-	
+
 		return getSymbol();
 	}
 }
