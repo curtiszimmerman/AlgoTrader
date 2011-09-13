@@ -1,7 +1,5 @@
 package com.algoTrader.service;
 
-import java.math.BigDecimal;
-
 import org.hibernate.Hibernate;
 import org.hibernate.LockOptions;
 import org.hibernate.Session;
@@ -18,6 +16,7 @@ import com.algoTrader.entity.trade.MarketOrder;
 import com.algoTrader.entity.trade.Order;
 import com.algoTrader.entity.trade.OrderStatus;
 import com.algoTrader.enumeration.Side;
+import com.algoTrader.enumeration.Status;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.DateUtil;
 import com.algoTrader.util.RoundUtil;
@@ -78,14 +77,14 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 
 		// for MarketOrders get the price from the last tick
 		if (order instanceof MarketOrder) {
-			double entry = 0.0;
+			double price = 0.0;
 			if (Side.SELL.equals(order.getSide())) {
-				entry = security.getLastBid().getPrice().doubleValue();
+				price = security.getLastBid().getPrice().doubleValue();
 
 			} else if (Side.BUY.equals(order.getSide())) {
-				entry = security.getLastAsk().getPrice().doubleValue();
+				price = security.getLastAsk().getPrice().doubleValue();
 			}
-			fill.setPrice(RoundUtil.getBigDecimal(entry));
+			fill.setPrice(RoundUtil.getBigDecimal(price));
 
 			// for limit orders get the price from the orderLimit
 		} else if (order instanceof LimitOrderInterface) {
@@ -94,22 +93,30 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 		}
 
 		// set the commission
-		if (Side.SELL.equals(order.getSide()) || Side.BUY.equals(order.getSide())) {
-
-			if (security.getSecurityFamily().getCommission() == null) {
-				throw new RuntimeException("commission is undefined for " + security.getSymbol());
-			}
-
-			double commission = Math.abs(order.getQuantity() * security.getSecurityFamily().getCommission().doubleValue());
-			fill.setCommission(RoundUtil.getBigDecimal(commission));
-		} else {
-			fill.setCommission(new BigDecimal(0));
+		if (security.getSecurityFamily().getCommission() == null) {
+			throw new RuntimeException("commission is undefined for " + security.getSymbol());
 		}
+
+		double commission = Math.abs(order.getQuantity() * security.getSecurityFamily().getCommission().doubleValue());
+		fill.setCommission(RoundUtil.getBigDecimal(commission));
 
 		fill.setParentOrder(order);
 
-		// create the transaction based on the fill
+		// propagate the fill
+		getTransactionService().propagateFill(fill);
+
+		// create the transaction
 		getTransactionService().createTransaction(fill);
+
+		// create and OrderStatus
+		OrderStatus orderStatus = OrderStatus.Factory.newInstance();
+		orderStatus.setStatus(Status.EXECUTED);
+		orderStatus.setFilledQuantity(order.getQuantity());
+		orderStatus.setRemainingQuantity(0);
+		orderStatus.setParentOrder(order);
+
+		// propagate the OrderStatus
+		propagateOrderStatus(orderStatus);
 	}
 
 	@Override
