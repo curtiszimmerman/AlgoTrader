@@ -1,0 +1,253 @@
+## AlgoTrader: 15903
+## line: 176, 178, 180 & 218 changed tablename to LowerCase
+##
+##  This macro will render any properties and associations.
+##  $entity can be of type HibernateEntity or HibernateEmbeddedValue
+##
+#macro (renderPropertiesAndAssociations3 $entity $paramSqlPrefix $indent)
+#foreach ($attribute in $entity.attributes)
+#if (!$attribute.identifier && (!$attribute.transient || $attribute.formula))
+#set ($fullyQualifiedPropertyType = $attribute.type.fullyQualifiedHibernateType)
+#if ($attribute.type.enumeration)
+#set ($fullyQualifiedPropertyType = $attribute.type.fullyQualifiedHibernateEnumerationType)
+#end
+#if ($attribute.containsEmbeddedObject)
+${indent}<component name="$attribute.name" class="${attribute.type.packageName}.${attribute.type.implementationName}"#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
+## render the properties of the embedded type
+#set ($sqlPrefix = $attribute.concatColumnName($paramSqlPrefix, $attribute.columnName))
+#renderPropertiesAndAssociations3($attribute.type $sqlPrefix "$indent    ")
+${indent}</component>
+#else
+#if ($typeSafeEnumsEnabled == false)
+${indent}<property name="$attribute.name" type="$fullyQualifiedPropertyType"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
+#set ($doc=$stringUtils.replaceChars($attribute.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+#if($attribute.formula)
+${indent}    <formula>$attribute.formula</formula>
+#else
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end#if ($generateDatabaseDependentCode) sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}        <comment>$doc</comment>
+${indent}    </column>#end
+#end
+
+${indent}</property>
+#else
+${indent}<property name="$attribute.name"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
+#if($attribute.formula)
+${indent}    <formula>$attribute.formula</formula>
+#else
+#set ($doc=$stringUtils.replaceChars($attribute.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end#if ($generateDatabaseDependentCode) sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}        <comment>$doc</comment>
+${indent}    </column>#end
+
+${indent}    <type name="${attribute.fullyQualifiedHibernateType}"#if (!$attribute.type.enumeration)/#end>
+#if ($attribute.type.enumeration)
+                 <param name="enumClassName">${attribute.type.fullyQualifiedName}</param>
+${indent}    </type>
+#end
+#end
+${indent}</property>
+#end
+#end
+#end
+#end
+#foreach ($sourceEnd in $entity.associationEnds)
+#set ($otherEnd = $sourceEnd.otherEnd)
+#set ($doc=$stringUtils.replaceChars($otherEnd.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($otherEnd.navigable && !$otherEnd.transient)
+#if ($sourceEnd.one2One)
+#if($sourceEnd.one2OnePrimary || (!$sourceEnd.navigable && !$entity.foreignHibernateGeneratorClass))
+#if ($otherEnd.type.foreignHibernateGeneratorClass)
+${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+#else
+${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end>
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end unique="$otherEnd.unique"#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}        <comment>$doc</comment>
+${indent}    </column>#end
+
+${indent}</many-to-one>
+#end
+#else
+#if ($entity.foreignHibernateGeneratorClass)
+${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end constrained="true"#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
+#else
+${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($sourceEnd.navigable) property-ref="$sourceEnd.name"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
+#end
+#end
+#end
+#if ($sourceEnd.one2Many)
+#if ($otherEnd.set || $otherEnd.map)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($stringUtils.isNotBlank($otherEnd.sortType)) sort="$otherEnd.sortType"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+#elseif ($otherEnd.bag)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+#elseif ($otherEnd.list)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="false"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+#end
+#set ($doc=$stringUtils.replaceChars($sourceEnd.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+#if(($hibernateEnableCache.equalsIgnoreCase("true")) && ($hibernateEnableAssociationsCache.equalsIgnoreCase("true")))
+${indent}    <cache usage="$sourceEnd.association.hibernateCacheType" />
+#end
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end#if ($otherEnd.list) not-null="$otherEnd.required"#end>
+#if (!$entity.compositeIdentifier)
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}            <comment>$doc</comment>
+${indent}        </column>#end
+
+#else
+#foreach ($identifier in $entity.identifiers)
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}            <comment>$doc</comment>
+${indent}        </column>#end
+
+#end
+#foreach ($sourceEnd in $entity.identifierAssociationEnds)
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+                    <meta attribute="field-description">$doc</meta>
+                    <comment>$doc</comment>
+                </column>#end
+
+#end
+#end
+#end
+${indent}    </key>
+#if ($otherEnd.list)
+${indent}    <list-index column="$otherEnd.collectionIndexName"/>
+#end
+#if ($otherEnd.map)
+${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
+#end
+${indent}    <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" not-found="$hibernateOneToManyNotFoundAction"/>
+${indent}</$otherEnd.collectionType>
+#elseif ($sourceEnd.many2One && !$sourceEnd.identifiersPresent)
+${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end not-null="$otherEnd.required"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false"#end>
+#if (!$otherEnd.type.compositeIdentifier)
+#set ($doc=$stringUtils.replaceChars($otherEnd.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}        <comment>$doc</comment>
+${indent}    </column>#end
+
+#else
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+                    <comment>$doc</comment>
+                </column>#end
+
+#end
+#foreach ($identyAssociationEnd in ${otherEnd.type.identifierAssociationEnds})
+#foreach ($identifier in ${identyAssociationEnd.otherEnd.type.identifiers})
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+                    <comment>$doc</comment>
+                </column>#end
+
+#end
+#end
+#end
+${indent}</many-to-one>
+#elseif ($sourceEnd.many2Many)
+#if($stringUtils.isNotBlank($sourceEnd.type.schema) && $sourceEnd.type.schema.equals($otherEnd.type.schema))
+#set($associationSchema = $sourceEnd.type.schema)
+#else
+#set($associationSchema = "")
+#end
+#if ($otherEnd.set || $otherEnd.map)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName.toLowerCase()"#if($stringUtils.isNotBlank($entity.schema)) schema="$associationSchema"#end order-by="$sourceEnd.orderByColumns" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($stringUtils.isNotBlank($otherEnd.sortType)) sort="$otherEnd.sortType"#end>
+#elseif ($otherEnd.bag)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName.toLowerCase()" order-by="$sourceEnd.orderByColumns" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+#elseif ($otherEnd.list)
+${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName.toLowerCase()" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+#end
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end>
+#set ($doc=$stringUtils.replaceChars($sourceEnd.getDocumentation("",999,false), "\"'&<>", ""))
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}            <comment>$doc</comment>
+${indent}        </column>#end
+
+${indent}    </key>
+#if ($otherEnd.list)
+${indent}    <list-index column="$otherEnd.collectionIndexName"/>
+#end
+#if ($otherEnd.map)
+${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
+#end
+${indent}    <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#end>
+#set ($doc=$stringUtils.replaceChars($otherEnd.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}        <meta attribute="field-description">$doc</meta>
+#end
+${indent}        <column name="$otherEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}            <comment>$doc</comment>
+${indent}        </column>#end
+
+${indent}    </many-to-many>
+${indent}</$otherEnd.collectionType>
+#end
+#end
+#end
+#end
+##
+##  This macro will render any sub mappings elements for the given $entity.
+##
+#macro (renderSubClass3 $entity $indent)
+## Should only get get invoked for inheritance class or subclass.
+${indent}<$entity.mappingClassName#if($mapSubclassesInSeparateFile) extends="$entity.generalization.fullyQualifiedEntityImplementationName"#end name="$entity.fullyQualifiedEntityImplementationName"#if($entity.tableRequired) table="$entity.tableName.toLowerCase()"#else discriminator-value="$entity.hibernateDiscriminatorValue"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate" abstract="$entity.abstract"#if ($stringUtils.isNotBlank($entity.schema)) schema="$entity.schema"#end>
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+#if ($stringUtils.isNotBlank($doc))
+${indent}    <meta attribute="field-description">$doc</meta>
+#end
+#if($entity.subclassKeyColumn)
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="${entity.tableName}IFKC"#end>
+#if (!$entity.generalization.compositeIdentifier)
+${indent}        <column name="$entity.subclassKeyColumn"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+#else
+#foreach ($identifier in $entity.identifiers)
+${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if ($stringUtils.isBlank($doc))/>#else>
+${indent}            <comment>$doc</comment>
+${indent}        </column>#end
+
+#end
+#foreach ($sourceEnd in $entity.identifierAssociationEnds)
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+#set ($doc=$stringUtils.replaceChars($identifier.getDocumentation("",999,false), "\"'&<>", ""))
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if ($stringUtils.isBlank($doc))/>#else>
+                    <comment>$doc</comment>
+                </column>#end
+
+#end
+#end
+#end
+${indent}    </key>
+#end
+#renderPropertiesAndAssociations3($entity "" "${indent}    ")
+#if (!$mapSubclassesInSeparateFile)
+#foreach ($subentity in $entity.specializations)
+#renderSubClass3($subentity "${indent}    ")
+#end
+#end
+${indent}</$entity.mappingClassName>
+#end
