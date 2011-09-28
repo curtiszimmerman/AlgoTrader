@@ -16,4 +16,11 @@
         <from>datatypes::String</from>
         <to>VARCHAR(255)</to>
     </mapping>
+    <mapping>
+        <from>Money</from>
+        <from>PrimitiveTypes::Money</from>
+        <from>datatype::Money</from>
+        <from>datatypes::Money</from>
+        <to>Decimal(15,6)</to>
+    </mapping>    
 </mappings>

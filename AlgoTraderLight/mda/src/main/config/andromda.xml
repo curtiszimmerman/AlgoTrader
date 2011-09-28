@@ -78,7 +78,7 @@
                 <!-- Replaces default JavaMappings with customized mappings which extend Java, for PrimitiveTypes etc. -->
                 <property name="languageMappingsUri">Java</property>
                 <property name="wrapperMappingsUri">JavaWrapper</property>
-                <property name="sqlMappingsUri">${sql.mappings}</property>
+                <property name="sqlMappingsUri">file:${project.basedir}/src/main/config/mappings/MySQLMappings.xml</property>
                 <property name="jdbcMappingsUri">JDBC</property>
                 <property name="maxSqlNameLength">30</property>
                 <property name="foreignKeySuffix">_FK</property>
