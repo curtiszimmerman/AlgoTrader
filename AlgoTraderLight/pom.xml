@@ -303,9 +303,6 @@
             For SapDB use: SapDB
             For Derby use: Derby
         -->
-        <sql.mappings>
-            MySQL
-        </sql.mappings>
         <!--
         Change this for the appropriate database
         For Derby use: org.hibernate.dialect.DerbyDialect

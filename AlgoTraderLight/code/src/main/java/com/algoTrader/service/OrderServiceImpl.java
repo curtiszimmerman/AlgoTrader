@@ -1,8 +1,5 @@
 package com.algoTrader.service;
 
-import org.hibernate.Hibernate;
-import org.hibernate.LockOptions;
-import org.hibernate.Session;
 import org.hibernate.proxy.HibernateProxy;
 
 import com.algoTrader.ServiceLocator;
@@ -19,6 +16,7 @@ import com.algoTrader.enumeration.Side;
 import com.algoTrader.enumeration.Status;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.DateUtil;
+import com.algoTrader.util.HibernateUtil;
 import com.algoTrader.util.RoundUtil;
 
 public abstract class OrderServiceImpl extends OrderServiceBase {
@@ -37,11 +35,8 @@ public abstract class OrderServiceImpl extends OrderServiceBase {
 			Strategy strategy = order.getStrategy();
 
 			// lock and initialize the security & strategy
-			Session session = this.getSessionFactory().getCurrentSession();
-			session.buildLockRequest(LockOptions.NONE).lock(security);
-			session.buildLockRequest(LockOptions.NONE).lock(strategy);
-			Hibernate.initialize(security);
-			Hibernate.initialize(strategy);
+			HibernateUtil.lock(this.getSessionFactory(), security);
+			HibernateUtil.lock(this.getSessionFactory(), strategy);
 
 			// in security and strategy are HibernateProxies convert them to objects
 			if (security instanceof HibernateProxy) {

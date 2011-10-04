@@ -7,10 +7,10 @@
 	<event-type name="MarketDataEvent" class="com.algoTrader.entity.marketData.MarketDataEvent"/>
 	<event-type name="Tick" class="com.algoTrader.entity.marketData.Tick">
 		<legacy-type accessor-style="javabean" code-generation="enabled" property-resolution-style="case_sensitive" factory-method="com.algoTrader.entity.marketData.Tick$Factory.newInstance"/>
-	</event-type>	
+	</event-type>
 	<event-type name="Bar" class="com.algoTrader.entity.marketData.Bar"/>
 	<event-type name="Bid" class="com.algoTrader.entity.marketData.Bid"/>
-	<event-type name="Ask" class="com.algoTrader.entity.marketData.Ask"/>	
+	<event-type name="Ask" class="com.algoTrader.entity.marketData.Ask"/>
 	<event-type name="Trade" class="com.algoTrader.entity.marketData.Trade"/>
 
 	<event-type name="GenericOrder" class="com.algoTrader.entity.trade.Order"/>
@@ -59,6 +59,8 @@
 	<auto-import import-name="com.algoTrader.enumeration.TransactionType"/>
 	<auto-import import-name="com.algoTrader.enumeration.Side"/>
 	<auto-import import-name="com.algoTrader.enumeration.Status"/>
+	<auto-import import-name="com.algoTrader.enumeration.OptionType"/>
+		
 	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
 	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
 	<auto-import import-name="com.algoTrader.util.DrawDownUtil"/>

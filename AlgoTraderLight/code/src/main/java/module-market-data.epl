@@ -52,7 +52,7 @@ and
 	MarketDataUtil.isTickValid(tickWindow);
 	
 @Name('PROPAGATE_MARKET_DATA_EVENTS')
-@Subscriber(className='com.algoTrader.service.MarketDataServiceImpl$PropagateTickSubscriber')
+@Subscriber(className='com.algoTrader.service.MarketDataServiceImpl$PropagateMarketDataEventSubscriber')
 select 
 	*
 from
@@ -61,7 +61,11 @@ from
 @Name('PERSIST_TICKS')
 @Subscriber(className='com.algoTrader.service.MarketDataServiceImpl$PersistTickSubscriber')
 @RunTimeOnly()
-select 
-      tick
-from pattern
-	[every-distinct(tick.security.id, 1 minute) tick=Tick];
+on pattern
+	[every timer:at(*, *, *, *, 1:5, 0)]
+select
+	*
+from
+	TickWindow as tickWindow
+where	
+	MarketDataUtil.isTickValid(tickWindow);

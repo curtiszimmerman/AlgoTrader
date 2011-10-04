@@ -9,7 +9,7 @@ select
 	end
 from pattern [
 	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder  
-		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
+		-> (timer:interval(5 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
 where
 	(currentOrder.side = Side.BUY and currentOrder.`limit` + currentOrder.increment <= currentOrder.maxLimit)
 or
@@ -21,7 +21,7 @@ select
 	currentOrder.number
 from pattern [
 	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder 
-		-> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
+		-> (timer:interval(5 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]
 where
 	(currentOrder.side = Side.BUY and currentOrder.`limit` + currentOrder.increment > currentOrder.maxLimit)
 or

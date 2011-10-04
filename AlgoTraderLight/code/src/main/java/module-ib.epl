@@ -89,7 +89,7 @@ where
 and
 	tickWindow.tickerId = tickSize.tickerId;
 
-@Name('UPDATE_TICK_WINDOW_OPEN_INTEREST')
+@Name('UPDATE_TICK_WINDOW_CALL_OPEN_INTEREST')
 @RunTimeOnly()
 on
 	IBTickSize as tickSize
@@ -98,7 +98,24 @@ update
 set
 	tickWindow.openIntrest = tickSize.size
 where
-	(tickSize.field = TickType.OPTION_CALL_OPEN_INTEREST or tickSize.field = TickType.OPTION_PUT_OPEN_INTEREST) 
+	tickSize.field = TickType.OPTION_CALL_OPEN_INTEREST
+and
+	cast(tickWindow.security.type?, com.algoTrader.enumeration.OptionType) = OptionType.CALL
+and
+	tickWindow.tickerId = tickSize.tickerId;
+
+@Name('UPDATE_TICK_WINDOW_PUT_OPEN_INTEREST')
+@RunTimeOnly()
+on
+	IBTickSize as tickSize
+update
+	TickWindow as tickWindow
+set
+	tickWindow.openIntrest = tickSize.size
+where
+	tickSize.field = TickType.OPTION_PUT_OPEN_INTEREST
+and
+	cast(tickWindow.security.type?, com.algoTrader.enumeration.OptionType) = OptionType.PUT
 and
 	tickWindow.tickerId = tickSize.tickerId;
 

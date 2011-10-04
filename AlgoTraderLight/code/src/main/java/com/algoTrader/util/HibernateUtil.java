@@ -1,12 +1,12 @@
 package com.algoTrader.util;
 
-import org.hibernate.impl.SessionImpl;
-import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.LockOptions;
+import org.hibernate.SessionFactory;
 
 public class HibernateUtil {
 
-	public static void reloadEntity(Object entity) {
+	public static void lock(SessionFactory sessionFactory, Object target) {
 
-		((SessionImpl) ((HibernateProxy) entity).getHibernateLazyInitializer().getSession()).refresh(entity);
+		sessionFactory.getCurrentSession().buildLockRequest(LockOptions.NONE).lock(target);
 	}
 }
