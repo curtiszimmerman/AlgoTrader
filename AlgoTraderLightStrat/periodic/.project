@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AlgoTraderMov</name>
+	<name>algotraderlight-periodic</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -62,7 +62,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1291489984962</id>
+			<id>0</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
