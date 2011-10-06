@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Tue Oct 04 20:13:07 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Thu Oct 06 10:53:40 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -374,6 +374,15 @@
 													</UML:StructuralFeature.type>
 												</UML:Attribute>
 												<UML:Attribute xmi.id='_9_5_1_8b60294_1303211365822_703554_7452' name='FEES' visibility='public'>
+													<UML:StructuralFeature.type>
+														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='datatype::String'/>
+															</XMI.extension>
+														</UML:Classifier>
+													</UML:StructuralFeature.type>
+												</UML:Attribute>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1317891205618_213821_399' name='REFUND' visibility='public'>
 													<UML:StructuralFeature.type>
 														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
 															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -15583,11 +15592,11 @@ order by s.id
 					<elementID xmi.idref='_9_5_1_8b60294_1303211365769_51463_6781'/>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 1, 1420, 913</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1416, 916</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='false'/>
-					<active xmi.value='false'/>
+					<maximized xmi.value='true'/>
+					<active xmi.value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530068_251535_8250'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_470789_7458'/>
@@ -15611,7 +15620,7 @@ order by s.id
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>200, 330, 126, 171</geometry>
+							<geometry>200, 330, 126, 186</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530069_886637_8252'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365822_459805_7445'/>
@@ -15905,11 +15914,11 @@ order by s.id
 					</properties>
 					<zoomFactor xmi.value='1.0'/>
 					<diagramOpened xmi.value='true'/>
-					<diagramWindowBounds>0, 0, 1416, 916</diagramWindowBounds>
+					<diagramWindowBounds>0, 1, 1416, 913</diagramWindowBounds>
 					<diagramScrollPositionX xmi.value='0'/>
 					<diagramScrollPositionY xmi.value='0'/>
-					<maximized xmi.value='true'/>
-					<active xmi.value='true'/>
+					<maximized xmi.value='false'/>
+					<active xmi.value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1303211530011_743434_7825'>
 							<elementID xmi.idref='_9_5_1_8b60294_1303211365782_68676_6798'/>
@@ -17683,7 +17692,7 @@ order by s.id
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>9 4b 75 47 65 7a 50 27 21 19 b1 73 6c 38 c1 19 f0 39 38 64 80 a6 2d 32 55 bd 36 9 0 5c 7c 60 1f 49 b3 af 90 e5 bb b1 b4 b1 14 af e7 96 6 23 cd 5b d2 c2 d4 24 b4 c2 96 77 4e 8f 51 2d e7 6e 3 f1 a3 de f2 51 80 dd </value>
+						<value>9 4b 75 47 65 7a 50 27 21 19 b1 73 71 28 c1 19 f0 39 38 64 82 a6 2e 32 55 b9 36 9 4 5b 7c 60 1f 49 b3 af 90 e5 bb b1 b4 b1 14 af e7 96 6 23 cd 5b d2 c2 d4 24 b4 c2 96 77 4e 8f 51 2d e7 6e 3 f1 a3 de f2 51 80 dd </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>
