@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<XMI xmi.version='1.2' timestamp='Thu Oct 06 10:53:40 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
+<XMI xmi.version='1.2' timestamp='Thu Oct 06 13:20:58 CEST 2011' xmlns:UML='omg.org/UML/1.4'>
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>MagicDraw UML</XMI.exporter>
@@ -161,6 +161,9 @@
 											</UML:ModelElement.stereotype>
 											<UML:Classifier.feature>
 												<UML:Attribute xmi.id='_9_5_1_8b60294_1303211365822_298455_7430' name='DAY' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1317900058857_393825_411'/>
+													</UML:Attribute.initialValue>
 													<UML:StructuralFeature.type>
 														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
 															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -170,6 +173,9 @@
 													</UML:StructuralFeature.type>
 												</UML:Attribute>
 												<UML:Attribute xmi.id='_9_5_1_8b60294_1303211365822_599431_7431' name='GTC' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1317900058858_496077_412'/>
+													</UML:Attribute.initialValue>
 													<UML:StructuralFeature.type>
 														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
 															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -179,6 +185,51 @@
 													</UML:StructuralFeature.type>
 												</UML:Attribute>
 												<UML:Attribute xmi.id='_9_5_1_8b60294_1303211365822_945440_7432' name='GTD' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1317900058858_238419_413'/>
+													</UML:Attribute.initialValue>
+													<UML:StructuralFeature.type>
+														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='datatype::String'/>
+															</XMI.extension>
+														</UML:Classifier>
+													</UML:StructuralFeature.type>
+												</UML:Attribute>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1317900019133_729309_403' name='IOC' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1317900058858_902231_414'/>
+													</UML:Attribute.initialValue>
+													<UML:StructuralFeature.type>
+														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='datatype::String'/>
+															</XMI.extension>
+														</UML:Classifier>
+													</UML:StructuralFeature.type>
+												</UML:Attribute>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1317900027509_32517_405' name='FOK' visibility='public'>
+													<UML:StructuralFeature.type>
+														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='datatype::String'/>
+															</XMI.extension>
+														</UML:Classifier>
+													</UML:StructuralFeature.type>
+												</UML:Attribute>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1317900041540_428941_407' name='ATC' visibility='public'>
+													<UML:Attribute.initialValue>
+														<UML:Expression xmi.id='_9_5_1_8b60294_1317900058858_140212_415'/>
+													</UML:Attribute.initialValue>
+													<UML:StructuralFeature.type>
+														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
+															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
+																<referentPath xmi.value='datatype::String'/>
+															</XMI.extension>
+														</UML:Classifier>
+													</UML:StructuralFeature.type>
+												</UML:Attribute>
+												<UML:Attribute xmi.id='_9_5_1_8b60294_1317900046099_481073_409' name='ATO' visibility='public'>
 													<UML:StructuralFeature.type>
 														<UML:Classifier href='andromda-profile-datatype-3.4-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925531_364079_66'>
 															<XMI.extension xmi.extender='MagicDraw UML 9.5' xmi.extenderID='MagicDraw UML 9.5'>
@@ -15668,7 +15719,7 @@ order by s.id
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>440, 160, 105, 96</geometry>
+							<geometry>440, 160, 105, 156</geometry>
 						</mdElement>
 						<mdElement elementClass='ClassView' xmi.id='_9_5_1_8b60294_1304797255991_250468_377'>
 							<elementID xmi.idref='_9_5_1_8b60294_1304797215135_876294_316'/>
@@ -15721,7 +15772,7 @@ order by s.id
 									<value xmi.value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>440, 270, 163, 96</geometry>
+							<geometry>690, 170, 163, 96</geometry>
 						</mdElement>
 					</mdOwnedViews>
 				</mdElement>
@@ -17692,7 +17743,7 @@ order by s.id
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>9 4b 75 47 65 7a 50 27 21 19 b1 73 71 28 c1 19 f0 39 38 64 82 a6 2e 32 55 b9 36 9 4 5b 7c 60 1f 49 b3 af 90 e5 bb b1 b4 b1 14 af e7 96 6 23 cd 5b d2 c2 d4 24 b4 c2 96 77 4e 8f 51 2d e7 6e 3 f1 a3 de f2 51 80 dd </value>
+						<value>9 4b 75 47 65 7a 50 27 21 19 b1 73 71 28 c1 19 f0 39 38 64 82 a6 2e 31 55 be 35 9 5 53 7c 60 1f 49 b3 af 90 e5 bb b1 b4 b1 14 af e7 96 6 23 cd 5b d2 c2 d4 24 b4 c2 96 77 4e 8f 51 2d e7 6e 3 f1 a3 de f2 51 80 dd </value>
 						<multiline xmi.value='false'/>
 					</mdElement>
 					<mdElement elementClass='ChoiceProperty'>
