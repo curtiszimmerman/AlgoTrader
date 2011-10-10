@@ -93,7 +93,8 @@ public class IBDefaultAdapter implements EWrapper {
 
 			case 1100:
 
-				// Connectivity between IB and TWS has becase te(ConnectionState.CONNECTED);
+				// Connectivity between IB and TWS has been lost.
+				setState(ConnectionState.CONNECTED);
 				logger.info(message);
 				break;
 
@@ -102,7 +103,7 @@ public class IBDefaultAdapter implements EWrapper {
 				// Connectivity between IB and TWS has been restored data lost.
 				setRequested(false);
 				setState(ConnectionState.READY);
-				ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+				ServiceLocator.commonInstance().getMarketDataService().initWatchlist();
 				logger.info(message);
 				break;
 
@@ -113,7 +114,7 @@ public class IBDefaultAdapter implements EWrapper {
 					setState(ConnectionState.SUBSCRIBED);
 				} else {
 					setState(ConnectionState.READY);
-					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+					ServiceLocator.commonInstance().getMarketDataService().initWatchlist();
 				}
 				logger.info(message);
 				break;
@@ -132,7 +133,7 @@ public class IBDefaultAdapter implements EWrapper {
 					setState(ConnectionState.SUBSCRIBED);
 				} else {
 					setState(ConnectionState.READY);
-					ServiceLocator.commonInstance().getMarketDataService().reinitWatchlist();
+					ServiceLocator.commonInstance().getMarketDataService().initWatchlist();
 				}
 				logger.info(message);
 				break;

@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import com.algoTrader.ServiceLocator;
 import com.algoTrader.enumeration.ConnectionState;
 import com.algoTrader.util.ConfigurationUtil;
 import com.algoTrader.util.MyLogger;
@@ -68,7 +69,12 @@ public final class IBClient extends EClientSocket {
 		eConnect(host, port, this.clientId);
 
 		if (isConnected()) {
-			this.getIbAdapter().setState(ConnectionState.CONNECTED);
+			this.getIbAdapter().setState(ConnectionState.READY);
+
+			// in case there is no 2104 message from the IB Gateway (Market data farm connection is OK)
+			// manually invoke initWatchlist after some time
+			sleep();
+			ServiceLocator.commonInstance().getMarketDataService().initWatchlist();
 		}
 	}
 

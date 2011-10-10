@@ -33,11 +33,12 @@ import com.espertech.esper.collection.Pair;
 
 public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 
+	private static final long serialVersionUID = 2871084846072648536L;
+
 	private static Logger logger = MyLogger.getLogger(MarketDataServiceImpl.class.getName());
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
 	private Map<Security, CsvTickWriter> csvWriters = new HashMap<Security, CsvTickWriter>();
-	private boolean initialized;
 
 	protected Tick handleCompleteRawTick(RawTickVO rawTick) {
 
@@ -50,32 +51,40 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 	}
 
 	protected void handlePropagateMarketDataEvent(MarketDataEvent marketDataEvent) {
-	
-		// marketDataEvent.toString is expensive, so only log if debug is anabled
-		if (!logger.getParent().getLevel().isGreaterOrEqual(Level.DEBUG)) {
-			logger.trace(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
-		}
-	
+
 		Security security = marketDataEvent.getSecurity();
 
-		// lock the security and initialize collections
-		HibernateUtil.lock(this.getSessionFactory(), security);
-		//Hibernate.initialize(security.getWatchListItems());
-		Hibernate.initialize(security.getPositions());
+		// propagate MarketDataEvents only between marketOpen & close
+		if (DateUtil.compareToTime(security.getSecurityFamily().getMarketOpen()) >= 0
+				&& DateUtil.compareToTime(security.getSecurityFamily().getMarketClose()) <= 0) {
 
-		for (WatchListItem watchListItem : security.getWatchListItems()) {
-			getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
+			// marketDataEvent.toString is expensive, so only log if debug is anabled
+			if (!logger.getParent().getLevel().isGreaterOrEqual(Level.DEBUG)) {
+				logger.trace(marketDataEvent.getSecurity().getSymbol() + " " + marketDataEvent);
+			}
+	
+			// lock the security and initialize collections
+			HibernateUtil.lock(this.getSessionFactory(), security);
+			//Hibernate.initialize(security.getWatchListItems());
+			Hibernate.initialize(security.getPositions());
+	
+			for (WatchListItem watchListItem : security.getWatchListItems()) {
+				getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
+			}
 		}
 	}
 
-
 	protected void handlePersistTick(Tick tick) throws IOException {
-	
+
 		Security security = tick.getSecurity();
 	
-		// retrieve ticks only between marketOpen & close
+		// persist ticks only between marketOpen & close
 		if (DateUtil.compareToTime(security.getSecurityFamily().getMarketOpen()) >= 0
 				&& DateUtil.compareToTime(security.getSecurityFamily().getMarketClose()) <= 0) {
+
+			// get the current Date rounded to MINUTES
+			Date date = DateUtils.round(DateUtil.getCurrentEPTime(), Calendar.MINUTE);
+			tick.setDateTime(date);
 	
 			// write the tick to file
 			CsvTickWriter csvWriter = this.csvWriters.get(security);
@@ -90,24 +99,16 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 		}
 	}
 
-	protected void handleReinitWatchlist() {
-
-		if (this.initialized) {
-			initWatchlist();
-		}
-	}
-
 	protected void handleInitWatchlist() {
 	
-		List<Security> securities = getSecurityDao().findSecuritiesOnActiveWatchlist();
+		if (!simulation) {
 
-		for (Security security : securities) {
-			if (!simulation) {
+			List<Security> securities = getSecurityDao().findSecuritiesOnActiveWatchlist();
+
+			for (Security security : securities) {
 				putOnExternalWatchlist(security);
 			}
 		}
-
-		this.initialized = true;
 	}
 
 	protected void handlePutOnWatchlist(String strategyName, int securityId) throws Exception {
@@ -185,12 +186,7 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 		@SuppressWarnings("rawtypes")
 		public void update(Pair<Tick, Object> insertStream, Map removeStream) {
 
-			// get the current Date rounded to MINUTES
-			Date date = DateUtils.round(DateUtil.getCurrentEPTime(), Calendar.MINUTE);
-
 			Tick tick = insertStream.getFirst();
-			tick.setDateTime(date);
-
 			ServiceLocator.serverInstance().getMarketDataService().persistTick(tick);
 		}
 	}

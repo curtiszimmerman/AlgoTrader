@@ -14,6 +14,8 @@ import com.ib.client.Contract;
 
 public class IBOrderServiceImpl extends IBOrderServiceBase {
 
+	private static final long serialVersionUID = -7426452967133280762L;
+
 	private static boolean faEnabled = ConfigurationUtil.getBaseConfig().getBoolean("ib.faEnabled");
 	private static String faAccount = ConfigurationUtil.getBaseConfig().getString("ib.faAccount");
 	private static String group = ConfigurationUtil.getBaseConfig().getString("ib.group");
@@ -24,8 +26,8 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	private static Logger logger = MyLogger.getLogger(IBOrderServiceImpl.class.getName());
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 
-	public IBOrderServiceImpl() {
-		super();
+	public void handleInit() {
+
 		if (!simulation) {
 			client = IBClient.getDefaultInstance();
 		}

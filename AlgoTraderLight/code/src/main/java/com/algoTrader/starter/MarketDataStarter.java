@@ -3,6 +3,7 @@ package com.algoTrader.starter;
 import com.algoTrader.ServiceLocator;
 import com.algoTrader.entity.StrategyImpl;
 import com.algoTrader.service.MarketDataService;
+import com.algoTrader.service.OrderService;
 import com.algoTrader.service.RuleService;
 
 public class MarketDataStarter {
@@ -20,8 +21,14 @@ public class MarketDataStarter {
 		ruleService.setInternalClock(StrategyImpl.BASE, true);
 		ruleService.deployAllModules(StrategyImpl.BASE);
 
-		// subscribe marketData for all securities on the watchlist
+		// initialize the IB services
 		MarketDataService marketDataService = ServiceLocator.serverInstance().getMarketDataService();
+		marketDataService.init();
+		
+		OrderService orderService = ServiceLocator.serverInstance().getOrderService();
+		orderService.init();
+
+		// subscribe marketData for all securities on the watchlist (needs to be invoked after all Spring Services have been properly initialized)
 		marketDataService.initWatchlist();
 	}
 }

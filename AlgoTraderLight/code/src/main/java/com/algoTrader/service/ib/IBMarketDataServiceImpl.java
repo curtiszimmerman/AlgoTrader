@@ -17,13 +17,15 @@ import com.ib.client.Contract;
 
 public class IBMarketDataServiceImpl extends IBMarketDataServiceBase implements DisposableBean {
 
+	private static final long serialVersionUID = -4704799803078842628L;
+
 	private static Logger logger = MyLogger.getLogger(IBMarketDataServiceImpl.class.getName());
 
 	private static IBClient client;
 	private static boolean simulation = ConfigurationUtil.getBaseConfig().getBoolean("simulation");
 	private static String genericTickList = ConfigurationUtil.getBaseConfig().getString("ib.genericTickList");
 
-	public IBMarketDataServiceImpl() {
+	public void handleInit() {
 
 		if (!simulation) {
 			client = IBClient.getDefaultInstance();
@@ -33,10 +35,14 @@ public class IBMarketDataServiceImpl extends IBMarketDataServiceBase implements 
 	@Override
 	protected void handleInitWatchlist() {
 
-		super.handleInitWatchlist();
+		if ((client.getIbAdapter().getState().equals(ConnectionState.READY) || client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED))
+				&& !client.getIbAdapter().isRequested() && !simulation) {
 
-		client.getIbAdapter().setState(ConnectionState.SUBSCRIBED);
-		client.getIbAdapter().setRequested(true);
+			client.getIbAdapter().setRequested(true);
+			client.getIbAdapter().setState(ConnectionState.SUBSCRIBED);
+
+			super.handleInitWatchlist();
+		}
 	}
 
 	@Override
