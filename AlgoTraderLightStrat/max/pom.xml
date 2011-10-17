@@ -3,17 +3,16 @@
   <parent>
     <groupId>algotraderlight</groupId>
     <artifactId>algotraderlight-strat</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>  
   <groupId>algotraderlight</groupId>
   <artifactId>algotraderlight-max</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>AlgoTrader Exponential Moving Average Crossover Example Strategy</name>
   <dependencies>
   	<dependency>
   		<groupId>algotraderlight</groupId>
   		<artifactId>algotraderlight-code</artifactId>
-  		<version>1.4-SNAPSHOT</version>
+  		<version>1.0</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
