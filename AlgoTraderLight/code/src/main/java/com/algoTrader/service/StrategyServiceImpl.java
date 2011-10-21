@@ -17,10 +17,13 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 
 	private static int basePort = ConfigurationUtil.getBaseConfig().getInt("basePort");
 	private static Logger logger = MyLogger.getLogger(StrategyServiceImpl.class.getName());
+	private static int maxObjectInStream = ConfigurationUtil.getBaseConfig().getInt("maxObjectInStream");
 
 	private Map<String, Socket> socketMap = new HashMap<String, Socket>();
 	private Map<String, ObjectOutputStream> streamMap = new HashMap<String, ObjectOutputStream>();
+	private Map<String, Integer> objectsMap = new HashMap<String, Integer>();
 
+	@Override
 	protected void handleRegisterStrategy(String strategyName) throws Exception {
 
 		Strategy strategy = getStrategyDao().findByName(strategyName);
@@ -31,14 +34,18 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 		ObjectOutputStream stream = new ObjectOutputStream(socket.getOutputStream());
 		this.streamMap.put(strategyName, stream);
 
+		this.objectsMap.put(strategyName, 0);
+
 		logger.debug("registered strategy: " + strategyName);
 	}
 
+	@Override
 	protected void handleUnregisterStrategy(String strategyName) throws Exception {
 
 		try {
-			if (this.streamMap.containsKey(strategyName)) {
-				this.streamMap.get(strategyName).close();
+			ObjectOutputStream stream = this.streamMap.get(strategyName);
+			if (stream != null) {
+				stream.close();
 			}
 		} catch (IOException e) {
 			logger.warn("stream not available anymore: " + strategyName);
@@ -47,7 +54,10 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 		}
 
 		try {
-			this.socketMap.get(strategyName).close();
+			Socket socket = this.socketMap.get(strategyName);
+			if (socket != null) {
+				socket.close();
+			}
 		} catch (IOException e) {
 			logger.warn("socket not available anymore: " + strategyName);
 		} finally {
@@ -57,11 +67,13 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 		logger.debug("unregistered strategy: " + strategyName);
 	}
 
+	@Override
 	protected boolean handleIsStrategyRegistered(String strategyName) throws Exception {
 
 		return this.socketMap.containsKey(strategyName);
 	}
 
+	@Override
 	protected void handleSendEvent(String strategyName, Object obj) {
 
 		if (this.socketMap.containsKey(strategyName)) {
@@ -70,6 +82,20 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 			try {
 				stream.writeObject(obj);
 				stream.flush();
+
+				// reset the stream after n objects have been written to the Stream
+				int objectsWritten = this.objectsMap.get(strategyName);
+				if (objectsWritten > maxObjectInStream) {
+
+					stream.reset();
+
+					this.objectsMap.put(strategyName, 0);
+					logger.debug("stream " + strategyName + " has been reset");
+
+				} else {
+
+					this.objectsMap.put(strategyName, ++objectsWritten);
+				}
 
 			} catch (IOException e) {
 
@@ -81,6 +107,7 @@ public class StrategyServiceImpl extends StrategyServiceBase implements Disposab
 		}
 	}
 
+	@Override
 	public void destroy() throws Exception {
 
 		for (Map.Entry<String, Socket> entry : this.socketMap.entrySet()) {
