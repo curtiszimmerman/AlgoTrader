@@ -69,7 +69,9 @@ public abstract class MarketDataServiceImpl extends MarketDataServiceBase {
 			Hibernate.initialize(security.getPositions());
 	
 			for (WatchListItem watchListItem : security.getWatchListItems()) {
-				getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
+				if (!watchListItem.getStrategy().getName().equals(StrategyImpl.BASE)) {
+					getRuleService().sendEvent(watchListItem.getStrategy().getName(), marketDataEvent);
+				}
 			}
 		}
 	}
