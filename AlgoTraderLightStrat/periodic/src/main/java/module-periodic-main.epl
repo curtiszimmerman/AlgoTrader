@@ -6,7 +6,7 @@ module movMain;
 @Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
 select
 1000 as quantity
-from pattern [timer:interval(20 sec)];
+from pattern [every timer:interval(20 sec)];
 
 @Name('CREATE_SELL_ORDER')
 @Subscriber(className='com.algoTrader.service.periodic.PeriodicServiceImpl$CreateMarketOrderSubscriber')
