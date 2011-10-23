@@ -18,7 +18,7 @@ or
 @Name('CANCEL_STEPPING_LIMIT_ORDER')
 @Subscriber(className='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
 select
-	currentOrder.number
+	currentOrder
 from pattern [
 	every currentOrder=com.algoTrader.entity.trade.SteppingLimitOrder 
 		-> (timer:interval(5 sec) and not OrderStatus(status = Status.EXECUTED or status = Status.CANCELED, parentOrder.number = currentOrder.number))]

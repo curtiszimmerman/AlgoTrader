@@ -47,16 +47,16 @@ public class IBOrderServiceImpl extends IBOrderServiceBase {
 	}
 
 	@Override
-	protected void handleCancelExternalOrder(int orderNumber) throws Exception {
+	protected void handleCancelExternalOrder(Order order) throws Exception {
 	
 		if (!(client.getIbAdapter().getState().equals(ConnectionState.READY) || client.getIbAdapter().getState().equals(ConnectionState.SUBSCRIBED))) {
 			logger.error("transaction cannot be executed, because IB is not connected");
 			return;
 		}
 	
-		client.cancelOrder(orderNumber);
+		client.cancelOrder(order.getNumber());
 
-		logger.info("requested order cancallation for order number: " + orderNumber);
+		logger.info("requested order cancallation for order: " + order);
 	}
 
 	/**
