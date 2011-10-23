@@ -27,8 +27,8 @@ from pattern [timer:interval(2 sec)];
 @Name('CANCEL_ORDER')
 @Subscriber(className='com.algoTrader.service.OrderServiceImpl$CancleOrderSubscriber')
 select
-marketOrder.number as orderNumer
-from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
+marketOrder as orderNumer
+from pattern [every marketOrder=MarketOrder -> (timer:interval(1 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = marketOrder.number))];
 */
 
 // ------------------ limit order and corresponding order modification ---------
@@ -46,7 +46,7 @@ where tick.security.symbol = 'GOOG';
 @Subscriber(className='com.algoTrader.service.OrderServiceImpl$ModifyOrderSubscriber')
 select 
 OrderUtil.modifyOrderLimit(limitOrder, limitOrder.`limit` + 0.1) 
-from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = currentOrder.number))];
+from pattern [every limitOrder=LimitOrder -> (timer:interval(2 sec) and not OrderStatus(status = Status.EXECUTED, parentOrder.number = limitOrder.number))];
 */
 
 // ------------------ stepping limit order ---------
