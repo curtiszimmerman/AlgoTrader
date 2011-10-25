@@ -513,6 +513,10 @@
     </repositories>
     <pluginRepositories>
         <pluginRepository>
+            <id>andromda</id>
+            <name>AndroMDA Repository</name>
+            <url>http://team.andromda.org/maven2</url>
+        </pluginRepository><pluginRepository>
             <id>sonatype</id>
             <name>Sonatype AndroMDA Repository</name>
             <url>http://oss.sonatype.org/content/groups/public</url>
@@ -526,11 +530,6 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>andromda</id>
-            <name>AndroMDA Repository</name>
-            <url>http://team.andromda.org/maven2</url>
         </pluginRepository>
     </pluginRepositories>
     <prerequisites>
