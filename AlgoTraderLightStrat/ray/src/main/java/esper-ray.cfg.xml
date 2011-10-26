@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.espertech.com/schema/esper"
+    xsi:schemaLocation="http://www.espertech.com/schema/esper http://www.espertech.com/schema/esper/esper-configuration-3-0.xsd">
+
+	<event-type name="BarM1" class="com.algoTrader.entity.marketData.BarImpl">
+		<legacy-type accessor-style="javabean" code-generation="enabled" property-resolution-style="case_sensitive" factory-method="com.algoTrader.entity.marketData.Bar$Factory.newInstance"/>
+	</event-type>
+	<event-type name="Bar" class="com.algoTrader.entity.marketData.BarImpl"/>
+	<event-type name="Tick" class="com.algoTrader.entity.marketData.TickImpl"/>
+
+	<auto-import import-name="com.algoTrader.util.LookupUtil"/>
+	<auto-import import-name="com.algoTrader.util.RoundUtil"/>
+	<auto-import import-name="com.algoTrader.util.DateUtil"/>
+	<auto-import import-name="com.algoTrader.esper.annotation.*"/>	
+
+	<auto-import import-name="java.lang.*"/>
+	<auto-import import-name="java.math.*"/>
+	<auto-import import-name="java.text.*"/>
+	<auto-import import-name="java.util.*"/>
+	
+	<plugin-view factory-class="com.espertech.esper.ohlc.OHLCBarPlugInViewFactory" name="ohlcbar" namespace="custom"/>	
+
+	<variable name="simulation" type="boolean"/>
+	<variable name="simulation_eventsPerDay" type="long"/>	
+	
+	<variable name="engineStrategy" type="com.algoTrader.entity.Strategy"/>
+	<variable name="underlayingIsin" type="String"/>
+
+	<plugin-loader name="EsperIOSocketAdapter" class-name="com.espertech.esperio.socket.EsperIOSocketAdapterPlugin">
+		<config-xml>	
+			<esperio-socket-configuration>
+				<socket name="ray-socket" port="1104" data="object"/>
+			</esperio-socket-configuration>
+		</config-xml>
+	</plugin-loader>	
+	
+	
+	<engine-settings>
+		<defaults>
+			<threading>
+				<internal-timer enabled="false" msec-resolution="100"/>
+			</threading>			
+			<expression udf-cache="false"/>
+			<execution prioritized="true"/>			
+		</defaults>
+	</engine-settings>
+
+</esper-configuration>
