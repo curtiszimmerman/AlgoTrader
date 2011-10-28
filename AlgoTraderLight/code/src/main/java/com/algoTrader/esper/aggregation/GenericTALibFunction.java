@@ -22,8 +22,10 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.espertech.esper.epl.agg.AggregationMethod;
 import com.espertech.esper.epl.agg.AggregationSupport;
 import com.espertech.esper.epl.agg.AggregationValidationContext;
+import com.espertech.esper.epl.core.MethodResolutionService;
 import com.espertech.esper.epl.expression.ExprEvaluator;
 import com.tictactec.ta.lib.CoreAnnotated;
 import com.tictactec.ta.lib.MAType;
@@ -82,33 +84,39 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterType;
  */
 public class GenericTALibFunction extends AggregationSupport {
 
-	private CoreAnnotated core;
-	private String functionName;
-	private Method function;
-	private List<CircularFifoBuffer<Number>> inputParams;
-	private List<Object> optInputParams;
-	private Map<String, Object> outputParams;
-	private Class<?> outputClass;
+	static CoreAnnotated core = new CoreAnnotated();
+
+	Method function;
+	Class<?> outputClass;
+
+	int inputParamCount;
+	int lookbackPeriod;
+
+	List<CircularFifoBuffer<Number>> inputParams;
+	List<Object> optInputParams;
+	Map<String, Object> outputParams;
 
 	public GenericTALibFunction() {
+
 		super();
-		this.core = new CoreAnnotated();
+		this.inputParamCount = 0;
 		this.inputParams = new ArrayList<CircularFifoBuffer<Number>>();
 		this.optInputParams = new ArrayList<Object>();
 		this.outputParams = new HashMap<String, Object>();
 	}
 
+	@Override
 	public void validate(AggregationValidationContext validationContext) {
 
 		Class<?>[] paramTypes = validationContext.getParameterTypes();
 
 		// get the functionname
-		this.functionName = (String) getConstant(validationContext, 0, String.class);
+		String talibFunctionName = (String) getConstant(validationContext, 0, String.class);
 
 		// get the method by iterating over all core-methods
 		// we have to do it this way, since we don't have the exact parameters
-		for (Method method : this.core.getClass().getDeclaredMethods()) {
-			if (method.getName().equals(this.functionName)) {
+		for (Method method : core.getClass().getDeclaredMethods()) {
+			if (method.getName().equals(talibFunctionName)) {
 				this.function = method;
 				break;
 			}
@@ -116,12 +124,11 @@ public class GenericTALibFunction extends AggregationSupport {
 
 		// check that we have a function now
 		if (this.function == null) {
-			throw new IllegalArgumentException("function " + this.functionName + " was not found");
+			throw new IllegalArgumentException("function " + talibFunctionName + " was not found");
 		}
 
 		// get the parameters
 		int paramCounter = 1;
-		int inputParamCount = 0;
 		Map<String, Class<?>> outputParamTypes = new HashMap<String, Class<?>>();
 		for (Annotation[] annotations : this.function.getParameterAnnotations()) {
 			for (Annotation annotation : annotations) {
@@ -130,15 +137,15 @@ public class GenericTALibFunction extends AggregationSupport {
 				if (annotation instanceof InputParameterInfo) {
 					InputParameterInfo inputParameterInfo = (InputParameterInfo) annotation;
 					if (inputParameterInfo.type().equals(InputParameterType.TA_Input_Real)) {
-						if (double.class.equals(paramTypes[paramCounter])) {
-							inputParamCount++;
+						if (paramTypes[paramCounter].equals(double.class) || paramTypes[paramCounter].equals(Double.class)) {
+							this.inputParamCount++;
 							paramCounter++;
 						} else {
 							throw new IllegalArgumentException("param number " + paramCounter + " needs must be of type double");
 						}
 					} else if (inputParameterInfo.type().equals(InputParameterType.TA_Input_Integer)) {
-						if (int.class.equals(paramTypes[paramCounter])) {
-							inputParamCount++;
+						if (paramTypes[paramCounter].equals(int.class) || paramTypes[paramCounter].equals(Integer.class)) {
+							this.inputParamCount++;
 							paramCounter++;
 						} else {
 							throw new IllegalArgumentException("param number " + paramCounter + " needs must be of type int");
@@ -148,8 +155,8 @@ public class GenericTALibFunction extends AggregationSupport {
 						// the flags define the number of parameters in use by a bitwise or
 						int priceParamSize = numberOfSetBits(inputParameterInfo.flags());
 						for (int i = 0; i < priceParamSize; i++) {
-							if (double.class.equals(paramTypes[paramCounter])) {
-								inputParamCount++;
+							if (paramTypes[paramCounter].equals(double.class) || paramTypes[paramCounter].equals(Double.class)) {
+								this.inputParamCount++;
 								paramCounter++;
 							} else {
 								throw new IllegalArgumentException("param number " + paramCounter + " needs must be of type double");
@@ -190,7 +197,7 @@ public class GenericTALibFunction extends AggregationSupport {
 
 			// get the dynamically created output class
 			if (this.outputParams.size() > 1) {
-				String className = StringUtils.capitalize(this.functionName);
+				String className = StringUtils.capitalize(talibFunctionName);
 				this.outputClass = getReturnClass(className, outputParamTypes);
 			}
 
@@ -213,12 +220,12 @@ public class GenericTALibFunction extends AggregationSupport {
 			}
 
 			// get and invoke the lookback method
-			Method lookback = this.core.getClass().getMethod(this.functionName + "Lookback", argTypes);
-			int lookbackPeriod = (Integer) lookback.invoke(this.core, args) + 1;
+			Method lookback = core.getClass().getMethod(talibFunctionName + "Lookback", argTypes);
+			this.lookbackPeriod = (Integer) lookback.invoke(core, args) + 1;
 
 			// create the fixed size Buffers
-			for (int i = 0; i < inputParamCount; i++) {
-				this.inputParams.add(new CircularFifoBuffer<Number>(lookbackPeriod));
+			for (int i = 0; i < this.inputParamCount; i++) {
+				this.inputParams.add(new CircularFifoBuffer<Number>(this.lookbackPeriod));
 			}
 
 		} catch (Exception e) {
@@ -226,6 +233,7 @@ public class GenericTALibFunction extends AggregationSupport {
 		}
 	}
 
+	@Override
 	public void enter(Object obj) {
 
 		Object[] params = (Object[]) obj;
@@ -239,14 +247,18 @@ public class GenericTALibFunction extends AggregationSupport {
 		}
 	}
 
+	@Override
 	public void leave(Object obj) {
 
 		// Remove the last element of each buffer
 		for (CircularFifoBuffer<Number> buffer : this.inputParams) {
-			buffer.remove();
+			if (buffer.contains(obj)) {
+				buffer.remove(obj);
+			}
 		}
 	}
 
+	@Override
 	public Class<?> getValueType() {
 
 		// if we only have one outPutParam return that value
@@ -263,6 +275,7 @@ public class GenericTALibFunction extends AggregationSupport {
 		}
 	}
 
+	@Override
 	public Object getValue() {
 
 		try {
@@ -314,7 +327,7 @@ public class GenericTALibFunction extends AggregationSupport {
 			}
 
 			// invoke the function
-			RetCode retCode = (RetCode) this.function.invoke(this.core, args);
+			RetCode retCode = (RetCode) this.function.invoke(core, args);
 
 			if (retCode == RetCode.Success) {
 				if (length.value == 0) {
@@ -345,12 +358,20 @@ public class GenericTALibFunction extends AggregationSupport {
 		}
 	}
 
+	@Override
 	public void clear() {
 
 		// clear all elements from the buffers
 		for (CircularFifoBuffer<Number> buffer : this.inputParams) {
 			buffer.clear();
 		}
+	}
+
+	//@Override
+	public AggregationMethod newAggregator(MethodResolutionService methodResolutionService) {
+
+		return new GenericTALibAggregatorFunction(this.function, this.inputParamCount, this.lookbackPeriod, this.optInputParams, this.outputParams,
+				this.outputClass);
 	}
 
 	private Number getNumberFromNumberArray(Object value) {
@@ -365,9 +386,9 @@ public class GenericTALibFunction extends AggregationSupport {
 	}
 
 	private int numberOfSetBits(int i) {
-		int j = i - ((i >> 1) & 0x55555555);
-		j = (j & 0x33333333) + ((j >> 2) & 0x33333333);
-		return ((j + (j >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
+		i = i - ((i >> 1) & 0x55555555);
+		i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+		return ((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
 	}
 
 	private Class<?> getReturnClass(String className, Map<String, Class<?>> fields) throws CannotCompileException, NotFoundException {
@@ -404,9 +425,9 @@ public class GenericTALibFunction extends AggregationSupport {
 
 	private Object getConstant(AggregationValidationContext validationContext, int index, Class<?> clazz) {
 
-		int constantLength = validationContext.getIsConstantValue().length;
-		if (index >= constantLength) {
-			throw new IllegalArgumentException("only " + constantLength + " params have been specified, should be " + (index + 1));
+		if (index >= validationContext.getIsConstantValue().length) {
+			throw new IllegalArgumentException("only " + validationContext.getIsConstantValue().length + " params have been specified, should be "
+					+ (index + 1));
 		}
 
 		if (validationContext.getIsConstantValue()[index]) {
