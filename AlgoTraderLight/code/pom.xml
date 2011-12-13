@@ -183,7 +183,15 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ta-lib-0.4.0.jar</systemPath>
 			<optional>true</optional>
-</dependency>
+		</dependency>
+		<dependency>
+			<groupId>spiffy</groupId>
+			<artifactId>spiffy</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/spiffy-1.0.0.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
