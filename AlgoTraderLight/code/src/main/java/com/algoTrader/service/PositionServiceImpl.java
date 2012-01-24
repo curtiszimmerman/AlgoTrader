@@ -22,6 +22,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 
 	private static Logger logger = MyLogger.getLogger(PositionServiceImpl.class.getName());
 
+	@Override
 	protected void handleClosePosition(int positionId) throws Exception {
 
 		Position position = getPositionDao().load(positionId);
@@ -29,9 +30,10 @@ public class PositionServiceImpl extends PositionServiceBase {
 		reducePosition(positionId, Math.abs(position.getQuantity()));
 	}
 
+	@Override
 	protected void handleReducePosition(int positionId, long quantity) throws Exception {
 
-		Position position = getPositionDao().load(positionId);
+		Position position = getPositionDao().findByIdFetched(positionId);
 		Security security = position.getSecurity();
 
 		Order order = new MarketOrderImpl();
@@ -48,6 +50,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 		}
 	}
 
+	@Override
 	protected void handleSetExitValue(int positionId, double exitValue, boolean force) throws MathException {
 
 		Position position = getPositionDao().load(positionId);
@@ -96,12 +99,14 @@ public class PositionServiceImpl extends PositionServiceBase {
 		logger.info("set exit value " + position.getSecurity().getSymbol() + " to " + exitValue);
 	}
 
+	@Override
 	protected void handleSetMargin(int positionId) throws Exception {
 
 		Position position = getPositionDao().load(positionId);
 		setMargin(position);
 	}
 
+	@Override
 	protected void handleSetMargin(Position position) throws Exception {
 
 		Security security = position.getSecurity();
@@ -130,6 +135,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 		}
 	}
 
+	@Override
 	protected void handleSetMargins() throws Exception {
 
 		List<Position> positions = getPositionDao().findOpenPositions();
@@ -167,6 +173,7 @@ public class PositionServiceImpl extends PositionServiceBase {
 
 	public static class SetMarginsListener implements UpdateListener {
 
+		@Override
 		public void update(EventBean[] newEvents, EventBean[] oldEvents) {
 
 			long startTime = System.currentTimeMillis();
