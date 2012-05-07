@@ -25,7 +25,7 @@
                     <!--uri>file:${project.basedir}/uml/AdditionalModel.emx</uri-->
                     <moduleSearchLocations>
                         <location patterns="**/${andromda.version}/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
-                        <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
+                        <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0.1/UML_Standard_Profile-1.0.1.jar!/</location>
                         <!-- Change to UML_Standard_Profile in local MagicDraw installation directory:
                         <location patterns="**/*.xml.zip,**/*.xml">${magicdraw.home}/profiles</location>
                         -->
