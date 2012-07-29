@@ -1,0 +1,44 @@
+@Name('CREATE_FILL')
+@RunTimeOnly()
+insert into
+	Fill
+select
+	IBUtil.getExecutionDateTime(execDetails.execution.m_time) as dateTime,
+	Side.valueOf(openOrder.`order`.m_action) as side,
+	execDetails.execution.m_shares as quantity,
+	RoundUtil.getBigDecimal(execDetails.execution.m_price, genericOrder.security.securityFamily.scale) as price,
+	//RoundUtil.getBigDecimal(openOrder.orderState.m_commission) as commission,
+	RoundUtil.getBigDecimal(1.0) as commission,
+	genericOrder as parentOrder
+from 
+	pattern[every genericOrder=GenericOrder 
+			-> (every (openOrder=IBOpenOrder(orderId = genericOrder.number) and execDetails=IBExecDetails(execution.m_orderId = genericOrder.number))
+				and not IBOrderStatus(orderId = genericOrder.number, status = 'Filled' or status = 'Cancelled' or status = 'Inactive')
+				and not GenericOrder(number = genericOrder.number))]; 
+
+@Name('CREATE_ORDER_STATUS')
+@RunTimeOnly()
+insert into
+	OrderStatus
+select
+	case
+		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit' or orderStatus.status = 'PendingCancel') and orderStatus.filled = 0 then Status.SUBMITTED
+		when (orderStatus.status = 'Submitted' or orderStatus.status = 'PendingSubmit' or orderStatus.status = 'PendingCancel') and orderStatus.filled > 0 then Status.PARTIALLY_EXECUTED
+		when orderStatus.status = 'Filled' then Status.EXECUTED
+		when (orderStatus.status = 'Cancelled' or orderStatus.status = 'Inactive') then Status.CANCELED
+	end as status,
+	orderStatus.filled as filledQuantity,
+	orderStatus.remaining as remainingQuantity,
+	genericOrder as parentOrder
+from 
+	pattern[every genericOrder=GenericOrder 
+			-> (every (orderStatus=IBOrderStatus(orderId = genericOrder.number)) 
+				and not GenericOrder(number = genericOrder.number))]
+where
+	prior(1, orderStatus) is null
+or
+	orderStatus.orderId != prior(1, orderStatus.orderId)	
+or	
+	orderStatus.status != prior(1, orderStatus.status)
+or
+	orderStatus.filled != prior(1, orderStatus.filled); 

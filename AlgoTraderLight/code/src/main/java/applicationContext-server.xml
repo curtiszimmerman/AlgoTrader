@@ -20,6 +20,9 @@
 	<!-- Interactive Broker Aliases -->
 	<alias name="iBOrderService" alias="orderService"/>
 	<alias name="iBMarketDataService" alias="marketDataService"/>
+
+	<!-- FIX Aliases -->
+	<!-- <alias name="fixOrderService" alias="orderService"/> -->
     
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"><value>/conf-base.properties</value></property>

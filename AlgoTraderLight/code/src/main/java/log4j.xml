@@ -78,7 +78,11 @@
 	<logger name="com.mchange.v2">
 		<level value="warn" />
 	</logger>
-
+	
+	<logger name="quickfix">
+		<level value="warn" />
+	</logger>
+	
 	<logger name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog">
 		<level value="error" />
 	</logger>

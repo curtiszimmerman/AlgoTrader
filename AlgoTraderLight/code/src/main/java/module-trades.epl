@@ -1,3 +1,29 @@
+@Name('OPEN_ORDER_WINDOW')
+create 
+	window OpenOrderWindow.std:groupwin(security.id, strategy.id).std:lastevent() 
+as 
+	GenericOrder;
+
+@Name('INSERT_INTO_OPEN_ORDER_WINDOW')
+@RunTimeOnly()
+insert into 
+	OpenOrderWindow 
+select 
+	*
+from 
+	GenericOrder;
+
+@Name('DELETE_FROM_OPEN_ORDER_WINDOW')
+@RunTimeOnly()
+on 
+	OrderStatus(status = Status.EXECUTED or status = Status.CANCELED) as orderStatus 
+delete from 
+	OpenOrderWindow as openOrderWindow 
+where 
+	orderStatus.parentOrder is null
+or	
+	orderStatus.parentOrder.number = openOrderWindow.number;
+
 @Name('PROPAGATE_ORDER_STATUS')
 @Subscriber(className='com.algoTrader.service.OrderServiceImpl$PropagateOrderStatusSubscriber')
 select

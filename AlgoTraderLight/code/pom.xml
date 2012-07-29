@@ -183,7 +183,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ta-lib-0.4.0.jar</systemPath>
 			<optional>true</optional>
-		</dependency>
+</dependency>
 		<dependency>
 			<groupId>spiffy</groupId>
 			<artifactId>spiffy</artifactId>
@@ -226,15 +226,34 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
-		
-		
-		
-		
 		<dependency>
 			<groupId>com.espertech</groupId>
 			<artifactId>esperio-socket</artifactId>
 			<version>4.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-core</artifactId>
+			<version>1.5.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/quickfixj-core-1.5.2.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-msg-fix42</artifactId>
+			<version>1.5.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/quickfixj-msg-fix42-1.5.2.jar</systemPath>
+			<optional>true</optional>
+		</dependency>	
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/mina-core-1.1.0.jar</systemPath>
+			<optional>true</optional>			
 		</dependency>
 	</dependencies>
 	<build>

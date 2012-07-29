@@ -495,7 +495,7 @@ COMMIT;
 #
 
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
-  (0,'BASE','BASE',True,0,'market-data,current-values,trades,portfolio,performance,ib,algo');
+  (0,'BASE','BASE',True,0,'market-data,current-values,trades,portfolio,performance,ib-market-data,algo');
 UPDATE `strategy` SET `id`=0 WHERE `id`=LAST_INSERT_ID();
 INSERT INTO `strategy` (`id`, `NAME`, `FAMILY`, `AUTO_ACTIVATE`, `ALLOCATION`, `MODULES`) VALUES 
   (1,'MOV','MOV',True,1,'mov-main'),
