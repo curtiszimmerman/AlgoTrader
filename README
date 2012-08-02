@@ -1,0 +1,27 @@
+Algorithmic Trading System based on Esper, InteractiveBrokers and FIX
+
+
+This project is mirror of the AlgoTrader project hosted at 
+http://code.google.com/p/algo-trader
+
+
+AlgoTrader is an automated trading system (ATS) that can trade any type of security on any market available through InteractiveBrokers or FIX. All aspects of trading like getting market data, analyzing prices, taking trade decisions, placing orders & tracking executions can be automated.
+
+Employing automated trading strategies, AlgoTrader eliminates all influences from emotion driven human trading and allows a pure systematic trading approach.
+
+Available features of the system :
+ -Automate Trading Strategies based on Trading Rules (using  Esper EQL)
+ -Automated Execution via different Broker Interfaces
+ -Simulate and run several strategies in parallel
+ -Backtest strategies based on Historical Data
+ -Portfolio Tracking & Performance Measurement
+ -Different Numerical and Statistical Libraries are available to analyze trend and produce Trading Signals
+
+AlgoTrader is based on the following Frameworks and Methodologies
+  Java SE 6
+  Model Driven Architecture and Code-Generation based on AndroMDA
+  CEP-Engine based on Esper
+  Persistence Framework based on Hibernate
+  Service Oriented Architecture based on SpringFramework
+
+Further Documentation can be found here : http://code.google.com/p/algo-trader/w/list
