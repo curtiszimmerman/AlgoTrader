@@ -1,6 +1,10 @@
 ### This code is licensed under the terms of the GPL version 2. Full license text available in the LICENSE File.
 
-#### Please note: The original author of this code is attempting to "relicense" this code under a commercial, proprietary license, and so the information here may be incorrect. The links to the Google Code project now do not contain the original source, and the original author has knowingly falsely DMCA'd everyone on Github with a fork of this repository.
+#### Please note: The original author of this code is attempting to "relicense" this code under a commercial, proprietary license, and so the information here may be incorrect. The links to the Google Code project now do not contain the original source, and the original author has knowingly falsely DMCA'd everyone on Github with a fork of this repository in an attepmt to remove the open source code from the internet.
+
+[Click the text of the DMCA which the original author knowingly falsely filed against this repo (and many other repos on Github)](https://github.com/github/dmca/blob/master/2016-01-20-AlgoTrader.md)
+
+[For a copy of the counter notice I filed to protect this open source code from the existential threat](https://github.com/github/dmca/blob/master/2016-01-21-AlgoTrader-CounterNotice.md)
 
 Algorithmic Trading System based on Esper, InteractiveBrokers and FIX
 
