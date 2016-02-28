@@ -1,5 +1,7 @@
 ### This code is licensed under the terms of the GPL version 2. Full license text available in the LICENSE File.
 
+#### Please note: The original author of this code is attempting to "relicense" this code under a commercial, proprietary license, and so the information here may be incorrect. The links to the Google Code project now do not contain the original source, and the original author has knowingly falsely DMCA'd everyone on Github with a fork of this repository.
+
 Algorithmic Trading System based on Esper, InteractiveBrokers and FIX
 
 
